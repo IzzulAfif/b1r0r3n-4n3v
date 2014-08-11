@@ -1,0 +1,46 @@
+RewriteEngine On
+RewriteBase /anev
+
+RewriteCond %{REQUEST_URI} ^system.*
+RewriteRule ^(.*)$ /index.php?/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L]
+
+<IfModule mod_rewrite.c>
+
+ RewriteCond %{REQUEST_FILENAME} !-f
+
+ RewriteCond %{REQUEST_FILENAME} !-d
+
+ RewriteRule ^(.*\.(js|css))$ smartoptimizer/?$1
+
+
+<IfModule mod_expires.c>
+
+ RewriteCond %{REQUEST_FILENAME} -f
+
+ RewriteRule ^(.*\.(js|css|html?|xml|txt))$ smartoptimizer/?$1
+
+</IfModule>
+
+
+
+<IfModule !mod_expires.c>
+
+ RewriteCond %{REQUEST_FILENAME} -f
+
+ RewriteRule ^(.*\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt|ico))$ smartoptimizer/?$1
+
+</IfModule>
+
+
+</IfModule>
+
+
+<FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt|ico)$">
+ FileETag none
+</FilesMatch>
+
+ErrorDocument 404 /index.php
