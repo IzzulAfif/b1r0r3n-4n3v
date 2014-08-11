@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /anev
+RewriteBase /e-anev
 
 RewriteCond %{REQUEST_URI} ^system.*
 RewriteRule ^(.*)$ /index.php?/$1 [L]

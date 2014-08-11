@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-	$config['base_url'] = "http://".$_SERVER['HTTP_HOST']."/anev/";
+	$config['base_url'] = "http://".$_SERVER['HTTP_HOST']."/e-anev/";
 
 /*
 |--------------------------------------------------------------------------
