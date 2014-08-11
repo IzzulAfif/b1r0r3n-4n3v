@@ -9,9 +9,9 @@
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="<?=base_url("static")?>/js/flot-chart/excanvas.min.js"></script><![endif]-->
 	<script src="<?=base_url("static")?>/js/skycons/skycons.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.scrollTo/jquery.scrollTo.js"></script>
-	<script src="<?=base_url("static")?>/jquery.easing.min.js"></script>
+	<script src="<?=base_url("static")?>/js/jquery.easing.min.js"></script>
 	<script src="<?=base_url("static")?>/js/calendar/clndr.js"></script>
-	<script src="<?=base_url("static")?>//underscore-min.js"></script>
+	<script src="<?=base_url("static")?>/js/underscore-min.js"></script>
 	<script src="<?=base_url("static")?>/js/calendar/moment-2.2.1.js"></script>
 	<script src="<?=base_url("static")?>/js/evnt.calendar.init.js"></script>
 	<script src="<?=base_url("static")?>/js/jvector-map/jquery-jvectormap-1.2.2.min.js"></script>
