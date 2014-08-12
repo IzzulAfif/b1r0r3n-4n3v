@@ -1,4 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ @author     : Didin
+ @date       : 2014-08-09 00:00
+ @revision	 :
+*/
 
 class Form extends CI_Controller {
 	

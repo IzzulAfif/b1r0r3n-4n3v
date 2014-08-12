@@ -1,21 +1,52 @@
+<!--
+ @author     : Didin
+ @date       : 2014-08-12 23:30
+ @revision	 :
+-->    
     
+    <?php
+		$menu	= $this->mgeneral->getWhere(array('hide'=>"0"),"anev_menu","menu_id","ASC");
+		foreach($menu as $m):
+			if($m->menu_parent==""):
+				$menuUtama[] = $m;
+			else:
+				$subMenu[$m->menu_parent][] = $m;
+			endif;
+		endforeach;	
+	?>
     
     <aside>
     	<div id="sidebar" class="nav-collapse">
             
             <div class="leftside-navigation">
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <li>
-                        <a class="active" href="<?=base_url()?>"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:;"><i class="fa fa-laptop"></i><span>Menu 1</span></a>
-                        <ul class="sub">
-                            <li><a href="<?=base_url()?>form">Contoh Form</a></li>
-                            <li><a href="#">Sub Menu 2</a></li>
-                            <li><a href="#">Sub Menu 3</a></li>
-                        </ul>
-                    </li>
+                	
+					<?php foreach($menuUtama as $mu): 
+						if(count($subMenu[$mu->menu_id])!=0): 
+							$clsMenu = "sub-menu"; 
+							$link	 = "javascript:;";
+						else: 
+							$clsMenu = ""; 
+							$link	 = base_url()."".$mu->url;
+						endif;
+					?>
+                    
+						<li class="<?=$clsMenu?>">
+                            <a href="<?=$link?>"><span><?=$mu->menu_name?></span></a>
+                            <?php 
+								if($clsMenu!=""):
+									echo '<ul class="sub">'; 
+									foreach($subMenu[$mu->menu_id] as $sm):
+							?>
+                            			<li><a href="<?=base_url()."".$sm->url?>"><?=$sm->menu_name?></a></li>
+                            <?php 
+									endforeach;
+									echo '</ul>';
+								endif;
+							?>
+								
+                        </li>	
+					<?php endforeach;?>
                 </ul>            
             </div>
             
