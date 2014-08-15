@@ -32,7 +32,8 @@
 					?>
                     
 						<li class="<?=$clsMenu?>">
-                            <a href="<?=$link?>"><span><?=$mu->menu_name?></span></a>
+                        	<?php if($cur_menu==$mu->menu_group): $aktif='class="active"'; else: $aktif=""; endif; ?>
+                            <a href="<?=$link?>" <?=$aktif?> ><i class="fa <?=$mu->icon?>"></i> <span><?=$mu->menu_name?></span></a>
                             <?php 
 								if($clsMenu!=""):
 									echo '<ul class="sub">'; 
