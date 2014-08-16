@@ -5,7 +5,7 @@
  @revision	 :
 */
 
-class Trendline extends CI_Controller {
+class Cross_section extends CI_Controller {
 	
 	function __construct() 
 	{	
@@ -18,7 +18,7 @@ class Trendline extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "chart");
 		$template			= $this->template->load($setting); #load static template file
 		
-		$template['konten']	= $this->load->view('analisis/trendline',$data,true); #load konten template file
+		$template['konten']	= $this->load->view('analisis/cross_section',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);

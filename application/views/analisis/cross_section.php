@@ -7,7 +7,7 @@
                         
                         <section class="panel">
                             <header class="panel-heading">
-                                <b>Analisis trendline capaian indikator sasaran strategis dan program</b>
+                                <b>Analisis cross section capaian indikator sasaran strategis dan program</b>
                             </header>
                             <div class="panel-body">
                                 
@@ -19,7 +19,7 @@
                                         	<form class="form-horizontal">
                                             
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Lokasi</label>
+                                                <label class="col-sm-3 control-label">Tahun</label>
                                                 <div class="col-sm-9">
                                                     <select class="form-control input-sm">
                                                         <option>Option 1</option>
@@ -53,57 +53,22 @@
                                             </div>
                                             
                                             
-                                            <p class="text-primary"><b>Simulasi Pencapaian</b></p>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Tahun</label>
-                                                <div class="col-sm-9">
-                                                    <div id="spinner4">
-                                                        <div class="input-group" style="width:150px;">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-up btn-primary btn-sm">
-                                                                    <i class="fa fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <input type="text" class="spinner-input form-control input-sm" value="2014">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-down btn-warning btn-sm">
-                                                                    <i class="fa fa-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Target</label>
-                                                <div class="col-sm-9">
-                                                    <div id="spinner4">
-                                                        <div class="input-group" style="width:150px;">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-up btn-primary btn-sm">
-                                                                    <i class="fa fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <input type="text" class="spinner-input form-control input-sm" value="1400">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-down btn-warning btn-sm">
-                                                                    <i class="fa fa-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <hr />
-                                        	<div class="checkbox">
+                                            <p class="text-primary"><b>Rata-rata Realisasi</b></p>
+                                            <p>Rata-rata : 400</p>
+                                            <p>BPM : 0</p>
+                                            <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" checked="checked"> Tampilkan trendline
+                                                    <input type="checkbox" checked="checked"> Tampilkan Rata-rata
                                                 </label>
                                             </div>
 											<div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" checked="checked"> Tampilkan targetline
+                                                    <input type="checkbox" checked="checked"> Tampilkan BPM
+                                                </label>
+                                            </div> 
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" checked="checked"> Tampilkan terurut
                                                 </label>
                                             </div> 
                                             <br />
@@ -122,7 +87,7 @@
                                     	
                                         <div class="well wellform">
                                         	
-                                            <div id="chartKonten">
+                                            <div id="chartKonten" style="height:600px;">
                                             </div>
                                             
                                         </div>
@@ -147,16 +112,16 @@
 					chart: {
 						renderTo: 'chartKonten',
 						options3d: {
-							enabled: true,
-							alpha: 15,
-							beta: 15,
-							viewDistance: 25,
-							depth: 40
+							enabled: false,
+							alpha: 0,
+							beta: 0,
+							viewDistance: 0,
+							depth: 45
 						},
-						marginTop: 80,
-						marginRight: 40
+						marginTop: 50,
+						marginRight: 20
 					},
-					colors: ['#DB843D', '#3D96AE', '#89A54E', '#00FF40', '#E10000', '#CCCCCC'],
+					colors: ['#3D96AE', '#DB843D', '#E10000'],
 					exporting: {
 						buttons: { 
 							exportButton: {
@@ -169,28 +134,24 @@
 						}
 					},
 					title: {
-						text: 'Analisis Trendline'
+						text: 'Analisis Cross Section'
 					},
 					xAxis: {
-						categories: ['2010', '2011', '2012', '2013', '2014']
+						categories: ['Aceh', 'Bali', 'Banten', 'Bengkulu', 'Gorontalo','Jakarta','Jambi','Jawa Barat','Jawa Tengah','Jawa Timur','Kalimantan Barat','Kalimantan Selatan','Kalimantan Tengah','Kalimantan Timur','Kalimantan Utara','Kep. Bangka Belitung','Kep. Riau','Lampung','Maluku','Maluku Utara','Nusa Tenggara Barat','Nusa Tenggara Timur']
 					},
 					yAxis: {
 						title: {
-							text: ''
-						}
-					},
-					tooltip: {
-						formatter: function() {
-							var s;
-							if (this.point.name) { // the pie chart
-								s = ''+
-									this.point.name +': '+ this.y +'';
-							} else {
-								s = ''+
-									this.x  +': '+ this.y;
+							text: null
+						},
+						plotLines: [{
+							value: 400,
+							color: 'red',
+							width: 2,
+							label: {
+								text: 'rata-rata',
+								align: 'center'
 							}
-							return s;
-						}
+						}]
 					},
 					plotOptions: {
 						spline: {
@@ -199,30 +160,27 @@
 							},
 						}
 					},
+					tooltip: {
+						formatter: function() {
+							var s;
+							if (this.point.name) { // the pie chart
+								s = ''+
+									this.point.name +': '+ this.y +' fruits';
+							} else {
+								s = ''+
+									this.x  +': '+ this.y;
+							}
+							return s;
+						}
+					},
 					series: [{
-						type: 'column',
-						name: 'Target',
-						data: [300, 600, 900, 1200]
-					}, {
-						type: 'column',
 						name: 'Realisasi',
-						data: [400, 700, 800, 1100] 
+						type: 'bar',
+						data: [300, 400,200,200,500,300,600,300,400,500,300,400,300, 400,200,200,500,300,600,300,400,500]
 					},{
-						type: 'column',
-						name: 'Simulasi',
-						data: [null,null,null,null,1400]
-					}, {
-						type: 'spline',
-						name: 'Trendline',
-						data: [300, 500, 700, 1000, 1200]
-					}, {
-						type: 'spline',
-						name: 'Targetline',
-						data: [400, 700, 900, 1000, 1300]
-					}, {
-						type: 'spline',
 						name: 'Target',
-						data: [1400, 1400, 1400, 1400, 1400]
+						type: 'bar',
+						data: [300, 400,200,200,500,300,600,300,400,500,300,400,300, 400,200,200,500,300,600,300,400,500]
 					}]
 				});
 				

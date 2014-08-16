@@ -10,18 +10,19 @@
 	<script src="<?=base_url("static")?>/js/skycons/skycons.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.scrollTo/jquery.scrollTo.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.easing.min.js"></script>
+    <script src="<?=base_url("static")?>/js/jquery.customSelect.min.js" ></script>
 	
-	<!--jQuery Flot Chart -->
-	<script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.js"></script>
-	<script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.tooltip.min.js"></script>
-	<script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.resize.js"></script>
-	<script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.pie.resize.js"></script>
-	<script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.animator.min.js"></script>
-	<script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.growraf.js"></script>
-	<script src="<?=base_url("static")?>/js/jquery.customSelect.min.js" ></script>
 	
     <?php switch($pg_aktif): 
 		 	case "dashboard":?>
+    	            
+            <!--jQuery Flot Chart -->
+            <script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.js"></script>
+            <script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.tooltip.min.js"></script>
+            <script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.resize.js"></script>
+            <script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.pie.resize.js"></script>
+            <script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.animator.min.js"></script>
+            <script src="<?=base_url("static")?>/js/flot-chart/jquery.flot.growraf.js"></script>
     		
             <script src="<?=base_url("static")?>/js/calendar/clndr.js"></script>
 			<script src="<?=base_url("static")?>/js/underscore-min.js"></script>
@@ -48,6 +49,7 @@
         <?php case "chart": ?>
         
         	<script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts-3d.js"></script>
             <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/exporting.js"></script>
             
 		<?php break; ?>
