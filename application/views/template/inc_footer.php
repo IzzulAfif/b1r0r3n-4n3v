@@ -1,5 +1,5 @@
 
-	<script src="<?=base_url("static")?>/js/jquery.js"></script>
+	
 	<script src="<?=base_url("static")?>/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
 	<script src="<?=base_url("static")?>/bs3/js/bootstrap.min.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.dcjqaccordion.2.7.js"></script>

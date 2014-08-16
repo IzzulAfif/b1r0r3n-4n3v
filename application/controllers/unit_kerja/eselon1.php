@@ -10,6 +10,7 @@ class Eselon1 extends CI_Controller {
 	function __construct() 
 	{	
 		parent::__construct();
+		$this->load->model('/admin/eselon1_model','eselon1');
 	}
 	function index()
 	{
@@ -18,7 +19,7 @@ class Eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
 		
-		$data['data']		= $this->mgeneral->getAll("anev_eselon1"); #kirim data ke konten file
+		$data['data']		= $this->eselon1->get_all(null); #kirim data ke konten file
 		$template['konten']	= $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file
 		
 		#load container for template view

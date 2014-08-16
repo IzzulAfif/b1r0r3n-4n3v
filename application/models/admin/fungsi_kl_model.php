@@ -7,7 +7,7 @@
 */
 	
 
-class Eselon2_model extends CI_Model
+class Fungsi_kl_model extends CI_Model
 { 
 	
 	function __construct()
@@ -18,9 +18,10 @@ class Eselon2_model extends CI_Model
 	function get_all($params){
 		$where = ' where 1=1 ';
 		if (isset($params)){
-			if (isset($params['kode_e1'])) $where .= " and e2.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_kl'])) $where .= " and f.kode_kl='".$params['kode_kl']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
 		}
-		$sql = "select e2.*, e1.nama_e1 from anev_eselon2 e2 inner join anev_eselon1 e1 on e1.kode_e1=e2.kode_e1 ".$where;
+		$sql = "select f.*, kl.nama_kl from anev_fungsi_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 

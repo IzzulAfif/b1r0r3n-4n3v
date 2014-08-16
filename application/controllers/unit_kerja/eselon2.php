@@ -10,7 +10,7 @@ class Eselon2 extends CI_Controller {
 	function __construct() 
 	{	
 		parent::__construct();
-		//$this->load->model('/admin/eselon2_model');
+		$this->load->model('/admin/eselon2_model','eselon2');
 	}	
 	function index()
 	{
@@ -19,7 +19,7 @@ class Eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
 		$sql = "select e2.*, e1.nama_e1 from anev_eselon2 e2 inner join anev_eselon1 e1 on e1.kode_e1=e2.kode_e1 ";
-		$data['data']		= $this->mgeneral->run_sql($sql); #kirim data ke konten file
+		$data['data']		= $this->eselon2->get_all();//$this->mgeneral->run_sql($sql); #kirim data ke konten file
 		$template['konten']	= $this->load->view('unit_kerja/eselon2_v',$data,true); #load konten template file
 		
 		#load container for template view
