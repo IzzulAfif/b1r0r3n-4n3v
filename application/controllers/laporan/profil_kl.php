@@ -10,8 +10,8 @@ class Profil_kl extends CI_Controller {
 	function __construct() 
 	{	
 		parent::__construct();
-		$this->load->model('/admin/eselon1_model','eselon1');
-		$this->load->model('/admin/fungsi_kl_model','fungsi_kl');
+		$this->load->model('/unit_kerja/eselon1_model','eselon1');
+		$this->load->model('/unit_kerja/fungsi_kl_model','fungsi_kl');
 	}	
 	function index()
 	{

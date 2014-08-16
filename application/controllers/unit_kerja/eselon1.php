@@ -10,7 +10,7 @@ class Eselon1 extends CI_Controller {
 	function __construct() 
 	{	
 		parent::__construct();
-		$this->load->model('/admin/eselon1_model','eselon1');
+		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 	}
 	function index()
 	{
