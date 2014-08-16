@@ -38,13 +38,18 @@
 			<script src="<?=base_url("static")?>/js/sparkline/jquery.sparkline.js"></script>
         
     	<?php break; ?>
-        
         <?php case "datatables": ?>
         
         	<script type="text/javascript" language="javascript" src="<?=base_url("static")?>/js/advanced-datatable/js/jquery.dataTables.js"></script>
 			<script type="text/javascript" src="<?=base_url("static")?>/js/data-tables/DT_bootstrap.js"></script>
     		<script src="<?=base_url("static")?>/js/dynamic_table_init.js"></script>
+            
+   		<?php break; ?>
+        <?php case "chart": ?>
         
+        	<script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/exporting.js"></script>
+            
 		<?php break; ?>
         
     <?php endswitch; ?>
