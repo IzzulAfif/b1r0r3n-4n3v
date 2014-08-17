@@ -74,7 +74,7 @@
                                             <br />
                                             <div class="row">
                                             	<button type="button" class="btn btn-warning btn-block">
-                                                	<i class="fa fa-check-square-o"></i> Perbaharui Grafik
+                                                	<i class="fa fa-play"></i> Tampilkan Grafik
                                             	</button>
                                             </div>
                                                                                    
@@ -101,7 +101,6 @@
     
                 </div>
         	</div>
-            
         </section>
     </section>
     <script type="text/javascript">
@@ -118,7 +117,7 @@
 							viewDistance: 0,
 							depth: 45
 						},
-						marginTop: 50,
+						marginTop: 80,
 						marginRight: 20
 					},
 					colors: ['#3D96AE', '#DB843D', '#E10000'],
@@ -134,7 +133,12 @@
 						}
 					},
 					title: {
-						text: 'Analisis Cross Section'
+						text: 'Analisis Cross Section Capaian Indikator Sasaran Strategis Dan Program',
+						style : { "font-size" : "14px" }
+					},
+					subtitle: {
+						text: 'Tahun 2012',
+						style : { "font-size" : "14px" }
 					},
 					xAxis: {
 						categories: ['Aceh', 'Bali', 'Banten', 'Bengkulu', 'Gorontalo','Jakarta','Jambi','Jawa Barat','Jawa Tengah','Jawa Timur','Kalimantan Barat','Kalimantan Selatan','Kalimantan Tengah','Kalimantan Timur','Kalimantan Utara','Kep. Bangka Belitung','Kep. Riau','Lampung','Maluku','Maluku Utara','Nusa Tenggara Barat','Nusa Tenggara Timur']
@@ -145,7 +149,7 @@
 						},
 						plotLines: [{
 							value: 400,
-							color: 'red',
+							color: '#090',
 							width: 2,
 							label: {
 								text: 'rata-rata',
@@ -165,10 +169,9 @@
 							var s;
 							if (this.point.name) { // the pie chart
 								s = ''+
-									this.point.name +': '+ this.y +' fruits';
+									this.point.name +': '+ this.y;
 							} else {
-								s = ''+
-									this.x  +': '+ this.y;
+								s = 'provinsi '+this.x +'<br>'+this.series.name+' :'+this.y;
 							}
 							return s;
 						}

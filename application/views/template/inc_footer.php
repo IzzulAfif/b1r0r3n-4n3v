@@ -50,6 +50,7 @@
         
         	<script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts.js"></script>
             <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts-3d.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts-more.js"></script>
             <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/exporting.js"></script>
             
 		<?php break; ?>

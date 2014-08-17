@@ -7,7 +7,7 @@
                         
                         <section class="panel">
                             <header class="panel-heading">
-                                <b>Analisis trendline capaian indikator sasaran strategis dan program</b>
+                                <b>Analisis korelasi capaian indikator sasaran strategis dan program</b>
                             </header>
                             <div class="panel-body">
                                 
@@ -19,7 +19,7 @@
                                         	<form class="form-horizontal">
                                             
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Lokasi</label>
+                                                <label class="col-sm-3 control-label">Tahun</label>
                                                 <div class="col-sm-9">
                                                     <select class="form-control input-sm">
                                                         <option>Option 1</option>
@@ -30,7 +30,7 @@
                                             </div>
                                             
                                             
-                                            <p class="text-primary"><b>Sasaran dan Indikator</b></p>
+                                            <p class="text-primary"><b>Sasaran dan Indikator 1</b></p>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Sasaran</label>
                                                 <div class="col-sm-9">
@@ -52,11 +52,38 @@
                                                 </div>
                                             </div>
                                             
-                                            
-                                            <p class="text-primary"><b>Simulasi Pencapaian</b></p>
+                                            <p class="text-primary"><b>Sasaran dan Indikator 2</b></p>
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Tahun</label>
+                                                <label class="col-sm-3 control-label">Sasaran</label>
                                                 <div class="col-sm-9">
+                                                    <select class="form-control input-sm">
+                                                        <option>Option 1</option>
+                                                        <option>Option 2</option>
+                                                        <option>Option 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Indikator</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control input-sm">
+                                                        <option>Option 1</option>
+                                                        <option>Option 2</option>
+                                                        <option>Option 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <p class="text-primary"><b>Rata-rata Realisasi</b></p>
+                                            <div class="row">
+                                            	<div class="col-sm-6">Axis X : 163</div>
+                                                <div class="col-sm-6">Axis Y : 140</div>
+                                            </div><br />
+                                            
+                                            <p class="text-primary"><b>Perbesaran</b></p>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">Zoom Sumbu X</label>
+                                                <div class="col-sm-7">
                                                     <div id="spinner4">
                                                         <div class="input-group" style="width:150px;">
                                                             <div class="spinner-buttons input-group-btn">
@@ -64,7 +91,7 @@
                                                                     <i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
-                                                            <input type="text" class="spinner-input form-control input-sm" value="2014">
+                                                            <input type="text" class="spinner-input form-control input-sm" value="100%">
                                                             <div class="spinner-buttons input-group-btn">
                                                                 <button type="button" class="btn spinner-down btn-warning btn-sm">
                                                                     <i class="fa fa-minus"></i>
@@ -75,8 +102,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Target</label>
-                                                <div class="col-sm-9">
+                                                <label class="col-sm-5 control-label">Zoom Sumbu Y</label>
+                                                <div class="col-sm-7">
                                                     <div id="spinner4">
                                                         <div class="input-group" style="width:150px;">
                                                             <div class="spinner-buttons input-group-btn">
@@ -84,7 +111,7 @@
                                                                     <i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
-                                                            <input type="text" class="spinner-input form-control input-sm" value="1400">
+                                                            <input type="text" class="spinner-input form-control input-sm" value="100%">
                                                             <div class="spinner-buttons input-group-btn">
                                                                 <button type="button" class="btn spinner-down btn-warning btn-sm">
                                                                     <i class="fa fa-minus"></i>
@@ -94,18 +121,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <hr />
-                                        	<div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" checked="checked"> Tampilkan trendline
-                                                </label>
-                                            </div>
-											<div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" checked="checked"> Tampilkan targetline
-                                                </label>
-                                            </div> 
                                             <br />
                                             <div class="row">
                                             	<button type="button" class="btn btn-warning btn-block">
@@ -136,27 +151,22 @@
     
                 </div>
         	</div>
-            
         </section>
     </section>
     <script type="text/javascript">
 		
 			var chart;
+			var dataTooltip = "Target Indikator 1 : 161.2 <br>Realisasi Indikator 1 : 140 <br> Target Indikator 2 : 161.2 <br>Realisasi Indikator 2 : 140";
+			
 			$(document).ready(function() {
 				chart = new Highcharts.Chart({
 					chart: {
 						renderTo: 'chartKonten',
-						options3d: {
-							enabled: true,
-							alpha: 15,
-							beta: 15,
-							viewDistance: 25,
-							depth: 40
-						},
+						type: 'scatter',
+						zoomType: 'xy',
 						marginTop: 80,
-						marginRight: 40
+						marginRight: 20
 					},
-					colors: ['#DB843D', '#3D96AE', '#89A54E', '#00FF40', '#E10000', '#CCCCCC'],
 					exporting: {
 						buttons: { 
 							exportButton: {
@@ -169,65 +179,82 @@
 						}
 					},
 					title: {
-						text: 'Analisis Trendline Capaian Indikator Sasaran Strategis dan Program',
+						text: 'Analisis Korelasi Capaian Indikator Sasaran Strategis Dan Program',
 						style : { "font-size" : "14px" }
 					},
 					subtitle: {
-						text: 'Nasional',
+						text: 'Tahun 2012',
 						style : { "font-size" : "14px" }
 					},
 					xAxis: {
-						categories: ['2010', '2011', '2012', '2013', '2014']
+						title: {
+							enabled: true,
+							text: 'Nama Indikator 2'
+						},
+						startOnTick: true,
+						endOnTick: true,
+						showLastLabel: true,
+						plotLines: [{
+							value: 163,
+							color: '#090',
+							width: 2
+						}]
 					},
 					yAxis: {
 						title: {
-							text: ''
-						}
+							text: 'Nama Indikator 1'
+						},
+						gridLineWidth: 0,
+                		minorGridLineWidth: 0,
+						plotLines: [{
+							value: 140,
+							color: '#090',
+							width: 2
+						}]
 					},
-					tooltip: {
-						formatter: function() {
-							var s;
-							if (this.point.name) { // the pie chart
-								s = ''+
-									this.point.name +': '+ this.y +'';
-							} else {
-								s = this.series.name+' tahun '+this.x  +': '+ this.y;
-							}
-							return s;
-						}
+					legend: {
+                		enabled: false,
 					},
 					plotOptions: {
-						spline: {
+						scatter: {
 							marker: {
-								enabled: false
+								symbol : "triangle",
+								states: {
+									hover: {
+										enabled: true,
+										lineColor: 'rgb(100,100,100)'
+									}
+								}
 							},
+							states: {
+								hover: {
+									marker: {
+										enabled: false
+									}
+								}
+							},
+							tooltip: {
+								headerFormat: '<b>Provinsi : {series.name}</b><br>',
+								pointFormat: '{point.myData}'
+							}
 						}
 					},
-					series: [{
-						type: 'column',
-						name: 'Target',
-						data: [300, 600, 900, 1200]
-					}, {
-						type: 'column',
-						name: 'Realisasi',
-						data: [400, 700, 800, 1100] 
-					},{
-						type: 'column',
-						name: 'Simulasi',
-						data: [null,null,null,null,1400]
-					}, {
-						type: 'spline',
-						name: 'Trendline',
-						data: [300, 500, 700, 1000, 1200]
-					}, {
-						type: 'spline',
-						name: 'Targetline',
-						data: [400, 700, 900, 1000, 1300]
-					}, {
-						type: 'spline',
-						name: 'Target',
-						data: [1400, 1400, 1400, 1400, 1400]
-					}]
+					series: [
+						{name: 'Aceh',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:161.2,y:81.6,myData : dataTooltip}]},
+						{name: 'Bali',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:167.5,y:89.0,myData : dataTooltip}]},
+						{name: 'Banten',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:172.5,y:85.2,myData : dataTooltip}]},
+						{name: 'Bengkulu',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:162.0,y:95.0,myData : dataTooltip}]},
+						{name: 'Gorontalo',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:155.0,y:125.9,myData : dataTooltip}]},
+						{name: 'Jakarta',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:174.0,y:175.7,myData : dataTooltip}]},
+						{name: 'Jambi',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:170.3,y:164.8,myData : dataTooltip}]},
+						{name: 'Jawa Barat',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:154.5,y:149.0,myData : dataTooltip}]},
+						{name: 'Jawa Tengah',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:159.5,y:147.6,myData : dataTooltip}]},
+						{name: 'Jawa Timur',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:164.3,y:159.8,myData : dataTooltip}]},
+						{name: 'Kalimantan Barat',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:178.0,y:170.6,myData : dataTooltip}]},
+						{name: 'Kalimantan Selatan',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:149.5,y:144.8,myData : dataTooltip}]},
+						{name: 'Kalimantan Tengah',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:169.4,y:163.4,myData : dataTooltip}]},
+						{name: 'Kalimantan Timur',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:157.5,y:158.8,myData : dataTooltip}]}
+					]
 				});
 				
 				
