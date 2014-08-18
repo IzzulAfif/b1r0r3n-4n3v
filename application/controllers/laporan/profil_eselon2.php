@@ -5,16 +5,14 @@
  @revision	 :
 */
 
-class Renstra_eselon1 extends CI_Controller {
+class Profil_eselon2 extends CI_Controller {
 	
 	function __construct() 
 	{	
 		parent::__construct();
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
-		$this->load->model('/perencanaan/visi_eselon1_model','visi_e1');
-		$this->load->model('/perencanaan/misi_eselon1_model','misi_e1');
-		$this->load->model('/perencanaan/tujuan_eselon1_model','tujuan_e1');
+		$this->load->model('/unit_kerja/fungsi_eselon2_model','fungsi_e2');
 	}	
 	function index()
 	{
@@ -22,42 +20,54 @@ class Renstra_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file		
-		$data['eselon1'] = $this->eselon1->get_all(null);
-		$template['konten']	= $this->load->view('laporan/renstra_eselon1_v',$data,true); #load konten template file
+		$data['eselon1'] = $this->eselon1->get_all(array("check_locking"=>true));
+		$template['konten']	= $this->load->view('laporan/profil_eselon2_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
 	}
 	
+	function get_list_eselon1()
+	{
+		$params = array("check_locking"=>true);
+		echo json_encode($this->eselon1->get_list($params));
+	}
+	
+	function get_list_eselon2($kode_e1)
+	{
+		$params = array("kode_e1"=>$kode_e1);
+		echo json_encode($this->eselon2->get_list($params));
+	}
+	
+	function get_unit_kerja($e2){
+		$data = $this->eselon2->get_all(array("kode_e2"=>$e2));
 		
-	function get_visi($tahun,$e1){
-		$data = $this->visi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
-		
+		//var_dump($data);
 		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
 		foreach($data as $d){
-			$rs .= '<li>'.$d->visi_e1.'</li>';
+			$rs .= '<li>'.$d->nama_e2.'</li>';
 		 }
 		 $rs .= '</ol>';
 		echo $rs;
 	}
 	
-	function get_misi($tahun,$e1){
-		$data = $this->misi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
+	function get_fungsi($tahun,$e2){
+		$data = $this->fungsi_e2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
 		
 		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
 		foreach($data as $d){
-			$rs .= '<li>'.$d->misi_e1.'</li>';
+			$rs .= '<li>'.$d->fungsi_e2.'</li>';
 		 }
 		 $rs .= '</ol>';
 		echo $rs;
 	}
 	
-	function get_tujuan($tahun,$e1){
-		$data = $this->tujuan_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
+	function get_tugas($tahun,$e2){
+		$data = $this->eselon2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
 		
 		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
 		foreach($data as $d){
-			$rs .= '<li>'.$d->tujuan_e1.'</li>';
+			$rs .= '<li>'.$d->tugas_e2.'</li>';
 		 }
 		 $rs .= '</ol>';
 		echo $rs;

@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Profil Unit Kerja Kementerian
+                        Rencana Strategis Eselon I
                         <span class="pull-right">
                             <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
                          </span>
@@ -28,39 +28,41 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Nama Kementerian</td>
+						<td>Nama Unit Kerja</td>
 						<td>:&nbsp;</td>
 						<td>
-							<select id="kodekl">
-								<option value="-1">--</option>
-								<option value="022">Kementerian Perhubungan</option>
+							<select id="kodee1">
 								
+								<option value="-1">--</option>
+								<?php foreach($eselon1 as $d) {
+									echo '<option value="'.$d->kode_e1.'">'.$d->nama_e1.'</option>';
+								}?>
 							</select>
 						</td>
 					</tr>
                     <tr>
-						<td>Tugas Pokok</td>
+						<td>Visi</td>
 						<td>:&nbsp;</td>
 						<td>
-							<div id="tugas" style="margin-left:-30px;">
+							<div id="visi" style="margin-left:-30px;">
 								
 							</div>
 						</td>
 					</tr>
                     <tr>
-						<td>Fungsi</td>
+						<td>Misi</td>
 						<td>:&nbsp;</td>
 						<td>
-							<div id="fungsi" style="margin-left:-30px;">
+							<div id="misi" style="margin-left:-30px;">
 								
 							</div>
 						</td>
 					</tr>
                     <tr>
-						<td>Unit Kerja</td>
+						<td>Tujuan</td>
 						<td>:&nbsp;</td>
 						<td>
-							<div id="unitkerja" style="margin-left:-30px;">
+							<div id="tujuan" style="margin-left:-30px;">
 								
 							</div>
 						</td>
@@ -78,13 +80,14 @@
 		$(document).ready(function() {
 			load_profile = function(){
 				var tahun = $('#tahun').val();
-				var kodekl = $('#kodekl').val();
-				$("#unitkerja").load("<?=base_url()?>laporan/profil_kl/get_unit_kerja/"+kodekl);
-				$("#fungsi").load("<?=base_url()?>laporan/profil_kl/get_fungsi/"+tahun+"/"+kodekl);
-				$("#tugas").load("<?=base_url()?>laporan/profil_kl/get_tugas/"+tahun+"/"+kodekl);
+				var kodee1 = $('#kodee1').val();
+				
+				$("#visi").load("<?=base_url()?>laporan/renstra_eselon1/get_visi/"+tahun+"/"+kodee1);
+				$("#misi").load("<?=base_url()?>laporan/renstra_eselon1/get_misi/"+tahun+"/"+kodee1);
+				$("#tujuan").load("<?=base_url()?>laporan/renstra_eselon1/get_tujuan/"+tahun+"/"+kodee1);
 			}
 			
-			 $("#kodekl").change(function(){
+			 $("#kodee1").change(function(){
 				load_profile();
 			}); 
 		});

@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Profil Unit Kerja Kementerian
+                        Profil Unit Kerja Eselon II
                         <span class="pull-right">
                             <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
                          </span>
@@ -28,24 +28,23 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Nama Kementerian</td>
+						<td>Nama Unit Kerja Eselon I</td>
 						<td>:&nbsp;</td>
-						<td>
-							<select id="kodekl">
-								<option value="-1">--</option>
-								<option value="022">Kementerian Perhubungan</option>
-								
-							</select>
+						<td><?=form_dropdown('kode_e1','','','id="kode_e1"')?>
+						</td>
+					</tr>
+					<tr>
+						<td>Nama Unit Kerja Eselon II</td>
+						<td>:&nbsp;</td>
+						<td><?=form_dropdown('kode_e2','','','id="kode_e2"')?>
 						</td>
 					</tr>
                     <tr>
 						<td>Tugas Pokok</td>
 						<td>:&nbsp;</td>
-						<td>
-							<div id="tugas" style="margin-left:-30px;">
+						<td><div id="tugas" style="margin-left:-30px;">
 								
-							</div>
-						</td>
+							</div></td>
 					</tr>
                     <tr>
 						<td>Fungsi</td>
@@ -76,15 +75,41 @@
 	
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
+			 kode_e1 = $("#kode_e1");
+			 kode_e2 = $("#kode_e2");
+			 $.ajax({
+                    url:"<?php echo site_url(); ?>laporan/profil_eselon2/get_list_eselon1",
+                    success:function(result) {
+                        kode_e1.empty();
+                        result = JSON.parse(result);
+                        for (k in result) {
+                            kode_e1.append(new Option(result[k],k));
+                        }
+                    }
+                });
+				
 			load_profile = function(){
-				var tahun = $('#tahun').val();
-				var kodekl = $('#kodekl').val();
-				$("#unitkerja").load("<?=base_url()?>laporan/profil_kl/get_unit_kerja/"+kodekl);
-				$("#fungsi").load("<?=base_url()?>laporan/profil_kl/get_fungsi/"+tahun+"/"+kodekl);
-				$("#tugas").load("<?=base_url()?>laporan/profil_kl/get_tugas/"+tahun+"/"+kodekl);
+				var v_tahun = $('#tahun').val();
+				var v_kode_e2 = $('#kode_e2').val();
+				//$("#unitkerja").load("<?=base_url()?>laporan/profil_eselon1/get_unit_kerja/"+kodee1);
+				$("#fungsi").load("<?=base_url()?>laporan/profil_eselon2/get_fungsi/"+v_tahun+"/"+v_kode_e2);
+				$("#tugas").load("<?=base_url()?>laporan/profil_eselon2/get_tugas/"+v_tahun+"/"+v_kode_e2);
 			}
 			
-			 $("#kodekl").change(function(){
+			 $("#kode_e1").change(function(){
+				$.ajax({
+                    url:"<?php echo site_url(); ?>laporan/profil_eselon2/get_list_eselon2/"+this.value,
+                    success:function(result) {
+                        kode_e2.empty();
+                        result = JSON.parse(result);
+                        for (k in result) {
+                            kode_e2.append(new Option(result[k],k));
+                        }
+                    }
+                });
+			});
+
+			$("#kode_e2").change(function(){
 				load_profile();
 			}); 
 		});

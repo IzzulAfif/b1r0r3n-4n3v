@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
  @author     :  Yusup JS
- @date       : 2014-08-16 00:00
+ @date       : 2014-08-18 17:00
  @revision	 :
 */
 
-class Renstra_kl extends CI_Controller {
+class Matriks_pembangunan extends CI_Controller {
 	
 	function __construct() 
 	{	
@@ -26,7 +26,7 @@ class Renstra_kl extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file		
 		$data = null;
-		$template['konten']	= $this->load->view('laporan/renstra_kl_v',$data,true); #load konten template file
+		$template['konten']	= $this->load->view('laporan/matriks_pembangunan_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);

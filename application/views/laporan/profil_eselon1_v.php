@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Profil Unit Kerja Kementerian
+                        Profil Unit Kerja Eselon I
                         <span class="pull-right">
                             <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
                          </span>
@@ -30,20 +30,15 @@
 					<tr>
 						<td>Nama Unit Kerja</td>
 						<td>:&nbsp;</td>
-						<td>
-							<select id="kodee1">
-								
-								<option value="-1">--</option>
-								<?php foreach($eselon1 as $d) {
-									echo '<option value="'.$d->kode_e1.'">'.$d->nama_e1.'</option>';
-								}?>
-							</select>
+						<td><?=form_dropdown('kode_e1',$eselon1,'0','id="kode_e1"')?>
 						</td>
 					</tr>
                     <tr>
 						<td>Tugas Pokok</td>
 						<td>:&nbsp;</td>
-						<td></td>
+						<td><div id="tugas" style="margin-left:-30px;">
+								
+							</div></td>
 					</tr>
                     <tr>
 						<td>Fungsi</td>
@@ -76,12 +71,13 @@
 		$(document).ready(function() {
 			load_profile = function(){
 				var tahun = $('#tahun').val();
-				var kodee1 = $('#kodee1').val();
+				var kodee1 = $('#kode_e1').val();
 				$("#unitkerja").load("<?=base_url()?>laporan/profil_eselon1/get_unit_kerja/"+kodee1);
 				$("#fungsi").load("<?=base_url()?>laporan/profil_eselon1/get_fungsi/"+tahun+"/"+kodee1);
+				$("#tugas").load("<?=base_url()?>laporan/profil_eselon1/get_tugas/"+tahun+"/"+kodee1);
 			}
 			
-			 $("#kodee1").change(function(){
+			 $("#kode_e1").change(function(){
 				load_profile();
 			}); 
 		});

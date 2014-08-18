@@ -77,7 +77,7 @@
 						<td>Detail Perencanaan</td>
 						<td>:&nbsp;</td>
 						<td>
-							
+							<a href="#" id="klikdisini">Klik Disini</a>
 						</td>
 					</tr>
 					<tr>
@@ -109,10 +109,17 @@
 				$("#misi").load("<?=base_url()?>laporan/renstra_kl/get_misi/"+tahun+"/"+kodekl);
 				$("#tujuan").load("<?=base_url()?>laporan/renstra_kl/get_tujuan/"+tahun+"/"+kodekl);
 				$("#sasaran").load("<?=base_url()?>laporan/renstra_kl/get_sasaran/"+tahun+"/"+kodekl);
+				$("#program").load("<?=base_url()?>laporan/renstra_kl/get_program/"+tahun+"/"+kodekl);
 			}
 			
 			 $("#kodekl").change(function(){
 				load_profile();
+			}); 
+			
+			$("#klikdisini").click(function(){
+				var tahun = $('#tahun').val();
+				var kodekl = $('#kodekl').val();
+				window.open("<?=base_url()?>laporan/renstra_kl/get_detail/"+tahun+"/"+kodekl);
 			}); 
 		});
 	</script>

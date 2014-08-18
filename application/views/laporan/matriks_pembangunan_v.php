@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Profil Unit Kerja Kementerian
+                        Matriks Pembangunan Bidang Transportasi
                         <span class="pull-right">
                             <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
                          </span>
@@ -39,32 +39,57 @@
 						</td>
 					</tr>
                     <tr>
-						<td>Tugas Pokok</td>
+						<td>Visi</td>
 						<td>:&nbsp;</td>
 						<td>
-							<div id="tugas" style="margin-left:-30px;">
+							<div id="visi" style="margin-left:-30px;">
 								
 							</div>
 						</td>
 					</tr>
                     <tr>
-						<td>Fungsi</td>
+						<td>Misi</td>
 						<td>:&nbsp;</td>
 						<td>
-							<div id="fungsi" style="margin-left:-30px;">
+							<div id="misi" style="margin-left:-30px;">
 								
 							</div>
 						</td>
 					</tr>
                     <tr>
-						<td>Unit Kerja</td>
+						<td>Tujuan</td>
 						<td>:&nbsp;</td>
 						<td>
-							<div id="unitkerja" style="margin-left:-30px;">
+							<div id="tujuan" style="margin-left:-30px;">
+								
+							</div>
+						</td>
+					</tr> 
+					<tr>
+						<td colspan="3">
+							<div id="sasaran"  class="panel-body" style="margin-left:-30px;">
+								
+							</div>
+						</td>
+						
+					</tr>
+					<tr>
+						<td>Detail Perencanaan</td>
+						<td>:&nbsp;</td>
+						<td>
+							<a href="#" id="klikdisini">Klik Disini</a>
+						</td>
+					</tr>
+					<tr>
+						<td>Program</td>
+						<td>:&nbsp;</td>
+						<td>
+							<div id="program" style="margin-left:-30px;">
 								
 							</div>
 						</td>
 					</tr>
+					
 					</table>
                     </div>
                 </section>
@@ -79,13 +104,22 @@
 			load_profile = function(){
 				var tahun = $('#tahun').val();
 				var kodekl = $('#kodekl').val();
-				$("#unitkerja").load("<?=base_url()?>laporan/profil_kl/get_unit_kerja/"+kodekl);
-				$("#fungsi").load("<?=base_url()?>laporan/profil_kl/get_fungsi/"+tahun+"/"+kodekl);
-				$("#tugas").load("<?=base_url()?>laporan/profil_kl/get_tugas/"+tahun+"/"+kodekl);
+				
+				$("#visi").load("<?=base_url()?>laporan/renstra_kl/get_visi/"+tahun+"/"+kodekl);
+				$("#misi").load("<?=base_url()?>laporan/renstra_kl/get_misi/"+tahun+"/"+kodekl);
+				$("#tujuan").load("<?=base_url()?>laporan/renstra_kl/get_tujuan/"+tahun+"/"+kodekl);
+				$("#sasaran").load("<?=base_url()?>laporan/renstra_kl/get_sasaran/"+tahun+"/"+kodekl);
+				$("#program").load("<?=base_url()?>laporan/renstra_kl/get_program/"+tahun+"/"+kodekl);
 			}
 			
 			 $("#kodekl").change(function(){
 				load_profile();
+			}); 
+			
+			$("#klikdisini").click(function(){
+				var tahun = $('#tahun').val();
+				var kodekl = $('#kodekl').val();
+				window.open("<?=base_url()?>laporan/renstra_kl/get_detail/"+tahun+"/"+kodekl);
 			}); 
 		});
 	</script>

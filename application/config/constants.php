@@ -37,5 +37,18 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+/*
+|--------------------------------------------------------------------------
+| Tambahan Konstanta untuk ANEV
+|--------------------------------------------------------------------------
+|
+| 
+|
+*/
+
+define('FILTER_E1_LOCKING',TRUE);// kunci untuk  filter Eselon1 tertentu saja, daftar eselon1 nya bisa > 1 silahkan diisi konstanta FILTER_E1_LIST nya
+define('FILTER_E1_LIST',"'022.01'");//kalau lebih dari 1 tinggal tambah pake comma
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
