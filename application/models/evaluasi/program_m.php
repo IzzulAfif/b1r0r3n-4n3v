@@ -65,7 +65,7 @@ class program_m extends CI_Model
 		$sql = "select s.kode_e1, s.tahun, s.kode_sp_e1, i.kode_iku_e1, s.deskripsi, i.deskripsi indikator, i.satuan, k.target, k.realisasi, k.persen
 			from anev_sasaran_program s inner join anev_iku_eselon1 i on s.tahun=i.tahun  inner join anev_kinerja_eselon1 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sp_e1=s.kode_sp_e1 and k.kode_iku_e1=i.kode_iku_e1)
  			where k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
- 			." and k.kode_e1=".$this->db->escape($kode_e1)." order by i.kode_iku_e1 asc, k.tahun asc";
+ 			." and k.kode_e1=".$this->db->escape($kode_e1)." order by s.kode_e1 asc, i.kode_iku_e1 asc, k.tahun asc";
  		return $this->mgeneral->run_sql($sql);	
 	}
 

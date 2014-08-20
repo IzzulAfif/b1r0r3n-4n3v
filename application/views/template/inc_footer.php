@@ -6,6 +6,7 @@
 	<script src="<?=base_url("static")?>/js/jquery.scrollTo.min.js"></script>
 	<script src="<?=base_url("static")?>/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.nicescroll.js"></script>
+    <script src="<?=base_url("static")?>/js/select2/select2.js"></script>
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="<?=base_url("static")?>/js/flot-chart/excanvas.min.js"></script><![endif]-->
 	<script src="<?=base_url("static")?>/js/skycons/skycons.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.scrollTo/jquery.scrollTo.js"></script>

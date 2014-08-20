@@ -12,12 +12,12 @@
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
                         <label class="col-md-2">Periode Renstra</label>
-                        <div class="col-md-7"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Tahun</label>
-                        <div class="col-md-1"><?=form_dropdown('tahun_awal','','','id="tahun_awal"')?></div>
-                        <div class="col-md-1"><?=form_dropdown('tahun_akhir','','','id="tahun_akhir"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_awal','','','id="tahun_awal"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_akhir','','','id="tahun_akhir"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Nama Program</label>
@@ -57,10 +57,14 @@
         </section>
     </section>
     <!--main content end-->
+     <style type="text/css">
+        select {width:100%;}
+    </style>
     <!--js-->
     <script src="<?=base_url("static")?>/js/jquery.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+        $('select').select2({minimumResultsForSearch: -1, width:'resolve'});
         renstra = $('#renstra');
         tahun_awal = $('#tahun_awal');
         tahun_akhir = $('#tahun_akhir');
@@ -75,6 +79,7 @@
                     tahun_akhir.append(new Option(i,i));
                 }
             }
+            tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); tahun_akhir.select2({minimumResultsForSearch: -1, width:'resolve'});
         });
         tahun_awal.change(function(){
             
@@ -90,6 +95,7 @@
                     for (k in result) {
                         nama_program.append(new Option(result[k],k));
                     }
+                    nama_program.select2({minimumResultsForSearch: -1, width:'resolve'});
                 }
             });
         });

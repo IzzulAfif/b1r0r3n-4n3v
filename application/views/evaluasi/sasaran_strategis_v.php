@@ -12,16 +12,16 @@
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
                         <label class="col-md-2">Periode Renstra</label>
-                        <div class="col-md-7"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Tahun</label>
-                        <div class="col-md-1"><?=form_dropdown('tahun_awal','','','id="tahun_awal"')?></div>
-                        <div class="col-md-1"><?=form_dropdown('tahun_akhir','','','id="tahun_akhir" style="{width:75%;}"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_awal','','','id="tahun_awal"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_akhir','','','id="tahun_akhir"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Sasaran</label>
-                        <div class="col-md-6"><?=form_dropdown('sasaran','','','id="sasaran"')?></div>
+                        <div class="col-md-8"><?=form_dropdown('sasaran','','','id="sasaran"')?></div>
                         </div>
                     </form>
                     <section class="panel panel-default">
@@ -39,10 +39,15 @@
         </section>
     </section>
     <!--main content end-->
+    <style type="text/css">
+        select {width:100%;}
+        tr.detail_toggle{display: none;}
+    </style>
     <!--js-->
     <script src="<?=base_url("static")?>/js/jquery.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
+        $('select').select2({minimumResultsForSearch: -1, width:'resolve'});
         renstra = $('#renstra');
         tahun_awal = $('#tahun_awal');
         tahun_akhir = $('#tahun_akhir');
@@ -55,6 +60,7 @@
                     tahun_awal.append(new Option(i,i));
                     tahun_akhir.append(new Option(i,i));
                 }
+                tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); tahun_akhir.select2({minimumResultsForSearch: -1, width:'resolve'});
                 $.ajax({
                     url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_sasaran/"+renstra.val(),
                     success:function(result) {
@@ -63,6 +69,7 @@
                         for (k in result) {
                             sasaran.append(new Option(result[k],k));
                         }
+                        sasaran.select2({minimumResultsForSearch: -1, width:'resolve'});
                     }
                 });
             }
@@ -88,10 +95,21 @@
                         success:function(result) {
                             tabel_capaian = $('#tabel_capaian');
                             tabel_capaian.empty().html(result);        
-                            tabel_capaian.dataTable( {
-                                "bDestroy": true
-                        });
-                    }
+                            //tabel_capaian.dataTable( {
+                            //    "bDestroy": true
+                            //});
+                            $('.toggler').click(function(e){
+                                e.preventDefault();
+                                $('.detail'+$(this).attr('id')).toggle();
+                                target = $('#'+$(this).attr('target_rowspan'));
+                                if (e.target.id==$(this).attr('id')) {
+                                    num_rowspan = parseInt($(this).attr('num_rowspan'));
+                                    target.attr('rowspan',(num_rowspan+parseInt(target.attr('rowspan'))));
+                                    $(this).attr('num_rowspan',num_rowspan*-1);
+                                }
+                                //console.log('.detail'+$(this).attr('detail_num'));
+                            });
+                        }
                 });    
             }
         }

@@ -66,7 +66,7 @@ class program extends CI_Controller {
 	{
 		$thead = '<thead><th rowspan=2>Sasaran Program</th><th rowspan=2>Indikator</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
-		$j = 0; $thn = 0; $firstrow = 1;
+		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0;
 		$data = $this->program_m->get_capaian_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
 		$ldata = sizeof($data);
 		$kd_iku_e1 = '';
@@ -77,22 +77,23 @@ class program extends CI_Controller {
 		}
 
 		foreach ($data as $dt) {
-			$temprow .= "<td>".$dt->target."</td><td>".$dt->realisasi."</td><td>".$dt->persen."</td>"; $sum_program += $dt->persen; $thn++;
-			$sum_tahun[$dt->tahun] = $dt->persen;			
-			if ($j+1<=$ldata) {
-
-				if ($dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
-					$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-					$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
-					$thn = 0;
-					if ($firstrow==1) $temprow = '<tr><td rowspan='.($rowspan[$dt->kode_sp_e1]).'>'.$dt->deskripsi.'</td>'.$temprow;
-						else $temprow ='<tr>'.$temprow;
-					$tbody .= $temprow;
-					$temprow = '';
-					$firstrow++;
-				}
-				if ($dt->kode_sp_e1!= $data[$j+1]->kode_sp_e1) $firstrow = 1;
+			$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
+				.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
+				.number_format($dt->persen,2,',','.')."</td>"; 
+			$sum_program += $dt->persen; $thn++;
+			$sum_tahun[$dt->tahun] += $dt->persen;			
+			if ($dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
+				$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
+				$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
+				$thn = 0; $sum_program = 0;
+				if ($firstrow==1) $temprow = '<tr><td rowspan='.($rowspan[$dt->kode_sp_e1]).'>'.$dt->deskripsi.'</td>'.$temprow;
+					else $temprow ='<tr>'.$temprow;
+				$tbody .= $temprow;
+				$temprow = '';
+				$firstrow++;
+				$countrow++;
 			}
+			if (($j+1==$ldata) || ($dt->kode_sp_e1!= $data[$j+1]->kode_sp_e1)) $firstrow = 1;
 			$j++;
 		}
 		$tbody .= '<tr><td colspan=3>Rata-rata Capaian Kinerja / Tahun</td>';
@@ -101,10 +102,10 @@ class program extends CI_Controller {
 		foreach ($sum_tahun as $k => $val) {
 			$thead .= "<th colspan=3>".$k."</th>";
 		 	$temp_thead .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
-		 	$tbody .= '<td></td><td></td><td>'.($val/$j).'</td>'; $total +=$val/$j;
+		 	$tbody .= '<td></td><td></td><td>'.number_format(($val/$countrow),2,',','.').'</td>'; $total +=$val/$countrow;
 		}
 		$thead .= "<th rowspan=2>Rata-rata<br>%</th><th rowspan=2></th></th></tr>".$temp_thead.'</tr></thead>';
-		$tbody .= '<td>'.$total/(sizeof($sum_tahun)).'</td><td></td></tr></tbody>';
+		$tbody .= '<td>'.number_format($total,2,',','.').'</td><td></td></tr></tbody>';
 		echo $thead.$tbody;
 	}
 }
