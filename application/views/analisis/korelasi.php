@@ -12,6 +12,24 @@
                             <div class="panel-body">
                                 
                                 <div class="row">
+                                	<div class="col-sm-2">
+                                    	Unit Kerja
+                                    </div>
+                                    <div class="col-sm-10">
+                                    	<select name="unit_kerja" id="unit_kerja" class="populate" style="width:100%">
+                                        	<option value="">Pilih Unit Kerja</option>
+                                        	<?php foreach($kl as $k): ?>
+                                            	<option value="<?=$k->kode_kl?>"><?=$k->nama_kl?></option>
+                                            <?php endforeach; ?>
+                                            <?php foreach($esselon1 as $es1): ?>
+                                            	<option value="<?=$es1->kode_e1?>"><?=$es1->nama_e1?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br />
+                                
+                                <div class="row">
                                 
                                 	<div class="col-sm-4">
                                     	
@@ -21,10 +39,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Tahun</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control input-sm">
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                        <option>Option 3</option>
+                                                    <select name="tahun" id="tahun" class="populate" style="width:100%">
                                                     </select>
                                                 </div>
                                             </div>
@@ -34,21 +49,21 @@
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Sasaran</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control input-sm">
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                        <option>Option 3</option>
+                                                    <select name="sasaran" id="sasaran" class="populate" style="width:100%">
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Indikator</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control input-sm">
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                        <option>Option 3</option>
+                                                    <select name="indikator" id="indikator" class="populate" style="width:100%">
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Satuan</label>
+                                                <div class="col-sm-9">
+                                                    <label class="control-label" id="satuan"></label>
                                                 </div>
                                             </div>
                                             
@@ -56,21 +71,21 @@
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Sasaran</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control input-sm">
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                        <option>Option 3</option>
+                                                    <select name="sasaran2" id="sasaran2" class="populate" style="width:100%">
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">Indikator</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control input-sm">
-                                                        <option>Option 1</option>
-                                                        <option>Option 2</option>
-                                                        <option>Option 3</option>
+                                                    <select name="indikator2" id="indikator2" class="populate" style="width:100%">
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">Satuan</label>
+                                                <div class="col-sm-9">
+                                                    <label class="control-label" id="satuan2"></label>
                                                 </div>
                                             </div>
                                             
@@ -159,6 +174,103 @@
 			var dataTooltip = "Target Indikator 1 : 161.2 <br>Realisasi Indikator 1 : 140 <br> Target Indikator 2 : 161.2 <br>Realisasi Indikator 2 : 140";
 			
 			$(document).ready(function() {
+				$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+				$('#unit_kerja').change(function(){
+					kd_unit	= $('#unit_kerja').val();
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_tahun/"+kd_unit,
+						success:function(result) {
+							$('#tahun').empty();
+							result = JSON.parse(result);
+							for (a in result) {
+								$('#tahun').append(new Option(result[a],result[a]));
+							}
+							$('#tahun').select2({minimumResultsForSearch: -1, width:'resolve'});
+						}
+					});
+				});
+				
+				$('#tahun').change(function(){
+					kd_unit	= $('#unit_kerja').val();
+					tahun	= $('#tahun').val();
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_sasaran/"+kd_unit+"/"+tahun,
+						success:function(result) {
+							$('#sasaran').empty();
+							$('#sasaran2').empty();
+							result = JSON.parse(result);
+							for (a in result) {
+								$('#sasaran').append(new Option(result[a].deskripsi,result[a].kode));
+								$('#sasaran2').append(new Option(result[a].deskripsi,result[a].kode));
+							}
+							$('#sasaran').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#sasaran2').select2({minimumResultsForSearch: -1, width:'resolve'});
+						}
+					});
+				});
+				
+				$('#sasaran').change(function(){
+					kd_unit	= $('#unit_kerja').val();
+					tahun	= $('#tahun').val();
+					sasaran	= $('#sasaran').val();
+					
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_indikator/"+kd_unit+"/"+tahun+"/"+sasaran,
+						success:function(result) {
+							$('#indikator').empty();
+							result = JSON.parse(result);
+							for (a in result) {
+								$('#indikator').append(new Option(result[a].deskripsi,result[a].kode));
+							}
+							$('#indikator').select2({minimumResultsForSearch: -1, width:'resolve'});
+						}
+					});
+				});
+				
+				$('#indikator').change(function(){
+					kd_unit		= $('#unit_kerja').val();
+					tahun		= $('#tahun').val();
+					indikator	= $('#indikator').val();
+					
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_satuan/"+kd_unit+"/"+tahun+"/"+indikator,
+						success:function(result) {
+							$('#satuan').html(result);
+						}
+					});
+				});
+				
+				$('#sasaran2').change(function(){
+					kd_unit	= $('#unit_kerja').val();
+					tahun	= $('#tahun').val();
+					sasaran	= $('#sasaran2').val();
+					
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_indikator/"+kd_unit+"/"+tahun+"/"+sasaran,
+						success:function(result) {
+							$('#indikator2').empty();
+							result = JSON.parse(result);
+							for (a in result) {
+								$('#indikator2').append(new Option(result[a].deskripsi,result[a].kode));
+							}
+							$('#indikator2').select2({minimumResultsForSearch: -1, width:'resolve'});
+						}
+					});
+				});
+				
+				$('#indikator2').change(function(){
+					kd_unit		= $('#unit_kerja').val();
+					tahun		= $('#tahun').val();
+					indikator	= $('#indikator2').val();
+					
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_satuan/"+kd_unit+"/"+tahun+"/"+indikator,
+						success:function(result) {
+							$('#satuan2').html(result);
+						}
+					});
+				});
+				
 				chart = new Highcharts.Chart({
 					chart: {
 						renderTo: 'chartKonten',

@@ -14,7 +14,8 @@ class Home extends CI_Controller {
 	
 	function index()
 	{
-		$setting			= array(); #settingan untuk static template file
+		$setting['sd_left']	= array('cur_menu'	=> "");
+		$setting['page']	= array('pg_aktif'	=> "");
 		$template			= $this->template->load($setting); #load static template file
 		
 		$data				= ""; #kirim data ke konten file
