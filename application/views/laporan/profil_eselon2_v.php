@@ -30,13 +30,13 @@
 					<tr>
 						<td>Nama Unit Kerja Eselon I</td>
 						<td>:&nbsp;</td>
-						<td><?=form_dropdown('kode_e1','','','id="kode_e1"')?>
+						<td><?=form_dropdown('kode_e1',array(),'','id="kode_e1"')?>
 						</td>
 					</tr>
 					<tr>
 						<td>Nama Unit Kerja Eselon II</td>
 						<td>:&nbsp;</td>
-						<td><?=form_dropdown('kode_e2','','','id="kode_e2"')?>
+						<td><?=form_dropdown('kode_e2',array(),'','id="kode_e2"')?>
 						</td>
 					</tr>
                     <tr>

@@ -16,7 +16,7 @@ class Eselon1_model extends CI_Model
 	}
 	
 	function get_all($params){
-	
+		$where = ' where 1=1 ';
 		if (isset($params)){
 			if (isset($params['kode_kl'])) $where .= " and e1.kode_kl='".$params['kode_kl']."'";
 			if (isset($params['kode_e1'])) $where .= " and e1.kode_e1='".$params['kode_e1']."'";

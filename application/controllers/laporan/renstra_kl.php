@@ -48,45 +48,53 @@ class Renstra_kl extends CI_Controller {
 	
 	function get_visi($tahun,$kl){
 		$data = $this->visi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-		//var_dump($data);
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->visi_kl.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->visi_kl.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_misi($tahun,$kl){
 		$data = $this->misi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->misi_kl.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->misi_kl.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_tujuan($tahun,$kl){
 		$data = $this->tujuan_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->tujuan_kl.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->tujuan_kl.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_program($tahun,$kl){
 		$data = $this->program_e1->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->nama_program.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->nama_program.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
@@ -95,103 +103,105 @@ class Renstra_kl extends CI_Controller {
 	function get_sasaran($tahun,$kl){
 		$dataAll = array();
 		$data = $this->sasaran_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-		
-		$rs = '<table class="display table table-bordered table-striped">';
-		
-		$rs .= '
-		<thead><tr  align="center">
-					<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran</th>
-					<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
-					<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>
-		
-				</tr>';
-		
-					
-		$rs .= 	'</thead>';	
-		$rs .= '<tbody>';		
-		$i=0;
-		 
-		foreach($data as $d){
+		$rs = '';
+		if (isset($data)){
+			$rs = '<table class="display table table-bordered table-striped">';
 			
-			$data_strategis = $this->sasaran_strategis->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl));
-			$jml_data_strategis = count($data_strategis);
-			$data[$i]->strategis=$data_strategis;
-			//$data[$i]->rowspan = sizeof($data_strategis);
-			if ($jml_data_strategis>0){				
-				//$rs .="<ol>";
-				$j=0;
-				foreach($data_strategis as $ss){					
-					$data_iku = $this->iku_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
-					$jml_data_iku = count($data_iku);
-					$data[$i]->rowspan += sizeof($data_iku);
-					$data[$i]->strategis[$j]->iku = $data_iku;					
-					$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
-					$j++;
-				}			
-			}
+			$rs .= '
+			<thead><tr  align="center">
+						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran</th>
+						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>
 			
-			$i++;
-		 }
-		 
-		 $i=0;
-		 foreach($data as $d){
+					</tr>';
 			
-			$jml_data_strategis = sizeof($data[$i]->strategis);
-			$colspan_sasaran = 
-			$rs .= '<tr>';
-			$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';
-		
-				
-			if ($jml_data_strategis>0){
-				
-				
-				$j=0;
-				
-				foreach($data[$i]->strategis as $ss){
-					if ($j==0)
-						$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
-					else {
 						
-						$rs .= '<tr>';
-						$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
-					}
+			$rs .= 	'</thead>';	
+			$rs .= '<tbody>';		
+			$i=0;
+			 
+			foreach($data as $d){
+				
+				$data_strategis = $this->sasaran_strategis->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl));
+				$jml_data_strategis = count($data_strategis);
+				$data[$i]->strategis=$data_strategis;
+				//$data[$i]->rowspan = sizeof($data_strategis);
+				if ($jml_data_strategis>0){				
+					//$rs .="<ol>";
+					$j=0;
+					foreach($data_strategis as $ss){					
+						$data_iku = $this->iku_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
+						$jml_data_iku = count($data_iku);
+						$data[$i]->rowspan += sizeof($data_iku);
+						$data[$i]->strategis[$j]->iku = $data_iku;					
+						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
+						$j++;
+					}			
+				}
+				
+				$i++;
+			 }
+			 
+			 $i=0;
+			 foreach($data as $d){
+				
+				$jml_data_strategis = sizeof($data[$i]->strategis);
+				$colspan_sasaran = 
+				$rs .= '<tr>';
+				$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';
+			
 					
-					$jml_data_iku = count($data[$i]->strategis[$j]->iku);
-					$x=0;
-					if ($jml_data_iku>0){
-						foreach($data[$i]->strategis[$j]->iku as $iku){
-							if ($x==0){
-							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-							  
-							  $rs .= '</tr>';
-							}
-							else {
-								//
-								$rs .= '<tr>';
-								$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
-								
-								$rs .= '</tr>';
-							}
-							$x++;
+				if ($jml_data_strategis>0){
+					
+					
+					$j=0;
+					
+					foreach($data[$i]->strategis as $ss){
+						if ($j==0)
+							$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+						else {
+							
+							$rs .= '<tr>';
+							$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
 						}
 						
+						$jml_data_iku = count($data[$i]->strategis[$j]->iku);
+						$x=0;
+						if ($jml_data_iku>0){
+							foreach($data[$i]->strategis[$j]->iku as $iku){
+								if ($x==0){
+								  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
+								  
+								  $rs .= '</tr>';
+								}
+								else {
+									//
+									$rs .= '<tr>';
+									$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
+									
+									$rs .= '</tr>';
+								}
+								$x++;
+							}
+							
+						}
+						else {
+						
+						}
+						
+						$j++;
 					}
-					else {
-					
-					}
-					
-					$j++;
-				}
-			
-			}
-			else { 
 				
-			}
-			
-			$i++;
-		 }
-		 $rs .= '</tbody>';		
-		 $rs .= '</table>';
+				}
+				else { 
+					
+				}
+				
+				$i++;
+			 }
+			 $rs .= '</tbody>';		
+			 $rs .= '</table>';
+		}
 		
 		echo $rs;
 	}
@@ -199,119 +209,121 @@ class Renstra_kl extends CI_Controller {
 	function get_rencana_detail($tahun,$kl){
 		$dataAll = array();
 		$data = $this->sasaran_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-		
-		$rs = '<table class="display table table-bordered table-striped">';
-		$arrTahun = explode("-",$tahun);
-		
-		$rangetahun = $arrTahun[1]-$arrTahun[0];
-		
-	//	$rs = '<table class="table" border="1">';
-		$rs .= '
-		<thead><tr  align="center">
-					<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran</th>
-					<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran Strategis</th>
-					<th style="vertical-align:middle;text-align:center" width="40%" rowspan="2">Indikator</th>
-					<th style="vertical-align:middle;text-align:center" width="100px" rowspan="2">Satuan</th>
-					<th style="vertical-align:middle;text-align:center" width="100px" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
-				</tr>';
-		$rs .= 	'<tr>';
-			for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-					$rs .= 	'<th>'.$colTahun.'</th>';
-					
-		$rs .= 	'		</tr></thead>';	
-		$rs .= '<tbody>';		
-		$i=0;
-		 
-		foreach($data as $d){
+		$rs = '';
+		if (isset($data)){
+			$rs = '<table class="display table table-bordered table-striped">';
+			$arrTahun = explode("-",$tahun);
 			
-			$data_strategis = $this->sasaran_strategis->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl));
-			$jml_data_strategis = count($data_strategis);
-			$data[$i]->strategis=$data_strategis;
-			//$data[$i]->rowspan = sizeof($data_strategis);
-			if ($jml_data_strategis>0){				
-				//$rs .="<ol>";
-				$j=0;
-				foreach($data_strategis as $ss){					
-					$data_iku = $this->iku_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
-					$jml_data_iku = count($data_iku);
-					$data[$i]->rowspan += sizeof($data_iku);
-					$data[$i]->strategis[$j]->iku = $data_iku;					
-					$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
-					$j++;
-				}			
-			}
+			$rangetahun = $arrTahun[1]-$arrTahun[0];
 			
-			$i++;
-		 }
-		 
-		 $i=0;
-		 foreach($data as $d){
-			
-			$jml_data_strategis = sizeof($data[$i]->strategis);
-			$colspan_sasaran = 
-			$rs .= '<tr>';
-			$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';
-			//$rs .= '<td  colspan="3">'.$d->sasaran_kl.'</td>';
-				
-			if ($jml_data_strategis>0){
-				
-				
-				$j=0;
-				
-				foreach($data[$i]->strategis as $ss){
-					if ($j==0)
-						$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
-					else {
+		//	$rs = '<table class="table" border="1">';
+			$rs .= '
+			<thead><tr  align="center">
+						<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran</th>
+						<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center" width="40%" rowspan="2">Indikator</th>
+						<th style="vertical-align:middle;text-align:center" width="100px" rowspan="2">Satuan</th>
+						<th style="vertical-align:middle;text-align:center" width="100px" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
+					</tr>';
+			$rs .= 	'<tr>';
+				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
+						$rs .= 	'<th>'.$colTahun.'</th>';
 						
-						
-						//$rs .= '</tr>';
-						$rs .= '<tr>';
-						$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
-					//	$rs .= '<td width="50%"  colspan="2" valign="top">'.$ss->deskripsi.'</td>';
-					}
+			$rs .= 	'		</tr></thead>';	
+			$rs .= '<tbody>';		
+			$i=0;
+			 
+			foreach($data as $d){
+				
+				$data_strategis = $this->sasaran_strategis->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl));
+				$jml_data_strategis = count($data_strategis);
+				$data[$i]->strategis=$data_strategis;
+				//$data[$i]->rowspan = sizeof($data_strategis);
+				if ($jml_data_strategis>0){				
+					//$rs .="<ol>";
+					$j=0;
+					foreach($data_strategis as $ss){					
+						$data_iku = $this->iku_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
+						$jml_data_iku = count($data_iku);
+						$data[$i]->rowspan += sizeof($data_iku);
+						$data[$i]->strategis[$j]->iku = $data_iku;					
+						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
+						$j++;
+					}			
+				}
+				
+				$i++;
+			 }
+			 
+			 $i=0;
+			 foreach($data as $d){
+				
+				$jml_data_strategis = sizeof($data[$i]->strategis);
+				$colspan_sasaran = 
+				$rs .= '<tr>';
+				$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';
+				//$rs .= '<td  colspan="3">'.$d->sasaran_kl.'</td>';
 					
-					$jml_data_iku = count($data[$i]->strategis[$j]->iku);
-					$x=0;
-					if ($jml_data_iku>0){
-						foreach($data[$i]->strategis[$j]->iku as $iku){
-							if ($x==0){
-							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-							  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
-							  for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-									$rs .= 	'<td align="right">0</td>';
-							  $rs .= '</tr>';
-							}
-							else {
-								//
-								$rs .= '<tr>';
-								$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
-								$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
-								for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-									$rs .= 	'<td align="right">0</td>';
-								$rs .= '</tr>';
-							}
-							$x++;
+				if ($jml_data_strategis>0){
+					
+					
+					$j=0;
+					
+					foreach($data[$i]->strategis as $ss){
+						if ($j==0)
+							$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+						else {
+							
+							
+							//$rs .= '</tr>';
+							$rs .= '<tr>';
+							$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
+						//	$rs .= '<td width="50%"  colspan="2" valign="top">'.$ss->deskripsi.'</td>';
 						}
 						
+						$jml_data_iku = count($data[$i]->strategis[$j]->iku);
+						$x=0;
+						if ($jml_data_iku>0){
+							foreach($data[$i]->strategis[$j]->iku as $iku){
+								if ($x==0){
+								  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
+								  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+								  for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
+										$rs .= 	'<td align="right">0</td>';
+								  $rs .= '</tr>';
+								}
+								else {
+									//
+									$rs .= '<tr>';
+									$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
+									$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+									for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
+										$rs .= 	'<td align="right">0</td>';
+									$rs .= '</tr>';
+								}
+								$x++;
+							}
+							
+						}
+						else {
+						//	$rs .= '<td width="50%">&nbsp;</td>';
+						}
+						
+						$j++;
 					}
-					else {
-					//	$rs .= '<td width="50%">&nbsp;</td>';
-					}
-					
-					$j++;
+				
 				}
-			
-			}
-			else { 
-				//$rs .= '<td></td>';
-				//$rs .= '<td></td>';
-			}
-			//$rs .= '</tr>';
-			
-			$i++;
-		 }
-		 $rs .= '</tbody>';		
-		 $rs .= '</table>';
+				else { 
+					//$rs .= '<td></td>';
+					//$rs .= '<td></td>';
+				}
+				//$rs .= '</tr>';
+				
+				$i++;
+			 }
+			 $rs .= '</tbody>';		
+			 $rs .= '</table>';
+		}
 		// var_dump($data[0]);die;
 		return $rs;
 	}

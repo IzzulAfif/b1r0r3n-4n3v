@@ -4,6 +4,8 @@
  @date       : 2014-08-12 23:30
  @fungsi	 : general model yang digunakan untuk melakukan query - query sederhana 
  @revision	 :
+	YJS 2014-08-20 --> tambah default value di getWhere, getAll utk param limit & limitid
+					-> tambah default value utk $r di run_sql()
 */
 	
 #akses ke semua tabel di database
@@ -17,7 +19,7 @@ class mgeneral extends CI_Model
 	
 	#querry semua data dalam tabel
 		#ex akses : $this->mgeneral->getAll('nama_tabel');
-	function getAll($tabel, $order_field="", $order_tipe="",$limit,$limitend)
+	function getAll($tabel, $order_field="", $order_tipe="",$limit="",$limitend="")
 	{
 		if($order_field!="" && $order_tipe!=""){ $this->db->order_by($order_field,$order_tipe); }
 		if($limit!="" && $limitend==""){ $this->db->limit($limit,0); }
@@ -27,7 +29,7 @@ class mgeneral extends CI_Model
 	
 	#fungsi untuk melakukan query standar
 		#ex akses : $this->mgeneral->getWhere(array('field1'=>'data','field2'=>'data'),'nama_tabel');
-	function getWhere($where,$tabel,$order_field="",$order_tipe="",$limit,$limitend) {
+	function getWhere($where,$tabel,$order_field="",$order_tipe="",$limit="",$limitend="") {
 		$this->db->where($where);
 		if($order_field!=""){ $this->db->order_by($order_field,$order_tipe); }
 		if($limit!="" && $limitend==""){ $this->db->limit($limit,0); }
@@ -83,6 +85,7 @@ class mgeneral extends CI_Model
 		$sql = "".$query."";
 				
 		$q = $this->db->query($sql);
+		$r=null;
 		if($q->num_rows() > 0){
 			$r = $q->result();
 		}

@@ -30,34 +30,40 @@ class Profil_eselon1 extends CI_Controller {
 	
 	function get_unit_kerja($e1){
 		$data = $this->eselon2->get_all(array("kode_e1"=>$e1));
-		//var_dump($data);
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->nama_e2.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->nama_e2.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_fungsi($tahun,$e1){
 		$data = $this->fungsi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->fungsi_e1.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->fungsi_e1.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_tugas($tahun,$e1){
 		$data = $this->eselon1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
-	
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->tugas_e1.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->tugas_e1.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 

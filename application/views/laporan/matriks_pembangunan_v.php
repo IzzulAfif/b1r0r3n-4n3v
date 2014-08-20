@@ -15,82 +15,58 @@
                          </span>
                     </header>
                     <div class="panel-body">
-                    
-                    <table class="table" border="0">
-					<tr>
-						<td width="200px">Tahun Renstra</td>
-						<td width="5px">:&nbsp;</td>
-						<td>
-							<select id="tahun">
-								<option value="2010-2014">2010-2014</option>
+						<div class="row">
+							<div class="well wellform">
+							<form class="form-horizontal">
+												
+								<p class="text-primary"><b>Kriteria</b></p>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Periode Renstra</label>
+									<div class="col-sm-2">									
+										<?=form_dropdown('periode_renstra',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="periode_renstra" class="form-control input-sm"')?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Rentang Tahun</label>
+									<div class="col-sm-2">									
+										<?=form_dropdown('rentang_awal',array(),'','id="rentang_awal"  class="form-control input-sm"')?>
+										
+									</div>
+									<label class="col-sm-1 control-label" style="text-align:center;width:10px;margin-left:-20px">s.d.</label>
 								
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Nama Kementerian</td>
-						<td>:&nbsp;</td>
-						<td>
-							<select id="kodekl">
-								<option value="-1">--</option>
-								<option value="022">Kementerian Perhubungan</option>
-								
-							</select>
-						</td>
-					</tr>
-                    <tr>
-						<td>Visi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="visi" style="margin-left:-30px;">
-								
+									<div class="col-sm-2">																			
+										<?=form_dropdown('rentang_akhir',array(),'','id="rentang_akhir"  class="form-control input-sm"')?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Kementerian</label>
+									<div class="col-sm-2">									
+										<?=form_dropdown('kl',array("0"=>"Pilih Kementrian","022"=>"Kementerian Perhubungan"),'0','id="kodekl" class="form-control input-sm"')?>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+									 <div class="col-sm-offset-2 col-sm-3">
+										<button type="button" id="btnLoad"  class="btn btn-warning btn-block">
+											<i class="fa fa-play"></i> Tampilkan Data
+										</button>
+									</div>
+								</div>
+							</form>	
+							</div>	
+						</div>	&nbsp;
+						<div class ="row">
+							 <div class="col-sm-13">
+                                    	
+                                        <div class="well wellform">
+                                        	
+                                            <div id="reportKonten">
+                                            </div>
+                                            
+                                        </div>
+                                        
 							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Misi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="misi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Tujuan</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="tujuan" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr> 
-					<tr>
-						<td colspan="3">
-							<div id="sasaran"  class="panel-body" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-						
-					</tr>
-					<tr>
-						<td>Detail Perencanaan</td>
-						<td>:&nbsp;</td>
-						<td>
-							<a href="#" id="klikdisini">Klik Disini</a>
-						</td>
-					</tr>
-					<tr>
-						<td>Program</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="program" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					
-					</table>
+						</div>
                     </div>
                 </section>
             </div>
@@ -102,21 +78,43 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			load_profile = function(){
-				var tahun = $('#tahun').val();
+				var tahun = $('#periode_renstra').val();
 				var kodekl = $('#kodekl').val();
+				var range_awal = $("#rentang_awal").val();
+				var range_akhir = $("#rentang_akhir").val();
 				
-				$("#visi").load("<?=base_url()?>laporan/renstra_kl/get_visi/"+tahun+"/"+kodekl);
-				$("#misi").load("<?=base_url()?>laporan/renstra_kl/get_misi/"+tahun+"/"+kodekl);
-				$("#tujuan").load("<?=base_url()?>laporan/renstra_kl/get_tujuan/"+tahun+"/"+kodekl);
-				$("#sasaran").load("<?=base_url()?>laporan/renstra_kl/get_sasaran/"+tahun+"/"+kodekl);
-				$("#program").load("<?=base_url()?>laporan/renstra_kl/get_program/"+tahun+"/"+kodekl);
+				$("#reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan/get_sasaran/"+tahun+"/"+kodekl+"/"+range_awal+"/"+range_akhir);
+				
 			}
 			
-			 $("#kodekl").change(function(){
+			set_rentang = function(){
+				var periode_renstra = $("#periode_renstra");
+				var range_awal = $("#rentang_awal");
+				var range_akhir = $("#rentang_akhir");
+				range_awal.empty();range_akhir.empty();
+				
+				 if (periode_renstra.val()!=0) {
+					year = periode_renstra.val().split('-');
+					//alert(year[0]);
+					for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+						range_awal.append(new Option(i,i));
+						range_akhir.append(new Option(i,i));
+					}
+				 }
+			}
+			
+			 $("#btnLoad").click(function(){
 				load_profile();
 			}); 
 			
+			$("#periode_renstra").change(function(){
+				set_rentang();
+			}); 
+			
+			
 			$("#klikdisini").click(function(){
+				alert('underconstruction');
+				return;
 				var tahun = $('#tahun').val();
 				var kodekl = $('#kodekl').val();
 				window.open("<?=base_url()?>laporan/renstra_kl/get_detail/"+tahun+"/"+kodekl);

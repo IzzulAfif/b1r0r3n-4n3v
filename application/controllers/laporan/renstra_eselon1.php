@@ -32,34 +32,40 @@ class Renstra_eselon1 extends CI_Controller {
 		
 	function get_visi($tahun,$e1){
 		$data = $this->visi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->visi_e1.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->visi_e1.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_misi($tahun,$e1){
 		$data = $this->misi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->misi_e1.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->misi_e1.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_tujuan($tahun,$e1){
 		$data = $this->tujuan_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->tujuan_e1.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->tujuan_e1.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 
