@@ -16,12 +16,12 @@
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Tahun</label>
-                        <div class="col-md-2"><?=form_dropdown('tahun_awal','','','id="tahun_awal"')?></div>
-                        <div class="col-md-2"><?=form_dropdown('tahun_akhir','','','id="tahun_akhir"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Nama Program</label>
-                        <div class="col-md-7"><?=form_dropdown('nama_program','','','id="nama_program"')?></div>
+                        <div class="col-md-7"><?=form_dropdown('nama_program',array(),'','id="nama_program"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Nama Kegiatan</label>

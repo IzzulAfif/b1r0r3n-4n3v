@@ -46,7 +46,7 @@ class program extends CI_Controller {
 		$row_pagu = '<tbody><tr><td>1. Pagu (Rp.)</td>';
 		$row_realisasi = '<tr><td>2. Realisasi (Rp.)</td>';
 		$row_dayaserap = '<tr><td>3. Daya Serap (Rp.)</td>';
-		$j = 0;
+		$j = 0; $sum_pagu = 0; $sum_realisasi = 0; $sum_dayaserap = 0;
 		$data = $this->program_m->get_realisasi_program($kode_program, $tahun_awal, $tahun_akhir);
 		foreach ($data as $dt) {
 			$table_header .= "<th>".$dt->tahun."</th>";
@@ -66,13 +66,13 @@ class program extends CI_Controller {
 	{
 		$thead = '<thead><th rowspan=2>Sasaran Program</th><th rowspan=2>Indikator</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
-		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0;
+		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $temprow = ''; $sum_program = 0;
 		$data = $this->program_m->get_capaian_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
 		$ldata = sizeof($data);
 		$kd_iku_e1 = '';
 		foreach ($data as $dt) {
 			if ($dt->kode_iku_e1!=$kd_iku_e1)
-				$rowspan[$dt->kode_sp_e1]+=1;
+				$rowspan[$dt->kode_sp_e1]=(!isset($rowspan[$dt->kode_sp_e1]))?1:$rowspan[$dt->kode_sp_e1]+1;
 			$kd_iku_e1 = $dt->kode_iku_e1;
 		}
 
@@ -81,8 +81,8 @@ class program extends CI_Controller {
 				.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
 				.number_format($dt->persen,2,',','.')."</td>"; 
 			$sum_program += $dt->persen; $thn++;
-			$sum_tahun[$dt->tahun] += $dt->persen;			
-			if ($dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
+			$sum_tahun[$dt->tahun] = (!isset($sum_tahun[$dt->tahun]))?$dt->persen:$sum_tahun[$dt->tahun];			
+			if (($j+1==$ldata) || $dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
 				$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
 				$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
 				$thn = 0; $sum_program = 0;

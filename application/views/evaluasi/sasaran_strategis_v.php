@@ -16,12 +16,12 @@
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Tahun</label>
-                        <div class="col-md-2"><?=form_dropdown('tahun_awal','','','id="tahun_awal"')?></div>
-                        <div class="col-md-2"><?=form_dropdown('tahun_akhir','','','id="tahun_akhir"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
+                        <div class="col-md-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
                         </div>
                         <div class="form-group">
                         <label class="col-md-2">Sasaran</label>
-                        <div class="col-md-8"><?=form_dropdown('sasaran','','','id="sasaran"')?></div>
+                        <div class="col-md-8"><?=form_dropdown('sasaran',array(),'','id="sasaran"')?></div>
                         </div>
                     </form>
                     <section class="panel panel-default">
