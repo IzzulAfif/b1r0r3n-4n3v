@@ -9,88 +9,86 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Rencana Strategis Kementerian
-                        <span class="pull-right">
-                            <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
-                         </span>
+                        <b>Rencana Strategis Kementerian</b>
                     </header>
                     <div class="panel-body">
+						<div class="row">
+							<div class="well wellform">
+							<form class="form-horizontal">
+								<p class="text-primary"><b>Kriteria</b></p>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Periode Renstra</label>
+									<div class="col-sm-2">				
+										<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="tahun" class="form-control input-sm"')?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nama Kementerian</label>
+									<div class="col-sm-3">				
+										<?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kodekl" class="form-control input-sm"')?>
+									</div>
+								</div>
+							</form>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<table class="display table" border="0">										
+							<tr>
+								<td class="col-sm-2">Visi</td>
+								<td width="1px">:&nbsp;</td>
+								<td>
+									<div id="visi" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Misi</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="misi" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Tujuan</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="tujuan" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr> 
+							<tr>
+								<td colspan="3">
+									<div id="sasaran"  >
+										
+									</div>
+								</td>
+								
+							</tr>
+							<tr>
+								<td>Detail Perencanaan</td>
+								<td>:&nbsp;</td>
+								<td>
+									<a href="#" id="klikdisini">Klik Disini</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Program</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="program" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							
+							</table>	
+						</div>
                     
-                    <table class="table" border="0">
-					<tr>
-						<td width="200px">Tahun Renstra</td>
-						<td width="5px">:&nbsp;</td>
-						<td>
-							<select id="tahun">
-								<option value="2010-2014">2010-2014</option>
-								
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Nama Kementerian</td>
-						<td>:&nbsp;</td>
-						<td>
-							<select id="kodekl">
-								<option value="-1">--</option>
-								<option value="022">Kementerian Perhubungan</option>
-								
-							</select>
-						</td>
-					</tr>
-                    <tr>
-						<td>Visi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="visi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Misi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="misi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Tujuan</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="tujuan" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr> 
-					<tr>
-						<td colspan="3">
-							<div id="sasaran"  class="panel-body" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-						
-					</tr>
-					<tr>
-						<td>Detail Perencanaan</td>
-						<td>:&nbsp;</td>
-						<td>
-							<a href="#" id="klikdisini">Klik Disini</a>
-						</td>
-					</tr>
-					<tr>
-						<td>Program</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="program" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					
-					</table>
                     </div>
                 </section>
             </div>

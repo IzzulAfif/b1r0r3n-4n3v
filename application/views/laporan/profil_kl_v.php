@@ -9,63 +9,63 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Profil Unit Kerja Kementerian
-                        <span class="pull-right">
-                            <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
-                         </span>
+                        <b>Profil Unit Kerja Kementerian</b>
+                        
                     </header>
                     <div class="panel-body">
-                    
-                    <table class="table" border="0">
-					<tr>
-						<td width="200px">Tahun Renstra</td>
-						<td width="5px">:&nbsp;</td>
-						<td>
-							<select id="tahun">
-								<option value="2010-2014">2010-2014</option>
-								
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Nama Kementerian</td>
-						<td>:&nbsp;</td>
-						<td>
-							<select id="kodekl">
-								<option value="-1">--</option>
-								<option value="022">Kementerian Perhubungan</option>
-								
-							</select>
-						</td>
-					</tr>
-                    <tr>
-						<td>Tugas Pokok</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="tugas" style="margin-left:-30px;">
-								
+						<div class="row">
+							<div class="well wellform">
+							<form class="form-horizontal">
+								<p class="text-primary"><b>Kriteria</b></p>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Periode Renstra</label>
+									<div class="col-sm-2">				
+										<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="tahun" class="form-control input-sm"')?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nama Kementerian</label>
+									<div class="col-sm-3">				
+										<?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kodekl" class="form-control input-sm"')?>
+									</div>
+								</div>
+							</form>
 							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Fungsi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="fungsi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Unit Kerja</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="unitkerja" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					</table>
+						</div>
+						<br>
+						<div class="row">
+							<table class="display table">
+							<tr>
+								<td class="col-sm-2">Tugas Pokok</td>
+								<td width="1px">:&nbsp;</td>
+								<td>
+									<div id="tugas" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Fungsi</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="fungsi" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Unit Kerja</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="unitkerja" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							</table>
+							
+						</div>	
+		
                     </div>
                 </section>
             </div>

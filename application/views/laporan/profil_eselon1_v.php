@@ -9,56 +9,62 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        Profil Unit Kerja Eselon I
-                        <span class="pull-right">
-                            <!--<a href="<?=base_url()?>unit_kerja/eselon1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>-->
-                         </span>
+                        <b>Profil Unit Kerja Eselon I</b>
+                        
                     </header>
                     <div class="panel-body">
+						<div class="row">
+							<div class="well wellform">
+							<form class="form-horizontal">
+								<p class="text-primary"><b>Kriteria</b></p>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Periode Renstra</label>
+									<div class="col-sm-2">				
+										<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="tahun" class="form-control input-sm"')?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nama Unit Kerja</label>
+									<div class="col-sm-5">				
+										<?=form_dropdown('kode_e1',$eselon1,'0','id="kode_e1" class="form-control input-sm"')?>
+									</div>
+								</div>
+							</form>
+							</div>
+						</div>
+						<br>
+						<div class="row">
+							<table class="display table" >					
+					
+							<tr>
+								<td class="col-sm-2">Tugas Pokok</td>
+								<td width="1px">:&nbsp;</td>
+								<td><div id="tugas" style="margin-left:-30px;">
+										
+									</div></td>
+							</tr>
+							<tr>
+								<td>Fungsi</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="fungsi" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Unit Kerja</td>
+								<td>:&nbsp;</td>
+								<td>
+									<div id="unitkerja" style="margin-left:-30px;">
+										
+									</div>
+								</td>
+							</tr>
+							</table>
+						</div>
+						
                     
-                    <table class="table" border="0">
-					<tr>
-						<td width="200px">Tahun Renstra</td>
-						<td width="5px">:&nbsp;</td>
-						<td>
-							<select id="tahun">
-								<option value="2010-2014">2010-2014</option>
-								
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Nama Unit Kerja</td>
-						<td>:&nbsp;</td>
-						<td><?=form_dropdown('kode_e1',$eselon1,'0','id="kode_e1"')?>
-						</td>
-					</tr>
-                    <tr>
-						<td>Tugas Pokok</td>
-						<td>:&nbsp;</td>
-						<td><div id="tugas" style="margin-left:-30px;">
-								
-							</div></td>
-					</tr>
-                    <tr>
-						<td>Fungsi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="fungsi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-                    <tr>
-						<td>Unit Kerja</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="unitkerja" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					</table>
                     </div>
                 </section>
             </div>

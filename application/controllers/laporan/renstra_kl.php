@@ -18,6 +18,7 @@ class Renstra_kl extends CI_Controller {
 		$this->load->model('/perencanaan/program_eselon1_model','program_e1');
 		$this->load->model('/perencanaan/sasaran_strategis_model','sasaran_strategis');
 		$this->load->model('/perencanaan/iku_kl_model','iku_kl');
+		$this->load->model('/laporan/renstra_kl_model','renstra_kl');
 	}	
 	function index()
 	{
@@ -130,7 +131,7 @@ class Renstra_kl extends CI_Controller {
 					//$rs .="<ol>";
 					$j=0;
 					foreach($data_strategis as $ss){					
-						$data_iku = $this->iku_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
+						$data_iku = $this->iku_kl->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
 						$jml_data_iku = count($data_iku);
 						$data[$i]->rowspan += sizeof($data_iku);
 						$data[$i]->strategis[$j]->iku = $data_iku;					
@@ -227,7 +228,7 @@ class Renstra_kl extends CI_Controller {
 					</tr>';
 			$rs .= 	'<tr>';
 				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-						$rs .= 	'<th>'.$colTahun.'</th>';
+						$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
 						
 			$rs .= 	'		</tr></thead>';	
 			$rs .= '<tbody>';		
@@ -242,12 +243,30 @@ class Renstra_kl extends CI_Controller {
 				if ($jml_data_strategis>0){				
 					//$rs .="<ol>";
 					$j=0;
-					foreach($data_strategis as $ss){					
-						$data_iku = $this->iku_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
-						$jml_data_iku = count($data_iku);
-						$data[$i]->rowspan += sizeof($data_iku);
-						$data[$i]->strategis[$j]->iku = $data_iku;					
-						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
+					foreach($data[$i]->strategis as $ss){					
+						$data_iku = $this->renstra_kl->get_indikator(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
+						$kode_iku = '';
+						$data[$i]->strategis[$j]->rowspan =0;
+						if (isset($data_iku)) {
+							$x=0;
+							foreach($data_iku as $iku){
+								if ($kode_iku != $iku->kode_iku_kl){
+									$kode_iku = $iku->kode_iku_kl;
+									$data[$i]->strategis[$j]->iku[$x]->deskripsi = $iku->deskripsi;					
+									$data[$i]->strategis[$j]->iku[$x]->satuan = $iku->satuan;					
+									$data[$i]->strategis[$j]->iku[$x]->target[$iku->tahun] = $iku->target;	
+									$data[$i]->rowspan++;
+									//$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
+									$data[$i]->strategis[$j]->rowspan++;
+									$x++;
+								}
+								else {
+									$data[$i]->strategis[$j]->iku[$x-1]->target[$iku->tahun] = $iku->target;	
+								}
+							}
+						}
+						//$jml_data_iku = count($data_iku);
+						
 						$j++;
 					}			
 				}
@@ -270,15 +289,18 @@ class Renstra_kl extends CI_Controller {
 					$j=0;
 					
 					foreach($data[$i]->strategis as $ss){
-						if ($j==0)
-							$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+						if ($j==0){
+							if ($ss->rowspan==0)
+								$rs .= '<td     valign="top">'.$ss->deskripsi.'</td>';
+							else
+								$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+						}
 						else {
-							
-							
-							//$rs .= '</tr>';
-							$rs .= '<tr>';
-							$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
-						//	$rs .= '<td width="50%"  colspan="2" valign="top">'.$ss->deskripsi.'</td>';
+							$rs .= '<tr>';							
+							if ($ss->rowspan==0)								
+								$rs .= '<td     valign="top">'.$ss->deskripsi.'</td>';
+							else								
+								$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
 						}
 						
 						$jml_data_iku = count($data[$i]->strategis[$j]->iku);
@@ -288,8 +310,11 @@ class Renstra_kl extends CI_Controller {
 								if ($x==0){
 								  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
 								  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
-								  for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-										$rs .= 	'<td align="right">0</td>';
+								  for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){	
+										
+										$realisasi = isset($iku->target[$colTahun])?$iku->target[$colTahun]:'-';
+										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+								  }		
 								  $rs .= '</tr>';
 								}
 								else {
@@ -297,8 +322,10 @@ class Renstra_kl extends CI_Controller {
 									$rs .= '<tr>';
 									$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
 									$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
-									for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-										$rs .= 	'<td align="right">0</td>';
+									for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){	
+										$realisasi = isset($iku->target[$colTahun])?$iku->target[$colTahun]:'-';
+										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+									}
 									$rs .= '</tr>';
 								}
 								$x++;

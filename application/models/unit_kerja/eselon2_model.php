@@ -37,9 +37,10 @@ class Eselon2_model extends CI_Model
 		$result = $this->mgeneral->run_sql($sql);
 		
 		$list[0] = 'Pilih Unit Kerja Eselon II';
-		foreach ($result as $i) {
-			$list[$i->kode_e2] = $i->nama_e2;
-		}
+		if (isset($result))
+			foreach ($result as $i) {
+				$list[$i->kode_e2] = $i->nama_e2;
+			}
 		return $list;
 	}
 

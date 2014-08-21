@@ -20,7 +20,7 @@ class Profil_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file		
-		$data['eselon1'] = $this->eselon1->get_all(array("check_locking"=>true));
+		$data['eselon1'] = $this->eselon1->get_list(array("check_locking"=>true));
 		$template['konten']	= $this->load->view('laporan/profil_eselon2_v',$data,true); #load konten template file
 		
 		#load container for template view
