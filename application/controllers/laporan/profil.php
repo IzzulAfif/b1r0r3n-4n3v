@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
  @author     :  Yusup JS
- @date       : 2014-08-16 00:00
+ @date       : 2014-08-22 00:00
  @revision	 :
 */
 
-class Profil_kl extends CI_Controller {
+class Profil extends CI_Controller {
 	
 	function __construct() 
 	{	
@@ -19,25 +19,12 @@ class Profil_kl extends CI_Controller {
 		#settingan untuk static template file
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
-		//$setting = null;
 		$template			= $this->template->load($setting); #load static template file		
 		$data = null;
-		$template['konten']	= $this->load->view('laporan/profil_kl_v',$data,true); #load konten template file
+		$template['konten']	= $this->load->view('laporan/profil_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
-	}
-	
-	function loadprofile()
-	{
-		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
-		$setting['page']	= array('pg_aktif'	=> "datatables");
-		$template			= $this->template->load_popup($setting); #load static template file		
-		$data = null;
-		echo $this->load->view('laporan/profil_kl_v',$data,true); #load konten template file
-		
-		#load container for template view
-		//$this->load->view('template/container_popup',$template);
 	}
 	
 	

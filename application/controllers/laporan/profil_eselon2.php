@@ -27,6 +27,18 @@ class Profil_eselon2 extends CI_Controller {
 		$this->load->view('template/container',$template);
 	}
 	
+	function loadprofile()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['eselon1'] = $this->eselon1->get_list(array("check_locking"=>true));
+		echo $this->load->view('laporan/profil_eselon2_v',$data,true); #load konten template file
+		
+		#load container for template view
+		//$this->load->view('template/container_popup',$template);
+	}
+	
 	function get_list_eselon1()
 	{
 		$params = array("check_locking"=>true);

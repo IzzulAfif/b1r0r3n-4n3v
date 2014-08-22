@@ -29,6 +29,18 @@ class Renstra_eselon1 extends CI_Controller {
 		$this->load->view('template/container',$template);
 	}
 	
+	function loadprofile()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['eselon1'] = $this->eselon1->get_list(null);
+		echo $this->load->view('laporan/renstra_eselon1_v',$data,true); #load konten template file
+		
+		#load container for template view
+		//$this->load->view('template/container_popup',$template);
+	}
+	
 		
 	function get_visi($tahun,$e1){
 		$data = $this->visi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));

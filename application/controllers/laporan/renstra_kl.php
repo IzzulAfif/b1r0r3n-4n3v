@@ -33,6 +33,18 @@ class Renstra_kl extends CI_Controller {
 		$this->load->view('template/container',$template);
 	}
 	
+	function loadprofile()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data = null;
+		echo $this->load->view('laporan/renstra_kl_v',$data,true); #load konten template file
+		
+		#load container for template view
+		//$this->load->view('template/container_popup',$template);
+	}
+	
 	function get_detail($tahun,$kl)
 	{
 		#settingan untuk static template file

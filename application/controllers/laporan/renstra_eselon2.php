@@ -23,12 +23,23 @@ class Renstra_eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file		
 		$data['eselon1'] = $this->eselon1->get_all(null);
-		$template['konten']	= $this->load->view('laporan/renstr2a_eselon1_v',$data,true); #load konten template file
+		$template['konten']	= $this->load->view('laporan/renstra_eselon2_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
 	}
 	
+	function loadprofile()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['eselon1'] = $this->eselon1->get_list(null);
+		echo $this->load->view('laporan/renstra_eselon2_v',$data,true); #load konten template file
+		
+		#load container for template view
+		//$this->load->view('template/container_popup',$template);
+	}
 		
 	function get_visi($tahun,$e2){
 		$data = $this->visi_e2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
