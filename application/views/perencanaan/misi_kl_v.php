@@ -2,7 +2,7 @@
                    
                     <div class="panel-body">
                      <header class="panel-heading">
-                        Kementerian
+                        Misi Kementerian
                         <span class="pull-right">
                             <a href="<?=base_url()?>unit_kerja/anev_kl/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
                          </span>

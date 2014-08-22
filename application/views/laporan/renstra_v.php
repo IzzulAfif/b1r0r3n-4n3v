@@ -17,11 +17,11 @@
 						<div class="wrap_controls">
 							<ul class="ullist controls " id="myTab" style="margin: 0px; padding: 0px; list-style-type: none;">
 							<li  class="active">
-								<a title="View All" href="#kl-content" id="ullist_a_all" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"> <span>Kementerian</span></a>
+								<a title="Rencana Strategis Kementerian" href="#kl-content" id="ullist_a_all" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"> <span>Kementerian</span></a>
 							</li>
-							<li class=""><a title="Title A2" href="#e1-content" id="ullist_a_1" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Eselon I</span></a>
+							<li class=""><a title="Rencana Strategis Eselon I" href="#e1-content" id="ullist_a_1" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Eselon I</span></a>
 							</li>
-							<li class=""><a title="Title B2" href="#e2-content" id="ullist_a_2" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Eselon II</span></a>
+							<li class=""><a title="Rencana Strategis Eselon II" href="#e2-content" id="ullist_a_2" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Eselon II</span></a>
 							</li>							
 							</ul>
 							<div class="tab-content" id="myTabContent">
