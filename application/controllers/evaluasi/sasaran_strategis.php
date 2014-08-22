@@ -41,44 +41,46 @@ class sasaran_strategis extends CI_Controller {
 		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
 		$ldata = sizeof($data);
 		$kd_iku_kl = '';
-		foreach ($data as $dt) {
-			if ($dt->kode_iku_kl!=$kd_iku_kl)
-				$rowspan[$dt->kode_ss_kl] = (!isset($rowspan[$dt->kode_ss_kl]))?1:$rowspan[$dt->kode_ss_kl]+1;
-			$kd_iku_kl = $dt->kode_iku_kl;
-		}
-		//die();
-
-		foreach ($data as $dt) {
-			$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
-				.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
-				.number_format($dt->persen,2,',','.')."</td>"; 
-			$sum_program += $dt->persen; $thn++;
-			$sum_tahun[$dt->tahun] = $dt->persen;			
-			//if ($j+1<$ldata) {
-
-				if (($j+1==$ldata)||$dt->kode_iku_kl!=$data[$j+1]->kode_iku_kl) {
-					$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-					$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
-					$thn = 0; $sum_program = 0;
-					$detailrow = $this->get_row_detail_capaian_kinerja($tahun_awal, $tahun_akhir, $dt->kode_iku_kl, $dt->kode_ss_kl);
-					$rowspan[$dt->kode_ss_kl]+=$detailrow[0];
-					if ($firstrow==1) $temprow = $dt->deskripsi.'</td>'.$temprow;
-						else $temprow ='<tr>'.$temprow;
-					$rowsection .= $temprow.$detailrow[1];
-					$temprow = '';
-					$firstrow++;
-					$countrow++;
-				}
-			//}
-			if (($j+1==$ldata) || ($dt->kode_ss_kl!= $data[$j+1]->kode_ss_kl)) { 
-				$firstrow = 1;
-				$rowsection = '<tr><td rowspan='.$rowspan[$dt->kode_ss_kl].' id='.str_replace(".", "",$dt->kode_ss_kl).'>'.$rowsection;
-				$tbody .= $rowsection;
-				$rowsection = '';
-
+		if ($ldata!=0) {
+			foreach ($data as $dt) {
+				if ($dt->kode_iku_kl!=$kd_iku_kl)
+					$rowspan[$dt->kode_ss_kl] = (!isset($rowspan[$dt->kode_ss_kl]))?1:$rowspan[$dt->kode_ss_kl]+1;
+				$kd_iku_kl = $dt->kode_iku_kl;
 			}
-			//}
-			$j++;
+			//die();
+
+			foreach ($data as $dt) {
+				$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
+					.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
+					.number_format($dt->persen,2,',','.')."</td>"; 
+				$sum_program += $dt->persen; $thn++;
+				$sum_tahun[$dt->tahun] = $dt->persen;			
+				//if ($j+1<$ldata) {
+
+					if (($j+1==$ldata)||$dt->kode_iku_kl!=$data[$j+1]->kode_iku_kl) {
+						$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
+						$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
+						$thn = 0; $sum_program = 0;
+						$detailrow = $this->get_row_detail_capaian_kinerja($tahun_awal, $tahun_akhir, $dt->kode_iku_kl, $dt->kode_ss_kl);
+						$rowspan[$dt->kode_ss_kl]+=$detailrow[0];
+						if ($firstrow==1) $temprow = $dt->deskripsi.'</td>'.$temprow;
+							else $temprow ='<tr>'.$temprow;
+						$rowsection .= $temprow.$detailrow[1];
+						$temprow = '';
+						$firstrow++;
+						$countrow++;
+					}
+				//}
+				if (($j+1==$ldata) || ($dt->kode_ss_kl!= $data[$j+1]->kode_ss_kl)) { 
+					$firstrow = 1;
+					$rowsection = '<tr><td rowspan='.$rowspan[$dt->kode_ss_kl].' id='.str_replace(".", "",$dt->kode_ss_kl).'>'.$rowsection;
+					$tbody .= $rowsection;
+					$rowsection = '';
+
+				}
+				//}
+				$j++;
+			}
 		}
 		$tbody .= '<tr><td colspan=3>Rata-rata Capaian Kinerja / Tahun</td>';
 		$temp_thead = '<tr>';
@@ -94,12 +96,12 @@ class sasaran_strategis extends CI_Controller {
 	}
 
 	private function get_row_detail_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_iku_kl, $kode_ss_kl){
-		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = []; $colspan = []; $temprow = ''; $tablerow = '';
+		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = array(); $colspan = array(); $temprow = ''; $tablerow = '';
 		$data = $this->sasaran_strategis_m->get_detail_capaian_kinerja($kode_iku_kl, $tahun_awal, $tahun_akhir, $kode_ss_kl);
 		$ldata = sizeof($data);
 		$temptahun = ''; $kd_iku_e1='';
 		foreach ($data as $dt) {
-			if ($dt->tahun!=$temptahun)
+			if ($dt->kode_iku_e1!=$kd_iku_e1 || $dt->tahun!=$temptahun)
 				$colspan[$dt->kode_iku_e1]=(!isset($colspan[$dt->kode_iku_e1]))?3:$colspan[$dt->kode_iku_e1]+3;
 			$temptahun = $dt->tahun;
 			if ($dt->kode_iku_e1!=$kd_iku_e1)

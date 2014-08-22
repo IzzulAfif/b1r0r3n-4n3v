@@ -48,12 +48,14 @@ class program extends CI_Controller {
 		$row_dayaserap = '<tr><td>3. Daya Serap (Rp.)</td>';
 		$j = 0; $sum_pagu = 0; $sum_realisasi = 0; $sum_dayaserap = 0;
 		$data = $this->program_m->get_realisasi_program($kode_program, $tahun_awal, $tahun_akhir);
-		foreach ($data as $dt) {
-			$table_header .= "<th>".$dt->tahun."</th>";
-			$row_pagu .= '<td>'.number_format($dt->pagu,2,',','.').'</td>'; $sum_pagu += $dt->pagu;
-			$row_realisasi .= '<td>'.number_format($dt->realisasi,2,',','.').'</td>'; $sum_realisasi += $dt->realisasi;
-			$row_dayaserap .= '<td>'.number_format($dt->persen,2,',','.').'</td>'; $sum_dayaserap += $dt->persen;
-			$j++;
+		if (sizeof($data)>0) {
+			foreach ($data as $dt) {
+				$table_header .= "<th>".$dt->tahun."</th>";
+				$row_pagu .= '<td>'.number_format($dt->pagu,2,',','.').'</td>'; $sum_pagu += $dt->pagu;
+				$row_realisasi .= '<td>'.number_format($dt->realisasi,2,',','.').'</td>'; $sum_realisasi += $dt->realisasi;
+				$row_dayaserap .= '<td>'.number_format($dt->persen,2,',','.').'</td>'; $sum_dayaserap += $dt->persen;
+				$j++;
+			}
 		}
 		$table_header .= '<th>Rata-rata</th><th></th><thead>';
 		$row_pagu .= '<td>'.number_format(($sum_pagu/$j),2,',','.').'</td><td></td></tr>';
@@ -70,31 +72,33 @@ class program extends CI_Controller {
 		$data = $this->program_m->get_capaian_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
 		$ldata = sizeof($data);
 		$kd_iku_e1 = '';
-		foreach ($data as $dt) {
-			if ($dt->kode_iku_e1!=$kd_iku_e1)
-				$rowspan[$dt->kode_sp_e1]=(!isset($rowspan[$dt->kode_sp_e1]))?1:$rowspan[$dt->kode_sp_e1]+1;
-			$kd_iku_e1 = $dt->kode_iku_e1;
-		}
-
-		foreach ($data as $dt) {
-			$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
-				.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
-				.number_format($dt->persen,2,',','.')."</td>"; 
-			$sum_program += $dt->persen; $thn++;
-			$sum_tahun[$dt->tahun] = (!isset($sum_tahun[$dt->tahun]))?$dt->persen:$sum_tahun[$dt->tahun];			
-			if (($j+1==$ldata) || $dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
-				$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-				$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
-				$thn = 0; $sum_program = 0;
-				if ($firstrow==1) $temprow = '<tr><td rowspan='.($rowspan[$dt->kode_sp_e1]).'>'.$dt->deskripsi.'</td>'.$temprow;
-					else $temprow ='<tr>'.$temprow;
-				$tbody .= $temprow;
-				$temprow = '';
-				$firstrow++;
-				$countrow++;
+		if ($ldata>0) {
+			foreach ($data as $dt) {
+				if ($dt->kode_iku_e1!=$kd_iku_e1)
+					$rowspan[$dt->kode_sp_e1]=(!isset($rowspan[$dt->kode_sp_e1]))?1:$rowspan[$dt->kode_sp_e1]+1;
+				$kd_iku_e1 = $dt->kode_iku_e1;
 			}
-			if (($j+1==$ldata) || ($dt->kode_sp_e1!= $data[$j+1]->kode_sp_e1)) $firstrow = 1;
-			$j++;
+
+			foreach ($data as $dt) {
+				$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
+					.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
+					.number_format($dt->persen,2,',','.')."</td>"; 
+				$sum_program += $dt->persen; $thn++;
+				$sum_tahun[$dt->tahun] = (!isset($sum_tahun[$dt->tahun]))?$dt->persen:$sum_tahun[$dt->tahun];			
+				if (($j+1==$ldata) || $dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
+					$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
+					$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
+					$thn = 0; $sum_program = 0;
+					if ($firstrow==1) $temprow = '<tr><td rowspan='.($rowspan[$dt->kode_sp_e1]).'>'.$dt->deskripsi.'</td>'.$temprow;
+						else $temprow ='<tr>'.$temprow;
+					$tbody .= $temprow;
+					$temprow = '';
+					$firstrow++;
+					$countrow++;
+				}
+				if (($j+1==$ldata) || ($dt->kode_sp_e1!= $data[$j+1]->kode_sp_e1)) $firstrow = 1;
+				$j++;
+			}
 		}
 		$tbody .= '<tr><td colspan=3>Rata-rata Capaian Kinerja / Tahun</td>';
 		$temp_thead = '<tr>';
