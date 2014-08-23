@@ -3,49 +3,37 @@
         <section class="wrapper">
         <!-- page start-->
 		
-        <?=$this->session->flashdata('msg')?>
-                
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        <b>Profil Unit Kerja</b>
-                        
-                    </header>
-					<div class="panel-body">
-					<div id="controls-tabs">
-						<div class="wrap_controls">
-							<ul class="ullist controls " id="myTab" style="margin: 0px; padding: 0px; list-style-type: none;">
-							<li  class="active">
-								<a title="Profil Kementerian" href="#kl-content" id="ullist_a_all" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"> <span>Kementerian</span></a>
-							</li>
-							<li class=""><a title="Profil Eselon I" href="#e1-content" id="ullist_a_1" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Eselon I</span></a>
-							</li>
-							<li class=""><a title="Profil Eselon II" href="#e2-content" id="ullist_a_2" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Eselon II</span></a>
-							</li>							
-							</ul>
-							<div class="tab-content" id="myTabContent">
-									
-								<div class="panel-body tab-pane fade active in" id="kl-content">						
-							
-								</div>
-								<div class="panel-body tab-pane fade" id="e1-content">						
-							
-								</div>
-								<div class="panel-body tab-pane fade" id="e2-content">						
-							
-								</div>
-								
-							
-							</div>
-						</div>
-					</div>
-					</div>				
-					
-				
-                </section>
-            </div>
-        </div>
+       <!--tab nav start-->
+            <section class="panel">
+                <header class="panel-heading tab-bg-light tab-right ">
+                	<p class="pull-left"><b>Profil Unit Kerja</b></p>
+                    <ul class="nav nav-tabs pull-right">
+                        <li class="active">
+                            <a data-toggle="tab" href="#kl-content">
+                               <i class="fa fa-list-ol"></i> Kementerian
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#e1-content">
+                                <i class="fa fa-bar-chart-o"></i> Eselon I
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#e2-content">
+                                <i class="fa fa-align-center"></i> Eselon II
+                            </a>
+                        </li>                        
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="tab-content">
+                      	<div class="panel-body tab-pane fade active in" id="kl-content"></div>
+						<div class="panel-body tab-pane fade" id="e1-content"></div>
+						<div class="panel-body tab-pane fade" id="e2-content"></div>
+                </div>
+            </section>
+            <!--tab nav end-->
+       
         </section>
     </section>
     <!--main content end-->
@@ -56,10 +44,6 @@
 			$("#kl-content").load("<?=base_url()?>laporan/profil_kl/loadprofile");
 			$("#e1-content").load("<?=base_url()?>laporan/profil_eselon1/loadprofile");
 			$("#e2-content").load("<?=base_url()?>laporan/profil_eselon2/loadprofile");
-			$('#myTab a').click(function (e) {
-				e.preventDefault();
-				$(this).tab('show');
-			})
-			$('#myTab a:first').tab('show'); // Select first tab
+			
 		});
 	</script>

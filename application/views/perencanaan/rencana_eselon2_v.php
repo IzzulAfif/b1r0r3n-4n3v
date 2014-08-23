@@ -3,52 +3,44 @@
         <section class="wrapper">
         <!-- page start-->
 		
-        <?=$this->session->flashdata('msg')?>
+       <!--tab nav start-->
+            <section class="panel">
+                <header class="panel-heading tab-bg-light tab-right ">
+                	<p class="pull-left"><b>Perencanaan Eselon II</b></p>
+                    <ul class="nav nav-tabs pull-right">
+                        <li class="active">
+                            <a data-toggle="tab" href="#visi-content">
+                               <i class="fa fa-list-ol"></i> Visi
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#misi-content">
+                                <i class="fa fa-bar-chart-o"></i> Misi
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#tujuan-content">
+                                <i class="fa fa-align-center"></i> Tujuan
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#sasaran-content">
+                                <i class="fa fa-clipboard"></i> Sasaran
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="tab-content">
+                       <div class="panel-body tab-pane fade active in" id="visi-content"></div>
+								<div class="panel-body tab-pane fade" id="misi-content"></div>
+								<div class="panel-body tab-pane fade" id="tujuan-content"></div>
+								<div class="panel-body tab-pane fade" id="sasaran-content"></div>
+                </div>
+            </section>
+            <!--tab nav end-->
                 
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        <b>Perencanaan Eselon II</b>
-                        
-                    </header>
-					<div class="panel-body">
-					<div id="controls-tabs">
-						<div class="wrap_controls">
-							<ul class="ullist controls " id="myTab" style="margin: 0px; padding: 0px; list-style-type: none;">
-							<li  class="active">
-								<a title="Visi Eselon II<" href="#visi-content" id="ullist_a_all" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"> <span>Visi</span></a>
-							</li>
-							<li class=""><a title="Misi Eselon II<" href="#misi-content" id="ullist_a_1" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Misi</span></a>
-							</li>
-							<li class=""><a title="Tujuan Eselon II<" href="#tujuan-content" id="ullist_a_2" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Tujuan</span></a></li>							
-							<li class=""><a title="Sasaran Eselon I<" href="#sasaran-content" id="ullist_a_2" data-toggle="tab"  style="color: rgb(102, 102, 102); display: block; padding: 5px; font-size: inherit; text-decoration: none;"><span>Sasaran</span></a></li>							
-							</ul>
-							<div class="tab-content" id="myTabContent">
-									
-								<div class="panel-body tab-pane fade active in" id="visi-content">						
-							
-								</div>
-								<div class="panel-body tab-pane fade" id="misi-content">						
-							
-								</div>
-								<div class="panel-body tab-pane fade" id="tujuan-content">						
-							
-								</div>
-								<div class="panel-body tab-pane fade" id="sasaran-content">						
-							
-								</div>
-								
-							
-							</div>
-						</div>
-					</div>
-					</div>				
-					
-				
-                </section>
-            </div>
-        </div>
+       
         </section>
     </section>
     <!--main content end-->
@@ -60,10 +52,6 @@
 			$("#misi-content").load("<?=base_url()?>perencanaan/rencana_eselon2/loadmisi");
 			$("#tujuan-content").load("<?=base_url()?>perencanaan/rencana_eselon2/loadtujuan");
 			$("#sasaran-content").load("<?=base_url()?>perencanaan/rencana_eselon2/loadsasaran");
-			$('#myTab a').click(function (e) {
-				e.preventDefault();
-				$(this).tab('show');
-			})
-			$('#myTab a:first').tab('show'); // Select first tab
+			
 		});
 	</script>
