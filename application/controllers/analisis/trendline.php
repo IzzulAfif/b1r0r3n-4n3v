@@ -15,6 +15,13 @@ class Trendline extends CI_Controller {
 	
 	function index()
 	{
+		$data['kl']			= $this->mgeneral->getAll("anev_kl");
+		$data['esselon1']	= $this->mgeneral->getAll("anev_eselon1");
+		$this->load->view('analisis/trendline',$data);
+	}
+	
+	function eselon1()
+	{
 		#settingan untuk static template file
 		$setting['sd_left']	= array('cur_menu'	=> "ANALISIS");
 		$setting['page']	= array('pg_aktif'	=> "chart");

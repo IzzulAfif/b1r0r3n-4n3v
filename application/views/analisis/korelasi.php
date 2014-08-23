@@ -1,173 +1,176 @@
-
-    <section id="main-content" class="">
-        <section class="wrapper">
-        
-        	<div class="row">
-                <div class="col-lg-12">
-                        
-                        <section class="panel">
-                            <header class="panel-heading">
-                                <b>Analisis korelasi capaian indikator sasaran strategis dan program</b>
-                            </header>
-                            <div class="panel-body">
-                                
-                                <div class="row">
-                                	<div class="col-sm-2">
-                                    	Unit Kerja
-                                    </div>
-                                    <div class="col-sm-10">
-                                    	<select name="unit_kerja" id="unit_kerja" class="populate" style="width:100%">
-                                        	<option value="">Pilih Unit Kerja</option>
-                                        	<?php foreach($kl as $k): ?>
-                                            	<option value="<?=$k->kode_kl?>"><?=$k->nama_kl?></option>
-                                            <?php endforeach; ?>
-                                            <?php foreach($esselon1 as $es1): ?>
-                                            	<option value="<?=$es1->kode_e1?>"><?=$es1->nama_e1?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <br />
-                                
-                                <div class="row">
-                                
-                                	<div class="col-sm-4">
-                                    	
-                                        <div class="well wellform">
-                                        	<form class="form-horizontal">
-                                            
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Tahun</label>
-                                                <div class="col-sm-9">
-                                                    <select name="tahun" id="tahun" class="populate" style="width:100%">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            
-                                            
-                                            <p class="text-primary"><b>Sasaran dan Indikator 1</b></p>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Sasaran</label>
-                                                <div class="col-sm-9">
-                                                    <select name="sasaran" id="sasaran" class="populate" style="width:100%">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Indikator</label>
-                                                <div class="col-sm-9">
-                                                    <select name="indikator" id="indikator" class="populate" style="width:100%">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Satuan</label>
-                                                <div class="col-sm-9">
-                                                    <label class="control-label" id="satuan"></label>
-                                                </div>
-                                            </div>
-                                            
-                                            <p class="text-primary"><b>Sasaran dan Indikator 2</b></p>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Sasaran</label>
-                                                <div class="col-sm-9">
-                                                    <select name="sasaran2" id="sasaran2" class="populate" style="width:100%">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Indikator</label>
-                                                <div class="col-sm-9">
-                                                    <select name="indikator2" id="indikator2" class="populate" style="width:100%">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Satuan</label>
-                                                <div class="col-sm-9">
-                                                    <label class="control-label" id="satuan2"></label>
-                                                </div>
-                                            </div>
-                                            
-                                            <p class="text-primary"><b>Rata-rata Realisasi</b></p>
-                                            <div class="row">
-                                            	<div class="col-sm-6">Axis X : 163</div>
-                                                <div class="col-sm-6">Axis Y : 140</div>
-                                            </div><br />
-                                            
-                                            <p class="text-primary"><b>Perbesaran</b></p>
-                                            <div class="form-group">
-                                                <label class="col-sm-5 control-label">Zoom Sumbu X</label>
-                                                <div class="col-sm-7">
-                                                    <div id="spinner4">
-                                                        <div class="input-group" style="width:150px;">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-up btn-primary btn-sm">
-                                                                    <i class="fa fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <input type="text" class="spinner-input form-control input-sm" value="100%">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-down btn-warning btn-sm">
-                                                                    <i class="fa fa-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-5 control-label">Zoom Sumbu Y</label>
-                                                <div class="col-sm-7">
-                                                    <div id="spinner4">
-                                                        <div class="input-group" style="width:150px;">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-up btn-primary btn-sm">
-                                                                    <i class="fa fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <input type="text" class="spinner-input form-control input-sm" value="100%">
-                                                            <div class="spinner-buttons input-group-btn">
-                                                                <button type="button" class="btn spinner-down btn-warning btn-sm">
-                                                                    <i class="fa fa-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br />
-                                            <div class="row">
-                                            	<button type="button" class="btn btn-warning btn-block">
-                                                	<i class="fa fa-play"></i> Tampilkan Grafik
-                                            	</button>
-                                            </div>
-                                                                                   
-                                            </form>
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                    <div class="col-sm-8">
-                                    	
-                                        <div class="well wellform">
-                                        	
-                                            <div id="chartKonten">
-                                            </div>
-                                            
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                </div>
-    
-                            </div>
-                        </section>
-    
+	
+    <div class="feed-box">
+     <form class="form-horizontal">
+        <section class="panel tab-bg-form">
+            <div class="panel-body">
+               
+                <div class="corner-ribon blue-ribon">
+                   <i class="fa fa-cog"></i>
                 </div>
-        	</div>
-        </section>
-    </section>
+                
+                <div class="row">
+                		
+                     <div class="col-sm-4">
+                     	<p class="text-primary"><b>Periode Renstra</b></p>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Unit Kerja</label>
+                            <div class="col-sm-7">
+                                <select name="unit_kerja" id="unit_kerja" class="populate" style="width:100%">
+                                    <option value="">Pilih Unit Kerja</option>
+                                    <?php foreach($esselon1 as $es1): ?>
+                                        <option value="<?=$es1->kode_e1?>"><?=$es1->nama_e1?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Periode renstra </label>
+                            <div class="col-sm-7">
+                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Rentang Tahun</label>
+                            <div class="col-sm-3">
+                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                     </div>
+                     
+                     <div class="col-sm-4">
+                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator 1</b></p>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Sasaran</label>
+                            <div class="col-sm-9">
+                                <select name="sasaran" id="sasaran" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Indikator</label>
+                            <div class="col-sm-9">
+                                <select name="indikator" id="indikator" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Satuan</label>
+                            <div class="col-sm-9">
+                                <label class="control-label" id="satuan"></label>
+                            </div>
+                        </div>
+                     </div>
+                     
+                     <div class="col-sm-4">
+                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator 2</b></p>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Sasaran</label>
+                            <div class="col-sm-9">
+                                <select name="sasaran2" id="sasaran2" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Indikator</label>
+                            <div class="col-sm-9">
+                                <select name="indikator2" id="indikator2" class="populate" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Satuan</label>
+                            <div class="col-sm-9">
+                                <label class="control-label" id="satuan2"></label>
+                            </div>
+                        </div>
+                     </div>
+                        	
+                </div>
+                
+                <hr />
+                
+                <div class="row">
+                	
+                    <div class="col-sm-4"><label class="col-sm-12 control-label">Perbesaran</label></div>
+                    <div class="col-sm-4">
+                    	 <div class="form-group">
+                            <label class="col-sm-5 control-label">Zoom Sumbu X</label>
+                            <div class="col-sm-7">
+                                <div id="spinner4">
+                                    <div class="input-group" style="width:150px;">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-up btn-primary btn-sm">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="spinner-input form-control input-sm" value="100%">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-down btn-warning btn-sm">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                    	<div class="form-group">
+                            <label class="col-sm-5 control-label">Zoom Sumbu Y</label>
+                            <div class="col-sm-7">
+                                <div id="spinner4">
+                                    <div class="input-group" style="width:150px;">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-up btn-primary btn-sm">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="spinner-input form-control input-sm" value="100%">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-down btn-warning btn-sm">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <hr />
+                
+                <div class="row">
+                	<div class="col-sm-10">
+                    	<p>Rata-rata Realisasi : Axis X : 163 - Axis Y : 140</p>
+                    </div>
+                	<div class="col-sm-2">
+                    	<button type="button" class="btn btn-info">
+                            <i class="fa fa-play"></i> Tampilkan Grafik
+                        </button>
+                    </div>
+                </div>
+                
+             </div>
+         </section>
+     </form>
+   </div>	
+    
+	<div class="well wellform">
+                    
+        <div id="chartKontenKorelasi">
+        </div>
+        
+    </div>
+    
     <script type="text/javascript">
 		
 			var chart;
@@ -273,7 +276,7 @@
 				
 				chart = new Highcharts.Chart({
 					chart: {
-						renderTo: 'chartKonten',
+						renderTo: 'chartKontenKorelasi',
 						type: 'scatter',
 						zoomType: 'xy',
 						marginTop: 80,

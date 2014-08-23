@@ -15,16 +15,8 @@ class sasaran_strategis extends CI_Controller {
 
 	function index()
 	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "EVALUASI");
-		$setting['page']	= array('pg_aktif'	=> "datatables");
-		$template			= $this->template->load($setting); #load static template file
-		
-		$data['renstra']	= $this->sasaran_strategis_m->get_renstra_list();;#kirim data ke konten file
-		$template['konten']	= $this->load->view('evaluasi/sasaran_strategis_v',$data,true); #load konten template file
-		
-		#load container for template view
-		$this->load->view('template/container',$template);
+		$data['renstra']	= $this->sasaran_strategis_m->get_renstra_list();
+		$this->load->view('evaluasi/sasaran_strategis_v',$data);
 	}
 	
 	function get_sasaran($tahun_renstra)
@@ -36,7 +28,7 @@ class sasaran_strategis extends CI_Controller {
 	{
 		$thead = '<thead><th rowspan=2>Sasaran Strategis</th><th rowspan=2>Indikator</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
-		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = []; $temprow = '';
+		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = ""; $temprow = '';
 		$sum_program = 0; $rowsection = '';
 		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
 		$ldata = sizeof($data);

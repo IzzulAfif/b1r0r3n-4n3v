@@ -2,6 +2,7 @@
     "use strict";
     $(document).ready(function () {
         /*==Left Navigation Accordion ==*/
+		
         if ($.fn.dcAccordion) {
             $('#nav-accordion').dcAccordion({
                 eventType: 'click',
@@ -282,9 +283,7 @@
         // popovers
 
         $('.popovers').popover();
-
-
+	
     });
-
 
 })(jQuery);

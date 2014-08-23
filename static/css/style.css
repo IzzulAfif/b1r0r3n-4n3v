@@ -2932,12 +2932,35 @@ ul.amounts li {
     -webkit-border-radius:5px 5px 0 0;
     border-bottom:none;
 }
-
 .tab-bg-dark-navy-blue li a:hover, .tab-bg-dark-navy-blue li.active a {
     border-radius: 0 !important;
     background: #fff !important;
     color: #1FB5AD !important;
 }
+
+.tab-bg-light ul>li>a {
+    display:block;
+    padding:20px 15px !important;
+}
+.tab-bg-light {
+    background:#C7E6E0 !important;
+    border-radius:5px 5px 0 0;
+    -webkit-border-radius:5px 5px 0 0;
+    border-bottom:none;
+}
+
+.tab-bg-light li a:hover, tab-bg-light li.active a {
+    border-radius: 0 !important;
+    background: #fff !important;
+    color: #1FB5AD !important;
+}
+
+.tab-bg-form {
+    background:#f1f2f7 !important;
+    border-radius:3px;
+    -webkit-border-radius:3px;
+}
+
 .panel-heading .nav>li>a,.panel-heading .nav>li.active>a,.panel-heading .nav>li.active>a:hover,.panel-heading .nav>li.active>a:focus {
     border-width:0;
     border-radius:0;

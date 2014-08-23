@@ -1,29 +1,41 @@
-<!--main content start-->
-    <section id="main-content">
-        <section class="wrapper">
-        <!-- page start-->
-        
-        <?=$this->session->flashdata('msg')?>
-                <section class="panel panel-primary">
-                    <header class="panel-heading">
-                        <h3 class="panel-title">EVALUASI SASARAN STRATEGIS</h3>
-                    </header>
-                    <div class="panel-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                        <label class="col-md-2">Periode Renstra</label>
-                        <div class="col-md-2"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
+	
+    <div class="feed-box">
+        <section class="panel tab-bg-form">
+            <div class="panel-body">
+               
+                <div class="corner-ribon blue-ribon">
+                   <i class="fa fa-cog"></i>
+                </div>
+                <form class="form-horizontal" role="form">
+                        
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <div class="col-md-2">
+                            <?=form_dropdown('renstra',$renstra,'0','id="renstra"')?>
                         </div>
-                        <div class="form-group">
-                        <label class="col-md-2">Tahun</label>
-                        <div class="col-md-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
-                        <div class="col-md-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Rentang Tahun</label>
+                        <div class="col-md-2">
+                            <?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?>
                         </div>
-                        <div class="form-group">
-                        <label class="col-md-2">Sasaran</label>
-                        <div class="col-md-8"><?=form_dropdown('sasaran',array(),'','id="sasaran"')?></div>
+                        <div class="col-md-2">
+                            <?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?>
                         </div>
-                    </form>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Sasaran Strategis</label>
+                        <div class="col-md-9">
+                            <?=form_dropdown('sasaran',array(),'','id="sasaran"')?>
+                        </div>
+                    </div>
+                        
+                </form>
+            </div>
+        </section>
+    </div>
+    
                     <section class="panel panel-default">
                     <div class="panel-heading">Capaian Kinerja</div>
                     <div class="panel-body">
@@ -35,16 +47,13 @@
                     </div>
                     </section>
                     </div>
-                </section>
-        </section>
-    </section>
+                    
     <!--main content end-->
     <style type="text/css">
         select {width:100%;}
         tr.detail_toggle{display: none;}
     </style>
     <!--js-->
-    <script src="<?=base_url("static")?>/js/jquery.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
         $('select').select2({minimumResultsForSearch: -1, width:'resolve'});
