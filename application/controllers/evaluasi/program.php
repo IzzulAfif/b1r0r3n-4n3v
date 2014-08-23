@@ -15,16 +15,8 @@ class program extends CI_Controller {
 
 	function index()
 	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "EVALUASI");
-		$setting['page']	= array('pg_aktif'	=> "datatables");
-		$template			= $this->template->load($setting); #load static template file
-		
-		$data['renstra']	= $this->program_m->get_renstra_list();;#kirim data ke konten file
-		$template['konten']	= $this->load->view('evaluasi/program_v',$data,true); #load konten template file
-		
-		#load container for template view
-		$this->load->view('template/container',$template);
+		$data['renstra']	= $this->program_m->get_renstra_list();
+		$this->load->view('evaluasi/program_v',$data);
 	}
 	
 	function get_program($tahun_awal, $tahun_akhir)

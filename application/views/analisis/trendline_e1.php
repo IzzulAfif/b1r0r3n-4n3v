@@ -12,12 +12,12 @@
                 	<div class="col-sm-4">
                     	<p class="text-primary"><b>Periode Renstra</b></p>
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Kementerian </label>
+                            <label class="col-sm-5 control-label">Unit Kerja</label>
                             <div class="col-sm-7">
                                 <select name="unit_kerja" id="unit_kerja" class="populate" style="width:100%">
-                                    <option value="">Pilih Kementerian</option>
-                                    <?php foreach($kl as $k): ?>
-                                        <option value="<?=$k->kode_kl?>"><?=$k->nama_kl?></option>
+                                    <option value="">Pilih Unit Kerja</option>
+                                    <?php foreach($esselon1 as $es1): ?>
+                                        <option value="<?=$es1->kode_e1?>"><?=$es1->nama_e1?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -47,7 +47,7 @@
                     
                     <div class="col-sm-4">
                     	
-                        <p class="text-primary"><b>Sasaran Strategis dan Indikator</b></p>
+                        <p class="text-primary"><b>Sasaran Program dan Indikator</b></p>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Sasaran</label>
                             <div class="col-sm-9">

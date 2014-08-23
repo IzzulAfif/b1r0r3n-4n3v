@@ -11,10 +11,16 @@ class Korelasi extends CI_Controller {
 	{	
 		parent::__construct();
 	}
+	
 	function index()
 	{
 		$data['kl']			= $this->mgeneral->getAll("anev_kl");
-		$data['esselon1']	= $this->mgeneral->getAll("anev_eselon1");
 		$this->load->view('analisis/korelasi',$data);
+	}
+	
+	function eselon1()
+	{
+		$data['esselon1']	= $this->mgeneral->getAll("anev_eselon1");
+		$this->load->view('analisis/korelasi_e1',$data);
 	}
 }

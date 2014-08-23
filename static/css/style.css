@@ -3065,6 +3065,20 @@ ul.amounts li {
 .sm-input {
     width:175px;
 }
+.form-horizontal.grid-form .form-group {
+    border-bottom:1px solid #ffffff;
+    padding-bottom:8px;
+    margin-bottom:8px;
+}
+.form-horizontal.grid-form .form-group:last-child {
+    border-bottom:none;
+    padding-bottom:0px;
+    margin-bottom:0px;
+}
+.form-horizontal.grid-form .form-group .help-block {
+    margin-bottom:0;
+}
+
 .form-horizontal.bucket-form .form-group {
     border-bottom:1px solid #eff2f7;
     padding-bottom:15px;

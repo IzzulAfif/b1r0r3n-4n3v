@@ -36,17 +36,21 @@
         </section>
     </div>
     
-                    <section class="panel panel-default">
-                    <div class="panel-heading">Capaian Kinerja</div>
-                    <div class="panel-body">
-                    <div class="adv-table">
-                    <table  class="display table table-bordered table-striped" id="tabel_capaian">
-                    </table>
-
-                    </div>
-                    </div>
-                    </section>
-                    </div>
+    <div class="feed-box hide" id="box-result">
+        <section class="panel tab-bg-form" style="background-color:#F9F9F9">
+            <div class="panel-body">
+               
+                <div class="corner-ribon black-ribon">
+                   <i class="fa fa-file-text"></i>
+                </div>
+                
+                <p class="text-primary">Capaian Kinerja</p><br />
+                <table  class="display table table-bordered table-striped" id="tabel_capaian">
+    	        </table>
+                
+            </div>
+        </section>
+    </div>
                     
     <!--main content end-->
     <style type="text/css">
@@ -104,9 +108,7 @@
                         success:function(result) {
                             tabel_capaian = $('#tabel_capaian');
                             tabel_capaian.empty().html(result);        
-                            //tabel_capaian.dataTable( {
-                            //    "bDestroy": true
-                            //});
+                            $('#box-result').removeClass("hide");
                             $('.toggler').click(function(e){
                                 e.preventDefault();
                                 $('.detail'+$(this).attr('id')).toggle();

@@ -16,23 +16,13 @@ class Trendline extends CI_Controller {
 	function index()
 	{
 		$data['kl']			= $this->mgeneral->getAll("anev_kl");
-		$data['esselon1']	= $this->mgeneral->getAll("anev_eselon1");
 		$this->load->view('analisis/trendline',$data);
 	}
 	
 	function eselon1()
 	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "ANALISIS");
-		$setting['page']	= array('pg_aktif'	=> "chart");
-		$template			= $this->template->load($setting); #load static template file
-		
-		$data['kl']			= $this->mgeneral->getAll("anev_kl");
 		$data['esselon1']	= $this->mgeneral->getAll("anev_eselon1");
-		$template['konten']	= $this->load->view('analisis/trendline',$data,true); #load konten template file
-		
-		#load container for template view
-		$this->load->view('template/container',$template);
+		$this->load->view('analisis/trendline_e1',$data);
 	}
 	
 	function get_tahun($kode)
