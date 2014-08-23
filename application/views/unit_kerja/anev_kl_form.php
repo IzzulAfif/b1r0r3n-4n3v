@@ -10,26 +10,34 @@
             </header>
             <div class="panel-body">
                 <form class="form-horizontal bucket-form" method="post" action="<?=$url?>">
-                <?php if(count($data)!=0): ?>
-                	<input type="hidden" name="id" value="<?=$data[0]->kode_kl?>" />
-				<?php endif; ?>
+                <?php if(count($data)!=0): 
+					$kode_kl 	= $data[0]->kode_kl;
+					$nama_kl 	= $data[0]->nama_kl;
+					$singkatan	= $data[0]->singkatan;
+				?>
+                	<input type="hidden" name="id" value="<?=$kode_kl?>" />
+				<?php else : 
+					$kode_kl 	= "";
+					$nama_kl 	= "";
+					$singkatan	= "";
+				endif; ?>
                 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Kode</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="kode" value="<?=$data[0]->kode_kl?>">
+                            <input type="text" class="form-control" name="kode" value="<?=$kode_kl?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Nama Kementerian</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama" value="<?=$data[0]->nama_kl?>">
+                            <input type="text" class="form-control" name="nama" value="<?=$nama_kl?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Singkatan</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="singkatan" value="<?=$data[0]->singkatan?>">
+                            <input type="text" class="form-control" name="singkatan" value="<?=$singkatan?>">
                         </div>
                     </div>
                     <div class="form-group">

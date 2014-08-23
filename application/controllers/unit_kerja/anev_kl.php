@@ -32,6 +32,7 @@ class Anev_kl extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "form");
 		$template			= $this->template->load($setting); #load static template file
 		
+		$data['data']		= array();
 		$data['url']		= base_url()."unit_kerja/anev_kl/save";
 		$template['konten']	= $this->load->view('unit_kerja/anev_kl_form',$data,true); #load konten template file
 		
