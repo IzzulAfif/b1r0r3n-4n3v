@@ -12,18 +12,34 @@ class Eselon2 extends CI_Controller {
 		parent::__construct();
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 	}	
+	
 	function index()
 	{
 		#settingan untuk static template file
 		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
-		$sql = "select e2.*, e1.nama_e1 from anev_eselon2 e2 inner join anev_eselon1 e1 on e1.kode_e1=e2.kode_e1 ";
-		$data['data']		= $this->eselon2->get_all();//$this->mgeneral->run_sql($sql); #kirim data ke konten file
+		
+		#$sql = "select e2.*, e1.nama_e1 from anev_eselon2 e2 inner join anev_eselon1 e1 on e1.kode_e1=e2.kode_e1 ";
+		#$data['data']		= $this->eselon2->get_all("");//$this->mgeneral->run_sql($sql); #kirim data ke konten file
+		
+		$data[]				= null;
 		$template['konten']	= $this->load->view('unit_kerja/eselon2_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
+	}
+	
+	function load_data_e2()
+	{
+		#"select e2.*, e1.nama_e1 from anev_eselon2 e2 inner join anev_eselon1 e1 on e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra where 1=1";
+		$this->load->library('datatables');
+		$this->datatables->select('e1.nama_e1,e2.kode_e2,e2.nama_e2,e2.singkatan');
+		$this->datatables->from('anev_eselon2 e2');
+		$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'inner');
+		$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
+		echo $this->datatables->generate();
+		exit;
 	}
 	
 	function add()

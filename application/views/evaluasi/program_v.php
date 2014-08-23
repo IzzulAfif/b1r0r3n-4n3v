@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                     	<p class="text-primary col-md-12"><b>Capaian Kinerja</b></p>
-                        <div class="adv-table" style="padding:10px 5px 10px 5px">
+                        <div class="adv-table" id="data-capaian" style="width:100%; overflow: auto; padding:10px 5px 10px 5px;">
                             <table  class="display table table-bordered table-striped" id="tabel_capaian">
                             </table>
                         </div>
@@ -139,9 +139,13 @@
                         success:function(result) {
                             tabel_capaian = $('#tabel_capaian');
                             tabel_capaian.empty().html(result);
-							tabel_capaian.dataTable( {
+							$("#data-capaian").mCustomScrollbar({
+								axis:"x",
+								theme:"dark-2"
+							});
+							/*tabel_capaian.dataTable( {
                                 "bDestroy": true
-                        });
+                        });*/
                     }
                 });
                 //req serapan                     
@@ -150,9 +154,9 @@
                         success:function(result) {
                             tabel_serapan = $('#tabel_serapan');
                             tabel_serapan.empty().html(result);        
-                            tabel_serapan.dataTable( {
+                            /*tabel_serapan.dataTable( {
                                 "bDestroy": true
-                        });
+                        });*/
                     }
                 });
             }

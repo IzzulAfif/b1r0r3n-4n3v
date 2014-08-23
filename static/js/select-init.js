@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	
+	$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
     $("#e1").select2();
     $("#e9").select2();
     $("#e2").select2({

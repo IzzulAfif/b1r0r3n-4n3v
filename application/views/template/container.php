@@ -10,11 +10,11 @@
         <?=$header?>
         <?=$sidebar_left?>
         
-            <?=$konten?>
-            
-        <?=$sidebar_right?>
+			<?=$konten?>   
+                 
+        <?php #$sidebar_right ?>
 
-    </section>
+ </section>
 
     <?=$inc_footer?>
     

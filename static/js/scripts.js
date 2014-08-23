@@ -283,7 +283,36 @@
         // popovers
 
         $('.popovers').popover();
-	
     });
 
 })(jQuery);
+
+function load_ajax_datatable(idTable,Url,sortColumn,sortType)
+{	
+	sortColumn = typeof sortColumn !== 'undefined' ? sortColumn : 0;
+	sortType = typeof sortType !== 'undefined' ? sortType : 'desc';
+	$('#'+idTable).dataTable
+	({
+		"iDisplayLength" : 10, //jumlah default data yang ditampilkan
+		"aLengthMenu" : [5,10,25,50,100], //isi combo box menampilkan jumlah data
+		"aaSorting" : [[sortColumn, sortType]], //index kolom yg akan di-sorting
+		"bProcessing" : true, //show tulisan dan loading bar
+		'bServerSide' : true, //ajax server side
+		'sAjaxSource' : Url, //url ajax nya
+		"sServerMethod" : "POST",
+		'fnServerData' : function(sSource, aoData, fnCallback)
+						{
+							$.ajax
+							({
+								'dataType': 'json',
+								'type' : 'POST',
+								'url' : sSource,
+								'data' : aoData,
+								'success' : function(json){
+										fnCallback(json);
+										$(".pop_over").popover();
+								}
+							});
+						},
+	}); 
+}

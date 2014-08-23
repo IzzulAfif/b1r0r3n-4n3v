@@ -60,7 +60,7 @@
     <!--js-->
     <script type="text/javascript">
     $(document).ready(function () {
-        $('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
         renstra = $('#renstra');
         tahun_awal = $('#tahun_awal');
         tahun_akhir = $('#tahun_akhir');

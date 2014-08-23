@@ -3,16 +3,13 @@
 	<script src="<?=base_url("static")?>/js/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
 	<script src="<?=base_url("static")?>/bs3/js/bootstrap.min.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.dcjqaccordion.2.7.js"></script>
-	<script src="<?=base_url("static")?>/js/jquery.scrollTo.min.js"></script>
 	<script src="<?=base_url("static")?>/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.js"></script>
-	<script src="<?=base_url("static")?>/js/jquery.nicescroll.js"></script>
     <script src="<?=base_url("static")?>/js/select2/select2.js"></script>
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="<?=base_url("static")?>/js/flot-chart/excanvas.min.js"></script><![endif]-->
 	<script src="<?=base_url("static")?>/js/skycons/skycons.js"></script>
-	<script src="<?=base_url("static")?>/js/jquery.scrollTo/jquery.scrollTo.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.easing.min.js"></script>
     <script src="<?=base_url("static")?>/js/jquery.customSelect.min.js" ></script>
-	
+	<script src="<?=base_url("static")?>/js/fs-scroller/jquery.mCustomScrollbar.concat.min.js"></script>
 	
     <?php switch($pg_aktif): 
 		 	case "dashboard":?>

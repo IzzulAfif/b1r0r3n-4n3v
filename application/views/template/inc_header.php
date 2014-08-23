@@ -15,6 +15,7 @@
     <link href="<?=base_url("static")?>/css/clndr.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/css/style.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/css/style-responsive.css" rel="stylesheet"/>
+    <link href="<?=base_url("static")?>/js/fs-scroller/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
     
     <?php switch($pg_aktif): 
 		 	case "dashboard":?>

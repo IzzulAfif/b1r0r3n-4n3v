@@ -17,10 +17,10 @@
                     <div class="panel-body">
                     
                     <div class="adv-table">
-                    <table  class="display table table-bordered table-striped" id="dynamic-table">
+                    <table class="display table table-bordered table-striped" id="dynamic-table">
                     <thead>
                     <tr>
-                        <th>Eselon I</th>
+                        <th width="30%">Eselon I</th>
                         <th>Kode Unit Kerja</th>
                         <th>Nama Unit Kerja</th>
                         <th>Singkatan</th>
@@ -28,20 +28,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    
-						<?php foreach($data as $d): ?>
-                        <tr class="gradeX">
-                            <td><?=$d->kode_e1."-".$d->nama_e1?></td>
-                            <td><?=$d->kode_e2?></td>
-                            <td><?=$d->nama_e2?></td>
-                            <td><?=$d->singkatan?></td>
-                            <td>
-                            	<a href="<?=base_url()?>unit_kerja/eselon2/edit/<?=$d->kode_kl?>" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-                                <a href="<?=base_url()?>unit_kerja/eselon2/hapus/<?=$d->kode_kl?>" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    
                     </tbody>
                     </table>
                     </div>
@@ -52,3 +38,9 @@
         </section>
     </section>
     <!--main content end-->
+    
+    <script>
+		$(document).ready(function(){
+			load_ajax_datatable('dynamic-table','<?=base_url()?>unit_kerja/eselon2/load_data_e2');
+		});
+	</script>

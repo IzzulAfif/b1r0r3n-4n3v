@@ -8,7 +8,7 @@
                    <i class="fa fa-cog"></i>
                 </div>
                 
-                <div class="row">
+                <div class="row" id="boxcartscrool">
                 	<div class="col-sm-4">
                     	<p class="text-primary"><b>Periode Renstra</b></p>
                         <div class="form-group">

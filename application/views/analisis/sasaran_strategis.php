@@ -45,11 +45,9 @@
     
     <script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
-			
 			$("#list-konten").load("<?=base_url()?>evaluasi/sasaran_strategis");
 			$("#trendline-konten").load("<?=base_url()?>analisis/trendline");
 			$("#section-konten").load("<?=base_url()?>analisis/cross_section");
 			$("#korelasi-konten").load("<?=base_url()?>analisis/korelasi");
-			
 		});
 	</script>
