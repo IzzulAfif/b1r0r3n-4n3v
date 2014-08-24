@@ -15,8 +15,8 @@ class Pemrograman_kl extends CI_Controller {
 		
 		$this->load->model('/pemrograman/program_eselon1_model','program_e1');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sasaran');
-		/*$this->load->model('/pemrograman/misi_kl_model','misi');
-		$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
+		$this->load->model('/pemrograman/iku_kl_model','iku');
+	/*	$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
 		*/
 	}	
 	function index()
@@ -56,7 +56,7 @@ class Pemrograman_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->tujuan->get_all(null);
+		$data['data'] = $this->iku->get_all(null);
 		echo $this->load->view('pemrograman/iku_kl_v',$data,true); #load konten template file		
 	}
 	

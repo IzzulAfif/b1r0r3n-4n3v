@@ -17,7 +17,7 @@ class Renstra_kl extends CI_Controller {
 		$this->load->model('/perencanaan/sasaran_kl_model','sasaran_kl');
 		$this->load->model('/perencanaan/program_eselon1_model','program_e1');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sasaran_strategis');
-		$this->load->model('/perencanaan/iku_kl_model','iku_kl');
+		$this->load->model('/pemrograman/iku_kl_model','iku_kl');
 		$this->load->model('/laporan/renstra_kl_model','renstra_kl');
 	}	
 	function index()

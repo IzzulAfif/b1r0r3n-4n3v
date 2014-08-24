@@ -21,7 +21,7 @@ class Rencana_eselon2 extends CI_Controller {
 	function index()
 	{
 		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		//$setting = null;
 		$template			= $this->template->load($setting); #load static template file		
@@ -34,7 +34,7 @@ class Rencana_eselon2 extends CI_Controller {
 	
 	function loadvisi()
 	{
-		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->visi->get_all(null);
@@ -43,7 +43,7 @@ class Rencana_eselon2 extends CI_Controller {
 	
 	function loadmisi()
 	{
-		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->misi->get_all(null);
@@ -52,7 +52,7 @@ class Rencana_eselon2 extends CI_Controller {
 	
 	function loadtujuan()
 	{
-		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->tujuan->get_all(null);
@@ -61,7 +61,7 @@ class Rencana_eselon2 extends CI_Controller {
 	
 	function loadsasaran()
 	{
-		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->sasaran->get_all(null);

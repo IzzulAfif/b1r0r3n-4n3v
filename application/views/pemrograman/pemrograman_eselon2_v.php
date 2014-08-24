@@ -6,21 +6,21 @@
        <!--tab nav start-->
             <section class="panel">
                 <header class="panel-heading tab-bg-light tab-right ">
-                	<p class="pull-left"><b>Pemrograman Kementerian</b></p>
+                	<p class="pull-left"><b>Pemrograman Eselon II</b></p>
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
-                            <a data-toggle="tab" href="#program-content">
-                               <i class="fa fa-list-ol"></i> Program
+                            <a data-toggle="tab" href="#kegiatan-content">
+                               <i class="fa fa-list-ol"></i> Kegiatan
                             </a>
                         </li>
                         <li class="">
-                            <a data-toggle="tab" href="#sastra-content">
-                                <i class="fa fa-bar-chart-o"></i> Sasaran Strategis
+                            <a data-toggle="tab" href="#saskeg-content">
+                                <i class="fa fa-bar-chart-o"></i> Sasaran Kegiatan
                             </a>
                         </li>
                         <li class="">
-                            <a data-toggle="tab" href="#iku-content">
-                                <i class="fa fa-align-center"></i> IKU
+                            <a data-toggle="tab" href="#ikk-content">
+                                <i class="fa fa-align-center"></i> IKK
                             </a>
                         </li>
                         <li class="">
@@ -32,9 +32,9 @@
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
-						<div class="panel-body tab-pane fade active in" id="program-content"></div>
-						<div class="panel-body tab-pane fade" id="sastra-content"></div>
-						<div class="panel-body tab-pane fade" id="iku-content"></div>
+						<div class="panel-body tab-pane fade active in" id="kegiatan-content"></div>
+						<div class="panel-body tab-pane fade" id="saskeg-content"></div>
+						<div class="panel-body tab-pane fade" id="ikk-content"></div>
 						<div class="panel-body tab-pane fade" id="pendanaan-content"></div>
                 </div>
             </section>
@@ -47,10 +47,10 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			
-			$("#program-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadprogram");
-			$("#sastra-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadsastra");
-			$("#iku-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadiku");
-			//$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadpendanaan");
+			$("#kegiatan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadkegiatan");
+			$("#saskeg-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadsaskeg");
+			$("#ikk-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadikk");
+			//$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadpendanaan");
 			
 		});
 	</script>
