@@ -314,7 +314,10 @@ ul.sidebar-menu li a.active i {
     left:0;
     right:0;
     z-index:1002;
-    background:#fff;
+    background-color:#fff;
+	background-image:url(../images/title.gif);
+	background-position-x: 260px;
+	background-repeat:no-repeat;
     -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;
     -o-transition:all .3s ease-in-out;
@@ -2947,6 +2950,8 @@ ul.amounts li {
     border-radius:5px 5px 0 0;
     -webkit-border-radius:5px 5px 0 0;
     border-bottom:none;
+	color:#E9761C;
+	font-size:14px;
 }
 
 .tab-bg-light li a:hover, tab-bg-light li.active a {
@@ -2973,8 +2978,8 @@ ul.amounts li {
     background:#fff;
 }
 .panel-heading .nav>li:first-child.active>a,.panel-heading .nav>li:first-child>a:hover {
-    border-radius:4px 0 0 0 !important;
-    -webkit-border-radius:4px 0 0 0 !important;
+    /*border-radius:4px 0 0 0 !important;
+    -webkit-border-radius:4px 0 0 0 !important;*/
 }
 .tab-right {
     height:58px;
@@ -2990,6 +2995,7 @@ ul.amounts li {
 .panel-heading.tab-right .nav-tabs>li>a {
     margin-left:1px;
     margin-right:0px;
+	border-right:1px #F7F5F5 solid;
 }
 .m-bot20 {
     margin-bottom:20px;

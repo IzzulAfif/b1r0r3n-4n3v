@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Kementerian </label>
                             <div class="col-sm-7">
-                                <select name="unit_kerja" id="unit_kerja" class="populate" style="width:100%">
+                                <select name="unit_kerja" id="unit_kerja_g2" class="populate" style="width:100%">
                                     <option value="">Pilih Kementerian</option>
                                     <?php foreach($kl as $k): ?>
                                         <option value="<?=$k->kode_kl?>"><?=$k->nama_kl?></option>
@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Periode renstra </label>
                             <div class="col-sm-7">
-                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                <select name="renstra" id="renstra_g2" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
@@ -35,11 +35,11 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Rentang Tahun</label>
                             <div class="col-sm-3">
-                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                <select name="tahun1" id="tahun1_g2" class="populate" style="width:100%">
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                <select name="tahun2" id="tahun2_g2" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
@@ -50,21 +50,21 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Sasaran</label>
                             <div class="col-sm-9">
-                                <select name="sasaran" id="sasaran" class="populate" style="width:100%">
+                                <select name="sasaran" id="sasaran_g2" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Indikator</label>
                             <div class="col-sm-9">
-                                <select name="indikator" id="indikator" class="populate" style="width:100%">
+                                <select name="indikator" id="indikator_g2" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Satuan</label>
                             <div class="col-sm-9">
-                                <label class="control-label" id="satuan"></label>
+                                <label class="control-label" id="satuan_g2"></label>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     <div class="col-sm-3">
                     	<p class="text-primary"><b>Rata-rata Realisasi</b></p>
                         <p>Rata-rata : 400</p>
-                        <p>BPM : 0</p>
+                        <p>SPM : 0</p>
                     </div>
                     
                 </div>
@@ -82,21 +82,21 @@
                 	<div class="col-sm-2">
                     	<div class="checkbox">
                             <label>
-                                <input type="checkbox" checked="checked"> Tampilkan Rata-rata
+                                <input name="rata-rata" value="ok" type="checkbox" checked="checked"> Tampilkan Rata-rata
                             </label>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" checked="checked"> Tampilkan BPM
+                                <input name="spm" value="ok" type="checkbox" checked="checked"> Tampilkan SPM
                             </label>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" checked="checked"> Tampilkan terurut
+                                <input name="terurut" value="ok" type="checkbox" checked="checked"> Tampilkan terurut
                             </label>
                         </div> 
                     </div>
@@ -124,64 +124,80 @@
 		
 			$(document).ready(function() {
 				$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-				$('#unit_kerja').change(function(){
-					kd_unit	= $('#unit_kerja').val();
+				$('#unit_kerja_g2').change(function(){
+					kd_unit	= $('#unit_kerja_g2').val();
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_tahun/"+kd_unit,
+						url:"<?=site_url()?>analisis/trendline/get_renstra/"+kd_unit,
 						success:function(result) {
-							$('#tahun').empty();
+							$('#renstra_g2').empty();
 							result = JSON.parse(result);
 							for (a in result) {
-								$('#tahun').append(new Option(result[a],result[a]));
+								$('#renstra_g2').append(new Option(result[a],result[a]));
 							}
-							$('#tahun').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#renstra_g2').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
 				});
 				
-				$('#tahun').change(function(){
-					kd_unit	= $('#unit_kerja').val();
-					tahun	= $('#tahun').val();
+				$('#renstra_g2').change(function(){
+					kd_unit	= $('#unit_kerja_g2').val();
+					renstra = $('#renstra_g2').val();
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_sasaran/"+kd_unit+"/"+tahun,
+						url:"<?=site_url()?>analisis/trendline/get_tahun/"+kd_unit+'/'+renstra,
 						success:function(result) {
-							$('#sasaran').empty();
+							$('#tahun1_g2').empty();
+							$('#tahun2_g2').empty();
 							result = JSON.parse(result);
 							for (a in result) {
-								$('#sasaran').append(new Option(result[a].deskripsi,result[a].kode));
+								$('#tahun1_g2').append(new Option(result[a],result[a]));
+								$('#tahun2_g2').append(new Option(result[a],result[a]));
 							}
-							$('#sasaran').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#tahun1_g2').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#tahun2_g2').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
 				});
 				
-				$('#sasaran').change(function(){
-					kd_unit	= $('#unit_kerja').val();
-					tahun	= $('#tahun').val();
-					sasaran	= $('#sasaran').val();
+				$('#tahun2_g2').change(function(){
+					kd_unit	= $('#unit_kerja_g2').val();
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_sasaran/"+kd_unit,
+						success:function(result) {
+							$('#sasaran_g2').empty();
+							result = JSON.parse(result);
+							for (a in result) {
+								$('#sasaran_g2').append(new Option(result[a].deskripsi,result[a].kode));
+							}
+							$('#sasaran_g2').select2({minimumResultsForSearch: -1, width:'resolve'});
+						}
+					});
+				});
+				
+				$('#sasaran_g2').change(function(){
+					kd_unit	= $('#unit_kerja_g2').val();
+					sasaran	= $('#sasaran_g2').val();
 					
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_indikator/"+kd_unit+"/"+tahun+"/"+sasaran,
+						url:"<?=site_url()?>analisis/trendline/get_indikator/"+kd_unit+"/"+sasaran,
 						success:function(result) {
-							$('#indikator').empty();
+							$('#indikator_g2').empty();
 							result = JSON.parse(result);
 							for (a in result) {
-								$('#indikator').append(new Option(result[a].deskripsi,result[a].kode));
+								$('#indikator_g2').append(new Option(result[a].deskripsi,result[a].kode));
 							}
-							$('#indikator').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#indikator_g2').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
 				});
 				
-				$('#indikator').change(function(){
-					kd_unit		= $('#unit_kerja').val();
-					tahun		= $('#tahun').val();
-					indikator	= $('#indikator').val();
+				$('#indikator_g2').change(function(){
+					kd_unit		= $('#unit_kerja_g2').val();
+					indikator	= $('#indikator_g2').val();
 					
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_satuan/"+kd_unit+"/"+tahun+"/"+indikator,
+						url:"<?=site_url()?>analisis/trendline/get_satuan/"+kd_unit+"/"+indikator,
 						success:function(result) {
-							$('#satuan').html(result);
+							$('#satuan_g2').html(result);
 						}
 					});
 				});

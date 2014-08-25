@@ -1,6 +1,6 @@
 		
      <div class="feed-box">
-     <form class="form-horizontal">
+     <form class="form-horizontal" method="post" id="form_trendline_kl">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
@@ -9,12 +9,12 @@
                 </div>
                 
                 <div class="row" id="boxcartscrool">
-                	<div class="col-sm-4">
+                	<div class="col-sm-5">
                     	<p class="text-primary"><b>Periode Renstra</b></p>
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Kementerian </label>
                             <div class="col-sm-7">
-                                <select name="unit_kerja" id="unit_kerja" class="populate" style="width:100%">
+                                <select name="unit_kerja" id="unit_kerja_g1" class="populate" style="width:100%">
                                     <option value="">Pilih Kementerian</option>
                                     <?php foreach($kl as $k): ?>
                                         <option value="<?=$k->kode_kl?>"><?=$k->nama_kl?></option>
@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Periode renstra </label>
                             <div class="col-sm-7">
-                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                <select name="renstra" id="renstra_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
@@ -34,11 +34,11 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Rentang Tahun</label>
                             <div class="col-sm-3">
-                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                <select name="tahun1" id="tahun1_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                <select name="tahun" id="tahun" class="populate" style="width:100%">
+                                <select name="tahun2" id="tahun2_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
@@ -51,42 +51,42 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Sasaran</label>
                             <div class="col-sm-9">
-                                <select name="sasaran" id="sasaran" class="populate" style="width:100%">
+                                <select name="sasaran" id="sasaran_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Indikator</label>
                             <div class="col-sm-9">
-                                <select name="indikator" id="indikator" class="populate" style="width:100%">
+                                <select name="indikator" id="indikator_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Satuan</label>
                             <div class="col-sm-9">
-                                <label class="control-label" id="satuan"></label>
+                                <label class="control-label" id="satuan_g1"></label>
                             </div>
                         </div>
                         
                     </div>
                     
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                     	
                         <p class="text-primary"><b>Simulasi Pencapaian</b></p>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Tahun</label>
                             <div class="col-sm-9">
-                                <div id="spinner4">
+                                <div id="spinnerg1">
                                     <div class="input-group" style="width:150px;">
                                         <div class="spinner-buttons input-group-btn">
-                                            <button type="button" class="btn spinner-up btn-primary btn-sm">
+                                            <button type="button" class="btn spinner-up btn-primary">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="spinner-input form-control input-sm" value="2014">
+                                        <input type="text" name="tahun" class="spinner-input form-control" maxlength="4" readonly>
                                         <div class="spinner-buttons input-group-btn">
-                                            <button type="button" class="btn spinner-down btn-warning btn-sm">
+                                            <button type="button" class="btn spinner-down btn-warning">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
@@ -96,22 +96,8 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Target</label>
-                            <div class="col-sm-9">
-                                <div id="spinner4">
-                                    <div class="input-group" style="width:150px;">
-                                        <div class="spinner-buttons input-group-btn">
-                                            <button type="button" class="btn spinner-up btn-primary btn-sm">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="spinner-input form-control input-sm" value="1400">
-                                        <div class="spinner-buttons input-group-btn">
-                                            <button type="button" class="btn spinner-down btn-warning btn-sm">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm" name="target" value="100">
                             </div>
                         </div>
                         
@@ -123,21 +109,21 @@
                     <div class="col-sm-2">
                     	<div class="checkbox">
                             <label class="control-label">
-                                <input type="checkbox" checked="checked"> Tampilkan trendline
+                                <input name="trendline" value="ok" type="checkbox" checked="checked"> Tampilkan trendline
                             </label>
                         </div>
                     </div>
                     <div class="col-sm-8">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" checked="checked"> Tampilkan targetline
+                                <input name="targetline" value="ok" type="checkbox" checked="checked"> Tampilkan targetline
                             </label>
                         </div>
                     </div>
                     
                     <div class="col-sm-2">
                     
-                    	<button type="button" class="btn btn-info" id="proses-c1">
+                    	<button type="submit" class="btn btn-info" id="proses-c1">
                             <i class="fa fa-play"></i> Tampilkan Grafik
                         </button>
                     </div>
@@ -150,157 +136,107 @@
     </div>
     
     <div class="alert alert-info hide" id="box-chart1">
-        <div id="chartKonten" style="height:400px;">
-        </div>
     </div>
             
     <script type="text/javascript">
 			
 			$(document).ready(function() {
 				$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-				$('#unit_kerja').change(function(){
-					kd_unit	= $('#unit_kerja').val();
+				$('#spinnerg1').spinner({value:2014, min: 2000, max: 3000});
+				$('#unit_kerja_g1').change(function(){
+					kd_unit	= $('#unit_kerja_g1').val();
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_tahun/"+kd_unit,
+						url:"<?=site_url()?>analisis/trendline/get_renstra/"+kd_unit,
 						success:function(result) {
-							$('#tahun').empty();
+							$('#renstra_g1').empty();
 							result = JSON.parse(result);
 							for (a in result) {
-								$('#tahun').append(new Option(result[a],result[a]));
+								$('#renstra_g1').append(new Option(result[a],result[a]));
 							}
-							$('#tahun').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#renstra_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
 				});
 				
-				$('#tahun').change(function(){
-					kd_unit	= $('#unit_kerja').val();
-					tahun	= $('#tahun').val();
+				$('#renstra_g1').change(function(){
+					kd_unit	= $('#unit_kerja_g1').val();
+					renstra = $('#renstra_g1').val();
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_sasaran/"+kd_unit+"/"+tahun,
+						url:"<?=site_url()?>analisis/trendline/get_tahun/"+kd_unit+'/'+renstra,
 						success:function(result) {
-							$('#sasaran').empty();
+							$('#tahun1_g1').empty();
+							$('#tahun2_g1').empty();
 							result = JSON.parse(result);
 							for (a in result) {
-								$('#sasaran').append(new Option(result[a].deskripsi,result[a].kode));
+								$('#tahun1_g1').append(new Option(result[a],result[a]));
+								$('#tahun2_g1').append(new Option(result[a],result[a]));
 							}
-							$('#sasaran').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#tahun1_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#tahun2_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
 				});
 				
-				$('#sasaran').change(function(){
-					kd_unit	= $('#unit_kerja').val();
-					tahun	= $('#tahun').val();
-					sasaran	= $('#sasaran').val();
+				$('#tahun2_g1').change(function(){
+					kd_unit	= $('#unit_kerja_g1').val();
+					$.ajax({
+						url:"<?=site_url()?>analisis/trendline/get_sasaran/"+kd_unit,
+						success:function(result) {
+							$('#sasaran_g1').empty();
+							result = JSON.parse(result);
+							for (a in result) {
+								$('#sasaran_g1').append(new Option(result[a].deskripsi,result[a].kode));
+							}
+							$('#sasaran_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
+						}
+					});
+				});
+				
+				$('#sasaran_g1').change(function(){
+					kd_unit	= $('#unit_kerja_g1').val();
+					sasaran	= $('#sasaran_g1').val();
 					
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_indikator/"+kd_unit+"/"+tahun+"/"+sasaran,
+						url:"<?=site_url()?>analisis/trendline/get_indikator/"+kd_unit+"/"+sasaran,
 						success:function(result) {
-							$('#indikator').empty();
+							$('#indikator_g1').empty();
 							result = JSON.parse(result);
 							for (a in result) {
-								$('#indikator').append(new Option(result[a].deskripsi,result[a].kode));
+								$('#indikator_g1').append(new Option(result[a].deskripsi,result[a].kode));
 							}
-							$('#indikator').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#indikator_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
 				});
 				
-				$('#indikator').change(function(){
-					kd_unit		= $('#unit_kerja').val();
-					tahun		= $('#tahun').val();
-					indikator	= $('#indikator').val();
+				$('#indikator_g1').change(function(){
+					kd_unit		= $('#unit_kerja_g1').val();
+					indikator	= $('#indikator_g1').val();
 					
 					$.ajax({
-						url:"<?=site_url()?>analisis/trendline/get_satuan/"+kd_unit+"/"+tahun+"/"+indikator,
+						url:"<?=site_url()?>analisis/trendline/get_satuan/"+kd_unit+"/"+indikator,
 						success:function(result) {
-							$('#satuan').html(result);
+							$('#satuan_g1').html(result);
 						}
 					});
 				});
+				
+				 var options = { 
+						target : '#box-chart1',
+						url : '<?=base_url()?>analisis/trendline/proses_kl',
+						type : 'post',
+						beforeSubmit:  showProcess,
+						//success:     showResponse
+    				}; 
+				$('#form_trendline_kl').submit(function() { 
+					$(this).ajaxSubmit(options);
+					return false; 
+				}); 
 			});
 			
-			$('#proses-c1').click(function(){
+			function showProcess() { 
 				$('#box-chart1').removeClass("hide");
-				var chart;
-				chart = new Highcharts.Chart({
-					chart: {
-						renderTo: 'chartKonten',
-					},
-					colors: ['#DB843D', '#3D96AE', '#89A54E', '#00FF40', '#E10000', '#CCCCCC'],
-					exporting: {
-						buttons: { 
-							exportButton: {
-								enabled:false
-							},
-							printButton: {
-								enabled:true
-							}
-					
-						}
-					},
-					title: {
-						text: 'Jumlah Kejadian Kecelakaan Transportasi Nasional Yang Disebabkan Oleh Faktor Yang Terkait Dengan Kewenangan Kementerian Perhubungan',
-						style : { "font-size" : "12px" }
-					},
-					subtitle: {
-						text: 'Tahun 2014',
-						style : { "font-size" : "12px" }
-					},
-					xAxis: {
-						categories: ['2010', '2011', '2012', '2013', '2014']
-					},
-					yAxis: {
-						title: {
-							text: ''
-						}
-					},
-					tooltip: {
-						formatter: function() {
-							var s;
-							if (this.point.name) { // the pie chart
-								s = ''+
-									this.point.name +': '+ this.y +'';
-							} else {
-								s = this.series.name+' tahun '+this.x  +': '+ this.y;
-							}
-							return s;
-						}
-					},
-					plotOptions: {
-						spline: {
-							marker: {
-								enabled: false
-							},
-						}
-					},
-					series: [{
-						type: 'column',
-						name: 'Target',
-						data: [300, 600, 900, 1200]
-					}, {
-						type: 'column',
-						name: 'Realisasi',
-						data: [400, 700, 800, 1100] 
-					},{
-						type: 'column',
-						name: 'Simulasi',
-						data: [null,null,null,null,1400]
-					}, {
-						type: 'spline',
-						name: 'Trendline',
-						data: [300, 500, 700, 1000, 1200]
-					}, {
-						type: 'spline',
-						name: 'Targetline',
-						data: [400, 700, 900, 1000, 1300]
-					}, {
-						type: 'spline',
-						name: 'Target',
-						data: [1400, 1400, 1400, 1400, 1400]
-					}]
-				});
-			});
+				return true; 
+			} 
 				
 		</script>

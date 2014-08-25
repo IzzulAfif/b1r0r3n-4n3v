@@ -9,7 +9,10 @@
 	<script src="<?=base_url("static")?>/js/skycons/skycons.js"></script>
 	<script src="<?=base_url("static")?>/js/jquery.easing.min.js"></script>
     <script src="<?=base_url("static")?>/js/jquery.customSelect.min.js" ></script>
+    <script src="<?=base_url("static")?>/js/jquery.nicescroll.js" ></script>
 	<script src="<?=base_url("static")?>/js/fs-scroller/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="<?=base_url("static")?>/js/fuelux/js/spinner.min.js"></script>
+    <script src="<?=base_url("static")?>/js/jquery.form.min.js"></script>
 	
     <?php switch($pg_aktif): 
 		 	case "dashboard":?>
