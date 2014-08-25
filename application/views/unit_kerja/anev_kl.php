@@ -1,22 +1,12 @@
 <!--main content start-->
-    <section id="main-content">
-        <section class="wrapper">
-        <!-- page start-->
-		
-        <?=$this->session->flashdata('msg')?>
-                
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Kementerian
-                        <span class="pull-right">
-                            <a href="#myModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-                         </span>
-                    </header>
-                    <div class="panel-body">
-                    
-                    <div class="adv-table">
+<div class="panel-body">
+ <header class="panel-heading">
+	Identitas dan Tugas Pokok Kementerian
+	<span class="pull-right">
+		 <a href="#myModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
+	 </span>
+</header>
+<div class="adv-table">
                     <table  class="display table table-bordered table-striped" id="dynamic-table">
                     <thead>
                     <tr>
@@ -42,13 +32,11 @@
                     
                     </tbody>
                     </table>
-                    </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-        </section>
-    </section>
+</div>
+
+
+
+    
     <!--main content end-->
     
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">

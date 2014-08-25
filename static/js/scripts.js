@@ -194,7 +194,7 @@
 
 
 
-        /*==Sidebar Toggle==*/
+        /*==Sidebar Toggle==
 
         $(".leftside-navigation .sub-menu > a").click(function () {
             var o = ($(this).offset());
@@ -204,7 +204,7 @@
             else
                 $(".leftside-navigation").scrollTo("+=" + Math.abs(diff), 500);
         });
-
+*/
 
 
         $('.sidebar-toggle-box .fa-bars').click(function (e) {

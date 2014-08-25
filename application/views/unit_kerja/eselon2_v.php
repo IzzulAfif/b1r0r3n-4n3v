@@ -1,21 +1,11 @@
 <!--main content start-->
-    <section id="main-content">
-        <section class="wrapper">
-        <!-- page start-->
-		
-        <?=$this->session->flashdata('msg')?>
-                
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Data Eselon II
-                        <span class="pull-right">
-                            <a href="#" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-                         </span>
-                    </header>
-                    <div class="panel-body">
-                    
+<div class="panel-body">
+ <header class="panel-heading">
+	Identitas dan Tugas Pokok Eselon II
+	<span class="pull-right">
+		 <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
+	 </span>
+</header>
                     <div class="adv-table">
                     <table class="display table table-bordered table-striped" id="table_e2">
                     <thead>
@@ -29,12 +19,7 @@
                     </thead>
                     </table>
                     </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-        </section>
-    </section>
+                   
     <!--main content end-->
     
     <script>

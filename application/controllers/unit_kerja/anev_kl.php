@@ -3,6 +3,7 @@
  @author     : Didin
  @date       : 2014-08-09 00:00
  @revision	 :
+   rombak to tab style by yusup : 2014-08-25
 */
 
 class Anev_kl extends CI_Controller {
@@ -10,6 +11,7 @@ class Anev_kl extends CI_Controller {
 	function __construct() 
 	{	
 		parent::__construct();
+		$this->load->model('/unit_kerja/fungsi_kl_model','fungsi_kl');
 	}
 	function index()
 	{
@@ -17,12 +19,31 @@ class Anev_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
-		
-		$data['data']		= $this->mgeneral->getAll("anev_kl"); #kirim data ke konten file
-		$template['konten']	= $this->load->view('unit_kerja/anev_kl',$data,true); #load konten template file
+		$data['data'] = null;
+	
+		$template['konten']	= $this->load->view('unit_kerja/kementerian_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
+	}
+	
+	function loadidentitas()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		//$this->visi->get_all(null);
+			$data['data']		= $this->mgeneral->getAll("anev_kl"); #kirim data ke konten file
+		echo $this->load->view('unit_kerja/anev_kl',$data,true); #load konten template file		
+	}
+	
+	function loadfungsi()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['data'] = $this->fungsi_kl->get_all(null);
+		echo $this->load->view('unit_kerja/fungsi_kl_v',$data,true); #load konten template file		
 	}
 	
 	function add()

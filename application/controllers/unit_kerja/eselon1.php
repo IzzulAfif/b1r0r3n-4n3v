@@ -11,6 +11,7 @@ class Eselon1 extends CI_Controller {
 	{	
 		parent::__construct();
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
+		$this->load->model('/unit_kerja/fungsi_eselon1_model','fungsi');
 	}
 	function index()
 	{
@@ -19,11 +20,30 @@ class Eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
 		
-		$data['data']		= $this->eselon1->get_all(null); #kirim data ke konten file
-		$template['konten']	= $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file
+		$data['data']		= null;//$this->eselon1->get_all(null); #kirim data ke konten file
+		$template['konten']	= $this->load->view('unit_kerja/e1_v',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
+	}
+	
+	function loadidentitas()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		//$this->visi->get_all(null);
+			$data['data']		= $this->eselon1->get_all(null); #kirim data ke konten file
+		echo $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file		
+	}
+	
+	function loadfungsi()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['data'] = $this->fungsi->get_all(null);
+		echo $this->load->view('unit_kerja/fungsi_eselon1_v',$data,true); #load konten template file		
 	}
 	
 	function add()
