@@ -1,6 +1,6 @@
 		
      <div class="feed-box">
-     <form class="form-horizontal" method="post" id="form_trendline_kl">
+     <form class="form-horizontal" method="post" id="form_trendline_e1">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
@@ -223,12 +223,12 @@
 				
 				 var options = { 
 						target : '#box-chart1',
-						url : '<?=base_url()?>analisis/trendline/proses_kl',
+						url : '<?=base_url()?>analisis/trendline/proses_e1',
 						type : 'post',
 						beforeSubmit:  showProcess,
 						//success:     showResponse
     				}; 
-				$('#form_trendline_kl').submit(function() { 
+				$('#form_trendline_e1').submit(function() { 
 					$(this).ajaxSubmit(options);
 					return false; 
 				}); 

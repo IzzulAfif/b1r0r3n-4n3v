@@ -101,4 +101,26 @@ class analisis_model extends CI_Model
 		
 		return $list;
 	}
+	
+	function get_program($tahun)
+	{
+		$data = $this->mgeneral->getWhere(array('tahun'=>$tahun),"anev_program_eselon1");
+		$list[]	= array('kode_program'=>"","nama_program"=>"Pilih Program");
+		foreach($data as $d):
+			$list[] = array('kode_program'=>$d->kode_program,'nama_program'=>"- ".$d->nama_program);
+		endforeach;
+		
+		return $list;
+	}
+	
+	function get_kegiatan($tahun,$program)
+	{
+		$data = $this->mgeneral->getWhere(array('tahun'=>$tahun,'kode_program'=>$program),"anev_kegiatan_eselon2");
+		$list[]	= array('kode_kegiatan'=>"","nama_kegiatan"=>"Pilih Kegiatan");
+		foreach($data as $d):
+			$list[] = array('kode_kegiatan'=>$d->kode_kegiatan,'nama_kegiatan'=>"- ".$d->nama_kegiatan);
+		endforeach;
+		
+		return $list;
+	}
 }

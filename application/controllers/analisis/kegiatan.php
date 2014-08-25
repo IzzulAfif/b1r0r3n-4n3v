@@ -10,6 +10,7 @@ class Kegiatan extends CI_Controller {
 	function __construct() 
 	{	
 		parent::__construct();
+		$this->load->model('analisis/analisis_model','',TRUE);
 	}
 	
 	function index()
@@ -24,6 +25,24 @@ class Kegiatan extends CI_Controller {
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
+	}
+	
+	function data()
+	{
+		$data = null;
+		$this->load->view('analisis/data_kegiatan',$data);
+	}
+	
+	function get_program($tahun)
+	{
+		$result	= $this->analisis_model->get_program($tahun);
+		echo json_encode($result);
+	}
+	
+	function get_kegiatan($tahun,$program)
+	{
+		$result	= $this->analisis_model->get_kegiatan($tahun,$program);
+		echo json_encode($result);
 	}
 	
 	function map()

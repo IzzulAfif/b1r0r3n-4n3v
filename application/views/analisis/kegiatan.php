@@ -34,7 +34,7 @@
     <script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 				
-			//$("#list-konten").load("<?=base_url()?>evaluasi/program");
+			$("#list-konten").load("<?=base_url()?>analisis/kegiatan/data");
 			$("#peta-konten").load("<?=base_url()?>analisis/kegiatan/map");
 			
 		});

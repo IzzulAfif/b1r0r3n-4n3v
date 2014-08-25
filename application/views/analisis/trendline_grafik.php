@@ -3,12 +3,17 @@
 	$dTarget	= "";
 	$dRealisasi	= "";
 	$dSimulasi	= "";
+	$dTrendline	= "";
+	$dTargetline= "";
+	
 	foreach($gdata as $d):
 		if(count($d)!=0):
 			$dTahun		.= $d['tahun'].",";
 			$dTarget	.= $d['target'].",";
 			$dRealisasi	.= $d['realisasi'].",";
-			$dSimulasi	.= "null,";
+			$dSimulasi	.= $d['simulasi'].",";
+			$dTrendline	.= $d['trendline'].",";
+			$dTargetline.= $d['targetline'].",";
 		endif;
 			
 	endforeach;
@@ -16,7 +21,6 @@
 
 <div id="chartKonten" style="height:400px;">
 </div>
-
 <script>
 	$(document).ready(function() {
 		var chart;
@@ -46,7 +50,7 @@
 				style : { "font-size" : "13px" }
 			},
 			xAxis: {
-				categories: [<?=$dTahun?><?=$simulasi['tahun']?>]
+				categories: [<?=$dTahun?>]
 			},
 			yAxis: {
 				labels: {
@@ -58,7 +62,7 @@
 					text: ''
 				},
 				plotLines: [{
-					value: <?=$simulasi['target']?>,
+					value: <?=$post['target']?>,
 					color: '#89A54E',
 					width: 2,
 				}]
@@ -93,16 +97,23 @@
 			},{
 				type: 'column',
 				name: 'Simulasi',
-				data: [<?=$dSimulasi?><?=$simulasi['target']?>]
-			}, /*{
+				data: [<?=rtrim($dSimulasi,",")?>]
+			}
+			<?php if($post['trendline']=="ok"):?>
+			,{
 				type: 'spline',
 				name: 'Trendline',
-				data: [10, 50, 70, 10, 20]
-			}, {
+				data: [<?=rtrim($dTrendline,",")?>]
+			}
+			<?php endif; ?>
+			<?php if($post['targetline']=="ok"):?>
+			, {
 				type: 'spline',
 				name: 'Targetline',
-				data: [40, 70, 90, 10, 30]
-			}*/]
+				data: [<?=rtrim($dTargetline,",")?>]
+			}
+			<?php endif; ?>
+			]
 		});
 	});
 </script>
