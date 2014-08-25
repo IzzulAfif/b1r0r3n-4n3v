@@ -4,7 +4,7 @@
                      <header class="panel-heading">
                         Program Kementerian
                         <span class="pull-right">
-                            <a href="<?=base_url()?>unit_kerja/anev_e1/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
+                            <a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
                          </span>
                     </header>
                     <div class="adv-table">
@@ -35,8 +35,8 @@
                             
                             <td><?=$d->nama_e2?></td>
                             <td>
-                            	<a href="<?=base_url()?>unit_kerja/anev_e1/edit/<?=$d->kode_kegiatan?>" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-                                <a href="<?=base_url()?>unit_kerja/anev_e1/hapus/<?=$d->kode_kegiatan?>" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+                            	<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+                                <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; } else {?>

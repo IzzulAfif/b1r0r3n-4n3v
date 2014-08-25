@@ -11,7 +11,7 @@
                     <header class="panel-heading">
                         Data Eselon II
                         <span class="pull-right">
-                            <a href="<?=base_url()?>unit_kerja/eselon2/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
+                            <a href="#" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
                          </span>
                     </header>
                     <div class="panel-body">

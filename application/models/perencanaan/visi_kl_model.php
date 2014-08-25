@@ -24,6 +24,14 @@ class Visi_kl_model extends CI_Model
 		$sql = "select f.*, kl.nama_kl from anev_visi_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_datatables($params){
+		$this->datatables->select('f.tahun_renstra,kl.nama_kl,f.kode_visi_kl,f.visi_kl, ');
+		$this->datatables->from('anev_visi_kl f');
+		$this->datatables->join('anev_kl kl', 'f.kode_kl=kl.kode_kl  and f.tahun_renstra=kl.tahun_renstra', 'inner');
+		$this->datatables->add_column('aksi', '$1','e2_action(f.kode_visi_kl,f.tahun)');
+		return $this->datatables->generate();
+	}
 
 }
 

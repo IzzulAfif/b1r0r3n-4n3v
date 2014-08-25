@@ -17,6 +17,7 @@ class Rencana_kl extends CI_Controller {
 		$this->load->model('/perencanaan/misi_kl_model','misi');
 		$this->load->model('/perencanaan/tujuan_kl_model','tujuan');
 		$this->load->model('/perencanaan/sasaran_kl_model','sasaran');
+		$this->load->library('datatables');
 	}	
 	function index()
 	{
@@ -37,8 +38,12 @@ class Rencana_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->visi->get_all(null);
+		$data['data'] = null;//$this->visi->get_all(null);
 		echo $this->load->view('perencanaan/visi_kl_v',$data,true); #load konten template file		
+	}
+	
+	function loadvisi_table(){
+		echo $this->visi->get_datatables(null);
 	}
 	
 	function loadmisi()
