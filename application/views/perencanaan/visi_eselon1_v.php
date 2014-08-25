@@ -9,19 +9,19 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
-                        <div class="col-md-4">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="form-control input-sm"')?>
+                        <div class="col-md-5">
+                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info btn-sm" id="proses-c1" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>		
@@ -77,4 +77,11 @@
 </table>
 </div>
 
-               
+<style type="text/css">
+	select {width:100%;}
+</style>
+<script>
+	$(document).ready(function(){
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+	});
+</script>
