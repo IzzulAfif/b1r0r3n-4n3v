@@ -53,7 +53,7 @@ class Eselon2 extends CI_Controller {
 	function load_data_e2()
 	{
 		$this->load->library('datatables');
-		$this->datatables->select('e1.nama_e1,e2.kode_e2,e2.nama_e2,e2.singkatan');
+		$this->datatables->select('e1.nama_e1,e2.kode_e2,e2.nama_e2,e2.singkatan,e2.tugas_e2');
 		$this->datatables->from('anev_eselon2 e2');
 		$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'left');
 		$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');

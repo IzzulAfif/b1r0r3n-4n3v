@@ -13,6 +13,7 @@
                         <th>Kode</th>
                         <th>Nama</th>
                         <th>Singkatan</th>
+                        <th>Tugas Pokok</th>
                         <th width="10%">Aksi</th>
                     </tr>
                     </thead>
@@ -23,6 +24,7 @@
                             <td><?=$d->kode_kl?></td>
                             <td><?=$d->nama_kl?></td>
                             <td><?=$d->singkatan?></td>
+                            <td><?=$d->tugas_kl?></td>
                             <td>
                             	<a href="<?=base_url()?>unit_kerja/anev_kl/edit/<?=$d->kode_kl?>" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
                                 <a href="<?=base_url()?>unit_kerja/anev_kl/hapus/<?=$d->kode_kl?>" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>

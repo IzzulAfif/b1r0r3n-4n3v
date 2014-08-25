@@ -38,7 +38,7 @@ class Rencana_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->visi->get_all(null);
+		$data['data'] =$this->visi->get_all(null);
 		echo $this->load->view('perencanaan/visi_kl_v',$data,true); #load konten template file		
 	}
 	

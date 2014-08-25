@@ -9,22 +9,22 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#visi-content">
-                               <i class="fa fa-list-ol"></i> Visi
+                               <i class="fa fa-list-ol"></i> Visi Eselon I
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#misi-content">
-                                <i class="fa fa-bar-chart-o"></i> Misi
+                                <i class="fa fa-bar-chart-o"></i> Misi Eselon I
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#tujuan-content">
-                                <i class="fa fa-align-center"></i> Tujuan
+                                <i class="fa fa-align-center"></i> Tujuan Eselon I
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#sasaran-content">
-                                <i class="fa fa-clipboard"></i> Sasaran
+                                <i class="fa fa-clipboard"></i> Sasaran Eselon I
                             </a>
                         </li>
                     </ul>

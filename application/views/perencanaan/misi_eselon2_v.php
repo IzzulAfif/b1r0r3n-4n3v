@@ -2,7 +2,7 @@
                    
                     <div class="panel-body">
                      <header class="panel-heading">
-                        Misi Eselon II
+                        &nbsp;
                         <span class="pull-right">
                             <a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
                          </span>

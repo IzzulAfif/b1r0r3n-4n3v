@@ -19,7 +19,7 @@
 		<tbody>
 		
 			
-						<?php if (isset($data)){foreach($data as $d): ?>
+			<?php if (isset($data)){foreach($data as $d): ?>
 			<tr class="gradeX">
 				<td><?=$d->kode_fungsi_e2?></td>
 			

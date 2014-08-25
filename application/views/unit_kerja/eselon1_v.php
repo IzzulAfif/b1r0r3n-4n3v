@@ -13,22 +13,33 @@
                         <th>Kode Unit Kerja</th>
                         <th>Nama Unit Kerja</th>
                         <th>Singkatan</th>
+                        <th>Tugas Pokok</th>
                         <th width="10%">Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
                     
-						<?php foreach($data as $d): ?>
+						<?php if (isset($data)){foreach($data as $d): ?>
                         <tr class="gradeX">
                             <td><?=$d->kode_e1?></td>
                             <td><?=$d->nama_e1?></td>
                             <td><?=$d->singkatan?></td>
+                            <td><?=$d->tugas_e1?></td>
                             <td>
                             	<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
                                 <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
+                        <?php endforeach; } else {?>
+						<tr class="gradeX">
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                           
+                        </tr>
+						<?php }?>
                     
                     </tbody>
                     </table>
