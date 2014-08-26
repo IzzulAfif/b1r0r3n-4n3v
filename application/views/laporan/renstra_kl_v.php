@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="form-control input-sm"')?>
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-3">
-                           <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="form-control input-sm"')?>
+                           <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="populate"')?>
                         </div>
                     </div>
                   
@@ -32,61 +32,36 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                
-                <p class="text-primary">Rencana Strategis Kementerian</p><br />
-                <table  class="display table table-bordered table-striped" id="tabel_capaian">
-				<tr>
-								<td class="col-sm-2">Visi</td>
-								<td width="1px">:&nbsp;</td>
-								<td>
-									<div id="kl-visi" style="margin-left:-30px;">
-										
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>Misi</td>
-								<td>:&nbsp;</td>
-								<td>
-									<div id="kl-misi" style="margin-left:-30px;">
-										
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>Tujuan</td>
-								<td>:&nbsp;</td>
-								<td>
-									<div id="kl-tujuan" style="margin-left:-30px;">
-										
-									</div>
-								</td>
-							</tr> 
-							<tr>
-								<td colspan="3">
-									<div id="kl-sasaran"  >
-										
-									</div>
-								</td>
-								
-							</tr>
-							<tr>
-								<td>Detail Perencanaan</td>
-								<td>:&nbsp;</td>
-								<td>
-									<a href="#" id="kl-klikdisini">Klik Disini</a>
-								</td>
-							</tr>
-							<tr>
-								<td>Program</td>
-								<td>:&nbsp;</td>
-								<td>
-									<div id="kl-program" style="margin-left:-30px;">
-										
-									</div>
-								</td>
-							</tr>
-    	        </table>
+                <form class="form-horizontal grid-form" role="form">                	
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Visi</label>
+                    	<div class="col-md-10" id="kl-visi"></div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Misi</label>
+                    	<div class="col-md-10" id="kl-misi"></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Tujuan</label>
+                    	<div class="col-md-10" id="kl-tujuan"></div>
+                    </div>
+					<div class="form-group">
+                    	<p class="text-primary col-md-12" ><b>Sasaran</b></p>
+                        <div class="adv-table" style="padding:10px 5px 10px 5px">
+                            <div id="kl-sasaran"  ></div>
+                        </div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Detail Perencanaan</label>
+                    	<div class="col-md-10" ><a href="#" id="kl-klikdisini">Klik Disini</a></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Program</label>
+                    	<div class="col-md-10" id="kl-program"></div>
+                    </div>
+                </form>
+				
+               
                 
             </div>
         </section>
@@ -102,6 +77,7 @@
                 
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
+			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 			load_profile = function(){
 				var tahun = $('#kl-tahun').val();
 				var kodekl = $('#kl-kodekl').val();

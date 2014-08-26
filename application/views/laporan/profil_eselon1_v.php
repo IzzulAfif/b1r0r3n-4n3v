@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-2">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="form-control input-sm"')?>
+                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-4">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="form-control input-sm"')?>
+                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="populate"')?>
                         </div>
                     </div>
                   
@@ -32,35 +32,23 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                
-                <p class="text-primary">Profil Unit Kerja Eselon I</p><br />
-                <table  class="display table table-bordered table-striped" id="tabel_capaian">
-					<tr>
-						<td class="col-sm-2">Tugas Pokok</td>
-						<td width="1px">:&nbsp;</td>
-						<td><div id="e1-tugas" style="margin-left:-30px;">
-								
-							</div></td>
-					</tr>
-					<tr>
-						<td>Fungsi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="e1-fungsi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Unit Kerja</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="e1-unitkerja" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-    	        </table>
+                <form class="form-horizontal grid-form" role="form">
+                	
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Tugas Pokok</label>
+                    	<div class="col-md-10" id="e1-tugas"></div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Fungsi</label>
+                    	<div class="col-md-10" id="e1-fungsi"></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Unit Kerja</label>
+                    	<div class="col-md-10" id="e1-unitkerja"></div>
+                    </div>
+                </form>
+				
+               
                 
             </div>
         </section>

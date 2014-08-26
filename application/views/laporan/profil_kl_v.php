@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="form-control input-sm"')?>
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-4">
-                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="form-control input-sm"')?>
+                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="populate"')?>
                         </div>
                     </div>
                   
@@ -32,38 +32,21 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                
-                <p class="text-primary">Profil Unit Kerja Kementerian</p><br />
-                <table  class="display table table-bordered table-striped" id="tabel_capaian">
-					<tr>
-						<td class="col-sm-2">Tugas Pokok</td>
-						<td width="1px">:&nbsp;</td>
-						<td>
-							<div id="kl-tugas" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Fungsi</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="kl-fungsi" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Unit Kerja</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="kl-unitkerja" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-    	        </table>
-                
+				
+				<form class="form-horizontal grid-form" role="form">                	
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Tugas Pokok</label>
+                    	<div class="col-md-10" id="kl-tugas"></div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Fungsi</label>
+                    	<div class="col-md-10" id="kl-fungsi"></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Unit Kerja</label>
+                    	<div class="col-md-10" id="kl-unitkerja"></div>
+                    </div>
+                </form>
             </div>
         </section>
     </div>

@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="form-control input-sm"')?>
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-4">
-                           <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kodee1" class="form-control input-sm"')?>
+                           <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kodee1" class="populate"')?>
                         </div>
                     </div>
                   
@@ -32,70 +32,34 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                
-                <p class="text-primary">Rencana Strategis Eselon I</p><br />
-                <table  class="display table table-bordered table-striped" id="tabel_capaian">
-				<tr>
-					<td class="col-sm-2">Visi</td>
-					<td width="1px">:&nbsp;</td>
-					<td>
-						<div id="e1-visi" style="margin-left:-30px;">
-							
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>Misi</td>
-					<td>:&nbsp;</td>
-					<td>
-						<div id="e1-misi" style="margin-left:-30px;">
-							
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>Tujuan</td>
-					<td>:&nbsp;</td>
-					<td>
-						<div id="e1-tujuan" style="margin-left:-30px;">
-							
-						</div>
-					</td>
-				</tr>
-				<tr>
-						<td colspan="3">
-							<div id="e1-sasaran"  >
-								
-							</div>
-						</td>
-						
-					</tr>
-					<tr>
-						<td>Detail Perencanaan</td>
-						<td>:&nbsp;</td>
-						<td>
-							<a href="#" id="e1-klikdisini">Klik Disini</a>
-						</td>
-					</tr>
-					<tr>
-						<td>Program</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="e1-program" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Kegiatan</td>
-						<td>:&nbsp;</td>
-						<td>
-							<div id="e1-kegiatan" style="margin-left:-30px;">
-								
-							</div>
-						</td>
-					</tr>
-    	        </table>
+                <form class="form-horizontal grid-form" role="form">                	
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Visi</label>
+                    	<div class="col-md-10" id="e1-visi"></div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="col-md-2 text-primary">Misi</label>
+                    	<div class="col-md-10" id="e1-misi"></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Tujuan</label>
+                    	<div class="col-md-10" id="e1-tujuan"></div>
+                    </div>
+					<div class="form-group">
+                    	<p class="text-primary col-md-12" ><b>Sasaran</b></p>
+                        <div class="adv-table" style="padding:10px 5px 10px 5px">
+                            <div id="e1-sasaran"  ></div>
+                        </div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Detail Perencanaan</label>
+                    	<div class="col-md-10" ><a href="#" id="e1-klikdisini">Klik Disini</a></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Program</label>
+                    	<div class="col-md-10" id="e1-program"></div>
+                    </div>
+                </form>
                 
             </div>
         </section>
@@ -111,6 +75,7 @@
                 
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
+			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 			load_profile_e1 = function(){
 				var tahun = $('#e1-tahun').val();
 				var kodee1 = $('#e1-kodee1').val();

@@ -27,9 +27,9 @@
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
-                      	<div class="panel-body tab-pane fade active in" id="kl-content"></div>
-						<div class="panel-body tab-pane fade" id="e1-content"></div>
-						<div class="panel-body tab-pane fade" id="e2-content"></div>
+                      	<div class="tab-pane fade active in" id="kl-content"></div>
+						<div class="tab-pane fade" id="e1-content"></div>
+						<div class="tab-pane fade" id="e2-content"></div>
                 </div>
             </section>
             <!--tab nav end-->

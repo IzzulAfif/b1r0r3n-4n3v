@@ -27,9 +27,9 @@
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
-                      	<div class="panel-body tab-pane fade active in" id="kl-content"></div>
-						<div class="panel-body tab-pane fade" id="e1-content"></div>
-						<div class="panel-body tab-pane fade" id="e2-content"></div>
+                      	<div class="tab-pane fade active in" id="kl-content"></div>
+						<div class="tab-pane fade" id="e1-content"></div>
+						<div class="tab-pane fade" id="e2-content"></div>
                 </div>
             </section>
             <!--tab nav end-->
@@ -37,10 +37,12 @@
         </section>
     </section>
     <!--main content end-->
-	
+	<style type="text/css">
+        select {width:100%;}        
+    </style>
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
-			
+			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 			$("#kl-content").load("<?=base_url()?>laporan/profil_kl/loadprofile");
 			$("#e1-content").load("<?=base_url()?>laporan/profil_eselon1/loadprofile");
 			$("#e2-content").load("<?=base_url()?>laporan/profil_eselon2/loadprofile");

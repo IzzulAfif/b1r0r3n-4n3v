@@ -10,22 +10,22 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#kegiatan-content">
-                               <i class="fa fa-list-ol"></i> Kegiatan
+                               <i class="fa fa-list-ol"></i> Kegiatan Eselon II 
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#saskeg-content">
-                                <i class="fa fa-bar-chart-o"></i> Sasaran Kegiatan
+                                <i class="fa fa-bar-chart-o"></i> Sasaran Kegiatan Eselon II
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#ikk-content">
-                                <i class="fa fa-align-center"></i> IKK
+                                <i class="fa fa-align-center"></i> IKK Eselon II
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#pendanaan-content">
-                                <i class="fa fa-clipboard"></i> Pendanaan
+                                <i class="fa fa-clipboard"></i> Pendanaan Eselon II
                             </a>
                         </li>
                     </ul>

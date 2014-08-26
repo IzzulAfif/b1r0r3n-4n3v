@@ -29,6 +29,11 @@ class Renstra_eselon2 extends CI_Controller {
 		$this->load->view('template/container',$template);
 	}
 	
+	function get_list_eselon2($kode_e1)
+	{
+		$params = array("kode_e1"=>$kode_e1);
+		echo json_encode($this->eselon2->get_list($params));
+	}
 	function loadprofile()
 	{
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
@@ -43,34 +48,40 @@ class Renstra_eselon2 extends CI_Controller {
 		
 	function get_visi($tahun,$e2){
 		$data = $this->visi_e2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->visi_e2.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){	
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->visi_e2.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_misi($tahun,$e2){
 		$data = $this->misi_e2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->misi_e2.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->misi_e2.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}
 		echo $rs;
 	}
 	
 	function get_tujuan($tahun,$e2){
 		$data = $this->tujuan_e2->get_all(array("kode_e1"=>$e2,"tahun_renstra"=>$tahun));
-		
-		$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
-		foreach($data as $d){
-			$rs .= '<li>'.$d->tujuan_e2.'</li>';
-		 }
-		 $rs .= '</ol>';
+		$rs = '';
+		if (isset($data)){
+			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			foreach($data as $d){
+				$rs .= '<li>'.$d->tujuan_e2.'</li>';
+			 }
+			 $rs .= '</ol>';
+		}	 
 		echo $rs;
 	}
 
