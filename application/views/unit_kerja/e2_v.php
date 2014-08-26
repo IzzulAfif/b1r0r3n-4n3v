@@ -10,12 +10,12 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#id-content">
-                               <i class="fa fa-list-ol"></i> Identitas
+                               <i class="fa fa-list-ol"></i> Identitas & Tugas Pokok Eselon II
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#fungsi-content">
-                                <i class="fa fa-bar-chart-o"></i> Fungsi
+                                <i class="fa fa-bar-chart-o"></i> Fungsi Eselon II
                             </a>
                         </li>
                         

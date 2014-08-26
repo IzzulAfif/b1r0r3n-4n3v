@@ -18,6 +18,7 @@ class Fungsi_eselon2_model extends CI_Model
 	function get_all($params){
 		$where = ' where 1=1 ';
 		if (isset($params)){
+			if (isset($params['kode_e1'])) $where .= " and e2.kode_e1='".$params['kode_e1']."'";
 			if (isset($params['kode_e2'])) $where .= " and f.kode_e2='".$params['kode_e2']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
 		}

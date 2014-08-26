@@ -10,19 +10,19 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="iku-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
-                        <div class="col-md-4">
-                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="iku-kodekl"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="iku-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>					 
@@ -33,13 +33,13 @@
                    
                  
  <header class="panel-heading">
-	
+	&nbsp;
 	<span class="pull-right">
 		<a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="iku-tbl">
 <thead>
 <tr>
 	
@@ -76,4 +76,24 @@
 </tbody>
 </table>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+	
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#iku-btn").click(function(){
+			tahun = $('#iku-tahun').val();
+			kode = $('#iku-kodekl').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_iku/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#iku-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
+	
+	})
+</script>	
                    

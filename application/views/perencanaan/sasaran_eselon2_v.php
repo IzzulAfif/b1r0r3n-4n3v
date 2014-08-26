@@ -10,7 +10,7 @@
 <table  class="display table table-bordered table-striped" id="dynamic-table">
 <thead>
 <tr>
-	<th>Tahun Renstra</th>
+
 	<th>Unit Kerja</th>
 	<th>Kode Sasaran</th>
 	<th>Sasaran</th>
@@ -21,7 +21,7 @@
 
 	<?php if (isset($data)){foreach($data as $d): ?>
 	<tr class="gradeX">
-		<td><?=$d->tahun_renstra?></td>
+		
 		<td><?=$d->nama_e2?></td>
 		<td><?=$d->kode_sasaran_e2?></td>
 		<td><?=$d->sasaran_e2?></td>
@@ -32,7 +32,7 @@
 	</tr>
 	<?php endforeach; } else {?>
 	<tr class="gradeX">
-		<td>&nbsp;</td>
+		
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
@@ -43,5 +43,9 @@
 </tbody>
 </table>
 </div>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+	})
+</script>	
                

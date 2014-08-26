@@ -33,8 +33,39 @@ class Eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		//$this->visi->get_all(null);
-			$data['data']		= $this->eselon1->get_all(null); #kirim data ke konten file
+			$data['data']		= null;//$this->eselon1->get_all(null); #kirim data ke konten file
+		
 		echo $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_identitas($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		//$params['kode_e1'] = 	$kode;
+		$data=$this->eselon1->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->kode_e1.'</td>
+					<td>'.$d->nama_e1.'</td>					
+					<td>'.$d->singkatan.'</td>					
+					<td>'.$d->tugas_e1.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadfungsi()
@@ -42,8 +73,35 @@ class Eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->fungsi->get_all(null);
+		$data['data'] = null;//$this->fungsi->get_all(null);
+		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('unit_kerja/fungsi_eselon1_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_fungsi($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_e1'] = 	$kode;
+		$data=$this->fungsi->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->kode_fungsi_e1.'</td>
+					<td>'.$d->fungsi_e1.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function add()

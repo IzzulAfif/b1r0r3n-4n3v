@@ -18,6 +18,7 @@ class Kl_model extends CI_Model
 	function get_all($params){
 		$where = ' where 1=1 ';
 		if (isset($params)){
+			if (isset($params['tahun_rensta'])) $where .= " and kl.tahun_rensta='".$params['tahun_rensta']."'";
 			if (isset($params['kode_kl'])) $where .= " and kl.kode_kl='".$params['kode_kl']."'";
 		}
 		$sql = "select kl.* from anev_kl kl ".$where;

@@ -10,19 +10,19 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="sasaran-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
-                        <div class="col-md-4">
-                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="sasaran-kodekl"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="sasaran-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>					 
@@ -38,7 +38,7 @@
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="sasaran-tbl">
 <thead>
 <tr>
 
@@ -50,7 +50,7 @@
 </thead>
 <tbody>
 
-	<?php foreach($data as $d): ?>
+	<?php if (isset($data)){foreach($data as $d): ?>
 	<tr class="gradeX">
 	
 		<td><?=$d->kode_sasaran_kl?></td>
@@ -60,10 +60,34 @@
 			<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
 		</td>
 	</tr>
-	<?php endforeach; ?>
+	<?php endforeach; } else {?>
+		<tr class="gradeX">
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>			
+		   
+		</tr>
+		<?php }?>
 
 </tbody>
 </table>
 </div>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#sasaran-btn").click(function(){
+			tahun = $('#sasaran-tahun').val();
+			kode = $('#sasaran-kodekl').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>perencanaan/rencana_kl/get_body_sasaran/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#sasaran-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
+	})
+</script>	
                

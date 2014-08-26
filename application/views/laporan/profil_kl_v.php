@@ -77,8 +77,10 @@
 				
                
 	
-	<script  type="text/javascript" language="javascript">
+	<script type="text/javascript">
 		$(document).ready(function() {
+			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+	
 			load_profile = function(){
 				var tahun = $('#kl-tahun').val();
 				var kodekl = $('#kl-kodekl').val();

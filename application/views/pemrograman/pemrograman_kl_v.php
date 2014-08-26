@@ -20,7 +20,7 @@
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#iku-content">
-                                <i class="fa fa-align-center"></i> IKU
+                                <i class="fa fa-align-center"></i> IKU Kementerian
                             </a>
                         </li>
                         <li class="">
@@ -44,9 +44,9 @@
     </section>
     <!--main content end-->
 	
-	<script  type="text/javascript" language="javascript">
+	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});			
 			$("#program-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadprogram");
 			$("#sastra-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadsastra");
 			$("#iku-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadiku");

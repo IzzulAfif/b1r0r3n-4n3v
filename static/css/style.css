@@ -317,7 +317,7 @@ ul.sidebar-menu li a.active i {
     background-color:#fff;
 	background-image:url(../images/title.gif);
 	/*background-position-x: 400px;/*260px;*/
-	background-position:38% 50%;
+	background-position:32% 50%;
 	background-repeat:no-repeat;
     -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;

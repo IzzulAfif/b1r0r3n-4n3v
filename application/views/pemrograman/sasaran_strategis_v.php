@@ -11,19 +11,19 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="sastra-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
-                        <div class="col-md-4">
-                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="sastra-kodekl"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="sastra-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>					 
@@ -39,7 +39,7 @@
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="sastra-tbl">
 <thead>
 <tr>
 	
@@ -76,5 +76,25 @@
 </tbody>
 </table>
 </div>
-                
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		
+		
+		$("#sastra-btn").click(function(){
+			tahun = $('#sastra-tahun').val();
+			kode = $('#sastra-kodekl').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_sastra/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#sastra-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
+	
+	})
+</script>	                
                

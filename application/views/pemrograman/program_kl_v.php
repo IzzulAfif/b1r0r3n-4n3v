@@ -8,21 +8,21 @@
                 </div>
                 <form class="form-horizontal" role="form">
                         
-                    <div class="form-group">
+                   <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="form-control input-sm"')?>
+                        <div class="col-md-3">
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="program-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Nama Kementerian</label>
+                        <label class="col-md-2 control-label">Unit Kerja</label>
                         <div class="col-md-4">
-                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="form-control input-sm"')?>
+                         <?=form_dropdown('kode_e1',$eselon1,'0','id="program-kode_e1"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="program-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>					 
@@ -33,21 +33,19 @@
                    
 
  <header class="panel-heading">
-	Program Kementerian
+	&nbsp;
 	<span class="pull-right">
 		<a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="program-tbl">
 <thead>
 <tr>
 	
 	<th>Kode Program</th>
 	<th>Nama Program</th>
 	
-	<th>Persen</th>	
-	<th>Unit Kerja</th>	
 	<th width="10%">Aksi</th>
 </tr>
 </thead>
@@ -58,9 +56,7 @@
 		
 		<td><?=$d->kode_program?></td>
 		<td><?=$d->nama_program?></td>
-		
-		<td align="right"><?=$this->utility->cekNumericFmt($d->persen)?></td>
-		<td><?=$d->nama_e1?></td>
+	
 		<td>
 			<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
 			<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
@@ -71,8 +67,7 @@
 		
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+	
 		<td>&nbsp;</td>
 	</tr>
 	<?php }?>
@@ -80,5 +75,21 @@
 </tbody>
 </table>
 </div>
-
-               
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#program-btn").click(function(){
+			tahun = $('#program-tahun').val();
+			kode = $('#program-kode_e1').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_program/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#program-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
+	})
+</script>	        

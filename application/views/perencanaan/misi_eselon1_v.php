@@ -10,18 +10,18 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-2">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="form-control input-sm"')?>
+                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="misi-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-4">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="form-control input-sm"')?>
+                       <?=form_dropdown('kode_e1',$eselon1,'0','id="misi-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="misi-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>		
@@ -36,11 +36,11 @@
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="misi-tbl">
 <thead>
 <tr>
 	
-	<th>Unit Kerja</th>
+	
 	<th>Kode Misi</th>
 	<th>Misi</th>
 	<th width="10%">Aksi</th>
@@ -51,7 +51,7 @@
 	<?php if (isset($data)){foreach($data as $d): ?>
 	<tr class="gradeX">
 
-		<td><?=$d->nama_e1?></td>
+	
 		<td><?=$d->kode_misi_e1?></td>
 		<td><?=$d->misi_e1?></td>
 		<td>
@@ -65,12 +65,31 @@
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td>&nbsp;</td>
 	</tr>
 	<?php }?>
 
 </tbody>
 </table>
 </div>
+<style type="text/css">
+	select {width:100%;}
+</style>
 
-               
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#misi-btn").click(function(){
+			tahun = $('#misi-tahun').val();
+			kode = $('#misi-kode_e1').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>perencanaan/rencana_eselon1/get_body_misi/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#misi-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
+	})
+</script>	               

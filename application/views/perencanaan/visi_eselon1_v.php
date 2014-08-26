@@ -10,18 +10,18 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="populate"')?>
+                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="visi-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-5">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="populate"')?>
+                       <?=form_dropdown('kode_e1',$eselon1,'0','id="visi-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info btn-sm" id="proses-c1" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info btn-sm" id="visi-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
                     </div>		
@@ -38,11 +38,11 @@
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="visi-tbl">
 <thead>
 <tr>
 
-	<th>Unit Kerja</th>
+	
 	<th>Kode Visi</th>
 	<th>Visi</th>
 	<th width="10%">Aksi</th>
@@ -55,7 +55,7 @@
 	foreach($data as $d): ?>
 	<tr class="gradeX">
 		
-		<td><?=$d->nama_e1?></td>
+	
 		<td><?=$d->kode_visi_e1?></td>
 		<td><?=$d->visi_e1?></td>
 		<td>
@@ -67,7 +67,7 @@
 	} else {?>
 	<tr class="gradeX">
 		
-		<td>&nbsp;</td>
+	
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
@@ -76,12 +76,25 @@
 </tbody>
 </table>
 </div>
-
+	
 <style type="text/css">
 	select {width:100%;}
 </style>
 <script>
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#visi-btn").click(function(){
+			tahun = $('#visi-tahun').val();
+			kode = $('#visi-kode_e1').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>perencanaan/rencana_eselon1/get_body_visi/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#visi-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
 	});
 </script>

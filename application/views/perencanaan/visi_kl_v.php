@@ -1,41 +1,36 @@
-
-             
+            
 <div class="feed-box">
-
-                <form class="form-horizontal" role="form">
         <section class="panel tab-bg-form">
             <div class="panel-body">
 				
-  			 <div class="corner-ribon blue-ribon">
+   <div class="corner-ribon blue-ribon">
                    <i class="fa fa-cog"></i>
                 </div>
-                       
+                <form class="form-horizontal" role="form">
+                        
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Periode Renstra</label>
-                        <div class="col-sm-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
+                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <div class="col-md-3">
+                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="visi-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Nama Kementerian</label>
-                        <div class="col-sm-5">
-                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="populate"')?>
+                        <label class="col-md-2 control-label">Nama Kementerian</label>
+                        <div class="col-md-3">
+                         <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="visi-kodekl"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
-                        <label class="col-sm-2 control-label">&nbsp;</label>
-                        <div class="col-sm-8">
-                        <button type="button" class="btn btn-info btn-sm" id="proses-c1">
+                        <label class="col-md-2 control-label">&nbsp;</label>
+                        <button type="button" class="btn btn-info" id="visi-btn" style="margin-left:15px;">
                             <i class="fa fa-play"></i> Tampilkan Data
                         </button>
-                        </div>
-                    </div>			 
-                
-                
+                    </div>					 
+                </form>
             </div>
         </section>
-        </form>
     </div>
+    
     
 	
  <header class="panel-heading">
@@ -45,7 +40,7 @@
 	 </span>
 </header>
 <div class="adv-table">
-<table  class="display table table-bordered table-striped" id="dynamic-table">
+<table  class="display table table-bordered table-striped" id="visi-tbl">
 <thead>
 <tr>
 	
@@ -82,8 +77,27 @@
 <style type="text/css">
 	select {width:100%;}
 </style>
-<script>
-	$(document).ready(function(){
+
+<script type="text/javascript">
+	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-	});
-</script>
+		$("#visi-btn").click(function(){
+			tahun = $('#visi-tahun').val();
+			kode = $('#visi-kodekl').val();
+			$.ajax({
+                    url:"<?php echo site_url(); ?>perencanaan/rencana_kl/get_body_visi/"+tahun+"/"+kode,
+                        success:function(result) {
+                            table_body = $('#visi-tbl tbody');
+                            table_body.empty().html(result);        
+                            
+                            
+                        }
+                });  
+		});
+	})
+</script>			
+ <script>
+		$(document).ready(function(){
+			//load_ajax_datatable('dynamic-table','<?=base_url()?>perencanaan/rencana_kl/loadvisi_table');
+		});
+	</script>               

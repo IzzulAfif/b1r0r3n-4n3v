@@ -38,8 +38,37 @@ class Pemrograman_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->program_e1->get_all(null);
+		$data['data'] = null;// $this->program_e1->get_all(null);
+		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/program_kl_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_program($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_e1'] = 	$kode;
+		$data=$this->program_e1->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->kode_program.'</td>
+					<td>'.$d->nama_program.'</td>					
+					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadsastra()
@@ -47,8 +76,35 @@ class Pemrograman_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->sasaran->get_all(null);
+		$data['data'] = null;////$this->sasaran->get_all(null);
 		echo $this->load->view('pemrograman/sasaran_strategis_v',$data,true); #load konten template file		
+	}
+	function get_body_sastra($tahun,$kl){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_kl'] = 	$kl;
+		$data=$this->sasaran->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->sasaran_kl.'</td>
+					<td>'.$d->kode_ss_kl.'</td>					
+					<td>'.$d->deskripsi.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadiku()
@@ -56,8 +112,35 @@ class Pemrograman_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->iku->get_all(null);
+		$data['data'] = null;//$this->iku->get_all(null);
 		echo $this->load->view('pemrograman/iku_kl_v',$data,true); #load konten template file		
+	}
+	function get_body_iku($tahun,$kl){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_kl'] = 	$kl;
+		$data=$this->iku->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->sastra_deskripsi.'</td>
+					<td>'.$d->kode_iku_kl.'</td>
+					<td>'.$d->deskripsi.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadpendanaan()

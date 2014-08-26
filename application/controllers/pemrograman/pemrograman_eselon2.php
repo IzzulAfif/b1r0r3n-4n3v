@@ -38,8 +38,35 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->kegiatan->get_all(null);
+		$data['data'] =$this->kegiatan->get_all(null);
+		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/kegiatan_eselon2_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_kegiatan($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_e2'] = 	$kode;
+		$data=$this->kegiatan->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->kode_program.'</td>
+					<td>'.$d->nama_program.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadsaskeg()
@@ -48,7 +75,34 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->sasaran->get_all(null);
+		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/sasaran_kegiatan_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_sasaran($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_e2'] = 	$kode;
+		$data=$this->kegiatan->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->kode_program.'</td>
+					<td>'.$d->nama_program.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadikk()
@@ -57,7 +111,34 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->iku->get_all(null);
+		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/ikk_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_ikk($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		$params['kode_e2'] = 	$kode;
+		$data=$this->iku->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$d->kode_ikk.'</td>
+					<td>'.$d->deskripsi.'</td>					
+					<td>
+						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function loadpendanaan()
@@ -66,6 +147,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = null;//$this->sasaran->get_all(null);
+		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/pendanaan_kl_v',$data,true); #load konten template file		
 	}
 	

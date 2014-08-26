@@ -74,9 +74,10 @@
 	
 	
                  
-	
-	<script  type="text/javascript" language="javascript">
+	<script type="text/javascript">
 		$(document).ready(function() {
+			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+
 			load_profile_e1 = function(){
 				var tahun = $('#e1-tahun').val();
 				var kodee1 = $('#e1-kode_e1').val();
