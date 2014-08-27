@@ -23,7 +23,7 @@
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="sasaran-btn" style="margin-left:15px;">
-                            <i class="fa fa-play"></i> Tampilkan Data
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>					 
                 </form>
@@ -31,47 +31,54 @@
         </section>
     </div>
 	
- <header class="panel-heading">
-	&nbsp;
-	<span class="pull-right">
-		<a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-	 </span>
-</header>
-<div class="adv-table">
-<table  class="display table table-bordered table-striped" id="sasaran-tbl">
-<thead>
-<tr>
+    <div id="sasaran_kl_konten" class="hide">
+    	
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        <br />
 
+        <div class="adv-table">
+        <table  class="display table table-bordered table-striped" id="sasaran-tbl">
+        <thead>
+        <tr>
+        
+        
+            <th width="13%">Kode Sasaran</th>
+            <th>Sasaran</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+            <?php if (isset($data)){foreach($data as $d): ?>
+            <tr class="gradeX">
+            
+                <td><?=$d->kode_sasaran_kl?></td>
+                <td><?=$d->sasaran_kl?></td>
+                <td>
+                    <a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+                    <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+                </td>
+            </tr>
+            <?php endforeach; } else {?>
+                <tr class="gradeX">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>			
+                   
+                </tr>
+                <?php }?>
+        
+        </tbody>
+        </table>
+        </div>
 
-	<th width="13%">Kode Sasaran</th>
-	<th>Sasaran</th>
-	<th width="10%">Aksi</th>
-</tr>
-</thead>
-<tbody>
-
-	<?php if (isset($data)){foreach($data as $d): ?>
-	<tr class="gradeX">
-	
-		<td><?=$d->kode_sasaran_kl?></td>
-		<td><?=$d->sasaran_kl?></td>
-		<td>
-			<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-			<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-		</td>
-	</tr>
-	<?php endforeach; } else {?>
-		<tr class="gradeX">
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>			
-		   
-		</tr>
-		<?php }?>
-
-</tbody>
-</table>
-</div>
+	</div>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
@@ -83,8 +90,7 @@
                         success:function(result) {
                             table_body = $('#sasaran-tbl tbody');
                             table_body.empty().html(result);        
-                            
-                            
+                            $('#sasaran_kl_konten').removeClass("hide");
                         }
                 });  
 		});

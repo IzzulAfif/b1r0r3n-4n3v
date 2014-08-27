@@ -124,7 +124,7 @@
                     <div class="col-sm-2">
                     
                     	<button type="submit" class="btn btn-info" id="proses-c1">
-                            <i class="fa fa-play"></i> Tampilkan Grafik
+                            <i class="fa fa-arrow-circle-right"></i> Tampilkan Grafik
                         </button>
                     </div>
                     

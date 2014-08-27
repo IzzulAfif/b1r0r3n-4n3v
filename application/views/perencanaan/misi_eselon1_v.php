@@ -22,55 +22,63 @@
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="misi-btn" style="margin-left:15px;">
-                            <i class="fa fa-play"></i> Tampilkan Data
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>		
                 </form>
             </div>
         </section>
     </div>
- <header class="panel-heading">
-	&nbsp;
-	<span class="pull-right">
-		<a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-	 </span>
-</header>
-<div class="adv-table">
-<table  class="display table table-bordered table-striped" id="misi-tbl">
-<thead>
-<tr>
-	
-	
-	<th>Kode Misi</th>
-	<th>Misi</th>
-	<th width="10%">Aksi</th>
-</tr>
-</thead>
-<tbody>
+    
+    <div id="misi_es1_konten" class="hide">
+    	
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        <br />
 
-	<?php if (isset($data)){foreach($data as $d): ?>
-	<tr class="gradeX">
+        <div class="adv-table">
+        <table  class="display table table-bordered table-striped" id="misi-tbl">
+        <thead>
+        <tr>
+            
+            
+            <th>Kode Misi</th>
+            <th>Misi</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+            <?php if (isset($data)){foreach($data as $d): ?>
+            <tr class="gradeX">
+        
+            
+                <td><?=$d->kode_misi_e1?></td>
+                <td><?=$d->misi_e1?></td>
+                <td>
+                    <a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+                    <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+                </td>
+            </tr>
+            <?php endforeach; } else {?>
+            <tr class="gradeX">
+        
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <?php }?>
+        
+        </tbody>
+        </table>
+        </div>
 
-	
-		<td><?=$d->kode_misi_e1?></td>
-		<td><?=$d->misi_e1?></td>
-		<td>
-			<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-			<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-		</td>
-	</tr>
-	<?php endforeach; } else {?>
-	<tr class="gradeX">
-
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<?php }?>
-
-</tbody>
-</table>
-</div>
+	</div>
 <style type="text/css">
 	select {width:100%;}
 </style>
@@ -86,8 +94,7 @@
                         success:function(result) {
                             table_body = $('#misi-tbl tbody');
                             table_body.empty().html(result);        
-                            
-                            
+                         	$('#misi_es1_konten').removeClass("hide");   
                         }
                 });  
 		});

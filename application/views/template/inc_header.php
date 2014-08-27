@@ -9,6 +9,7 @@
     <link href="<?=base_url("static")?>/bs3/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/js/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/js/select2/select2.css" rel="stylesheet">
+    <link href="<?=base_url("static")?>/js/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
     <link href="<?=base_url("static")?>/css/bootstrap-reset.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/js/jvector-map/jquery-jvectormap-1.2.2.css" rel="stylesheet">

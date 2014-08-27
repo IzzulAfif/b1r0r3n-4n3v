@@ -2,7 +2,7 @@
     <section id="main-content">
         <section class="wrapper">
         <!-- page start-->
-		
+        
 		<!--tab nav start-->
             <section class="panel">
                 <header class="panel-heading tab-bg-light tab-right ">
@@ -32,9 +32,6 @@
             </section>
             <!--tab nav end-->
 			
-			
-                
-      
         </section>
     </section>
     <!--main content end-->
@@ -44,7 +41,10 @@
 			
 			$("#id-content").load("<?=base_url()?>unit_kerja/anev_kl/loadidentitas");
 			$("#fungsi-content").load("<?=base_url()?>unit_kerja/anev_kl/loadfungsi");
-			
-		
+			<?php if($this->session->flashdata("msg")!=""):?>
+				$.gritter.add({
+					text: '<?=$this->session->flashdata("msg")?>'
+				});
+			<?php endif; ?>
 		});
 	</script>

@@ -104,7 +104,7 @@
                     <div class="col-sm-2">
                     
                     	<button type="button" class="btn btn-info" id="proses-c2">
-                            <i class="fa fa-play"></i> Tampilkan Grafik
+                            <i class="fa fa-arrow-circle-right"></i> Tampilkan Grafik
                         </button>
                     </div>
                 

@@ -23,7 +23,7 @@
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="fungsi-btn" style="margin-left:15px;">
-                            <i class="fa fa-play"></i> Tampilkan Data
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>					 
                 </form>
@@ -31,13 +31,16 @@
         </section>
     </div>
 	
- <header class="panel-heading">
-	&nbsp;
-	<span class="pull-right">
-		 <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-	 </span>
-</header>
-<div class="adv-table">
+    <div class="hide" id="konten_fungsikl">
+	<div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right">
+                 <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+             </div>
+        </div>
+    </div>
+    <br />
+	<div class="adv-table">
 	<table  class="display table table-bordered table-striped" id="fungsi-tbl">
 	<thead>
 	<tr>
@@ -70,6 +73,7 @@
 	
 	</tbody>
 	</table>
+	</div>
 </div>
 <!--main content end-->
 <style type="text/css">
@@ -85,9 +89,8 @@
                     url:"<?php echo site_url(); ?>unit_kerja/anev_kl/get_body_fungsi/"+tahun+"/"+kl,
                         success:function(result) {
                             table_identitas = $('#fungsi-tbl tbody');
-                            table_identitas.empty().html(result);        
-                            
-                            
+                            table_identitas.empty().html(result);
+                            $('#konten_fungsikl').removeClass("hide");
                         }
                 });  
 		});

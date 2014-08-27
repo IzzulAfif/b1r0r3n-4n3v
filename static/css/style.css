@@ -315,10 +315,10 @@ ul.sidebar-menu li a.active i {
     right:0;
     z-index:1002;
     background-color:#fff;
-	background-image:url(../images/title.gif);
-	/*background-position-x: 400px;/*260px;*/
-	background-position:32% 50%;
+	/*background-image:url(../images/title.gif);
 	background-repeat:no-repeat;
+	background-position:40% 50%;*/
+	/*background-position-x: 400px;/*260px;*/
     -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;
     -o-transition:all .3s ease-in-out;

@@ -51,7 +51,7 @@ class Anev_kl extends CI_Controller {
 					<td>'.$d->singkatan.'</td>
 					<td>'.$d->tugas_kl.'</td>
 					<td>
-						<a href="'.base_url().'unit_kerja/anev_kl/edit/'.$d->kode_kl.'" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
+						<a href="#updateModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="edit(\''.$d->kode_kl.'\');"><i class="fa fa-pencil"></i></a>
 						<a href="'.base_url().'unit_kerja/anev_kl/hapus/'.$d->kode_kl.'" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
@@ -122,19 +122,20 @@ class Anev_kl extends CI_Controller {
 	
 	function save()
 	{
+		$tahun	= $this->input->post("tahun");
 		$kode	= $this->input->post("kode");
 		$nama	= $this->input->post("nama");
 		$singkat= $this->input->post("singkatan");
+		$tugas	= $this->input->post("tugas");
 		
-		$varData	= array('kode_kl'	=> $kode,
-							'nama_kl'	=> $nama,
-							'singkatan'	=> $singkat);
+		$varData	= array('tahun_renstra'	=> $tahun,
+							'kode_kl'		=> $kode,
+							'nama_kl'		=> $nama,
+							'singkatan'		=> $singkat,
+							'tugas_kl'		=> $tugas);
 		$this->mgeneral->save($varData,"anev_kl");
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil ditambahkan.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
+		$msg = '<p><i class="fa fa-check-square-o"></i> Data berhasil ditambahkan.</p>';
 				
 		$this->session->set_flashdata('msg', $msg);
 		redirect("unit_kerja/anev_kl","refresh");	
@@ -142,17 +143,8 @@ class Anev_kl extends CI_Controller {
 	
 	function edit($id)
 	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
-		$setting['page']	= array('pg_aktif'	=> "form");
-		$template			= $this->template->load($setting); #load static template file
-		
 		$data['data']		= $this->mgeneral->getWhere(array('kode_kl'=>$id),"anev_kl");
-		$data['url']		= base_url()."unit_kerja/anev_kl/update";
-		$template['konten']	= $this->load->view('unit_kerja/anev_kl_form',$data,true); #load konten template file
-		
-		#load container for template view
-		$this->load->view('template/container',$template);
+		$this->load->view('unit_kerja/anev_kl_form',$data);
 	}
 	
 	function update()
@@ -161,16 +153,15 @@ class Anev_kl extends CI_Controller {
 		$kode	= $this->input->post("kode");
 		$nama	= $this->input->post("nama");
 		$singkat= $this->input->post("singkatan");
+		$tugas	= $this->input->post('tugas');
 		
 		$varData	= array('kode_kl'	=> $kode,
 							'nama_kl'	=> $nama,
-							'singkatan'	=> $singkat);
+							'singkatan'	=> $singkat,
+							'tugas_kl'	=> $tugas);
 		$this->mgeneral->update(array('kode_kl'=>$id),$varData,"anev_kl");
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil diubah.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
+		$msg = '<p><i class="fa fa-check-square-o"></i> Data berhasil diubah.</p>';
 				
 		$this->session->set_flashdata('msg', $msg);
 		redirect("unit_kerja/anev_kl","refresh");
@@ -180,10 +171,7 @@ class Anev_kl extends CI_Controller {
 	{
 		$this->mgeneral->delete(array('kode_kl'=>$id),"anev_kl");
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil dihapus.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
+		$msg = '<p><i class="fa fa-check-square-o"></i> Data berhasil dihapus.</p>';
 				
 		$this->session->set_flashdata('msg', $msg);
 		redirect("unit_kerja/anev_kl","refresh");

@@ -3,6 +3,7 @@
     $(document).ready(function () {
         /*==Left Navigation Accordion ==*/
 		
+		setTimeout(function(){$('#autoClose').click()},"5000");
         if ($.fn.dcAccordion) {
             $('#nav-accordion').dcAccordion({
                 eventType: 'click',

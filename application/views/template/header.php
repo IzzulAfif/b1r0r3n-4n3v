@@ -13,6 +13,14 @@
     </div>
     <!--logo end-->
     
+    <div class="nav notify-row" id="top_menu">
+    	<ul class="nav top-menu">
+    		<li>
+            	<img src="<?=base_url()?>static/images/title.gif" id="title-img" height="80" style="margin-top:-23px;"/>
+            </li>
+        </ul>
+	</div>
+
     <div class="top-nav clearfix">
     
         <ul class="nav pull-right top-menu">

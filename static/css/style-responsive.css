@@ -1,3 +1,7 @@
+@media (min-width: 980px) and (max-width: 1024px) {
+	#title-img { width:30%; }
+	.header #top_menu {width:00px;}
+}
 @media (min-width: 768px) and (max-width: 980px) {
     /*-*/
     .prd-row .action {
