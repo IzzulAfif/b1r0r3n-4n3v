@@ -13,12 +13,12 @@
                          		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="id-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
-                <!--    <div class="form-group">
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-4">
-                       <=form_dropdown('kode_e1',$eselon1,'0','id="id-kode_e1" class="populate" style="width:100%"')?>
+                       <?=form_dropdown('kode_e1',$eselon1,'0','id="id-kode_e1" class="populate" style="width:100%"')?>
                         </div>
-                    </div> -->
+                    </div> 
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="id-btn" style="margin-left:15px;">
@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
-                     <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                     <a href="#identitasModal" data-toggle="modal" onclick="identitasAdd()" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
@@ -83,6 +83,27 @@
 	</div>
 
     <!--main content end-->
+	
+	<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="identitasModal" class="modal fade">
+        <div class="modal-dialog"> 
+        <form method="post" id="identitas-form" class="form-horizontal bucket-form" role="form">  
+            <div class="modal-content">
+            	<div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" ><i class="fa fa-pencil"></i><span id="identitas_title_form">Update Eselon I</span></h5>
+                </div>
+                <div class="modal-body" id="identitas_form_konten">
+                </div>
+                <div class="modal-footer">
+                	<div class="pull-right">
+                		<button type="button" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" class="btn btn-info">Simpan</button>
+                	</div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
 <style type="text/css">
 	select {width:100%;}
 </style>
@@ -101,5 +122,27 @@
                         }
                 });  
 		});
+		
+		 identitasAdd =function(){
+			$("#identitas_title_form").html("Tambah Identitas dan Tugas Eselon I");
+			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/save');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon1/add/',
+					success:function(result) {
+						$('#identitas_form_konten').html(result);
+					}
+			});
+		}
+		
+		 identitasEdit = function(tahun,kode){
+			$("#identitas_title_form").html("Update Identitas dan Tugas Eselon I");
+			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/update');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon1/edit/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#identitas_form_konten').html(result);
+					}
+			});
+		}
 	});
 </script>		

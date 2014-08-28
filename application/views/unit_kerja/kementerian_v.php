@@ -10,7 +10,7 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#id-content">
-                               <i class="fa fa-list-ol"></i> Identitas dan Tugas Pokok Kementerian
+                               <i class="fa fa-list-ol"></i> Identitas dan Tugas Kementerian
                             </a>
                         </li>
                         <li class="">

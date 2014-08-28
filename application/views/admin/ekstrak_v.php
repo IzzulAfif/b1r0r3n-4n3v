@@ -3,39 +3,48 @@
         <section class="wrapper">
         <!-- page start-->
 		
-        <?=$this->session->flashdata('msg')?>
+		<!--tab nav start-->
+            <section class="panel">
+                <header class="panel-heading tab-bg-light tab-right ">
+                	<p class="pull-left"><b>Ekstrak Data</b></p>
+                    <ul class="nav nav-tabs pull-right">
+                        <li class="active">
+                            <a data-toggle="tab" href="#eperformance-content">
+                               <i class="fa fa-cogs"></i> E-Performance
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#emon-content">
+                                <i class="fa fa-bar-chart-o"></i> E-Monitoring
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="tab-content">
+                       <div class="panel-body tab-pane fade active in" id="eperformance-content"></div>
+						<div class="panel-body tab-pane fade" id="emon-content"></div>
+					</div>	
+								
+                </div>
+				
+            </section>
+            <!--tab nav end-->
+			
+			
                 
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Ekstrak Data
-                        <span class="pull-right">
-                            <a href="<?=base_url()?>unit_kerja/anev_kl/add" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-                         </span>
-                    </header>
-                    <div class="panel-body">
-                    
-                    <div class="adv-table">
-                    <table  class="display table table-bordered table-striped" id="dynamic-table">
-                    <thead>
-                    <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Singkatan</th>
-                        <th width="10%">Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    
-						
-                    </tbody>
-                    </table>
-                    </div>
-                    </div>
-                </section>
-            </div>
-        </div>
+      
         </section>
     </section>
     <!--main content end-->
+	
+	<script  type="text/javascript" language="javascript">
+		$(document).ready(function() {
+			
+			//$("#eperformance-content").load("<?=base_url()?>unit_kerja/eselon1/loadidentitas");
+			//$("#emon-content").load("<?=base_url()?>unit_kerja/eselon1/loadfungsi");
+			
+		
+		});
+	</script>

@@ -10,7 +10,7 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#id-content">
-                               <i class="fa fa-list-ol"></i> Identitas & Tugas Pokok Eselon II
+                               <i class="fa fa-list-ol"></i> Identitas dan Tugas Eselon II
                             </a>
                         </li>
                         <li class="">

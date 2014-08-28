@@ -18,7 +18,7 @@ class Ekstrak extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
 		
-		//$data['data']		= $this->mgeneral->getAll("anev_kl"); #kirim data ke konten file
+		$data['data']		= null;//
 		$template['konten']	= $this->load->view('admin/ekstrak_v',$data,true); #load konten template file
 		
 		#load container for template view
