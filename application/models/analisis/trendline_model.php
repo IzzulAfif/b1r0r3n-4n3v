@@ -6,7 +6,7 @@
  @revision	 :
 */
 	
-
+error_reporting(E_ERROR);
 class trendline_model extends CI_Model
 { 
 	
