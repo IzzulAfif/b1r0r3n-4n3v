@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="id-tahun" class="populate" style="width:100%"')?>
+                         		<?=form_dropdown('tahun',$tahun_renstra,'0','id="id-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -144,5 +144,38 @@
 					}
 			});
 		}
+		
+		 identitasDelete = function(tahun,kode){
+			
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon1/hapus/'+tahun+'/'+kode,
+					success:function(result) {
+						$("#id-btn").click();
+					}
+			});
+		}
+		
+		$( "#identitas-form" ).submit(function( event ) {
+			 var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+				$.ajax(
+				{
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$("#identitasModal").hide();
+						$("#id-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails      
+					}
+				});
+			
+			  event.preventDefault();
+		});
 	});
 </script>		

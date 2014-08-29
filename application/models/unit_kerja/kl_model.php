@@ -24,6 +24,26 @@ class Kl_model extends CI_Model
 		$sql = "select kl.* from anev_kl kl ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	
+	function get_list($params) {
+		$where = ' where 1=1 ';
+		if (isset($params)){				
+			if (isset($params['tahun_rensta'])) $where .= " and tahun_rensta='".$params['tahun_rensta']."'";
+			
+		}
+		$sql = "select distinct kode_kl, nama_kl from anev_kl ".$where;
+		
+		
+		$result = $this->mgeneral->run_sql($sql);
+		
+		$list[0] = 'Pilih Kementerian';
+		if (isset($result))
+			foreach ($result as $i) {
+				$list[$i->kode_kl] = $i->nama_kl;
+			}
+		return $list;
+	}
 
 }
 

@@ -47,6 +47,42 @@ class Eselon1_model extends CI_Model
 			}
 		return $list;
 	}
+	
+	function get_list_tahun_renstra($params) {
+		$where = ' where 1=1 ';
+		if (isset($params)){	
+			
+			if (isset($params['check_locking'])){ //jika method ini digunakan untuk combobox dan untuk filter data, maka eselon 1 hanya dimunculkan 
+				// eselon1 tertentu saja jika setting FILTER_E1_LOCKING bernilai true (lihat constants.php)
+				if (($params['check_locking']==true)&&(FILTER_E1_LOCKING==true)) $where .= " and kode_e1 in (".FILTER_E1_LIST.")";
+			}
+		}
+		$sql = "select distinct tahun_renstra from anev_eselon1 ".$where;
+		
+		
+		$result = $this->mgeneral->run_sql($sql);
+		
+		$list[0] = 'Pilih Tahun Renstra';
+		if (isset($result))
+			foreach ($result as $i) {
+				$list[$i->tahun_renstra] = $i->tahun_renstra;
+			}
+		return $list;
+	}
+	
+	
+	function save($data){
+		$this->mgeneral->save($data,'anev_eselon1');
+	}
+	
+	function update($data,$whereData){
+		
+		$this->mgeneral->update($whereData,$data,'anev_eselon1');
+	}
+	
+	function delete($whereData){		
+		$this->mgeneral->delete($whereData,'anev_eselon1');
+	}
 
 }
 
