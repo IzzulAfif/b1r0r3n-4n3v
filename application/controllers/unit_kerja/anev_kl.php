@@ -20,8 +20,8 @@ class Anev_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file
+		
 		$data['data'] = null;
-	
 		$template['konten']	= $this->load->view('unit_kerja/kementerian_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -34,7 +34,8 @@ class Anev_kl extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		//$this->visi->get_all(null);
-			$data['data']		= null;//$this->mgeneral->getAll("anev_kl"); #kirim data ke konten file
+		
+		$data['renstra']	= $this->kl->get_renstra();
 		echo $this->load->view('unit_kerja/anev_kl',$data,true); #load konten template file		
 	}
 
@@ -51,21 +52,15 @@ class Anev_kl extends CI_Controller {
 					<td>'.$d->singkatan.'</td>
 					<td>'.$d->tugas_kl.'</td>
 					<td>
-						<a href="#updateModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="edit(\''.$d->kode_kl.'\');"><i class="fa fa-pencil"></i></a>
-						<a href="'.base_url().'unit_kerja/anev_kl/hapus/'.$d->kode_kl.'" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+						<a href="#fModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="kl_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_kl.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="kl_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_kl.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				
-				<td>&nbsp;</td>
-			   
-			</tr>';
+						<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+					</tr>';
 		}
 		echo $rs;
 	}
@@ -74,8 +69,9 @@ class Anev_kl extends CI_Controller {
 	{
 		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
-		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->fungsi_kl->get_all(null);
+		$template			= $this->template->load_popup($setting); #load static template file	
+			
+		$data['renstra']	= $this->kl->get_renstra();
 		echo $this->load->view('unit_kerja/fungsi_kl_v',$data,true); #load konten template file		
 	}
 	
@@ -90,90 +86,156 @@ class Anev_kl extends CI_Controller {
 					<td>'.$d->kode_fungsi_kl.'</td>
 					<td>'.$d->fungsi_kl.'</td>					
 					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+						<a href="#fungsiModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="fungsi_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_fungsi_kl.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="fungsi_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_fungsi_kl.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>';
+						<td colspan="3" align="center"><i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+					</tr>';
 		}
 		echo $rs;
 	}
 	
-	function add()
+	function init_data($tipe)
 	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
-		$setting['page']	= array('pg_aktif'	=> "form");
-		$template			= $this->template->load($setting); #load static template file
+		if($tipe=="id"):
+			$data[0]->tahun_renstra = '';
+			$data[0]->kode_kl 		= '';
+			$data[0]->nama_kl 		= '';
+			$data[0]->singkatan 	= '';
+			$data[0]->tugas_kl 		= '';
+		else:
+			$data[0]->tahun_renstra = '';
+			$data[0]->kode_kl 		= '';
+			$data[0]->kode_fungsi_kl= '';
+			$data[0]->fungsi_kl 	= '';
+		endif;
 		
-		$data['data']		= array();
-		$data['url']		= base_url()."unit_kerja/anev_kl/save";
-		$template['konten']	= $this->load->view('unit_kerja/anev_kl_form',$data,true); #load konten template file
+		return $data;
+	}
+	
+	function add($tipe)
+	{
+		$data['data']		= $this->init_data($tipe);
+		if($tipe=="id"):
+			$this->load->view('unit_kerja/anev_kl_form',$data);
+		else:
+			$data['renstra']	= $this->kl->get_renstra();
+			$this->load->view('unit_kerja/fungsi_kl_form',$data);
+		endif;
+	}
+	
+	function get_from_post($tipe)
+	{
+		if($tipe=="id"):
+			$renstra1	= $this->input->post("renstra1");
+			$renstra2	= $this->input->post("renstra2");
+			$tahun		= $renstra1."-".$renstra2;
+			
+			$data	= array('tahun_renstra'	=> $tahun,
+							'kode_kl'		=> $this->input->post("kode"),
+							'nama_kl'		=> $this->input->post("nama"),
+							'singkatan'		=> $this->input->post("singkatan"),
+							'tugas_kl'		=> $this->input->post("tugas"));
+		else:
+			$data	= array('tahun_renstra'	=> $this->input->post("tahun"),
+							'kode_kl'		=> $this->input->post("kl"),
+							'kode_fungsi_kl'=> $this->input->post("kode"),
+							'fungsi_kl'		=> $this->input->post("fungsi"));
+		endif;
 		
-		#load container for template view
-		$this->load->view('template/container',$template);
+		return $data;
 	}
 	
 	function save()
 	{
-		$tahun	= $this->input->post("tahun");
-		$kode	= $this->input->post("kode");
-		$nama	= $this->input->post("nama");
-		$singkat= $this->input->post("singkatan");
-		$tugas	= $this->input->post("tugas");
+		$tipe		= $this->input->post("tipe");
+		if($tipe=="id"): 
+			$tipe	= "id";
+			$tabel	= "anev_kl";			
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data kementerian berhasil ditambahkan.</p>';
+		else:
+			$tabel	= "anev_fungsi_kl";
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Fungsi kementerian berhasil ditambahkan.</p>';
+		endif;
 		
-		$varData	= array('tahun_renstra'	=> $tahun,
-							'kode_kl'		=> $kode,
-							'nama_kl'		=> $nama,
-							'singkatan'		=> $singkat,
-							'tugas_kl'		=> $tugas);
-		$this->mgeneral->save($varData,"anev_kl");
+		$varData	= $this->get_from_post($tipe);
+		$this->mgeneral->save($varData,$tabel);
 		
-		$msg = '<p><i class="fa fa-check-square-o"></i> Data berhasil ditambahkan.</p>';
-				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_kl","refresh");	
+		echo $msg;
 	}
 	
-	function edit($id)
+	function edit($tipe,$tahun,$kode)
 	{
-		$data['data']		= $this->mgeneral->getWhere(array('kode_kl'=>$id),"anev_kl");
-		$this->load->view('unit_kerja/anev_kl_form',$data);
+		if($tipe=="id"):
+			$data['data']		= $this->mgeneral->getWhere(array('kode_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_kl");
+			$this->load->view('unit_kerja/anev_kl_form',$data);
+		else:
+			$data['renstra']			= $this->kl->get_renstra();
+			$params['tahun_renstra']	= $tahun;
+			$params['kode_fungsi_kl']	= $kode;
+			$data['data']				= $this->fungsi_kl->get_all($params); 
+			$this->load->view('unit_kerja/fungsi_kl_form',$data);
+		endif;
 	}
 	
 	function update()
 	{
+		$tipe	= $this->input->post("tipe");
+		$tahun	= $this->input->post("tahun_old");
 		$id		= $this->input->post("id");
-		$kode	= $this->input->post("kode");
-		$nama	= $this->input->post("nama");
-		$singkat= $this->input->post("singkatan");
-		$tugas	= $this->input->post('tugas');
+		$varData= $this->get_from_post($tipe); 
 		
-		$varData	= array('kode_kl'	=> $kode,
-							'nama_kl'	=> $nama,
-							'singkatan'	=> $singkat,
-							'tugas_kl'	=> $tugas);
-		$this->mgeneral->update(array('kode_kl'=>$id),$varData,"anev_kl");
+		if($tipe=="id"):
 		
-		$msg = '<p><i class="fa fa-check-square-o"></i> Data berhasil diubah.</p>';
-				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_kl","refresh");
+			$this->mgeneral->update(array('kode_kl'=>$id,'tahun_renstra'=>$tahun),$varData,"anev_kl");
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data kementerian  berhasil diubah.</p>';
+		
+		else:
+			
+			$this->mgeneral->update(array('kode_fungsi_kl'=>$id,'tahun_renstra'=>$tahun),$varData,"anev_fungsi_kl");
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data fungsi kementerian berhasil diubah.</p>';
+					
+		endif;
+		
+		echo $msg;
 	}
 	
-	function hapus($id)
+	function hapus($tipe,$tahun,$kode)
 	{
-		$this->mgeneral->delete(array('kode_kl'=>$id),"anev_kl");
+		if($tipe=="id"):
 		
-		$msg = '<p><i class="fa fa-check-square-o"></i> Data berhasil dihapus.</p>';
-				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_kl","refresh");
+			$this->mgeneral->delete(array('kode_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_kl");
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data kementerian berhasil dihapus.</p>';
+		
+		else:
+			
+			$this->mgeneral->delete(array('kode_fungsi_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_fungsi_kl");
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data fungsi kementerian berhasil dihapus.</p>';
+					
+		endif;
+		
+		echo $msg;
+	}
+	
+	function get_renstra()
+	{
+		$result = $this->kl->get_renstra();
+		echo json_encode($result);
+	}
+	
+	function get_kementerian($tahun)
+	{
+		$result = $this->kl->get_kementerian($tahun);
+		echo json_encode($result);
 	}
 }

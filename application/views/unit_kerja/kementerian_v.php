@@ -23,7 +23,7 @@
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
-                       <div class="panel-body tab-pane fade active in" id="id-content"></div>
+                    	<div class="panel-body tab-pane fade active in" id="id-content"></div>
 						<div class="panel-body tab-pane fade" id="fungsi-content"></div>
 					</div>	
 								
@@ -38,13 +38,7 @@
 	
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
-			
 			$("#id-content").load("<?=base_url()?>unit_kerja/anev_kl/loadidentitas");
 			$("#fungsi-content").load("<?=base_url()?>unit_kerja/anev_kl/loadfungsi");
-			<?php if($this->session->flashdata("msg")!=""):?>
-				$.gritter.add({
-					text: '<?=$this->session->flashdata("msg")?>'
-				});
-			<?php endif; ?>
 		});
 	</script>

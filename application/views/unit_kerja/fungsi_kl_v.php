@@ -11,7 +11,12 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="fungsi-tahun" class="populate" style="width:100%"')?>
+                        	<select name="tahun" class="populate" id="fungsi-tahun">
+								<?php $no=0; foreach($renstra as $r): ?>
+                                    <?php if($no==0): $val = ""; else: $val=$r; endif; ?>
+                                    <option value="<?=$val?>"><?=$r?></option>
+                                <?php $no++; endforeach; ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -22,7 +27,7 @@
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="fungsi-btn" style="margin-left:15px;">
+                        <button type="button" id="fungsi-btn" class="btn btn-info" id="fungsi-btn" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>					 
@@ -35,46 +40,48 @@
 	<div class="row">
         <div class="col-sm-12">
             <div class="pull-right">
-                 <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 <a href="#fungsiModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="fungsi_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
              </div>
         </div>
     </div>
     <br />
 	<div class="adv-table">
-	<table  class="display table table-bordered table-striped" id="fungsi-tbl">
-	<thead>
-	<tr>
-		<th>Kode</th>
-		<th>Fungsi</th>
-		
-		<th width="10%">Aksi</th>
-	</tr>
-	</thead>
-	<tbody>
-	
-			<?php if (isset($data)){foreach($data as $d): ?>
-		<tr class="gradeX">
-			<td><?=$d->kode_fungsi_kl?></td>
-		
-			<td><?=$d->fungsi_kl?></td>
-			<td>
-				<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-				<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-			</td>
-		</tr>
-	   <?php endforeach; } else {?>
-		<tr class="gradeX">
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		   
-		</tr>
-		<?php }?>
-	
-	</tbody>
-	</table>
+        <table  class="display table table-bordered table-striped" id="fungsi-tbl">
+        <thead>
+        <tr>
+            <th>Kode</th>
+            <th>Fungsi</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+        </table>
 	</div>
 </div>
+
+	<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="fungsiModal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="fungsi_form" class="form-horizontal bucket-form" role="form">    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="fungsi_title"></h5>
+                </div>
+                <div class="modal-body" id="fungsi_konten">
+                </div>
+                <div class="modal-footer">
+                	<div class="pull-right">
+                		<button type="button" id="btnfungsi-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btnfungsi-save" class="btn btn-info">Simpan</button>
+                	</div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    
 <!--main content end-->
 <style type="text/css">
 	select {width:100%;}
@@ -93,6 +100,77 @@
                             $('#konten_fungsikl').removeClass("hide");
                         }
                 });  
+		});
+		fungsi_add =function(){
+			$("#fungsi_title").html('<i class="fa fa-plus-square"></i> Tambah Fungsi Kementerian');
+			$("#fungsi_form").attr("action",'<?=base_url()?>unit_kerja/anev_kl/save/fungsi');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/anev_kl/add/fungsi',
+					success:function(result) {
+						$('#fungsi_konten').html(result);
+					}
+			});
+		}
+		fungsi_edit =function(tahun,kode){
+			$("#fungsi_title").html('<i class="fa fa-pencil"></i> Update Fungsi Kementerian');
+			$("#fungsi_form").attr("action",'<?=base_url()?>unit_kerja/anev_kl/update');
+			$('#fungsi_konten').html("");
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/anev_kl/edit/fungsi/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#fungsi_konten').html(result);
+					}
+			});
+		}
+		fungsi_delete = function(tahun,kode){
+			var confir = confirm("Anda yakin akan menghapus data ini ?");
+			
+			if(confir==true){
+				$.ajax({
+					url:'<?=base_url()?>unit_kerja/anev_kl/hapus/fungsi/'+tahun+'/'+kode,
+						success:function(result) {
+							$.gritter.add({text: result});
+							$("#fungsi-btn").click();
+						}
+				});
+			}
+		}
+		$("#fungsi_form").submit(function( event ) {
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+				$.ajax({
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$('#btnfungsi-close').click();
+						$("#fungsi-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btnfungsi-close').click();
+					}
+				});
+			  event.preventDefault();
+		});
+		$('#fungsi-tahun').change(function(){
+			tahun	= $('#fungsi-tahun').val();
+			$.ajax({
+				url:"<?=site_url()?>unit_kerja/anev_kl/get_kementerian/"+tahun,
+				success:function(result) {
+					$('#fungsi-kodekl').empty();
+					result = JSON.parse(result);
+					for (a in result) {
+						$('#fungsi-kodekl').append(new Option(result[a].nama,result[a].kode));
+					}
+					$('#fungsi-kodekl').select2({minimumResultsForSearch: -1, width:'resolve'});
+				}
+			});
 		});
 	});
 </script>	

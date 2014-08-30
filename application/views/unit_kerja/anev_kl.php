@@ -7,11 +7,15 @@
                    <i class="fa fa-cog"></i>
                 </div>
                 <form class="form-horizontal" role="form">
-                        
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="id-tahun" class="populate" style="width:100%"')?>
+                         	<select name="tahun" class="populate" id="id-tahun">
+								<?php $no=0; foreach($renstra as $r): ?>
+                                    <?php if($no==0): $val = ""; else: $val=$r; endif; ?>
+                                    <option value="<?=$val?>"><?=$r?></option>
+                                <?php $no++; endforeach; ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,7 +40,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
-                     <a href="#myModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                     <a href="#fModal" data-toggle="modal" class="btn btn-primary btn-sm" onclick="kl_add();" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
@@ -52,102 +56,27 @@
                 <th width="10%">Aksi</th>
             </tr>
             </thead>
-            <tbody>
-            
-                <?php if (isset($data)){foreach($data as $d): ?>
-                <tr class="gradeX">
-                    <td><?=$d->kode_kl?></td>
-                    <td><?=$d->nama_kl?></td>
-                    <td><?=$d->singkatan?></td>
-                    <td><?=$d->tugas_kl?></td>
-                    <td>
-                        <a href="<?=base_url()?>unit_kerja/anev_kl/edit/<?=$d->kode_kl?>" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-                        <a href="<?=base_url()?>unit_kerja/anev_kl/hapus/<?=$d->kode_kl?>" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
-               <?php endforeach; } else {?>
-                <tr class="gradeX">
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                   
-                </tr>
-                <?php }?>
-            
-            </tbody>
+            <tbody></tbody>
             </table>
         </div>
 	
     </div>
     <!--main content end-->
     
-    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="fModal" class="modal fade">
         <div class="modal-dialog">
-        <form method="post" action="<?=base_url()?>unit_kerja/anev_kl/save" class="form-horizontal bucket-form" role="form">    
+        <form method="post" id="kl_form" class="form-horizontal bucket-form" role="form">    
             <div class="modal-content">
                 <div class="modal-header">
                     <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
-                    <h5 class="modal-title"><i class="fa fa-plus-square"></i> Form Kementerian</h5>
+                    <h5 class="modal-title" id="kl_title"></h5>
                 </div>
-                <div class="modal-body">
-					<div class="form-group">
-                        <label class="col-sm-4 control-label">Tahun Renstra</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="tahun">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Kode</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="kode">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Nama Kementerian</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="nama">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Singkatan</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="singkatan">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Tugas Pokok</label>
-                        <div class="col-sm-8">
-                            <textarea name="tugas" class="form-control"></textarea>
-                        </div>
-                    </div>
+                <div class="modal-body" id="kl_konten">
                 </div>
                 <div class="modal-footer">
                 	<div class="pull-right">
-                		<button type="button" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
-                    	<button type="submit" class="btn btn-info">Simpan</button>
-                	</div>
-                </div>
-            </div>
-        </form>
-        </div>
-    </div>
-    
-    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="updateModal" class="modal fade">
-        <div class="modal-dialog"> 
-        <form method="post" action="<?=base_url()?>unit_kerja/anev_kl/update" class="form-horizontal bucket-form" role="form">  
-            <div class="modal-content">
-            	<div class="modal-header">
-                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
-                    <h5 class="modal-title"><i class="fa fa-pencil"></i> Update Kementerian</h5>
-                </div>
-                <div class="modal-body" id="edit_konten">
-                </div>
-                <div class="modal-footer">
-                	<div class="pull-right">
-                		<button type="button" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
-                    	<button type="submit" class="btn btn-info">Simpan</button>
+                		<button type="button" id="btn-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btn-save" class="btn btn-info">Simpan</button>
                 	</div>
                 </div>
             </div>
@@ -174,14 +103,91 @@
                 });  
 		});
 	});
-	
-	function edit(id)
-	{
+	kl_add =function(){
+		$("#kl_title").html('<i class="fa fa-plus-square"></i> Tambah Kementerian');
+		$("#kl_form").attr("action",'<?=base_url()?>unit_kerja/anev_kl/save');
 		$.ajax({
-			url:'<?=base_url()?>unit_kerja/anev_kl/edit/'+id,
+			url:'<?=base_url()?>unit_kerja/anev_kl/add/id',
 				success:function(result) {
-					$('#edit_konten').html(result);
+					$('#kl_konten').html(result);
 				}
 		});
 	}
+	kl_edit =function(tahun,kode){
+		$("#kl_title").html('<i class="fa fa-pencil"></i> Update Kementerian');
+		$("#kl_form").attr("action",'<?=base_url()?>unit_kerja/anev_kl/update');
+		$('#kl_konten').html("");
+		$.ajax({
+			url:'<?=base_url()?>unit_kerja/anev_kl/edit/id/'+tahun+'/'+kode,
+				success:function(result) {
+					$('#kl_konten').html(result);
+				}
+		});
+	}
+	kl_delete = function(tahun,kode){
+		var confir = confirm("Anda yakin akan menghapus data ini ?");
+		
+		if(confir==true){
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/anev_kl/hapus/id/'+tahun+'/'+kode,
+					success:function(result) {
+						$.gritter.add({text: result});
+						$("#id-btn").click();
+					}
+			});
+		}
+	}
+	$( "#kl_form" ).submit(function( event ) {
+		var postData = $(this).serializeArray();
+		var formURL = $(this).attr("action");
+			$.ajax({
+				url : formURL,
+				type: "POST",
+				data : postData,
+				success:function(data, textStatus, jqXHR) 
+				{
+					//data: return data from server
+					$.gritter.add({text: data});
+					renstra_update();
+					$('#btn-close').click();
+					$("#id-btn").click();
+				},
+				error: function(jqXHR, textStatus, errorThrown) 
+				{
+					//if fails
+					$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+					$('#btn-close').click();
+				}
+			});
+		  event.preventDefault();
+	});
+	
+	renstra_update = function(){
+		$.ajax({
+			url:"<?=site_url()?>unit_kerja/anev_kl/get_renstra",
+			success:function(result) {
+				$('#id-tahun').empty();
+				result = JSON.parse(result);
+				for (a in result) {
+					$('#id-tahun').append(new Option(result[a],result[a]));
+				}
+				$('#id-tahun').select2({minimumResultsForSearch: -1, width:'resolve'});
+			}
+		});
+	}
+	$('#id-tahun').change(function(){
+		tahun	= $('#id-tahun').val();
+		$.ajax({
+			url:"<?=site_url()?>unit_kerja/anev_kl/get_kementerian/"+tahun,
+			success:function(result) {
+				$('#id-kodekl').empty();
+				result = JSON.parse(result);
+				for (a in result) {
+					$('#id-kodekl').append(new Option(result[a].nama,result[a].kode));
+				}
+				$('#id-kodekl').select2({minimumResultsForSearch: -1, width:'resolve'});
+			}
+		});
+	});
+	
 </script>	
