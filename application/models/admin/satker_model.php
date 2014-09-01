@@ -56,7 +56,7 @@ class Satker_model extends CI_Model
 	}
 	
 	function get_datatables($params){
-		$sql = 'select s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1 from  anev_satker s left join anev_eselon1 e1 on e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra';
+		$sql = 'select 0 as row_number,s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1 from  anev_satker s left join anev_eselon1 e1 on e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra';
 		//$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		//return $this->datatables->generate();
 		$data = $this->mgeneral->run_sql($sql);

@@ -46,6 +46,7 @@
         <table class="display table table-bordered table-striped" id="satker-tbl">
         <thead>
             <tr>
+                <th>No.</th>
                 <th>Tahun Renstra</th>
                 <th>Kode Satker</th>
                 <th>Nama Satker</th>
@@ -69,6 +70,52 @@
 		 
 		 
 		$("#satker-btn").click(function(){
+			var oTable = $('#satker-tbl').dataTable({
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": '<?=base_url()?>admin/ekstrak_satker/getdata_satker',
+				"sAjaxDataProp": "data",
+				"bJQueryUI": true,
+				"sPaginationType": "full_numbers",
+				"iDisplayStart ": 20,
+				"fnDrawCallback": function ( oSettings ) {
+				/* Need to redo the counters if filtered or sorted */
+						if ( oSettings.bSorted || oSettings.bFiltered )
+						{
+							for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
+							{
+								$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
+							}
+						}
+					},
+				"oLanguage": {
+					"sProcessing": "<img src='<?php echo base_url(); ?>static/js/file-uploader/img/loading.gif'>"
+				},
+				"fnInitComplete": function () {
+					//oTable.fnAdjustColumnSizing();
+				},
+			/*	"columns": [
+					{ "data": "row_number" },
+					{ "data": "tahun_renstra" },
+					{ "data": "kode_satker" },
+					{ "data": "nama_satker" },
+					{ "data": "lokasi_satker" },
+					{ "data": "kode_e1" }
+				],*/
+				'fnServerData': function (sSource, aoData, fnCallback) {
+					$.ajax
+					({
+						'dataType': 'json',
+						'type': 'POST',
+						'url': sSource,
+						'data': aoData,
+						'success': fnCallback
+					});
+				}
+			});
+		});
+		
+		$("#satker2-btn").click(function(){
 			//table_satker.fnDraw();
 			alert('herddde');
 			 $('#satker-tbl').dataTable({

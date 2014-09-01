@@ -38,13 +38,13 @@ class Kegiatan extends CI_Controller {
 	
 	function get_program($tahun)
 	{
-		$result	= $this->analisis_model->get_program($tahun);
+		$result	= $this->kegiatan->get_program($tahun);
 		echo json_encode($result);
 	}
 	
 	function get_kegiatan($tahun,$program)
 	{
-		$result	= $this->analisis_model->get_kegiatan($tahun,$program);
+		$result	= $this->kegiatan->get_kegiatan($tahun,$program);
 		echo json_encode($result);
 	}
 	
