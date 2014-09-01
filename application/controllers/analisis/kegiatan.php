@@ -2,7 +2,7 @@
 /*
  @author     : Didin
  @date       : 2014-08-24 00:00
- @revision	 :
+ @revision	 : 2014-09-01 --> melanjutkan
 */
 
 class Kegiatan extends CI_Controller {
@@ -11,6 +11,8 @@ class Kegiatan extends CI_Controller {
 	{	
 		parent::__construct();
 		$this->load->model('analisis/analisis_model','',TRUE);
+		$this->load->model('admin/lokasi_model','lokasi',TRUE);
+		$this->load->model('analisis/kegiatan_model','kegiatan',TRUE);
 	}
 	
 	function index()
@@ -30,6 +32,7 @@ class Kegiatan extends CI_Controller {
 	function data()
 	{
 		$data = null;
+		$data['lokasi'] = $this->lokasi->get_list(null);
 		$this->load->view('analisis/data_kegiatan',$data);
 	}
 	
@@ -43,6 +46,41 @@ class Kegiatan extends CI_Controller {
 	{
 		$result	= $this->analisis_model->get_kegiatan($tahun,$program);
 		echo json_encode($result);
+	}
+	
+	function get_list_rincian($tahun,$kode_program,$kode_kegiatan,$kdlokasi)
+	{
+		$params['tahun'] = $tahun;
+		$params['kode_program'] = $kode_program;
+		$params['kode_kegiatan'] = $kode_kegiatan;
+		$params['kdlokasi'] = $kdlokasi;
+		
+		$data	= $this->kegiatan->get_rincian_paket_pekerjaan($params);
+	
+		$rs = '';$i=1;
+		if (isset($data)){
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.($i++).'</td>
+					<td>'.$d->nmitem.'</td>
+					<td align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
+					<td>'.$d->satkeg.'</td>					
+					<td>'.$d->nama_kabkota.'</td>					
+					<td>'.$d->nama_status.'</td>					
+					
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	function map()

@@ -3,7 +3,7 @@
  @author     : didin
  @date       : 2014-08-20 13:00
  @fungsi	 : 
- @revision	 :
+ @revision	 : 
 */
 	
 
@@ -123,4 +123,13 @@ class analisis_model extends CI_Model
 		
 		return $list;
 	}
+	
+	//yusup
+	function get_rincian_paket_pekerjaan($params){
+		$sql = 'select i.nmitem, i.volkeg, i.satkeg, kk.nama_kabkota
+from anev_item_satker i left join anev_kabkota kk on i.kdkabkota = kk.kdkabkota
+limit 0,50';
+	
+	}
+	
 }

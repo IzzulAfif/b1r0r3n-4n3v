@@ -7,12 +7,12 @@
                 <header class="panel-heading tab-bg-light tab-right ">
                 	<p class="pull-left"><b>Analisis dan Evaluasi Kegiatan</b></p>
                     <ul class="nav nav-tabs pull-right">
-                        <li class="">
+                        <li class="active">
                             <a data-toggle="tab" href="#list-konten">
                                <i class="fa fa-list-ol"></i> List
                             </a>
                         </li>
-                        <li class="active">
+                        <li class="">
                             <a data-toggle="tab" href="#peta-konten">
                                 <i class="fa fa-camera-retro"></i> Map
                             </a>
@@ -21,8 +21,8 @@
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div id="list-konten" class="tab-pane">list</div>
-                        <div id="peta-konten" class="tab-pane active"></div>
+                        <div id="list-konten" class="tab-pane active"></div>
+                        <div id="peta-konten" class="tab-pane "></div>
                     </div>
                 </div>
             </section>

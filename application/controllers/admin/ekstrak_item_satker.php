@@ -1,18 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
  @author     : Yusup JS
- @date       : 2014-08-15 00:00
+ @date       : 2014-08-31 00:00
  @revision	 :
 */
 
-class Ekstrak extends CI_Controller {
+class Ekstrak_item_satker extends CI_Controller {
 	
 	function __construct() 
 	{	
 		parent::__construct();
 		$this->load->library('datatables');
-		$this->load->model('/admin/ekstrak_emon_model','emon');
-		$this->load->model('/admin/ekstrak_eperformance_model','eperformance');
+		$this->load->model('/admin/item_satker_model','item_satker');
 		
 	}
 	function index()
@@ -29,29 +28,21 @@ class Ekstrak extends CI_Controller {
 		$this->load->view('template/container',$template);
 	}
 	
-	function loademon()
-	{
-		
-		$data['data'] = null;//$this->fungsi->get_all(null);
-		$data['tipe_data'] = $this->emon->get_list();
-		
-		echo $this->load->view('admin/ekstrak_emon_v',$data,true); #load konten template file		
-	}
 	
-	function loadeperformance()
+	function loadpage()
 	{
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
-		$data['tipe_data'] = $this->eperformance->get_list();
+		//$data['tipe_data'] = $this->eperformance->get_list();
 		
-		echo $this->load->view('admin/ekstrak_eperformance_v',$data,true); #load konten template file		
+		echo $this->load->view('admin/item_satker_v',$data,true); #load konten template file		
 	}
 	
 	
 	function add()
 	{
 		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
+		$setting['sd_left']	= array('cur_menu'	=> "ADMIN");
 		$setting['page']	= array('pg_aktif'	=> "form");
 		$template			= $this->template->load($setting); #load static template file
 		
@@ -60,6 +51,10 @@ class Ekstrak extends CI_Controller {
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
+	}
+	function getdata_itemsatker(){
+		$params = null;
+		echo $this->item_satker->get_datatables($params);
 	}
 	
 	function save()

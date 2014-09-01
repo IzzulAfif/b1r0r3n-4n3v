@@ -23,8 +23,8 @@
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
-                       <div class="panel-body tab-pane fade active in" id="eperformance-content"></div>
-						<div class="panel-body tab-pane fade" id="emon-content"></div>
+                       <div class="tab-pane fade active in" id="eperformance-content"></div>
+						<div class="tab-pane fade" id="emon-content"></div>
 					</div>	
 								
                 </div>
@@ -42,9 +42,12 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			
-			//$("#eperformance-content").load("<?=base_url()?>unit_kerja/eselon1/loadidentitas");
-			//$("#emon-content").load("<?=base_url()?>unit_kerja/eselon1/loadfungsi");
+			$("#emon-content").load("<?=base_url()?>admin/ekstrak/loademon");
+			$("#eperformance-content").load("<?=base_url()?>admin/ekstrak/loadeperformance");
 			
 		
 		});
+		
+		
+		
 	</script>
