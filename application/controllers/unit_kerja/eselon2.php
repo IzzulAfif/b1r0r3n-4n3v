@@ -43,9 +43,11 @@ class Eselon2 extends CI_Controller {
 		echo $this->load->view('unit_kerja/eselon2_v',$data,true); #load konten template file		
 	}
 	
-	function get_body_identitas($tahun,$kode){
+	function get_body_identitas($tahun,$kode,$kode_e2){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_e1'] = 	$kode;
+		if ($kode_e2!="0")
+			$params['kode_e2'] = 	$kode_e2;
 		$data=$this->eselon2->get_all($params); 
 		$rs = '';
 		if (isset($data)){
@@ -82,9 +84,11 @@ class Eselon2 extends CI_Controller {
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('unit_kerja/fungsi_eselon2_v',$data,true); #load konten template file		
 	}
-	function get_body_fungsi($tahun,$kode){
+	function get_body_fungsi($tahun,$kode,$kode_e2){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_e1'] = 	$kode;
+		if ($kode_e2!="0")
+			$params['kode_e2'] = 	$kode_e2;
 		$data=$this->fungsi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
@@ -117,6 +121,12 @@ class Eselon2 extends CI_Controller {
 		$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		echo $this->datatables->generate();
 		exit;
+	}
+	
+	function get_list_eselon2($kode_e1)
+	{
+		$params = array("kode_e1"=>$kode_e1);
+		echo json_encode($this->eselon2->get_list($params));
 	}
 	
 	function add()

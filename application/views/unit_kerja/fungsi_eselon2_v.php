@@ -19,6 +19,12 @@
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="fungsi-kode_e1" class="populate" style="width:100%"')?>
                         </div>
                     </div> 
+					  <div class="form-group">
+                        <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
+                        <div class="col-md-4">
+                       <?=form_dropdown('kode_e2',array("0"=>"Pilih Unit Kerja Eselon II"),'0','id="fungsi-kode_e2" class="populate"  style="width:100%"')?>
+                        </div>
+                    </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="fungsi-btn" style="margin-left:15px;">
@@ -82,11 +88,26 @@
 <script>
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#fungsi-kode_e1").change(function(){
+			$.ajax({
+				url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_list_eselon2/"+this.value,
+				success:function(result) {
+					kode_e2=$("#fungsi-kode_e2");
+					kode_e2.empty();
+					result = JSON.parse(result);
+					for (k in result) {
+						kode_e2.append(new Option(result[k],k));
+					}
+				}
+			});
+		});
+		
 		$("#fungsi-btn").click(function(){
 			tahun = $('#fungsi-tahun').val();
 			kode = $('#fungsi-kode_e1').val();
+			kode2 = $('#fungsi-kode_e2').val();
 			$.ajax({
-                    url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_body_fungsi/"+tahun+"/"+kode,
+                    url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_body_fungsi/"+tahun+"/"+kode+"/"+kode2,
                         success:function(result) {
                             table_body = $('#fungsi-tbl tbody');
                             table_body.empty().html(result);        
