@@ -68,6 +68,18 @@ class program_m extends CI_Model
  			." and k.kode_e1=".$this->db->escape($kode_e1)." order by s.kode_e1 asc, i.kode_iku_e1 asc, k.tahun asc";
  		return $this->mgeneral->run_sql($sql);	
 	}
-
+	
+	function get_rata2_capain_kinerja($kode_e1, $tahun_awal, $tahun_akhir)
+	{
+		$sql = "select s.tahun, avg(k.persen) as persen from anev_sasaran_program s inner join anev_iku_eselon1 i on s.tahun=i.tahun  inner join anev_kinerja_eselon1 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sp_e1=s.kode_sp_e1 and k.kode_iku_e1=i.kode_iku_e1) where k.tahun <='$tahun_akhir' and k.tahun>='$tahun_awal' and k.kode_e1='$kode_e1' group by s.tahun asc";
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_rata2_serapan_anggaran($kode_program, $tahun_awal, $tahun_akhir)
+	{
+		$sql = "select tahun,persen from anev_program_eselon1 where tahun<=".$this->db->escape($tahun_akhir)." and tahun>=".$this->db->escape($tahun_awal)
+			." and kode_program=".$this->db->escape($kode_program)." order by tahun asc";
+		return $this->mgeneral->run_sql($sql);
+	}
 }
 

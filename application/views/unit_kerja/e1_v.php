@@ -32,9 +32,6 @@
             </section>
             <!--tab nav end-->
 			
-			
-                
-      
         </section>
     </section>
     <!--main content end-->

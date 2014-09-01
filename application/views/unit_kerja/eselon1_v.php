@@ -1,4 +1,4 @@
-<div class="feed-box">
+	<div class="feed-box">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
@@ -15,7 +15,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="id-kode_e1" class="populate" style="width:100%"')?>
                         </div>
                     </div> 
@@ -24,8 +24,10 @@
                         <button type="button" class="btn btn-info" id="id-btn" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
-                    </div>		
+                    </div>	
+                    	
                 </form>
+                
             </div>
         </section>
     </div>
@@ -41,6 +43,7 @@
                  </div>
             </div>
         </div>
+        
 	    <br />
         <div class="adv-table">
         <table  class="display table table-bordered table-striped" id="id-tbl">
@@ -54,29 +57,6 @@
         </tr>
         </thead>
         <tbody>
-        
-            <?php if (isset($data)){foreach($data as $d): ?>
-            <tr class="gradeX">
-                <td><?=$d->kode_e1?></td>
-                <td><?=$d->nama_e1?></td>
-                <td><?=$d->singkatan?></td>
-                <td><?=$d->tugas_e1?></td>
-                <td>
-                    <a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-                    <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-                </td>
-            </tr>
-            <?php endforeach; } else {?>
-            <tr class="gradeX">
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-               
-            </tr>
-            <?php }?>
-        
         </tbody>
         </table>
         </div>
@@ -84,26 +64,27 @@
 
     <!--main content end-->
 	
-	<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="identitasModal" class="modal fade">
-        <div class="modal-dialog"> 
-        <form method="post" id="identitas-form" class="form-horizontal bucket-form" role="form">  
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="identitasModal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="identitas-form" class="form-horizontal bucket-form" role="form">    
             <div class="modal-content">
-            	<div class="modal-header">
+                <div class="modal-header">
                     <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
-                    <h5 class="modal-title" ><i class="fa fa-pencil"></i><span id="identitas_title_form">Update Eselon I</span></h5>
+                    <h5 class="modal-title" id="identitas_title_form"></h5>
                 </div>
                 <div class="modal-body" id="identitas_form_konten">
                 </div>
                 <div class="modal-footer">
                 	<div class="pull-right">
-                		<button type="button" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
-                    	<button type="submit" class="btn btn-info">Simpan</button>
+                		<button type="button" id="btn-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btn-save" class="btn btn-info">Simpan</button>
                 	</div>
                 </div>
             </div>
         </form>
         </div>
     </div>
+    
 <style type="text/css">
 	select {width:100%;}
 </style>
@@ -124,7 +105,7 @@
 		});
 		
 		 identitasAdd =function(){
-			$("#identitas_title_form").html("Tambah Identitas dan Tugas Eselon I");
+			$("#identitas_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Identitas dan Tugas Eselon I');
 			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/save');
 			$.ajax({
 				url:'<?=base_url()?>unit_kerja/eselon1/add/',
@@ -135,7 +116,7 @@
 		}
 		
 		 identitasEdit = function(tahun,kode){
-			$("#identitas_title_form").html("Update Identitas dan Tugas Eselon I");
+			$("#identitas_title_form").html('<i class="fa fa-pencil"></i>  Update Identitas dan Tugas Eselon I');
 			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/update');
 			$.ajax({
 				url:'<?=base_url()?>unit_kerja/eselon1/edit/'+tahun+'/'+kode,
@@ -146,13 +127,17 @@
 		}
 		
 		 identitasDelete = function(tahun,kode){
-			
-			$.ajax({
-				url:'<?=base_url()?>unit_kerja/eselon1/hapus/'+tahun+'/'+kode,
-					success:function(result) {
-						$("#id-btn").click();
-					}
-			});
+			var confir = confirm("Anda yakin akan menghapus data ini ?");
+		
+			if(confir==true){
+				$.ajax({
+					url:'<?=base_url()?>unit_kerja/eselon1/hapus/'+tahun+'/'+kode,
+						success:function(result) {
+							$.gritter.add({text: result});
+							$("#id-btn").click();
+						}
+				});
+			}
 		}
 		
 		$( "#identitas-form" ).submit(function( event ) {
@@ -166,12 +151,15 @@
 					success:function(data, textStatus, jqXHR) 
 					{
 						//data: return data from server
-						$("#identitasModal").hide();
+						$.gritter.add({text: data});
+						$("#btn-close").click();
 						$("#id-btn").click();
 					},
 					error: function(jqXHR, textStatus, errorThrown) 
 					{
-						//if fails      
+						//if fails   
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btn-close').click();   
 					}
 				});
 			

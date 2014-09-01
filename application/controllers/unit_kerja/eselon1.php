@@ -34,7 +34,8 @@ class Eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		//$this->visi->get_all(null);
-			$data['data']		= null;//$this->eselon1->get_all(null); #kirim data ke konten file
+		
+		$data['data']		= null;//$this->eselon1->get_all(null); #kirim data ke konten file
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		$data['tahun_renstra'] = $this->eselon1->get_list_tahun_renstra(null);
 		echo $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file		
@@ -123,7 +124,7 @@ class Eselon1 extends CI_Controller {
 	
 	function add()	{		
 		$data['data'] = $this->initFormData();
-		$data['kementerian'] = $this->kl->get_list(null);
+		$data['renstra']	= $this->kl->get_renstra();
 		$this->load->view('unit_kerja/eselon1_form_v',$data); #load konten template file
 		
 	}
@@ -144,6 +145,7 @@ class Eselon1 extends CI_Controller {
 			$data['data'][0]->tahun_renstra_old = $data['data'][0]->tahun_renstra;
 			$data['data'][0]->kode_e1_old = $data['data'][0]->kode_e1;
 		}
+		$data['renstra']	= $this->kl->get_renstra();
 		$data['url']		= base_url()."unit_kerja/eselon1/update";
 		$data['kementerian'] = $this->kl->get_list(null);
 		$this->load->view('unit_kerja/eselon1_form_v',$data); #load konten template file
@@ -153,9 +155,8 @@ class Eselon1 extends CI_Controller {
 	
 	//fungsi untuk mengambil nilai" dari form saat tambah/update
 	function get_form_value(){
-		$data['tahun_renstra']	= $this->input->post("tahun_renstra1").'-'.$this->input->post("tahun_renstra2");
-		
-		$data['kode_kl']	= $this->input->post("kode_kl");
+		$data['tahun_renstra']	= $this->input->post("tahun");
+		$data['kode_kl']	= $this->input->post("kl");
 		$data['kode_e1']	= $this->input->post("kode");
 		$data['nama_e1']	= $this->input->post("nama");
 		$data['singkatan']= $this->input->post("singkatan");
@@ -168,13 +169,10 @@ class Eselon1 extends CI_Controller {
 		$varData	= $this->get_form_value();
 		$this->eselon1->save($varData);
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil ditambahkan.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
+		$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+				<p>Data Unit Kerja berhasil ditambahkan.</p>';
 				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/eselon1","refresh");	
+		echo $msg;
 	}
 	
 	
@@ -186,13 +184,9 @@ class Eselon1 extends CI_Controller {
 		$whereData['kode_e1']	= $this->input->post("kode_e1_old");
 		$this->eselon1->update($varData,$whereData);
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil diubah.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
-				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_eselon1","refresh");
+		$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data unit kerja  berhasil diubah.</p>';
+		echo $msg;
 	}
 	
 	function hapus($tahun_renstra,$kode){
@@ -200,12 +194,9 @@ class Eselon1 extends CI_Controller {
 		$whereData['kode_e1']	= $kode;
 		$this->eselon1->delete($whereData);
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil dihapus.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
-				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_eselon1","refresh");
+		$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data unit kerja berhasil dihapus.</p>';
+					
+		echo $msg;
 	}
 }

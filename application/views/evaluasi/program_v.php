@@ -58,8 +58,14 @@
                         </div>
                     </div>
                     
+                    <div class="form-group">
+                    	<p class="text-primary col-md-12" ><b>Grafik Perbandingan Capaian Kinerja dan Daya Serap Anggaran</b></p>
+                        <div id="grafik_program" style="padding:10px 5px 10px 5px">
+                            
+                        </div>
+                    </div>
+                    
                 </form>
-                
              </div>
         </section>
     </div>
@@ -153,13 +159,69 @@
                     url:"<?php echo site_url(); ?>evaluasi/program/get_tabel_serapan_anggaran/"+thn_awal+"/"+thn_akhir+"/"+kd_program,
                         success:function(result) {
                             tabel_serapan = $('#tabel_serapan');
-                            tabel_serapan.empty().html(result);        
+							tabel_serapan.empty().html(result);
                             /*tabel_serapan.dataTable( {
                                 "bDestroy": true
                         });*/
                     }
                 });
             }
+			grafik(kd_program, thn_awal, thn_akhir, kd_pelaksana);
         }
+		
+		function grafik(kd_program, thn_awal, thn_akhir, kd_pelaksana)
+		{
+			var options = {
+				chart: {
+						renderTo: 'grafik_program',
+						type : "column",
+						marginTop: 80,
+						marginRight: 20
+					},
+					colors: ['#3D96AE', '#DB843D', '#E10000'],
+					exporting: {
+						buttons: { 
+							exportButton: {
+								enabled:false
+							},
+							printButton: {
+								enabled:true
+							}
+					
+						}
+					},
+					title: {
+						text: 'Rata-rata capaian kinerja dan daya serap anggaran',
+						style : { "font-size" : "14px" }
+					},
+					xAxis: {
+						categories: [],
+					},
+					yAxis: {
+						title: {
+							text: null
+						}
+					},
+				series: [{
+						name: 'Capaian Kinerja',
+						type: 'column',
+						dataLabels: {enabled: true},
+					},{
+						name: 'Serapan Anggaran',
+						type: 'column',
+						dataLabels: {enabled: true},
+					}]
+			};
+			$.ajax({
+				url: "<?php echo site_url(); ?>evaluasi/program/get_data_serapan/"+thn_awal+"/"+thn_akhir+"/"+kd_program+"/"+kd_pelaksana,
+				dataType: "json",
+				success: function(data){
+					options.xAxis.categories = data.tahun;
+					options.series[0].data = data.program;
+					options.series[1].data = data.anggaran;
+					var chart = new Highcharts.Chart(options);			
+				}
+			});
+		}
     });
     </script>

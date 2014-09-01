@@ -32,12 +32,35 @@ class program extends CI_Controller {
 		));
 	}
 	
+	function get_data_serapan($tahun_awal, $tahun_akhir, $kode_program,$kode_e1)
+	{
+		$dRealisasi	= $this->program_m->get_rata2_capain_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
+		$dSerapan	= $this->program_m->get_rata2_serapan_anggaran($kode_program, $tahun_awal, $tahun_akhir);
+
+		if(count($dRealisasi) > $dSerapan):
+			for($a=0;$a<count($dRealisasi);$a++):
+				$dtTahun[]		= $dRealisasi[$a]->tahun;
+				$dtProgram[]	= (int) number_format($dRealisasi[$a]->persen,2,'.','.');
+				$dtAnggaran[]	= (!isset($dSerapan[$a]->persen))?"0":(int) number_format($dSerapan[$a]->persen,2,'.','.');
+			endfor;
+		else:
+			for($a=0;$a<count($dSerapan);$a++):
+				$dtTahun[]		= $dSerapan[$a]->tahun;
+				$dtProgram[]	= (!isset($dRealisasi[$a]->persen))?0:(float) number_format($dRealisasi[$a]->persen,2,'.','.');
+				$dtAnggaran[]	= (float) number_format($dSerapan[$a]->persen,2,'.','.');
+			endfor;
+		endif;
+		$jsonData = array('tahun'=>$dtTahun,'program'=>$dtProgram,'anggaran'=>$dtAnggaran);
+		echo json_encode($jsonData);
+		exit;
+	}
+	
 	function get_tabel_serapan_anggaran($tahun_awal, $tahun_akhir, $kode_program)
 	{
 		$table_header = '<thead><th>Uraian</th>';
 		$row_pagu = '<tbody><tr><td>1. Pagu (Rp.)</td>';
 		$row_realisasi = '<tr><td>2. Realisasi (Rp.)</td>';
-		$row_dayaserap = '<tr><td>3. Daya Serap (Rp.)</td>';
+		$row_dayaserap = '<tr><td>3. Daya Serap (%)</td>';
 		$j = 0; $sum_pagu = 0; $sum_realisasi = 0; $sum_dayaserap = 0;
 		$data = $this->program_m->get_realisasi_program($kode_program, $tahun_awal, $tahun_akhir);
 		if (sizeof($data)>0) {
@@ -45,14 +68,17 @@ class program extends CI_Controller {
 				$table_header .= "<th>".$dt->tahun."</th>";
 				$row_pagu .= '<td>'.number_format($dt->pagu,2,',','.').'</td>'; $sum_pagu += $dt->pagu;
 				$row_realisasi .= '<td>'.number_format($dt->realisasi,2,',','.').'</td>'; $sum_realisasi += $dt->realisasi;
-				$row_dayaserap .= '<td>'.number_format($dt->persen,2,',','.').'</td>'; $sum_dayaserap += $dt->persen;
+				$row_dayaserap .= '<td id="agr-'.$dt->tahun.'">'.number_format($dt->persen,2,',','.').'</td>'; $sum_dayaserap += $dt->persen;
 				$j++;
+				$dRatarata[] = array('tahun'	=> $dt->tahun,
+									 'persen'	=> number_format($dt->persen,2,'.','.'));
 			}
 		}
-		$table_header .= '<th>Rata-rata</th><th></th><thead>';
-		$row_pagu .= '<td>'.number_format(($sum_pagu/$j),2,',','.').'</td><td></td></tr>';
-		$row_realisasi .= '<td>'.number_format(($sum_realisasi/$j),2,',','.').'</td><td></td></tr>';
-		$row_dayaserap .= '<td>'.number_format(($sum_dayaserap/$j),2,',','.').'</td><td></td></tr></tbody>';
+		$table_header .= '<th>Rata-rata</th><thead>';
+		$row_pagu .= '<td>'.number_format(($sum_pagu/$j),2,',','.').'</td></tr>';
+		$row_realisasi .= '<td>'.number_format(($sum_realisasi/$j),2,',','.').'</td></tr>';
+		$row_dayaserap .= '<td>'.number_format(($sum_dayaserap/$j),2,',','.').'</td></tr></tbody>';
+		
 		echo $table_header.$row_pagu.$row_realisasi.$row_dayaserap;
 	}
 
@@ -79,7 +105,7 @@ class program extends CI_Controller {
 				$sum_tahun[$dt->tahun] = (!isset($sum_tahun[$dt->tahun]))?$dt->persen:$sum_tahun[$dt->tahun];			
 				if (($j+1==$ldata) || $dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
 					$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-					$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
+					$temprow .= '<td>'.($sum_program/$thn).'</td></tr>';
 					$thn = 0; $sum_program = 0;
 					if ($firstrow==1) $temprow = '<tr><td rowspan='.($rowspan[$dt->kode_sp_e1]).'>'.$dt->deskripsi.'</td>'.$temprow;
 						else $temprow ='<tr>'.$temprow;
@@ -100,8 +126,8 @@ class program extends CI_Controller {
 		 	$temp_thead .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
 		 	$tbody .= '<td></td><td></td><td>'.number_format(($val/$countrow),2,',','.').'</td>'; $total +=$val/$countrow;
 		}
-		$thead .= "<th rowspan=2>Rata-rata<br>%</th><th rowspan=2></th></th></tr>".$temp_thead.'</tr></thead>';
-		$tbody .= '<td>'.number_format($total,2,',','.').'</td><td></td></tr></tbody>';
+		$thead .= "<th rowspan=2>Rata-rata<br>%</th></tr>".$temp_thead.'</tr></thead>';
+		$tbody .= '<td>'.number_format($total,2,',','.').'</td></tr></tbody>';
 		echo $thead.$tbody;
 	}
 }
