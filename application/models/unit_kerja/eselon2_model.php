@@ -43,6 +43,19 @@ class Eselon2_model extends CI_Model
 			}
 		return $list;
 	}
+	
+	function save($data){
+		$this->mgeneral->save($data,'anev_eselon2');
+	}
+	
+	function update($data,$whereData){
+		
+		$this->mgeneral->update($whereData,$data,'anev_eselon2');
+	}
+	
+	function delete($whereData){		
+		$this->mgeneral->delete($whereData,'anev_eselon2');
+	}
 
 }
 

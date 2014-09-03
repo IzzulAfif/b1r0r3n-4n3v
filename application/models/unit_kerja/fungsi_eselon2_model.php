@@ -25,6 +25,28 @@ class Fungsi_eselon2_model extends CI_Model
 		$sql = "select f.*, e2.nama_e2 from anev_fungsi_eselon2 f inner join anev_eselon2 e2 on e2.kode_e2=f.kode_e2 ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
-
+	
+	function get_by_id($params){
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_fungsi_e2'])) $where .= " and f.kode_fungsi_e2='".$params['kode_fungsi_e2']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
+		}
+		$sql = "select f.*, e2.nama_e2 from anev_fungsi_eselon2 f inner join anev_eselon2 e2 on e2.kode_e2=f.kode_e2 ".$where;
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function save($data){
+		$this->mgeneral->save($data,'anev_fungsi_eselon2');
+	}
+	
+	function update($data,$whereData){
+		
+		$this->mgeneral->update($whereData,$data,'anev_fungsi_eselon2');
+	}
+	
+	function delete($whereData){		
+		$this->mgeneral->delete($whereData,'anev_fungsi_eselon2');
+	}
 }
 

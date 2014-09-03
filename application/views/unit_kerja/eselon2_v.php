@@ -15,13 +15,13 @@
                     </div>
                    <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="id-kode_e1" class="populate" style="width:100%"')?>
                         </div>
                     </div> 
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e2',array("0"=>"Pilih Unit Kerja Eselon II"),'0','id="id-kode_e2" class="populate"  style="width:100%"')?>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
  		<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
-                     <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                     <a href="#identitasModal" data-toggle="modal" onclick="identitasAdd()" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
@@ -62,34 +62,33 @@
         </thead>
         <tbody>
         
-            <?php if (isset($data)){foreach($data as $d): ?>
-            <tr class="gradeX">
-                
-                <td><?=$d->kode_e2?></td>
-                <td><?=$d->nama_e2?></td>
-                <td><?=$d->singkatan?></td>
-                <td><?=$d->tugas_e2?></td>
-                <td>
-                    <a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-                    <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-                </td>
-            </tr>
-            <?php endforeach; } else {?>
-            <tr class="gradeX">
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-               
-            </tr>
-            <?php }?>
-        
         </tbody>
         </table>
         </div>
 	</div>                   
     <!--main content end-->
+    
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="identitasModal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="identitas-form" class="form-horizontal bucket-form" role="form">    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="identitas_title_form"></h5>
+                </div>
+                <div class="modal-body" id="identitas_form_konten">
+                </div>
+                <div class="modal-footer">
+                	<div class="pull-right">
+                		<button type="button" id="btn-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btn-save" class="btn btn-info">Simpan</button>
+                	</div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    
  <script>
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
@@ -120,10 +119,67 @@
                         }
                 });  
 		});
-	});
-</script>	   
-    <script>
-		$(document).ready(function(){
-			//load_ajax_datatable('table_e2','<?=base_url()?>unit_kerja/eselon2/load_data_e2');
+		
+		identitasAdd =function(){
+			$("#identitas_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Identitas dan Tugas Eselon II');
+			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon2/save');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon2/add/id',
+					success:function(result) {
+						$('#identitas_form_konten').html(result);
+					}
+			});
+		}
+		
+		 identitasEdit = function(tahun,kode){
+			$("#identitas_title_form").html('<i class="fa fa-pencil"></i>  Update Identitas dan Tugas Eselon II');
+			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon2/update');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon2/edit/id/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#identitas_form_konten').html(result);
+					}
+			});
+		}
+		
+		 identitasDelete = function(tahun,kode){
+			var confir = confirm("Anda yakin akan menghapus data ini ?");
+		
+			if(confir==true){
+				$.ajax({
+					url:'<?=base_url()?>unit_kerja/eselon2/hapus/id/'+tahun+'/'+kode,
+						success:function(result) {
+							$.gritter.add({text: result});
+							$("#id-btn").click();
+						}
+				});
+			}
+		}
+		
+		$( "#identitas-form" ).submit(function( event ) {
+			 var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+				$.ajax(
+				{
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$("#btn-close").click();
+						$("#id-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails   
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btn-close').click();   
+					}
+				});
+			
+			  event.preventDefault();
 		});
-	</script>
+	});
+</script>

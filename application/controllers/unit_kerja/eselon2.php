@@ -13,6 +13,7 @@ class Eselon2 extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/fungsi_eselon2_model','fungsi');
+		$this->load->model('/unit_kerja/kl_model','kl');
 	}	
 	
 	function index()
@@ -58,8 +59,8 @@ class Eselon2 extends CI_Controller {
 					<td>'.$d->singkatan.'</td>					
 					<td>'.$d->tugas_e2.'</td>					
 					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+						<a href="#identitasModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="identitasEdit(\''.$d->tahun_renstra.'\',\''.$d->kode_e2.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="identitasDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_e2.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
 				endforeach; 
@@ -97,8 +98,8 @@ class Eselon2 extends CI_Controller {
 					<td>'.$d->kode_fungsi_e2.'</td>
 					<td>'.$d->fungsi_e2.'</td>					
 					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
+						<a href="#fungsiModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="fungsiEdit(\''.$d->tahun_renstra.'\',\''.$d->kode_fungsi_e2.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="fungsiDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_fungsi_e2.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
 				endforeach; 
@@ -129,86 +130,170 @@ class Eselon2 extends CI_Controller {
 		echo json_encode($this->eselon2->get_list($params));
 	}
 	
-	function add()
-	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
-		$setting['page']	= array('pg_aktif'	=> "form");
-		$template			= $this->template->load($setting); #load static template file
+	function initFormData($tipe){
 		
-		$data['url']		= base_url()."unit_kerja/eselon2/save";
-		$template['konten']	= $this->load->view('unit_kerja/eselon2_form',$data,true); #load konten template file
+		if($tipe=="id"):
 		
-		#load container for template view
-		$this->load->view('template/container',$template);
+			$data[0]->tahun_renstra = '';
+			$data[0]->kode_e1 		= '';
+			$data[0]->nama_e1 		= '';
+			$data[0]->kode_e2 		= '';
+			$data[0]->nama_e2 		= '';
+			$data[0]->singkatan 	= '';
+			$data[0]->tugas_e2 		= '';
+		
+		else:
+			
+			$data[0]->tahun_renstra 	= '';
+			$data[0]->kode_e1 			= '';
+			$data[0]->nama_e1			= '';
+			$data[0]->kode_e2 			= '';
+			$data[0]->nama_e2 			= '';
+			$data[0]->kode_fungsi_e2 	= '';
+			$data[0]->fungsi_e2			= '';
+			
+		endif;
+		
+		return $data;
 	}
 	
-	function save()
-	{
-		$kode	= $this->input->post("kode");
-		$nama	= $this->input->post("nama");
-		$singkat= $this->input->post("singkatan");
+	function add($tipe)	{
 		
-		$varData	= array('kode_eselon2'	=> $kode,
-							'nama_eselon2'	=> $nama,
-							'singkatan'	=> $singkat);
-		$this->mgeneral->save($varData,"anev_eselon2");
-		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil ditambahkan.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
+		if($tipe=="fungsi"):
+			
+			$data['data'] 		= $this->initFormData("fungsi");
+			$data['renstra']	= $this->kl->get_renstra();
+			$this->load->view('unit_kerja/eselon2_fungsi_v',$data); #load konten template file
+			
+		else:
 				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/eselon2","refresh");	
+			$data['data'] 		= $this->initFormData("id");
+			$data['renstra']	= $this->kl->get_renstra();
+			$this->load->view('unit_kerja/eselon2_form_v',$data); #load konten template file
+		
+		endif;
 	}
 	
-	function edit($id)
-	{
-		#settingan untuk static template file
-		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
-		$setting['page']	= array('pg_aktif'	=> "form");
-		$template			= $this->template->load($setting); #load static template file
+	//fungsi untuk mengambil nilai" dari form saat tambah/update
+	function get_form_value($tipe){
 		
-		$data['data']		= $this->mgeneral->getWhere(array('kode_eselon2'=>$id),"anev_eselon2");
-		$data['url']		= base_url()."unit_kerja/anev_eselon2/update";
-		$template['konten']	= $this->load->view('unit_kerja/anev_eselon2_form',$data,true); #load konten template file
+		if($tipe=="id"):
 		
-		#load container for template view
-		$this->load->view('template/container',$template);
+			$data['tahun_renstra']	= $this->input->post("tahun");
+			$data['kode_e1']		= $this->input->post("es1");
+			$data['kode_e2']		= $this->input->post("kode");
+			$data['nama_e2']		= $this->input->post("nama");
+			$data['singkatan']		= $this->input->post("singkatan");
+			$data['tugas_e2']		= $this->input->post("tugas");
+		
+		else:
+			
+			$data['tahun_renstra']	= $this->input->post("tahun");
+			$data['kode_e2']		= $this->input->post("es2");
+			$data['kode_fungsi_e2']	= $this->input->post("kode");
+			$data['fungsi_e2']		= $this->input->post("fungsi");
+			
+		endif;
+		
+		return $data;
 	}
 	
-	function update()
-	{
-		$id		= $this->input->post("id");
-		$kode	= $this->input->post("kode");
-		$nama	= $this->input->post("nama");
-		$singkat= $this->input->post("singkatan");
+	function save()	{
+		$tipe	= $this->input->post("tipe");
 		
-		$varData	= array('kode_eselon2'	=> $kode,
-							'nama_eselon2'	=> $nama,
-							'singkatan'	=> $singkat);
-		$this->mgeneral->update(array('kode_eselon2'=>$id),$varData,"anev_eselon2");
+		if($tipe==""):
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil diubah.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
+			$varData	= $this->get_form_value("id");
+			$this->eselon2->save($varData);
+		
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data Unit Kerja berhasil ditambahkan.</p>';
+		
+		else:
+			
+			$varData	= $this->get_form_value($tipe);
+			$this->fungsi->save($varData);
+		
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Fungsi Unit Kerja berhasil ditambahkan.</p>';
+					
+		endif;
 				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_eselon2","refresh");
+		echo $msg;
 	}
 	
-	function hapus($id)
+	function edit($tipe,$tahun_renstra,$kode)
 	{
-		$this->mgeneral->delete(array('kode_eselon2'=>$id),"anev_eselon2");
+		if($tipe=="id"):
 		
-		$msg = '<div class="alert alert-success" style="text-align:center"> 
-					<strong><i class="fa fa-check-square-o"></i> Sukses</strong> Data berhasil dihapus.  
-					<button id="autoClose" data-dismiss="alert" class="close" type="button">×</button>
-				</div>';
-				
-		$this->session->set_flashdata('msg', $msg);
-		redirect("unit_kerja/anev_eselon2","refresh");
+			$data['data']		= $this->eselon2->get_all(array('kode_e2'=>$kode,'tahun_renstra'=>$tahun_renstra));
+			$data['renstra']	= $this->kl->get_renstra();
+			$this->load->view('unit_kerja/eselon2_form_v',$data); #load konten template file
+		
+		else:
+		
+			$data['data']		= $this->fungsi->get_by_id(array('kode_fungsi_e2'=>$kode,'tahun_renstra'=>$tahun_renstra));
+			$data['renstra']	= $this->kl->get_renstra();
+			$this->load->view('unit_kerja/eselon2_fungsi_v',$data); #load konten template file
+			
+		endif;
+		
+	}
+	
+	function update(){		
+		
+		$tipe	= $this->input->post("tipe");
+		
+		if($tipe==""):
+		
+			$varData	= $this->get_form_value("id");
+			
+			//khusus jika kasus update maka data lama dari primary keynya diambil dari yg _old digunakan utk where di update nya
+			$whereData['tahun_renstra']	= $this->input->post("tahun_renstra_old");
+			$whereData['kode_e2']		= $this->input->post("kode_e2_old");
+			$this->eselon2->update($varData,$whereData);
+			
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+						<p>Data unit kerja  berhasil diubah.</p>';
+		
+		else:
+			
+			$varData	= $this->get_form_value($tipe);
+			
+			//khusus jika kasus update maka data lama dari primary keynya diambil dari yg _old digunakan utk where di update nya
+			$whereData['tahun_renstra']	= $this->input->post("tahun_renstra_old");
+			$whereData['kode_fungsi_e2']= $this->input->post("kode_fungsi_old");
+			$this->fungsi->update($varData,$whereData);
+			
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+						<p>Fungsi unit kerja  berhasil diubah.</p>';
+						
+		endif;
+		
+		echo $msg;
+	}
+	
+	function hapus($tipe,$tahun_renstra,$kode){
+		
+		if($tipe=="fungsi"):
+			
+			$whereData['tahun_renstra']	= $tahun_renstra;
+			$whereData['kode_fungsi_e2']= $kode;
+			$this->fungsi->delete($whereData);
+		
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Fungsi unit kerja berhasil dihapus.</p>';
+					
+		else:
+		
+			$whereData['tahun_renstra']	= $tahun_renstra;
+			$whereData['kode_e2']		= $kode;
+			$this->eselon2->delete($whereData);
+			
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+						<p>Data unit kerja berhasil dihapus.</p>';
+		endif;
+							
+		echo $msg;
 	}
 }
