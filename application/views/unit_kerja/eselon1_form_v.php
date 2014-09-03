@@ -1,4 +1,4 @@
-					
+			
 			<input type="hidden" name="kode_e1_old" value="<?=$data[0]->kode_e1_old?>"/>
 			<input type="hidden" name="tahun_renstra_old" value="<?=$data[0]->tahun_renstra_old?>"/>
             <div class="form-group">

@@ -35,7 +35,7 @@
     	<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
-                     <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                     <a href="#fungsiModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="fungsiAdd();"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
@@ -77,6 +77,28 @@
         </div>
 	</div>
     <!--main content end-->
+    
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="fungsiModal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="fungsi-form" class="form-horizontal bucket-form" role="form">    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="fungsi_title_form"></h5>
+                </div>
+                <div class="modal-body" id="fungsi_form_konten">
+                </div>
+                <div class="modal-footer">
+                	<div class="pull-right">
+                		<button type="button" id="btnf-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btnf-save" class="btn btn-info">Simpan</button>
+                	</div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    
 	<style type="text/css">
 	select {width:100%;}
 </style>
@@ -95,6 +117,69 @@
                         }
                 });  
 		});
+		
+		fungsiAdd =function(){
+			$("#fungsi_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Fungsi Eselon I');
+			$("#fungsi-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/save');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon1/add/fungsi',
+					success:function(result) {
+						$('#fungsi_form_konten').html(result);
+					}
+			});
+		}
+		
+		fungsiEdit = function(tahun,kode){
+			$("#fungsi_title_form").html('<i class="fa fa-pencil"></i>  Update Fungsi Eselon I');
+			$("#fungsi-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/update');
+			$.ajax({
+				url:'<?=base_url()?>unit_kerja/eselon1/edit/fungsi/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#fungsi_form_konten').html(result);
+					}
+			});
+		}
+		
+		 fungsiDelete = function(tahun,kode){
+			var confir = confirm("Anda yakin akan menghapus data ini ?");
+		
+			if(confir==true){
+				$.ajax({
+					url:'<?=base_url()?>unit_kerja/eselon1/hapus/fungsi/'+tahun+'/'+kode,
+						success:function(result) {
+							$.gritter.add({text: result});
+							$("#fungsi-btn").click();
+						}
+				});
+			}
+		}
+		
+		$( "#fungsi-form" ).submit(function( event ) {
+			 var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+				$.ajax(
+				{
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$("#btnf-close").click();
+						$("#fungsi-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails   
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btnf-close').click();   
+					}
+				});
+			
+			  event.preventDefault();
+		});
+		
 	});
 </script>	
     

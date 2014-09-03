@@ -83,6 +83,16 @@ class Eselon1_model extends CI_Model
 	function delete($whereData){		
 		$this->mgeneral->delete($whereData,'anev_eselon1');
 	}
+	
+	function get_es1($tahun){
+		
+		$data= $this->mgeneral->getWhere(array('tahun_renstra'=>$tahun),"anev_eselon1");
+		$list[]	= array('kode'=>"","nama"=>"Pilih Unit Kerja");
+		foreach ($data as $d) {
+			$list[] = array('kode'=>$d->kode_e1,'nama'=>$d->nama_e1);
+		}
+		return $list;
+	}
 
 }
 

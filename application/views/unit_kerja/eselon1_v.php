@@ -108,7 +108,7 @@
 			$("#identitas_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Identitas dan Tugas Eselon I');
 			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/save');
 			$.ajax({
-				url:'<?=base_url()?>unit_kerja/eselon1/add/',
+				url:'<?=base_url()?>unit_kerja/eselon1/add/id',
 					success:function(result) {
 						$('#identitas_form_konten').html(result);
 					}
@@ -119,7 +119,7 @@
 			$("#identitas_title_form").html('<i class="fa fa-pencil"></i>  Update Identitas dan Tugas Eselon I');
 			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/update');
 			$.ajax({
-				url:'<?=base_url()?>unit_kerja/eselon1/edit/'+tahun+'/'+kode,
+				url:'<?=base_url()?>unit_kerja/eselon1/edit/id/'+tahun+'/'+kode,
 					success:function(result) {
 						$('#identitas_form_konten').html(result);
 					}
@@ -131,7 +131,7 @@
 		
 			if(confir==true){
 				$.ajax({
-					url:'<?=base_url()?>unit_kerja/eselon1/hapus/'+tahun+'/'+kode,
+					url:'<?=base_url()?>unit_kerja/eselon1/hapus/id/'+tahun+'/'+kode,
 						success:function(result) {
 							$.gritter.add({text: result});
 							$("#id-btn").click();
