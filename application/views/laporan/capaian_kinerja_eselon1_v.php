@@ -30,7 +30,13 @@
                             <?=form_dropdown('sasaran',array(),'','id="e1-sasaran"')?>
                         </div>
                     </div>
-                        
+					<div class="form-group">
+						 <div class="col-sm-offset-2 col-sm-3">
+							<button type="button" id="e1-btnLoad"  class="btn btn-info">
+								<i class="fa fa-play"></i> Tampilkan Data
+							</button>
+						</div>
+					</div>		
                 </form>
             </div>
         </section>
@@ -45,9 +51,10 @@
                 </div>
                 
                 <p class="text-primary">Capaian Kinerja</p><br />
-                <table  class="display table table-bordered table-striped" id="e1-tabel_capaian">
-    	        </table>
-                
+                 
+				    <div class="adv-table" id="e1-capaian" style="width:100%; overflow: auto; padding:10px 5px 10px 5px;">
+                    </div>
+                                            
             </div>
         </section>
     </div>
@@ -74,8 +81,13 @@
                     tahun_akhir.append(new Option(i,i));
                 }
                 tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); tahun_akhir.select2({minimumResultsForSearch: -1, width:'resolve'});
-                $.ajax({
-                    url:"<?php echo site_url(); ?>laporan/capaian_kinerja_eselon1/get_sasaran/"+renstra.val(),
+                e1_get_sasaran();
+            }
+        });
+		
+		e1_get_sasaran = function(){
+			$.ajax({
+                    url:"<?php echo site_url(); ?>laporan/capaian_kinerja_eselon1/get_sasaran/"+tahun_awal.val()+"/"+tahun_akhir.val(),
                     success:function(result) {
                         sasaran.empty();
                         result = JSON.parse(result);
@@ -85,26 +97,37 @@
                         sasaran.select2({minimumResultsForSearch: -1, width:'resolve'});
                     }
                 });
-            }
-        });
+		}
         tahun_awal.change(function(){
-            update_table();
+            //update_table();
+			e1_get_sasaran();
         });
         tahun_akhir.change(function(){
-            update_table();
+           // update_table();
+		   e1_get_sasaran();
         });
 
         sasaran.change(function(){
-            update_table();
+            //update_table();
         });
+		
+		$('#e1-btnLoad').click(function(){
+			update_table();
+		});
 
         function update_table() {
             val_awal = tahun_awal.val();
             val_akhir = tahun_akhir.val();
             if (sasaran.val()!=0 && sasaran.val()!='' && val_akhir>=val_awal) {
                 kode_sasaran = sasaran.val();
-                $.ajax({
-                    url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,
+				$("#e1-capaian").load("<?=base_url()?>laporan/capaian_kinerja_eselon1/get_capaian/"+val_awal+"/"+val_akhir+"/"+kode_sasaran);
+					$("#e1-capaian").mCustomScrollbar({
+								axis:"x",
+								theme:"dark-2"
+							});
+				  $('#box-result').removeClass("hide");
+                /*$.ajax({
+                    url:"<?php echo site_url(); ?>laporan/capaian_kinerja_eselon1/get_capaian/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,
                         success:function(result) {
                             tabel_capaian = $('#tabel_capaian');
                             tabel_capaian.empty().html(result);        
@@ -118,10 +141,10 @@
                                     target.attr('rowspan',(num_rowspan+parseInt(target.attr('rowspan'))));
                                     $(this).attr('num_rowspan',num_rowspan*-1);
                                 }
-                                //console.log('.detail'+$(this).attr('detail_num'));
+                              
                             });
                         }
-                });    
+                });*/    
             }
         }
     });
