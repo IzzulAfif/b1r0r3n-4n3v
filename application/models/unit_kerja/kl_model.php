@@ -65,5 +65,18 @@ class Kl_model extends CI_Model
 		}
 		return $list;
 	}
+	
+	function get_nama($params){
+	//	$where = ' where 1=1 ';
+		$where = array();
+		if (isset($params)){
+			if (isset($params['tahun_renstra'])) $where+=array("tahun_renstra"=>$params['tahun_renstra']);
+			if (isset($params['kode_kl'])) $where+=array("kode_kl"=>$params['kode_kl']);
+		}
+		//var_dump($params);
+		//if ($where!='');
+			//$where = substr($where,5,strlen($where));
+		return $this->mgeneral->getValue("nama_kl",$params,"anev_kl");
+	}
 }
 

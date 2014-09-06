@@ -19,11 +19,11 @@
                    <i class="fa fa-cog"></i>
                 </div>
 
-							<form class="form-horizontal">
+							<div class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">Periode Renstra</label>
 									<div class="col-sm-2">									
-										<?=form_dropdown('periode_renstra',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="periode_renstra" class="populate"')?>
+										<?=form_dropdown('periode_renstra',$renstra,'0','id="periode_renstra" class="populate"')?>
 									</div>
 								</div>
 								<div class="form-group">
@@ -46,12 +46,13 @@
 								</div>
 								<div class="form-group">
 									 <div class="col-sm-offset-2 col-sm-3">
+									 
 										<button type="button" id="btnLoad"  class="btn btn-info">
 											<i class="fa fa-play"></i> Tampilkan Data
 										</button>
 									</div>
 								</div>
-							</form>	
+							</div>	
 							</div>
         </section>
     </div>
@@ -62,10 +63,10 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                                        	
+                                        	<form  method="post" id="matriks_form" name="matriks_form" action="<?=base_url()?>laporan/matriks_pembangunan/save" >
                                             <div id="reportKonten">
                                             </div>
-                                            
+                                            </form>
                                         </div>
                 </section>
             </div>
@@ -105,6 +106,14 @@ $(document).ready(function() {
 		 }
 	}
 	
+	
+	clickIku = function(id){
+		chk = $("#chk"+id);
+		keterangan = $("#keterangan"+id);		
+		keterangan.prop("readonly",!chk.is(':checked'));
+		
+	}
+	
 	 $("#btnLoad").click(function(){
 		load_profile();
 	}); 
@@ -121,5 +130,45 @@ $(document).ready(function() {
 		var kodekl = $('#kodekl').val();
 		window.open("<?=base_url()?>laporan/renstra_kl/get_detail/"+tahun+"/"+kodekl);
 	}); 
+	
+	
+	$("#matriks_form").submit(function( event ) {
+		
+		var postData = $(this).serializeArray();
+		var formURL = $(this).attr("action");
+		
+		
+			$.ajax({
+				url : formURL,
+				type: "POST",
+				data : postData,
+				success:function(data, textStatus, jqXHR) 
+				{
+					//data: return data from server
+					  
+					$.gritter.add({text: data});
+					//renstra_update();
+					//$('#btn-close').click();
+					//$("#id-btn").click();
+					//alert('kadieu sukses');
+					print_matriks();
+				},
+				error: function(jqXHR, textStatus, errorThrown) 
+				{
+					//if fails
+				//	$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+				//	$('#btn-close').click();
+				}
+			});
+			event.preventDefault();
+	});
+	
+	print_matriks = function(){
+		var tahun = $('#periode_renstra').val();
+		var rentang_awal = $('#rentang_awal').val();
+		var rentang_akhir = $('#rentang_akhir').val();
+		var kodekl = $('#kodekl').val();
+		window.open("<?=base_url()?>laporan/matriks_pembangunan/get_detail/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/"+kodekl);
+	}
 });
 </script>
