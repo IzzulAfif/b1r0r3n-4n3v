@@ -1,3 +1,26 @@
+  
+<style type="text/css">
+	select {width:100%;}
+</style>
+<script>
+	$(document).ready(function(){
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$('#ide1-tahun').change(function(){
+			tahun	= $('#ide1-tahun').val();
+			$.ajax({
+				url:"<?=site_url()?>unit_kerja/eselon1/get_es1/"+tahun,
+				success:function(result) {
+					$('#ide1-es1').empty();
+					result = JSON.parse(result);
+					for (a in result) {
+						$('#ide1-es1').append(new Option(result[a].nama,result[a].kode));
+					}
+					$('#ide1-es1').select2({minimumResultsForSearch: -1, width:'resolve'});
+				}
+			});
+		});
+	});
+</script>
 			
 			<input type="hidden" name="kode_e2_old" value="<?=$data[0]->kode_e2?>"/>
 			<input type="hidden" name="tahun_renstra_old" value="<?=$data[0]->tahun_renstra?>"/>
@@ -45,26 +68,4 @@
                     <textarea name="tugas" class="form-control"><?=$data[0]->tugas_e2?></textarea>
                 </div>
             </div>
-            
-<style type="text/css">
-	select {width:100%;}
-</style>
-<script>
-	$(document).ready(function(){
-		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-		$('#ide1-tahun').change(function(){
-			tahun	= $('#ide1-tahun').val();
-			$.ajax({
-				url:"<?=site_url()?>unit_kerja/eselon1/get_es1/"+tahun,
-				success:function(result) {
-					$('#ide1-es1').empty();
-					result = JSON.parse(result);
-					for (a in result) {
-						$('#ide1-es1').append(new Option(result[a].nama,result[a].kode));
-					}
-					$('#ide1-es1').select2({minimumResultsForSearch: -1, width:'resolve'});
-				}
-			});
-		});
-	});
-</script>
+          

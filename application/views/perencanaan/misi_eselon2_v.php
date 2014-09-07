@@ -9,19 +9,19 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                          		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="misi-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="misi-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e2',array(),'','id="misi-kode_e2" class="populate"')?>
                         </div>
                     </div>
@@ -36,43 +36,53 @@
         </section>
     </div>
 
- <header class="panel-heading">
-	&nbsp;
-	<span class="pull-right">
-		<a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-	 </span>
-</header>
-<div class="adv-table">
-<table  class="display table table-bordered table-striped" id="misi-tbl">
-<thead>
-<tr>
-	<th>Kode Misi</th>
-	<th>Misi</th>
-	<th width="10%">Aksi</th>
-</tr>
-</thead>
-<tbody>
-
-	<?php if (isset($data)){foreach($data as $d): ?>
-	<tr class="gradeX">
-		<td><?=$d->kode_misi_e2?></td>
-		<td><?=$d->misi_e2?></td>
-		<td>
-			<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-			<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-		</td>
-	</tr>
-	<?php endforeach; } else {?>
-	<tr class="gradeX">
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<?php }?>
-
-</tbody>
-</table>
-</div>
+ 	<div id="misi_es2_konten" class="hide">
+    	
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#misiModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="misi_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        <br />
+        
+        <div class="adv-table">
+        <table  class="display table table-bordered table-striped" id="misi-tbl">
+        <thead>
+        <tr>
+            <th>Kode Misi</th>
+            <th>Misi</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        </table>
+        </div>
+    </div>
+    
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="misiModal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="misi_form" class="form-horizontal bucket-form" role="form">    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="misi_title"></h5>
+                </div>
+                <div class="modal-body" id="misi_konten">
+                </div>
+                <div class="modal-footer">
+                	<div class="pull-right">
+                		<button type="button" id="btnmisi-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btnmisi-save" class="btn btn-info">Simpan</button>
+                	</div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    
 <style type="text/css">
 	select {width:100%;}
 </style>
@@ -90,6 +100,7 @@
 					for (k in result) {
 						kode_e2.append(new Option(result[k],k));
 					}
+					kode_e2.select2({minimumResultsForSearch: -1, width:'resolve'});
 				}
 			});
 		});
@@ -102,10 +113,66 @@
                         success:function(result) {
                             table_body = $('#misi-tbl tbody');
                             table_body.empty().html(result);        
-                            
-                            
+                            $('#misi_es2_konten').removeClass("hide");
                         }
                 });  
+		});
+		misi_add =function(){
+			$("#misi_title").html('<i class="fa fa-plus-square"></i> Tambah Misi Eselon 2');
+			$("#misi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon2/save/misi');
+			$.ajax({
+				url:'<?=base_url()?>perencanaan/rencana_eselon2/add/misi',
+					success:function(result) {
+						$('#misi_konten').html(result);
+					}
+			});
+		}
+		misi_edit =function(tahun,kode){
+			$("#misi_title").html('<i class="fa fa-pencil"></i> Update Misi Eselon 2');
+			$("#misi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon2/update');
+			$('#misi_konten').html("");
+			$.ajax({
+				url:'<?=base_url()?>perencanaan/rencana_eselon2/edit/misi/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#misi_konten').html(result);
+					}
+			});
+		}
+		misi_delete = function(tahun,kode){
+			var confir = confirm("Anda yakin akan menghapus data ini ?");
+			
+			if(confir==true){
+				$.ajax({
+					url:'<?=base_url()?>perencanaan/rencana_eselon2/hapus/misi/'+tahun+'/'+kode,
+						success:function(result) {
+							$.gritter.add({text: result});
+							$("#misi-btn").click();
+						}
+				});
+			}
+		}
+		$("#misi_form").submit(function( event ) {
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+				$.ajax({
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$('#btnmisi-close').click();
+						$("#misi-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btnmisi-close').click();
+					}
+				});
+			  event.preventDefault();
 		});
 	})
 </script>	                                                            

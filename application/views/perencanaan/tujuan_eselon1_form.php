@@ -5,14 +5,14 @@
 			$('#form-tahun').change(function(){
 				tahun	= $('#form-tahun').val();
 				$.ajax({
-					url:"<?=site_url()?>unit_kerja/anev_kl/get_kementerian/"+tahun,
+					url:"<?=site_url()?>unit_kerja/eselon1/get_es1/"+tahun,
 					success:function(result) {
-						$('#form-kl').empty();
+						$('#form-e1').empty();
 						result = JSON.parse(result);
 						for (a in result) {
-							$('#form-kl').append(new Option(result[a].nama,result[a].kode));
+							$('#form-e1').append(new Option(result[a].nama,result[a].kode));
 						}
-						$('#form-kl').select2({minimumResultsForSearch: -1, width:'resolve'});
+						$('#form-e1').select2({minimumResultsForSearch: -1, width:'resolve'});
 					}
 				});
 			});
@@ -20,8 +20,8 @@
 	 </script>
      
     <?php if (isset($data)) : ?>
-   			<input type="hidden" name="tipe" value="fungsi" />
-            <input type="hidden" name="id" value="<?=$data[0]->kode_fungsi_kl?>" />
+   			<input type="hidden" name="tipe" value="tujuan" />
+            <input type="hidden" name="id" value="<?=$data[0]->kode_tujuan_e1?>" />
             <input type="hidden" name="tahun_old" value="<?=$data[0]->tahun_renstra?>" />
             <div class="form-group">
                 <label class="col-sm-4 control-label">Tahun Renstra</label>
@@ -36,11 +36,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Kementerian</label>
+                <label class="col-sm-4 control-label">Unit Kerja</label>
                 <div class="col-sm-7">
-                	<select name="kl" class="populate" id="form-kl">
-                    	<?php if($data[0]->kode_kl!=""): ?>
-                    	<option value="<?=$data[0]->kode_kl?>"><?=$data[0]->nama_kl?></option>
+                	<select name="e1" class="populate" id="form-e1">
+                    	<?php if($data[0]->kode_e1!=""): ?>
+                    	<option value="<?=$data[0]->kode_e1?>"><?=$data[0]->nama_e1?></option>
                     	<?php endif; ?>
                     </select> 
                 </div>
@@ -48,13 +48,13 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">Kode</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="kode" value="<?=$data[0]->kode_fungsi_kl?>">
+                    <input type="text" class="form-control input-sm" name="kode" value="<?=$data[0]->kode_tujuan_e1?>">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Fungsi</label>
+                <label class="col-sm-4 control-label">tujuan</label>
                 <div class="col-sm-8">
-                    <textarea name="fungsi" class="form-control"><?=$data[0]->fungsi_kl?></textarea>
+                    <textarea name="tujuan" class="form-control"><?=$data[0]->tujuan_e1?></textarea>
                 </div>
             </div>
             

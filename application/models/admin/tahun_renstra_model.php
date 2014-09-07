@@ -24,7 +24,7 @@ class Tahun_renstra_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
-	function get_list($params) {
+	function get_list() {
 		$where = ' where 1=1 ';
 		if (isset($params)){
 			//if (isset($params['kode_e1'])) $where .= " and kode_e1='".$params['kode_e1']."'";
