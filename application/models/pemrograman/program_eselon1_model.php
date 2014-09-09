@@ -25,6 +25,17 @@ class Program_eselon1_model extends CI_Model
 		$sql .= " order by f.tahun desc, f.kode_program";
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_where($params){
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_program'])) $where .= " and f.kode_program='".$params['kode_program']."'";
+			if (isset($params['tahun'])) $where .= " and f.tahun ='".$params['tahun']."'";
+		}
+		$sql = "select f.*, e1.nama_e1 from anev_program_eselon1 f inner join anev_eselon1 e1 on e1.kode_e1=f.kode_e1 ".$where;
+		$sql .= " order by f.tahun desc, f.kode_program";
+		return $this->mgeneral->run_sql($sql);
+	}
 
 }
 

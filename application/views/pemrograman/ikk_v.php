@@ -9,26 +9,26 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                          		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="ikk-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="ikk-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                        <?=form_dropdown('kode_e2',array(),'','id="ikk-kode_e2" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="ikk-btn" style="margin-left:15px;">
-                            <i class="fa fa-play"></i> Tampilkan Data
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>		
                 </form>
@@ -38,48 +38,35 @@
 
                    
                     
- <header class="panel-heading">
-	&nbsp;
-	<span class="pull-right">
-		<a href="#" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus"></i> Tambah</a>
-	 </span>
-</header>
-<div class="adv-table">
-<table  class="display table table-bordered table-striped" id="ikk-tbl">
-<thead>
-<tr>
-	<th>Sasaran Kegiatan</th>
-	<th>Kode IKK</th>
-	<th>Deskripsi</th>                        
-	<th width="10%">Aksi</th>
-</tr>
-</thead>
-<tbody>
+ 	<div id="ikk_konten" class="hide">
 
-	<?php if (isset($data)){foreach($data as $d): ?>
-	<tr class="gradeX">
-		<td><?=$d->saskeg_deskripsi?></td>
-		<td><?=$d->kode_ikk?></td>                            
-		<td><?=$d->deskripsi?></td>
-		<td>
-			<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-			<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-		</td>
-	</tr>
-	<?php endforeach; } else {?>
-	<tr class="gradeX">
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	 
-	</tr>
-	<?php }?>
-
-</tbody>
-</table>
-</div>
-
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#ssModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="ss_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        <br />
+        
+        
+        <div class="adv-table">
+        <table  class="display table table-bordered table-striped" id="ikk-tbl">
+        <thead>
+        <tr>
+            <th>Sasaran Kegiatan</th>
+            <th>Kode IKK</th>
+            <th>Deskripsi</th>                        
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+        </table>
+        </div>
+	
+    </div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -106,8 +93,7 @@
                         success:function(result) {
                             table_body = $('#ikk-tbl tbody');
                             table_body.empty().html(result);        
-                            
-                            
+                            $('#ikk_konten').removeClass("hide");
                         }
                 });  
 		});
