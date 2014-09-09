@@ -5,7 +5,7 @@
                 <div class="corner-ribon blue-ribon">
                    <i class="fa fa-cog"></i>
                 </div>
-                <form class="form-horizontal" role="form">
+                <div class="form-horizontal" role="form">
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Ekstrak Data</label>
@@ -14,13 +14,8 @@
                         </div>
                     </div>
                   
-					<div class="form-group">
-                        <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="emon-btn" style="margin-left:15px;">
-                            <i class="fa fa-check-square-o"></i> Tampilkan Data
-                        </button>
-                    </div>		
-                </form>
+						
+                </div>
             </div>
         </section>
     </div>
@@ -41,7 +36,7 @@
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		
-		$("#emon-btn").click(function(){
+		$("#emon-tipe_data").change(function(){
 			tipe = $('#emon-tipe_data').val();
 			switch (tipe){
 				case "item" :

@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="id-tahun" class="populate" style="width:100%"')?>
+                         		<?=form_dropdown('tahun',$tahun_renstra,'0','id="satker-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                    <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="id-kode_e1" class="populate" style="width:100%"')?>
+                       <?=form_dropdown('kode_e1',$eselon1,'0','id="satker-kode_e1" class="populate" style="width:100%"')?>
                         </div>
                     </div> 
 					<div class="form-group">
@@ -46,8 +46,8 @@
         <table class="display table table-bordered table-striped" id="satker-tbl">
         <thead>
             <tr>
-                <th>No.</th>
-                <th>Tahun Renstra</th>
+		
+				<th>Tahun Renstra</th>
                 <th>Kode Satker</th>
                 <th>Nama Satker</th>
                 <th>Lokasi</th>
@@ -64,51 +64,83 @@
 	</div>                   
     <!--main content end-->
  <script>
+ 
+ 
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		
 		 
 		 
 		$("#satker-btn").click(function(){
+			var tahun = $('#satker-tahun').val();
+			var kode = $('#satker-kode_e1').val();
+			var columsDef =  [
+					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
+					  { "mData": "tahun_renstra", "sWidth": "65px" },
+					  { "mData": "kode_satker" , "sWidth": "70px"},
+					  { "mData": "nama_satker"  },
+					  { "mData": "lokasi_satker", "sWidth": "100px" },
+					  { "mData": "kode_e1", "sWidth": "60px" }
+					]
+			load_ajax_datatable2("satker-tbl", '<?=base_url()?>admin/ekstrak_satker/getdata_satker/'+tahun+'/'+kode,columsDef,1,"desc");
+		});
+		
+		$("#satker3-btn").click(function(){
 			var oTable = $('#satker-tbl').dataTable({
 				"bProcessing": true,
 				"bServerSide": true,
 				"sAjaxSource": '<?=base_url()?>admin/ekstrak_satker/getdata_satker',
 				"sAjaxDataProp": "data",
 				"bJQueryUI": true,
-				"sPaginationType": "full_numbers",
-				"iDisplayStart ": 20,
+				"scrollY":        "200px",
+				"scrollCollapse": true,
+			//	"sPaginationType": "full_numbers",
+				"iDisplayStart ": 0,
+				"iDisplayLength ": 20,
+				"bDestroy": true,
 				"fnDrawCallback": function ( oSettings ) {
 				/* Need to redo the counters if filtered or sorted */
-						if ( oSettings.bSorted || oSettings.bFiltered )
+						/*if ( oSettings.bSorted || oSettings.bFiltered )
 						{
 							for ( var i=0, iLen=oSettings.aiDisplay.length ; i<iLen ; i++ )
 							{
 								$('td:eq(0)', oSettings.aoData[ oSettings.aiDisplay[i] ].nTr ).html( i+1 );
 							}
-						}
+						}*/
 					},
 				"oLanguage": {
-					"sProcessing": "<img src='<?php echo base_url(); ?>static/js/file-uploader/img/loading.gif'>"
+					"sProcessing": "<img src='<?php echo base_url(); ?>static/js/file-uploader/img/loading.gif'>",
+					 "sEmptyTable": "Data tidak ditemukan"
 				},
 				"fnInitComplete": function () {
 					//oTable.fnAdjustColumnSizing();
 				},
-			/*	"columns": [
-					{ "data": "row_number" },
+				/*"sColumns": [
+				
 					{ "data": "tahun_renstra" },
 					{ "data": "kode_satker" },
 					{ "data": "nama_satker" },
 					{ "data": "lokasi_satker" },
 					{ "data": "kode_e1" }
 				],*/
-				'fnServerData': function (sSource, aoData, fnCallback) {
+				 "aoColumns": [
+					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
+					  { "mData": "tahun_renstra", "sWidth": "65px" },
+					  { "mData": "kode_satker" , "sWidth": "70px"},
+					  { "mData": "nama_satker"  },
+					  { "mData": "lokasi_satker", "sWidth": "100px" },
+					  { "mData": "kode_e1", "sWidth": "60px" }
+					],
+				 "fnServerParams": function ( aoData ) {
+					  aoData.push( { "name": "more_data", "value": "my_value" } );
+					},
+				'fnServerData': function (sSource, aData, fnCallback) {
 					$.ajax
 					({
 						'dataType': 'json',
 						'type': 'POST',
 						'url': sSource,
-						'data': aoData,
+						'data': aData,
 						'success': fnCallback
 					});
 				}

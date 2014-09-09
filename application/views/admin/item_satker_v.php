@@ -81,6 +81,8 @@
 		 $('#item_satker-tbl').dataTable({
                 "processing": true,
 				"serverSide": true,
+				"scrollY":        "200px",
+				"scrollCollapse": true,
 				"ajax": "<?=base_url()?>admin/ekstrak_item_satker/getdata_itemsatker",
 				"columns": [
 					{ "data": "tahun" },

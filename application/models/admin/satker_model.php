@@ -45,29 +45,114 @@ class Satker_model extends CI_Model
 	}
 	
 	
-	function get_datatables_old($params){
-		$this->datatables->select('tahun_renstra, kode_satker, nama_satker, lokasi_satker, kode_e1 ');
-		$this->datatables->from('anev_satker');
-		//$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'left');
+	function get_datatables($params){
+		if (isset($params)){
+			if (isset($params['kode_e1']))$this->datatables->where("s.kode_e1",$params['kode_e1']);
+			if (isset($params['tahun_renstra']))$this->datatables->where("s.tahun_renstra",$params['tahun_renstra']);
+			
+		}
+		
+		$this->datatables->select('s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1 ');
+		$this->datatables->from('anev_satker s');
+		$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra', 'left');
+	
+		// $this->datatables->where($key_condition, $val = NULL, true);
+		//$this->datatables->join('anev_lokasi l', 'e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra', 'left');
 		//$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		return $this->datatables->generate();
 		
 	
 	}
 	
-	function get_datatables($params){
+	function get_datatables_old($params){
 		$sql = 'select 0 as row_number,s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1 from  anev_satker s left join anev_eselon1 e1 on e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra';
 		//$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		//return $this->datatables->generate();
-		$data = $this->mgeneral->run_sql($sql);
-		$result = null;
-		if (isset($data)){
-			foreach ($data as $row){
-				$result->data[] = $row;
+	//	$data = $this->mgeneral->run_sql($sql);
+	
+		//if (isset($_GET['start'])) $start = sanitizeString($_GET['start']);
+		//if (isset($_GET['length'])) $length = sanitizeString($_GET['length']);
+		//if (isset($_GET['draw'])) $draw = sanitizeString($_GET['draw']);
+		$start = isset($_POST['iDisplayStart'])?$_POST['iDisplayStart']:1;
+		$length = isset($_POST['iDisplayLength'])?$_POST['iDisplayLength']:10;
+		$draw = isset($_POST['sEcho'])?$_POST['sEcho']:1;
+		$aOrder =isset($_POST['order'])?$_POST['order']:array();
+		 $aCols =isset($_POST['columns'])? $_POST['columns']:1;
+		$search =isset($_POST['search'])? $_POST['search']:"";
+	//	var_dump($draw);
+		$sOrder = "";
+		if ( isset( $aOrder ) )
+		{
+			$sOrder = "ORDER BY  ";
+			for ( $i=0 ; $i<count($aOrder) ; $i++ )
+			{
+				if ( $aCols[intval($aOrder[$i]['column'])]['orderable'] == "true" )
+				{
+					$sOrder .= $aCols[intval($aOrder[$i]['column'])]['data']." ".($aOrder[$i]['dir']=='asc' ? 'ASC' : 'DESC') .", ";
+				}
+			}
+			$sOrder = substr_replace( $sOrder, "", -2 );
+			if ( $sOrder == "ORDER BY" )
+			{
+				$sOrder = "";
 			}
 		}
-		return $result;
+
+		/** Paging **/
+		$sLimit = "";
+		if ( isset( $_GET['start'] ) && $_GET['length'] != '-1' )
+		{
+			$sLimit = " LIMIT ".intval( $_GET['start'] ).", ". intval( $_GET['length'] );
+		}
+		 
+		/** Filtering **/   
+		$sWhere = "";
+//		if ( isset($search) && $search['value']!=="" )
+		if ( isset($search) && $search!=="" )
+		{      
+			$sWhere = "WHERE (";
+			for ( $i=0 ; $i<count($aCols) ; $i++ )
+			{
+				if ( isset($aCols[intval($aOrder[$i]['column'])]) && $aCols[intval($aOrder[$i]['column'])]['searchable'] == "true" )
+				{
+					$sWhere .= $aCols[intval($aOrder[$i]['column'])]['data']." LIKE '%".mysql_real_escape_string( $search )."%' OR ";
+				}
+			}
+			$sWhere = substr_replace( $sWhere, "", -3 );
+			$sWhere .= ')';
+		}
+		 
+		 
+		
+		$recordsTotal = $this->get_record_count($params);
+		 
+		
+		$this->db->select("0 as row_number,s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1",false);
+		$this->db->from("anev_satker s left join anev_eselon1 e1 on e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra",false);
+		$this->db->limit($length,$start);
+		$data = $this->db->get();
+		$Rows = array();
+		$recordsFiltered =0;
+		foreach ($data->result() as $row){
+			$recordsFiltered += 1;
+			$Rows[] =$row;
+		}
+		//var_dump($Rows);
+		 
+		$returnData = array(
+								'draw' =>intval($draw),
+								'recordsTotal' => $recordsTotal,
+								'recordsFiltered' => $recordsFiltered,
+								'data' => $Rows
+							 );
+		return json_encode($returnData);	
+	}
 	
+	function get_record_count($params){
+		$this->db->select("s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1");
+		$this->db->from("anev_satker s left join anev_eselon1 e1 on e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra",false);
+		
+		return $this->db->count_all_results();
 	}
 
 }

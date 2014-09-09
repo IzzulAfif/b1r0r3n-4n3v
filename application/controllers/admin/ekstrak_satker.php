@@ -12,6 +12,8 @@ class Ekstrak_satker extends CI_Controller {
 		parent::__construct();
 		$this->load->library('datatables');
 		$this->load->model('/admin/satker_model','satker');
+		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
+		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		
 	}
 	function index()
@@ -34,7 +36,8 @@ class Ekstrak_satker extends CI_Controller {
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
-		$data['eselon1']	= array();
+		$data['eselon1']	= $this->eselon1->get_list(null);
+		$data['tahun_renstra']	= $this->tahun_renstra->get_list(null);
 		echo $this->load->view('admin/satker_v',$data,true); #load konten template file		
 	}
 	
@@ -52,11 +55,13 @@ class Ekstrak_satker extends CI_Controller {
 		#load container for template view
 		$this->load->view('template/container',$template);
 	}
-	function getdata_satker(){
+	function getdata_satker($tahun_renstra,$kode){
 		$params = null;
 		//echo $this->satker->get_datatables($params);
-		$data = $this->satker->get_datatables($params);
-		echo json_encode($data);
+		$data = $this->satker->get_datatables(array("tahun_renstra"=>$tahun_renstra,"kode_e1"=>$kode));
+		//var_dump($data);
+		//echo json_encode($data);
+		echo $data;
 	}
 	
 	function save()

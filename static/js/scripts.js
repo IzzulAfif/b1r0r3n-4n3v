@@ -317,3 +317,41 @@ function load_ajax_datatable(idTable,Url,sortColumn,sortType)
 						},
 	}); 
 }
+
+// modif fungsi sebelumnya
+function load_ajax_datatable2(idTable,Url,columnsDef,sortColumn,sortType)
+{
+	sortColumn = typeof sortColumn !== 'undefined' ? sortColumn : 0;
+	sortType = typeof sortType !== 'undefined' ? sortType : 'desc';
+	$('#'+idTable).dataTable
+	({
+		"iDisplayStart ": 0,
+		"iDisplayLength" : 10, //jumlah default data yang ditampilkan
+		"aLengthMenu" : [5,10,25,50,100], //isi combo box menampilkan jumlah data
+		"aaSorting" : [[sortColumn, sortType]], //index kolom yg akan di-sorting
+		"bProcessing" : true, //show tulisan dan loading bar
+		'bServerSide' : true, //ajax server side
+		'sAjaxSource' : Url, //url ajax nya
+		"sAjaxDataProp": "data",
+		"sServerMethod" : "POST",
+		"bDestroy": true,
+		 "aoColumns":columnsDef,
+		"bJQueryUI":true,		
+		"sDom": 'rt<"top"lpi>',	//mengatur posisi toolbar  cek http://legacy.datatables.net/usage/options#sDom
+		 
+		'fnServerData' : function(sSource, aoData, fnCallback)
+						{
+							$.ajax
+							({
+								'dataType': 'json',
+								'type' : 'POST',
+								'url' : sSource,
+								'data' : aoData,
+								'success' : function(json){
+										fnCallback(json);
+										$(".pop_over").popover();
+								}
+							});
+						}
+	}); 
+}

@@ -8,10 +8,10 @@
   * @package    CodeIgniter
   * @subpackage libraries
   * @category   library
-  * @version    0.7
+  * @version    2.0 <beta>
   * @author     Vincent Bambico <metal.conspiracy@gmail.com>
   *             Yusuf Ozdemir <yusuf@ozdemir.be>
-  * @link       http://codeigniter.com/forums/viewthread/160896/
+  * @link       http://ellislab.com/forums/viewthread/160896/
   */
   class Datatables
   {
@@ -19,18 +19,20 @@
     * Global container variables for chained argument results
     *
     */
-    protected $ci;
-    protected $table;
-    protected $distinct;
-    protected $group_by;
-    protected $select         = array();
-    protected $joins          = array();
-    protected $columns        = array();
-    protected $where          = array();
-    protected $filter         = array();
-    protected $add_columns    = array();
-    protected $edit_columns   = array();
-    protected $unset_columns  = array();
+    private $ci;
+    private $table;
+    private $distinct;
+    private $group_by       = array();
+    private $select         = array();
+    private $joins          = array();
+    private $columns        = array();
+    private $where          = array();
+    private $or_where       = array();
+    private $like           = array();
+    private $filter         = array();
+    private $add_columns    = array();
+    private $edit_columns   = array();
+    private $unset_columns  = array();
 
     /**
     * Copies an instance of CI
@@ -42,13 +44,13 @@
 
     /**
     * If you establish multiple databases in config/database.php this will allow you to
-    * set the database (other than $active_group) - more info: http://codeigniter.com/forums/viewthread/145901/#712942
+    * set the database (other than $active_group) - more info: http://ellislab.com/forums/viewthread/145901/#712942
     */
     public function set_database($db_name)
     {
-			$db_data = $this->ci->load->database($db_name, TRUE);
-			$this->ci->db = $db_data;
-		}
+      $db_data = $this->ci->load->database($db_name, TRUE);
+      $this->ci->db = $db_data;
+    }
 
     /**
     * Generates the SELECT portion of the query
@@ -84,15 +86,15 @@
     }
 
     /**
-    * Generates the GROUP_BY portion of the query
+    * Generates a custom GROUP BY portion of the query
     *
-    * @param string $column
+    * @param string $val
     * @return mixed
     */
-    public function group_by($column)
+    public function group_by($val)
     {
-      $this->group_by = $column;
-      $this->ci->db->group_by($column);
+      $this->group_by[] = $val;
+      $this->ci->db->group_by($val);
       return $this;
     }
 
@@ -105,7 +107,6 @@
     public function from($table)
     {
       $this->table = $table;
-      $this->ci->db->from($table);
       return $this;
     }
 
@@ -149,23 +150,8 @@
     */
     public function or_where($key_condition, $val = NULL, $backtick_protect = TRUE)
     {
-      $this->where[] = array($key_condition, $val, $backtick_protect);
+      $this->or_where[] = array($key_condition, $val, $backtick_protect);
       $this->ci->db->or_where($key_condition, $val, $backtick_protect);
-      return $this;
-    }
-
-    /**
-    * Generates the WHERE portion of the query
-    *
-    * @param mixed $key_condition
-    * @param string $val
-    * @param bool $backtick_protect
-    * @return mixed
-    */
-    public function like($key_condition, $val = NULL, $backtick_protect = TRUE)
-    {
-      $this->where[] = array($key_condition, $val, $backtick_protect);
-      $this->ci->db->like($key_condition, $val, $backtick_protect);
       return $this;
     }
 
@@ -180,6 +166,21 @@
     public function filter($key_condition, $val = NULL, $backtick_protect = TRUE)
     {
       $this->filter[] = array($key_condition, $val, $backtick_protect);
+      return $this;
+    }
+
+    /**
+    * Generates a %LIKE% portion of the query
+    *
+    * @param mixed $key_condition
+    * @param string $val
+    * @param bool $backtick_protect
+    * @return mixed
+    */
+    public function like($key_condition, $val = NULL, $backtick_protect = TRUE)
+    {
+      $this->like[] = array($key_condition, $val, $backtick_protect);
+      $this->ci->db->like($key_condition, $val, $backtick_protect);
       return $this;
     }
 
@@ -219,34 +220,43 @@
     */
     public function unset_column($column)
     {
-      $this->unset_columns[] = $column;
+      $column=explode(',',$column);
+      $this->unset_columns=array_merge($this->unset_columns,$column);
       return $this;
     }
 
     /**
     * Builds all the necessary query segments and performs the main query based on results set from chained statements
     *
-    * @param string charset
+    * @param string $output
+    * @param string $charset
     * @return string
     */
-    public function generate($charset = 'UTF-8')
+    public function generate($output = 'json', $charset = 'UTF-8')
     {
-      $this->get_paging();
+      if(strtolower($output) == 'json')
+        $this->get_paging();
+
       $this->get_ordering();
       $this->get_filtering();
-      return $this->produce_output($charset);
+      return $this->produce_output(strtolower($output), strtolower($charset));
     }
 
     /**
     * Generates the LIMIT portion of the query
     *
     * @return mixed
+	modif by chan
     */
-    protected function get_paging()
+    private function get_paging()
     {
-      $iStart = $this->ci->input->post('iDisplayStart');
+      //$iStart = $this->ci->input->post('start');
+      //$iLength = $this->ci->input->post('length');
+	  $iStart = $this->ci->input->post('iDisplayStart');
       $iLength = $this->ci->input->post('iDisplayLength');
-      $this->ci->db->limit(($iLength != '' && $iLength != '-1')? $iLength : 100, ($iStart)? $iStart : 0);
+
+      if($iLength != '' && $iLength != '-1')
+        $this->ci->db->limit($iLength, ($iStart)? $iStart : 0);
     }
 
     /**
@@ -254,67 +264,51 @@
     *
     * @return mixed
     */
-    protected function get_ordering()
+    private function get_ordering()
     {
-      if($this->check_mDataprop())
-        $mColArray = $this->get_mDataprop();
-      elseif($this->ci->input->post('sColumns'))
-        $mColArray = explode(',', $this->ci->input->post('sColumns'));
-      else
-        $mColArray = $this->columns;
+      
+      $Data = $this->ci->input->post('columns');
 
-      $mColArray = array_values(array_diff($mColArray, $this->unset_columns));
-      $columns = array_values(array_diff($this->columns, $this->unset_columns));
- 
-      for($i = 0; $i < intval($this->ci->input->post('iSortingCols')); $i++)
-        if(isset($mColArray[intval($this->ci->input->post('iSortCol_' . $i))]) && in_array($mColArray[intval($this->ci->input->post('iSortCol_' . $i))], $columns) && $this->ci->input->post('bSortable_'.intval($this->ci->input->post('iSortCol_' . $i))) == 'true')
-          $this->ci->db->order_by($mColArray[intval($this->ci->input->post('iSortCol_' . $i))], $this->ci->input->post('sSortDir_' . $i));
+
+      if ($this->ci->input->post('order'))
+        foreach ($this->ci->input->post('order') as $key) 
+          if($this->check_cType())
+            $this->ci->db->order_by($Data[$key['column']]['data'], $key['dir']);
+          else
+            $this->ci->db->order_by($this->columns[$key['column']] , $key['dir']);
+
     }
 
     /**
-    * Generates the LIKE portion of the query
+    * Generates a %LIKE% portion of the query
     *
     * @return mixed
     */
-    protected function get_filtering()
+    private function get_filtering()
     {
-      if($this->check_mDataprop())
-        $mColArray = $this->get_mDataprop();
-      elseif($this->ci->input->post('sColumns'))
-        $mColArray = explode(',', $this->ci->input->post('sColumns'));
-      else
-        $mColArray = $this->columns;
+
+      $mColArray = $this->ci->input->post('columns');
 
       $sWhere = '';
-      $sSearch = mysql_real_escape_string($this->ci->input->post('sSearch'));
-      $mColArray = array_values(array_diff($mColArray, $this->unset_columns));
+      $search = $this->ci->input->post('search');
+      $sSearch = $this->ci->db->escape_like_str(trim($search['value']));
       $columns = array_values(array_diff($this->columns, $this->unset_columns));
 
       if($sSearch != '')
         for($i = 0; $i < count($mColArray); $i++)
-          if($this->ci->input->post('bSearchable_' . $i) == 'true' && in_array($mColArray[$i], $columns))
-            $sWhere .= $this->select[$mColArray[$i]] . " LIKE '%" . $sSearch . "%' OR ";
+          if($mColArray[$i]['searchable'] == 'true' )
+            if($this->check_cType())
+              $sWhere .= $this->select[$mColArray[$i]['data']] . " LIKE '%" . $sSearch . "%' OR ";
+            else
+              $sWhere .= $this->select[$this->columns[$i]] . " LIKE '%" . $sSearch . "%' OR ";
+
 
       $sWhere = substr_replace($sWhere, '', -3);
 
       if($sWhere != '')
         $this->ci->db->where('(' . $sWhere . ')');
 
-      for($i = 0; $i < intval($this->ci->input->post('iColumns')); $i++)
-      {
-        if(isset($_POST['sSearch_' . $i]) && $this->ci->input->post('sSearch_' . $i) != '' && in_array($mColArray[$i], $columns))
-        {
-          $miSearch = explode(',', $this->ci->input->post('sSearch_' . $i));
-
-          foreach($miSearch as $val)
-          {
-            if(preg_match("/(<=|>=|=|<|>)(\s*)(.+)/i", trim($val), $matches))
-              $this->ci->db->where($this->select[$mColArray[$i]].' '.$matches[1], $matches[3]);
-            else
-              $this->ci->db->where($this->select[$mColArray[$i]].' LIKE', '%'.$val.'%');
-          }
-        }
-      }
+      // TODO : sRangeSeparator
 
       foreach($this->filter as $val)
         $this->ci->db->where($val[0], $val[1], $val[2]);
@@ -325,61 +319,72 @@
     *
     * @return mixed
     */
-    protected function get_display_result()
+    private function get_display_result()
     {
-      $data = $this->ci->db->get();
-      return $data;
+      return $this->ci->db->get($this->table);
     }
 
     /**
-    * Builds a JSON encoded string data
+    * Builds an encoded string data. Returns JSON by default, and an array of aaData if output is set to raw.
     *
-    * @param string charset
-    * @return string
+    * @param string $output
+    * @param string $charset
+    * @return mixed
+	 modif by chan
     */
-    protected function produce_output($charset)
+    private function produce_output($output, $charset)
     {
       $aaData = array();
       $rResult = $this->get_display_result();
-      $iTotal = $this->get_total_results();
-      $iFilteredTotal = $this->get_total_results(TRUE);
+
+      if($output == 'json')
+      {
+        $iTotal = $this->get_total_results();
+        $iFilteredTotal = $this->get_total_results(TRUE);
+      }
 
       foreach($rResult->result_array() as $row_key => $row_val)
       {
-        $aaData[$row_key] = ($this->check_mDataprop())? $row_val : array_values($row_val);
+        $aaData[$row_key] =  ($this->check_cType())? $row_val : array_values($row_val);
 
         foreach($this->add_columns as $field => $val)
-          if($this->check_mDataprop())
+         if($this->check_cType())
             $aaData[$row_key][$field] = $this->exec_replace($val, $aaData[$row_key]);
           else
             $aaData[$row_key][] = $this->exec_replace($val, $aaData[$row_key]);
 
+
         foreach($this->edit_columns as $modkey => $modval)
           foreach($modval as $val)
-            $aaData[$row_key][($this->check_mDataprop())? $modkey : array_search($modkey, $this->columns)] = $this->exec_replace($val, $aaData[$row_key]);
+            $aaData[$row_key][($this->check_cType())? $modkey : array_search($modkey, $this->columns)] = $this->exec_replace($val, $aaData[$row_key]);
 
-        $aaData[$row_key] = array_diff_key($aaData[$row_key], ($this->check_mDataprop())? $this->unset_columns : array_intersect($this->columns, $this->unset_columns));
+        $aaData[$row_key] = array_diff_key($aaData[$row_key], ($this->check_cType())? $this->unset_columns : array_intersect($this->columns, $this->unset_columns));
+        $aaData[$row_key] = array_diff_key($aaData[$row_key], $this->unset_columns );
 
-        if(!$this->check_mDataprop())
+        if(!$this->check_cType())
           $aaData[$row_key] = array_values($aaData[$row_key]);
+
       }
 
-      $sColumns = array_diff($this->columns, $this->unset_columns);
-      $sColumns = array_merge_recursive($sColumns, array_keys($this->add_columns));
+      if($output == 'json')
+      {
+        $sOutput = array
+        (
+          'draw'                => intval($this->ci->input->post('draw')),
+         // 'recordsTotal'        => $iTotal,
+          'iTotalRecords'        => $iTotal,
+       //   'recordsFiltered'     => $iFilteredTotal,
+          'iTotalDisplayRecords'     => $iFilteredTotal,
+          'data'                => $aaData
+        );
 
-      $sOutput = array
-      (
-        'sEcho'                => intval($this->ci->input->post('sEcho')),
-        'iTotalRecords'        => $iTotal,
-        'iTotalDisplayRecords' => $iFilteredTotal,
-        'aaData'               => $aaData,
-        'sColumns'             => implode(',', $sColumns)
-      );
-
-      if(strtolower($charset) == 'utf-8')
-        return json_encode($sOutput);
+        if($charset == 'utf-8')
+          return json_encode($sOutput);
+        else
+          return $this->jsonify($sOutput);
+      }
       else
-        return $this->jsonify($sOutput);
+        return array('aaData' => $aaData);
     }
 
     /**
@@ -387,7 +392,7 @@
     *
     * @return integer
     */
-    protected function get_total_results($filtering = FALSE)
+    private function get_total_results($filtering = FALSE)
     {
       if($filtering)
         $this->get_filtering();
@@ -398,7 +403,23 @@
       foreach($this->where as $val)
         $this->ci->db->where($val[0], $val[1], $val[2]);
 
-      return $this->ci->db->count_all_results($this->table);
+      foreach($this->or_where as $val)
+        $this->ci->db->or_where($val[0], $val[1], $val[2]);
+
+      foreach($this->group_by as $val)
+        $this->ci->db->group_by($val);
+
+      foreach($this->like as $val)
+        $this->ci->db->like($val[0], $val[1], $val[2]);
+
+      if(strlen($this->distinct) > 0)
+      {
+        $this->ci->db->distinct($this->distinct);
+        $this->ci->db->select($this->columns);
+      }
+
+      $query = $this->ci->db->get($this->table, NULL, NULL, FALSE);
+      return $query->num_rows();
     }
 
     /**
@@ -408,7 +429,7 @@
     * @param mixed $row_data
     * @return string $custom_val['content']
     */
-    protected function exec_replace($custom_val, $row_data)
+    private function exec_replace($custom_val, $row_data)
     {
       $replace_string = '';
 
@@ -418,7 +439,7 @@
         {
           $sval = preg_replace("/(?<!\w)([\'\"])(.*)\\1(?!\w)/i", '$2', trim($val));
 
-          if(preg_match('/(\w+)\((.*)\)/i', $val, $matches) && function_exists($matches[1]))
+      if(preg_match('/(\w+::\w+|\w+)\((.*)\)/i', $val, $matches) && is_callable($matches[1]))
           {
             $func = $matches[1];
             $args = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[,]+/", $matches[2], 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
@@ -426,13 +447,13 @@
             foreach($args as $args_key => $args_val)
             {
               $args_val = preg_replace("/(?<!\w)([\'\"])(.*)\\1(?!\w)/i", '$2', trim($args_val));
-              $args[$args_key] = (in_array($args_val, $this->columns))? ($row_data[($this->check_mDataprop())? $args_val : array_search($args_val, $this->columns)]) : $args_val;
+              $args[$args_key] = (in_array($args_val, $this->columns))? ($row_data[($this->check_cType())? $args_val : array_search($args_val, $this->columns)]) : $args_val;
             }
 
             $replace_string = call_user_func_array($func, $args);
           }
           elseif(in_array($sval, $this->columns))
-            $replace_string = $row_data[($this->check_mDataprop())? $sval : array_search($sval, $this->columns)];
+            $replace_string = $row_data[($this->check_cType())? $sval : array_search($sval, $this->columns)];
           else
             $replace_string = $sval;
 
@@ -444,36 +465,19 @@
     }
 
     /**
-    * Check mDataprop
+    * Check column type -numeric or column name
     *
     * @return bool
     */
-    protected function check_mDataprop()
+    private function check_cType()
     {
-      if(!$this->ci->input->post('mDataProp_0'))
+      $column = $this->ci->input->post('columns');
+      if(is_numeric($column[0]['data']))
         return FALSE;
-
-      for($i = 0; $i < intval($this->ci->input->post('iColumns')); $i++)
-        if(!is_numeric($this->ci->input->post('mDataProp_' . $i)))
-          return TRUE;
-
-      return FALSE;
+      else
+        return TRUE;
     }
 
-    /**
-    * Get mDataprop order
-    *
-    * @return mixed
-    */
-    protected function get_mDataprop()
-    {
-      $mDataProp = array();
-
-      for($i = 0; $i < intval($this->ci->input->post('iColumns')); $i++)
-        $mDataProp[] = $this->ci->input->post('mDataProp_' . $i);
-
-      return $mDataProp;
-    }
 
     /**
     * Return the difference of open and close characters
@@ -483,7 +487,7 @@
     * @param string $close
     * @return string $retval
     */
-    protected function balanceChars($str, $open, $close)
+    private function balanceChars($str, $open, $close)
     {
       $openCount = substr_count($str, $open);
       $closeCount = substr_count($str, $close);
@@ -500,7 +504,7 @@
     * @param string $close
     * @return mixed $retval
     */
-    protected function explode($delimiter, $str, $open = '(', $close=')')
+    private function explode($delimiter, $str, $open = '(', $close=')')
     {
       $retval = array();
       $hold = array();
@@ -529,10 +533,10 @@
     /**
     * Workaround for json_encode's UTF-8 encoding if a different charset needs to be used
     *
-    * @param mixed result
+    * @param mixed $result
     * @return string
     */
-    protected function jsonify($result = FALSE)
+    private function jsonify($result = FALSE)
     {
       if(is_null($result))
         return 'null';
