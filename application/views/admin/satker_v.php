@@ -1,41 +1,10 @@
-<div class="feed-box">
-        <section class="panel tab-bg-form">
-            <div class="panel-body">
-               
-                <div class="corner-ribon blue-ribon">
-                   <i class="fa fa-cog"></i>
-                </div>
-                <form class="form-horizontal" role="form">
-                        
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-3">
-                         		<?=form_dropdown('tahun',$tahun_renstra,'0','id="satker-tahun" class="populate" style="width:100%"')?>
-                        </div>
-                    </div>
-                   <div class="form-group">
-                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
-                        <div class="col-md-6">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="satker-kode_e1" class="populate" style="width:100%"')?>
-                        </div>
-                    </div> 
-					<div class="form-group">
-                        <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="satker-btn" style="margin-left:15px;">
-                            <i class="fa fa-check-square-o"></i> Tampilkan Data
-                        </button>
-                    </div>		
-                </form>
-            </div>
-        </section>
-    </div>
 
 <!--main content start-->
 	<div class="" id="konten_es2">
     
  		<div class="row">
             <div class="col-sm-12">
-                <div class="pull-right">
+                <div class="pull-left">
                      <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
@@ -67,13 +36,11 @@
  
  
 	$(document).ready(function(){
-		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-		
 		 
-		 
-		$("#satker-btn").click(function(){
-			var tahun = $('#satker-tahun').val();
-			var kode = $('#satker-kode_e1').val();
+		$("#emon-btn").click(function(){
+			var tahun = $('#emon-tahun').val();
+			var kode = $('#emon-kode_e1').val();
+			
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
 					  { "mData": "tahun_renstra", "sWidth": "65px" },

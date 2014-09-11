@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
-                     <a href="#fModal" data-toggle="modal" class="btn btn-primary btn-sm" onclick="tahun_add();" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                     <a href="#tahun-modal" data-toggle="modal" class="btn btn-primary btn-sm" onclick="tahun_add();" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
     </div>
     <!--main content end-->
     
-    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="fModal" class="modal fade">
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="tahun-modal" class="modal fade">
         <div class="modal-dialog">
         <form method="post" id="tahun_form" class="form-horizontal bucket-form" role="form">    
             <div class="modal-content">
@@ -52,8 +52,13 @@
 <script>
 $(document).ready(function(){
 	$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-		
-	load_ajax_datatable('tahun-tbl','<?=base_url()?>admin/tahun_renstra/get_tables');
+	var columsDef =  [
+					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
+					  { "mData": "tahun_renstra" },					
+					  { "mData": "aksi", "sWidth": "100px" }
+					];
+					
+	load_ajax_datatable2('tahun-tbl','<?=base_url()?>admin/tahun_renstra/get_tables',columsDef,1,'desc');
 	tahun_add =function(){
 		$("#tahun_title").html('<i class="fa fa-plus-square"></i> Tambah Tahun Renstra');
 		$("#tahun_form").attr("action",'<?=base_url()?>admin/tahun_renstra/save');

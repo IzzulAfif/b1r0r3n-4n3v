@@ -12,6 +12,11 @@
                             <a data-toggle="tab" href="#tahun-content">
                                <i class="fa fa-calendar"></i> Tahun Renstra
                             </a>
+                        </li>   
+						<li class="">
+                            <a data-toggle="tab" href="#webservice-content">
+                               <i class="fa fa-rss"></i> Web Service
+                            </a>
                         </li>                        
                         
                     </ul>
@@ -19,7 +24,7 @@
                 <div class="panel-body">
                     <div class="tab-content">
                        <div class="tab-pane fade active in" id="tahun-content"></div>
-						<!--<div class="tab-pane fade" id="emon-content"></div> -->
+						<div class="tab-pane fade" id="webservice-content"></div> 
 					</div>	
 								
                 </div>
@@ -37,6 +42,7 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			$("#tahun-content").load("<?=base_url()?>admin/pengaturan/loadtahunrenstra");
+			$("#webservice-content").load("<?=base_url()?>admin/pengaturan/loadwebservice");
 		});	
 		
 	</script>

@@ -5,13 +5,13 @@
  @revision	 :
 */
 
-class Ekstrak_item_satker extends CI_Controller {
+class Ekstrak_lokasi extends CI_Controller {
 	
 	function __construct() 
 	{	
 		parent::__construct();
 		$this->load->library('datatables');
-		$this->load->model('/admin/item_satker_model','item_satker');
+		$this->load->model('/admin/lokasi_model','lokasi');
 		
 	}
 	function index()
@@ -34,8 +34,8 @@ class Ekstrak_item_satker extends CI_Controller {
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
-		
-		echo $this->load->view('admin/item_satker_v',$data,true); #load konten template file		
+		$data = null;
+		echo $this->load->view('admin/lokasi_v',$data,true); #load konten template file		
 	}
 	
 	
@@ -52,9 +52,13 @@ class Ekstrak_item_satker extends CI_Controller {
 		#load container for template view
 		$this->load->view('template/container',$template);
 	}
-	function getdata_itemsatker(){
+	function getdata_lokasi(){
 		$params = null;
-		echo $this->item_satker->get_datatables($params);
+		//echo $this->satker->get_datatables($params);
+		$data = $this->lokasi->get_datatables($params);
+		//var_dump($data);
+		//echo json_encode($data);
+		echo $data;
 	}
 	
 	function save()

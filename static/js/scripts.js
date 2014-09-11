@@ -321,6 +321,8 @@ function load_ajax_datatable(idTable,Url,sortColumn,sortType)
 // modif fungsi sebelumnya
 function load_ajax_datatable2(idTable,Url,columnsDef,sortColumn,sortType)
 {
+	/* "scrollY": 200,
+       */
 	sortColumn = typeof sortColumn !== 'undefined' ? sortColumn : 0;
 	sortType = typeof sortType !== 'undefined' ? sortType : 'desc';
 	$('#'+idTable).dataTable
@@ -336,7 +338,8 @@ function load_ajax_datatable2(idTable,Url,columnsDef,sortColumn,sortType)
 		"sServerMethod" : "POST",
 		"bDestroy": true,
 		 "aoColumns":columnsDef,
-		"bJQueryUI":true,		
+		"bJQueryUI":true,	
+		"scrollX": true	,
 		"sDom": 'rt<"top"lpi>',	//mengatur posisi toolbar  cek http://legacy.datatables.net/usage/options#sDom
 		 
 		'fnServerData' : function(sSource, aoData, fnCallback)

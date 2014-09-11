@@ -7,7 +7,7 @@
 */
 	
 
-class Tahun_renstra_model extends CI_Model
+class Webservice_model extends CI_Model
 { 
 	
 	function __construct()
@@ -18,9 +18,9 @@ class Tahun_renstra_model extends CI_Model
 	function get_all($params){
 		$where = ' where 1=1 ';
 		if (isset($params)){
-			if (isset($params['tahun_renstra'])) $where .= " and tahun_renstra='".$params['tahun_renstra']."'";
+			if (isset($params['id'])) $where .= " and id='".$params['id']."'";
 		}
-		$sql = "select tahun_renstra from anev_tahun_renstra ".$where;
+		$sql = "select * from anev_webservice ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -43,41 +43,30 @@ class Tahun_renstra_model extends CI_Model
 	}
 	
 	function save($data){
-		$this->mgeneral->save($data,'anev_tahun_renstra');
+		$this->mgeneral->save($data,'anev_webservice');
 	}
 	
 	function update($data,$whereData){
 		
-		$this->mgeneral->update($whereData,$data,'anev_tahun_renstra');
+		$this->mgeneral->update($whereData,$data,'anev_webservice');
 	}
 	
 	function delete($whereData){		
-		$this->mgeneral->delete($whereData,'anev_tahun_renstra');
+		$this->mgeneral->delete($whereData,'anev_webservice');
 	}
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('tahun_renstra');
-		$this->datatables->from('anev_tahun_renstra');
+		$this->datatables->select('id,tipe_aplikasi,jenis_data,url');
+		$this->datatables->from('anev_webservice');
 		//$this->datatables->join('anev_tahun_renstra e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'left');
-		$this->datatables->add_column('aksi', '$1',"general_modal_action('tahun',tahun_renstra,\"\",'#tahun-modal')");
+		$this->datatables->add_column('aksi', '$1',"general_modal_action_edit('webservice',id,\"\",'#webservice-modal')");
+		$this->datatables->unset_column('id');
 		return $this->datatables->generate();
 		
 	
 	}
 	
-	function get_datatable_old($params){
-		$sql = 'select 0 as row_number,tahun_renstra from anev_tahun_renstra';
-		$data = $this->mgeneral->run_sql($sql);
-		$result = null;
-		if (isset($data)){
-			foreach ($data as $row){
-				$result->data[] = $row;
-			}
-		}
-		return $result;
-	
-	}
 
 }
 

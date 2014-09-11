@@ -8,7 +8,7 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Ekstrak Data</label>
+                        <label class="col-md-2 control-label">Jenis Data</label>
                         <div class="col-md-3">
                          		<?=form_dropdown('tipe_data',$tipe_data,'0','id="eperformance-tipe_data" class="populate" style="width:100%"')?>
                         </div>

@@ -7,7 +7,7 @@
 */
 	
 
-class Satker_model extends CI_Model
+class Itemsatker_model extends CI_Model
 { 
 	
 	function __construct()
@@ -48,17 +48,14 @@ class Satker_model extends CI_Model
 	function get_datatables($params){
 		if (isset($params)){
 			if ((isset($params['kode_e1']))&&($params['kode_e1']!="0"))$this->datatables->where("s.kode_e1",$params['kode_e1']);
-			if ((isset($params['tahun_renstra']))&&($params['tahun_renstra']!="0"))$this->datatables->where("s.tahun_renstra",$params['tahun_renstra']);
+			if ((isset($params['tahun_renstra']))&&($params['tahun_renstra']!="0"))$this->datatables->where("s.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4) ");
 			
 		}
 		
-		$this->datatables->select('s.tahun_renstra, s.kode_satker, s.nama_satker, s.lokasi_satker, s.kode_e1 ');
-		$this->datatables->from('anev_satker s');
-		$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra', 'left');
+		$this->datatables->select('tahun, kode_satker, kode_e1, kode_program, kode_kegiatan, kdlokasi, kdkabkota, noitem, nmitem, volkeg, satkeg, kode_status ');
+		$this->datatables->from('anev_item_satker s');
+		//$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=s.kode_e1 an, 'left');
 	
-		// $this->datatables->where($key_condition, $val = NULL, true);
-		//$this->datatables->join('anev_lokasi l', 'e1.kode_e1=s.kode_e1 and e1.tahun_renstra=s.tahun_renstra', 'left');
-		//$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		return $this->datatables->generate();
 		
 	

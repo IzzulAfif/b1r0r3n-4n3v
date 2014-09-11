@@ -91,7 +91,7 @@ class Tahun_renstra extends CI_Controller {
 	
 	function save()	{		
 		$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data kementerian berhasil ditambahkan.</p>';
+					<p>Data Periode Renstra berhasil ditambahkan.</p>';
 		
 		$varData	= $this->get_from_post();
 		$this->tahun_renstra->save($varData);
@@ -111,7 +111,7 @@ class Tahun_renstra extends CI_Controller {
 		$varData= $this->get_from_post(); 		
 			$this->tahun_renstra->update(array('tahun_renstra'=>$tahun),$varData);
 			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data kementerian  berhasil diubah.</p>';
+					<p>Data Periode Renstra  berhasil diubah.</p>';
 		echo $msg;
 	}
 	
@@ -119,7 +119,7 @@ class Tahun_renstra extends CI_Controller {
 	{
 		$this->tahun_renstra->delete(array('tahun_renstra'=>$tahun));
 		$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data kementerian berhasil dihapus.</p>';
+					<p>Data Periode Renstra berhasil dihapus.</p>';
 		
 		echo $msg;
 	}

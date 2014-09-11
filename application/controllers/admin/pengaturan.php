@@ -12,6 +12,7 @@ class Pengaturan extends CI_Controller {
 		parent::__construct();
 		$this->load->library('datatables');
 		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
+		$this->load->model('/admin/webservice_model','webservice');
 		
 		
 	}
@@ -32,6 +33,11 @@ class Pengaturan extends CI_Controller {
 	function loadtahunrenstra(){		
 		$data['data'] = $this->tahun_renstra->get_all(null);	
 		echo $this->load->view('admin/tahun_renstra_v',$data,true); #load konten template file		
+	}
+	
+	function loadwebservice(){		
+		$data['data'] = $this->webservice->get_all(null);	
+		echo $this->load->view('admin/webservice_v',$data,true); #load konten template file		
 	}
 	
 }

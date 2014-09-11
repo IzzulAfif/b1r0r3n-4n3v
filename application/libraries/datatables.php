@@ -267,7 +267,7 @@
     private function get_ordering()
     {
       
-      $Data = $this->ci->input->post('columns');
+      $Data = $this->ci->input->post('iColumns');
 
 
       if ($this->ci->input->post('order'))
