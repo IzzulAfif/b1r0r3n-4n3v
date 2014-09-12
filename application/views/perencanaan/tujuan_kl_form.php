@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Kode</label>
+                <label class="col-sm-4 control-label">Kode Tujuan</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control input-sm" name="kode" value="<?=$data[0]->kode_tujuan_kl?>">
                 </div>

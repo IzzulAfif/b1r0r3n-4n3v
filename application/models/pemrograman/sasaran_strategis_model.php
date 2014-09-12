@@ -23,7 +23,7 @@ class Sasaran_strategis_model extends CI_Model
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
 		$sql = "select f.*, kl.nama_kl, skl.sasaran_kl from anev_sasaran_strategis f inner join anev_kl kl on f.kode_kl=kl.kode_kl and f.tahun between left(kl.tahun_renstra,4) and right(kl.tahun_renstra,4) left join anev_sasaran_kl skl on f.kode_sasaran_kl = skl.kode_sasaran_kl and f.tahun between left(skl.tahun_renstra,4) and right(skl.tahun_renstra,4) ".$where;
-		$sql .= " order by f.tahun desc, f.kode_ss_kl";
+		$sql .= "group by f.kode_ss_kl order by f.tahun desc, f.kode_ss_kl";
 		return $this->mgeneral->run_sql($sql);
 	}
 	

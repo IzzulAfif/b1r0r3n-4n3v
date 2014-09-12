@@ -153,19 +153,33 @@ class Anev_kl extends CI_Controller {
 	function save()
 	{
 		$tipe		= $this->input->post("tipe");
-		if($tipe=="id"): 
-			$tipe	= "id";
-			$tabel	= "anev_kl";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data kementerian berhasil ditambahkan.</p>';
+		$varData	= $this->get_from_post($tipe);
+		
+		if($tipe=="id"):
+			$tabel		= "anev_kl";
+			$field_cek	= "kode_kl";
+			$label		= "kementerian";
+			$kode		= $varData['kode_kl'];
+			$tahun		= $varData['tahun_renstra'];
 		else:
-			$tabel	= "anev_fungsi_kl";
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Fungsi kementerian berhasil ditambahkan.</p>';
+			$tabel		= "anev_fungsi_kl";
+			$field_cek	= "kode_fungsi_kl";
+			$label		= "Fungsi";
+			$kode		= $varData['kode_fungsi_kl'];
+			$tahun		= $varData['tahun_renstra'];
 		endif;
 		
-		$varData	= $this->get_from_post($tipe);
-		$this->mgeneral->save($varData,$tabel);
+		#cek kode sudah ada atau belum
+		$cekdata 	= $this->mgeneral->getValue($field_cek,array("$field_cek"=>$kode,'tahun_renstra'=>$tahun),$tabel);
+		
+		if($cekdata==""):
+			$this->mgeneral->save($varData,$tabel);
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>'.ucfirst($label).' berhasil ditambahkan.</p>';
+		else:
+			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+					<p>Kode '.$label.' sudah ada.</p>';
+		endif;
 		
 		echo $msg;
 	}

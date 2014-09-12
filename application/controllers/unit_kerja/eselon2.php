@@ -200,23 +200,40 @@ class Eselon2 extends CI_Controller {
 	
 	function save()	{
 		$tipe	= $this->input->post("tipe");
+		$kode	= $this->input->post("kode");
+		$tahun	= $this->input->post("tahun");
 		
 		if($tipe==""):
-		
-			$varData	= $this->get_form_value("id");
-			$this->eselon2->save($varData);
-		
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data Unit Kerja berhasil ditambahkan.</p>';
-		
-		else:
 			
-			$varData	= $this->get_form_value($tipe);
-			$this->fungsi->save($varData);
-		
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Fungsi Unit Kerja berhasil ditambahkan.</p>';
+			#cek kode sudah ada atau belum
+			$cekdata 	= $this->mgeneral->getValue("kode_e2",array("kode_e2"=>$kode,'tahun_renstra'=>$tahun),"anev_eselon2");
+			
+			if($cekdata==""):	
+				$varData	= $this->get_form_value("id");
+				$this->eselon2->save($varData);
+			
+				$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+						<p>Data Unit Kerja berhasil ditambahkan.</p>';
+			else:
+				$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+						<p>Kode Unit Kerja sudah ada.</p>';
+			endif;
 					
+		else:
+			#cek kode sudah ada atau belum
+			$cekdata 	= $this->mgeneral->getValue("kode_fungsi_e2",array("kode_fungsi_e2"=>$kode,'tahun_renstra'=>$tahun),"anev_fungsi_eselon2");
+			
+			if($cekdata==""):
+				$varData	= $this->get_form_value($tipe);
+				$this->fungsi->save($varData);
+			
+				$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+						<p>Fungsi Unit Kerja berhasil ditambahkan.</p>';
+			else:
+				$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+						<p>Kode Fungsi Unit Kerja sudah ada.</p>';
+			endif;
+								
 		endif;
 				
 		echo $msg;

@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Kode</label>
+                <label class="col-sm-4 control-label">Kode Fungsi</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control input-sm" name="kode" value="<?=$data[0]->kode_fungsi_e1?>">
                 </div>

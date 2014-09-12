@@ -280,26 +280,35 @@ class Pemrograman_kl extends CI_Controller {
 	function save()
 	{
 		$tipe		= $this->input->post("tipe");
+		$tahun		= $this->input->post("tahun");
+		$kode		= $this->input->post("kode");
+		
 		if($tipe=="program"): 
-			$tabel	= "anev_program_eselon1";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Program berhasil ditambahkan.</p>';
+			$tabel		= "anev_program_eselon1";	
+			$field_cek	= "kode_program";
 		elseif($tipe=="misi"): 
-			$tabel	= "anev_misi_kl";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Misi kementerian berhasil ditambahkan.</p>';
+			$tabel		= "anev_misi_kl";
+			$field_cek	= "kode_program";
 		elseif($tipe=="tujuan"): 
-			$tabel	= "anev_tujuan_kl";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Tujuan kementerian berhasil ditambahkan.</p>';
+			$tabel		= "anev_tujuan_kl";
+			$field_cek	= "kode_program";
 		else:
-			$tabel	= "anev_sasaran_kl";
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Sasaran kementerian berhasil ditambahkan.</p>';
+			$tabel		= "anev_sasaran_kl";
+			$field_cek	= "kode_program";
 		endif;
 		
-		$varData	= $this->get_from_post($tipe);
-		$this->mgeneral->save($varData,$tabel);
+		#cek kode sudah ada atau belum
+		$cekdata 	= $this->mgeneral->getValue($field_cek,array("$field_cek"=>$kode,'tahun'=>$tahun),$tabel);
+		
+		if($cekdata==""):
+			$varData	= $this->get_from_post($tipe);
+			$this->mgeneral->save($varData,$tabel);
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>'.ucfirst($tipe).' berhasil ditambahkan.</p>';
+		else:
+			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+					<p>Kode '.$tipe.' sudah ada.</p>';
+		endif;
 		
 		echo $msg;
 	}

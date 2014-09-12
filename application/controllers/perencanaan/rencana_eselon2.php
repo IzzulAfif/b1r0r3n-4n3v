@@ -312,26 +312,35 @@ class Rencana_eselon2 extends CI_Controller {
 	function save()
 	{
 		$tipe		= $this->input->post("tipe");
+		$kode		= $this->input->post("kode");
+		$tahun		= $this->input->post("tahun");
+		
 		if($tipe=="visi"): 
-			$tabel	= "anev_visi_eselon2";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Visi Eselon 2 berhasil ditambahkan.</p>';
+			$tabel		= "anev_visi_eselon2";
+			$field_cek	= "kode_visi_e2";
 		elseif($tipe=="misi"): 
-			$tabel	= "anev_misi_eselon2";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Misi Eselon 2 berhasil ditambahkan.</p>';
+			$tabel		= "anev_misi_eselon2";
+			$field_cek	= "kode_misi_e2";
 		elseif($tipe=="tujuan"): 
-			$tabel	= "anev_tujuan_eselon2";			
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Tujuan Eselon 2 berhasil ditambahkan.</p>';
+			$tabel		= "anev_tujuan_eselon2";
+			$field_cek	= "kode_tujuan_e2";
 		else:
-			$tabel	= "anev_sasaran_eselon2";
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Sasaran Eselon 2 berhasil ditambahkan.</p>';
+			$tabel		= "anev_sasaran_eselon2";
+			$field_cek	= "kode_sasaran_e2";
 		endif;
 		
-		$varData	= $this->get_from_post($tipe);
-		$this->mgeneral->save($varData,$tabel);
+		#cek kode sudah ada atau belum
+		$cekdata 	= $this->mgeneral->getValue($field_cek,array("$field_cek"=>$kode,'tahun_renstra'=>$tahun),$tabel);
+		
+		if($cekdata==""):
+			$varData	= $this->get_from_post($tipe);
+			$this->mgeneral->save($varData,$tabel);
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>'.ucfirst($tipe).' Eselon 2 berhasil ditambahkan.</p>';
+		else:
+			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+					<p>Kode '.$tipe.' sudah ada.</p>';
+		endif;
 		
 		echo $msg;
 	}

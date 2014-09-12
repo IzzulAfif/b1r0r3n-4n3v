@@ -74,7 +74,7 @@ class mgeneral extends CI_Model
         $this->db->select($field);
         $this->db->where($where);
         $result = $this->db->get($tabel)->result();
-
+		$value	= "";
         foreach ($result as $r) {
             $value = $r->$field;
         }
