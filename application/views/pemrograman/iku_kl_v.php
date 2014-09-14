@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-4">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="iku-tahun" class="populate" style="width:100%"')?>
+                         	<?=form_dropdown('tahun',$renstra,'0','id="iku-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -34,14 +34,14 @@
                  
  	<div id="iku_kl_konten" class="hide">
 
-        <div class="row">
+        <!--<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#ssModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="iku_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
-        <br />
+        <br />-->
         
         <div class="adv-table">
             <table  class="display table table-bordered table-striped" id="iku-tbl">
@@ -50,8 +50,7 @@
                 
                 <th>Sasaran Strategis</th>
                 <th>Kode IKU</th>
-                <th>Deskripsi</th>                        
-                <th width="10%">Aksi</th>
+                <th>Deskripsi</th>
             </tr>
             </thead>
             <tbody>

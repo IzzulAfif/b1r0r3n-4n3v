@@ -39,8 +39,8 @@ class Rencana_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->visi->get_all(null);
-		$data['eselon1'] = $this->eselon1->get_list(null);
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
 		echo $this->load->view('perencanaan/visi_eselon1_v',$data,true); #load konten template file		
 	}
 	
@@ -62,9 +62,7 @@ class Rencana_eselon1 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -75,7 +73,7 @@ class Rencana_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->misi->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('perencanaan/misi_eselon1_v',$data,true); #load konten template file		
 	}
@@ -98,9 +96,7 @@ class Rencana_eselon1 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -111,7 +107,7 @@ class Rencana_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->tujuan->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('perencanaan/tujuan_eselon1_v',$data,true); #load konten template file		
 	}
@@ -134,9 +130,7 @@ class Rencana_eselon1 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -147,7 +141,7 @@ class Rencana_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->sasaran->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('perencanaan/sasaran_eselon1_v',$data,true); #load konten template file		
 	}
@@ -170,9 +164,7 @@ class Rencana_eselon1 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

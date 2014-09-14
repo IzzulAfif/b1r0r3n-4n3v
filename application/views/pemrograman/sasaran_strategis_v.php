@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-4">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="sastra-tahun" class="populate" style="width:100%"')?>
+                         	<?=form_dropdown('tahun',$renstra,'0','id="sastra-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -34,24 +34,22 @@
                    
  	<div id="ss_kl_konten" class="hide">
 
-        <div class="row">
+        <!--<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#ssModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="ss_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
-        <br />
+        <br />-->
         
         <div class="adv-table">
             <table  class="display table table-bordered table-striped" id="sastra-tbl">
             <thead>
             <tr>
-                
                 <th>Sasaran </th>
                 <th>Kode SS</th>
-                <th>Sasaran Strategis</th>                        
-                <th width="10%">Aksi</th>
+                <th>Sasaran Strategis</th>
             </tr>
             </thead>
             <tbody>

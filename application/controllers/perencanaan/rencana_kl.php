@@ -39,7 +39,7 @@ class Rencana_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] =null;//$this->visi->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		echo $this->load->view('perencanaan/visi_kl_v',$data,true); #load konten template file		
 	}
 	function get_body_visi($tahun,$kl){
@@ -60,9 +60,7 @@ class Rencana_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -77,7 +75,7 @@ class Rencana_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->misi->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		echo $this->load->view('perencanaan/misi_kl_v',$data,true); #load konten template file		
 	}
 	
@@ -99,9 +97,7 @@ class Rencana_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -112,7 +108,7 @@ class Rencana_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->tujuan->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		echo $this->load->view('perencanaan/tujuan_kl_v',$data,true); #load konten template file		
 	}
 	
@@ -134,9 +130,7 @@ class Rencana_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -147,7 +141,7 @@ class Rencana_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PERENCANAAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->sasaran->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		echo $this->load->view('perencanaan/sasaran_kl_v',$data,true); #load konten template file		
 	}
 	function get_body_sasaran($tahun,$kl){
@@ -168,9 +162,7 @@ class Rencana_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

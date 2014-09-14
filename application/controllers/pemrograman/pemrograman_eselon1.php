@@ -16,6 +16,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$this->load->model('/pemrograman/program_eselon1_model','program_e1');
 		$this->load->model('/pemrograman/sasaran_program_model','sasaran');
 		$this->load->model('/pemrograman/iku_eselon1_model','iku');
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	/*	$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
 		*/
 	}	
@@ -38,7 +39,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->program_e1->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/program_kl_v',$data,true); #load konten template file		
 	}
@@ -51,19 +52,21 @@ class Pemrograman_eselon1 extends CI_Controller {
 		if (isset($data)){
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$d->tahun.'</td>
 					<td>'.$d->kode_program.'</td>
 					<td>'.$d->nama_program.'</td>					
-					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-					</td>
+					<td>'.number_format($d->pagu,0,'.','.').'</td>
+					<td>'.number_format($d->realisasi,0,'.','.').'</td>
+					<td>'.$d->persen.'</td>
 				</tr>';
 				endforeach; 
+				/*<td>
+						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="program_delete(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-times"></i></a>
+					</td>*/
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -74,8 +77,8 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] =null;// //$this->sasaran->get_all(null);
-		$data['eselon1'] = $this->eselon1->get_list(null);
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/sasaran_program_v',$data,true); #load konten template file		
 	}
 	
@@ -89,19 +92,12 @@ class Pemrograman_eselon1 extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$d->sastra_deskripsi.'</td>
 					<td>'.$d->kode_sp_e1.'</td>					
-					<td>'.$d->deskripsi.'</td>					
-					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-					</td>
+					<td>'.$d->deskripsi.'</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -112,7 +108,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->iku->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/iku_eselon1_v',$data,true); #load konten template file		
 	}
@@ -127,20 +123,12 @@ class Pemrograman_eselon1 extends CI_Controller {
 					<td>'.$d->sasprog_deskripsi.'</td>
 					<td>'.$d->kode_iku_e1.'</td>
 					<td>'.$d->deskripsi.'</td>					
-					<td>'.$d->satuan.'</td>					
-					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-					</td>
+					<td>'.$d->satuan.'</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

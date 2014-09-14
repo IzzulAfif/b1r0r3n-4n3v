@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-4">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="misi-tahun" class="populate"')?>
+                         		<?=form_dropdown('tahun',$renstra,'0','id="misi-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">

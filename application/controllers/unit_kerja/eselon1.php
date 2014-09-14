@@ -13,6 +13,7 @@ class Eselon1 extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/kl_model','kl');
 		$this->load->model('/unit_kerja/fungsi_eselon1_model','fungsi');
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	}
 	function index()
 	{
@@ -37,7 +38,7 @@ class Eselon1 extends CI_Controller {
 		
 		$data['data']		= null;//$this->eselon1->get_all(null); #kirim data ke konten file
 		$data['eselon1'] = $this->eselon1->get_list(null);
-		$data['tahun_renstra'] = $this->eselon1->get_list_tahun_renstra(null);
+		$data['tahun_renstra']= $this->setting_th->get_list();
 		echo $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file		
 	}
 	
@@ -62,11 +63,7 @@ class Eselon1 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -79,7 +76,7 @@ class Eselon1 extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		$data['eselon1'] = $this->eselon1->get_list(null);
-		$data['tahun_renstra'] = $this->eselon1->get_list_tahun_renstra(null);
+		$data['tahun_renstra']= $this->setting_th->get_list();
 		echo $this->load->view('unit_kerja/fungsi_eselon1_v',$data,true); #load konten template file		
 	}
 	
@@ -101,9 +98,7 @@ class Eselon1 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

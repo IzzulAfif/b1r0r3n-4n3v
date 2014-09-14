@@ -11,7 +11,7 @@
                      <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra</label>
                         <div class="col-md-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="tujuan-tahun" class="populate" style="width:100%"')?>
+                         	<?=form_dropdown('tahun',$renstra,'0','id="tujuan-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">

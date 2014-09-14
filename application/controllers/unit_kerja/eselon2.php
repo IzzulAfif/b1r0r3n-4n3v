@@ -14,6 +14,7 @@ class Eselon2 extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/fungsi_eselon2_model','fungsi');
 		$this->load->model('/unit_kerja/kl_model','kl');
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	}	
 	
 	function index()
@@ -39,7 +40,7 @@ class Eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		//$this->visi->get_all(null);
-		$data['data']		= null;//$this->eselon2->get_all(null); #kirim data ke konten file
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('unit_kerja/eselon2_v',$data,true); #load konten template file		
 	}
@@ -66,11 +67,7 @@ class Eselon2 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -81,7 +78,7 @@ class Eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "UNIT_KERJA");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] =null; //$this->fungsi->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('unit_kerja/fungsi_eselon2_v',$data,true); #load konten template file		
 	}
@@ -105,9 +102,7 @@ class Eselon2 extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

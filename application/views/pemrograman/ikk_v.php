@@ -40,14 +40,14 @@
                     
  	<div id="ikk_konten" class="hide">
 
-        <div class="row">
+        <!--<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#ssModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="ss_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
-        <br />
+        <br />-->
         
         
         <div class="adv-table">
@@ -56,8 +56,7 @@
         <tr>
             <th>Sasaran Kegiatan</th>
             <th>Kode IKK</th>
-            <th>Deskripsi</th>                        
-            <th width="10%">Aksi</th>
+            <th>Deskripsi</th>
         </tr>
         </thead>
         <tbody>

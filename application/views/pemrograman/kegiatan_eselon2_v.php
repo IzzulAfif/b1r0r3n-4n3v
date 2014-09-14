@@ -38,14 +38,14 @@
 
 	<div id="kegiatan_konten" class="hide">
 
-        <div class="row">
+        <!--<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#ssModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="ss_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
                  </div>
             </div>
         </div>
-        <br />
+        <br />-->
         
         <div class="adv-table">
             <table  class="display table table-bordered table-striped" id="kegiatan-tbl">
@@ -56,8 +56,7 @@
                 <th>Nama Kegiatan</th>
                 <th>Pagu</th>
                 <th>Realisasi</th>		
-                <th>Unit Kerja</th>	
-                <th width="10%">Aksi</th>
+                <th>Unit Kerja</th>
             </tr>
             </thead>
             <tbody>

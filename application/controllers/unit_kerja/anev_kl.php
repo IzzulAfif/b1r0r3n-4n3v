@@ -13,6 +13,7 @@ class Anev_kl extends CI_Controller {
 		parent::__construct();
 		$this->load->model('/unit_kerja/kl_model','kl');
 		$this->load->model('/unit_kerja/fungsi_kl_model','fungsi_kl');
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	}
 	function index()
 	{
@@ -35,7 +36,7 @@ class Anev_kl extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		//$this->visi->get_all(null);
 		
-		$data['renstra']	= $this->kl->get_renstra();
+		$data['renstra']	= $this->setting_th->get_list();
 		echo $this->load->view('unit_kerja/anev_kl',$data,true); #load konten template file		
 	}
 
@@ -71,7 +72,7 @@ class Anev_kl extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file	
 			
-		$data['renstra']	= $this->kl->get_renstra();
+		$data['renstra']	= $this->setting_th->get_list();
 		echo $this->load->view('unit_kerja/fungsi_kl_v',$data,true); #load konten template file		
 	}
 	

@@ -17,6 +17,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$this->load->model('/pemrograman/kegiatan_eselon2_model','kegiatan');
 		$this->load->model('/pemrograman/sasaran_kegiatan_model','sasaran');
 		$this->load->model('/pemrograman/ikk_model','iku');
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	/*	$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
 		*/
 	}	
@@ -39,7 +40,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] =null;//$this->kegiatan->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/kegiatan_eselon2_v',$data,true); #load konten template file		
 	}
@@ -58,22 +59,12 @@ class Pemrograman_eselon2 extends CI_Controller {
 					<td>'.$d->nama_kegiatan.'</td>					
 					<td align="right">'.$this->utility->cekNumericFmt($d->pagu).'</td>
 					<td align="right">'.$this->utility->cekNumericFmt($d->realisasi).'</td>
-					<td>'.$d->nama_e2.'</td>					
-					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-					</td>
+					<td>'.$d->nama_e2.'</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -84,7 +75,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->sasaran->get_all(null);
+		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/sasaran_kegiatan_v',$data,true); #load konten template file		
 	}
@@ -100,19 +91,12 @@ class Pemrograman_eselon2 extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$d->sasprog_deskripsi.'</td>
 					<td>'.$d->kode_sk_e2.'</td>					
-					<td>'.$d->deskripsi.'</td>					
-					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-					</td>
+					<td>'.$d->deskripsi.'</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -124,8 +108,8 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->iku->get_all(null);
-		$data['eselon1'] = $this->eselon1->get_list(null);
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
 		echo $this->load->view('pemrograman/ikk_v',$data,true); #load konten template file		
 	}
 	
@@ -140,19 +124,12 @@ class Pemrograman_eselon2 extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$d->saskeg_deskripsi.'</td>
 					<td>'.$d->kode_ikk.'</td>
-					<td>'.$d->deskripsi.'</td>					
-					<td>
-						<a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-					</td>
+					<td>'.$d->deskripsi.'</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
