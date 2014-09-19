@@ -1,6 +1,6 @@
 	
     <div class="feed-box">
-     <form class="form-horizontal">
+     <form class="form-horizontal" id="form_crosssection_kl">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
@@ -102,8 +102,7 @@
                     </div>
                     
                     <div class="col-sm-2">
-                    
-                    	<button type="button" class="btn btn-info" id="proses-c2">
+                    	<button type="submit" class="btn btn-info" id="proses-c2">
                             <i class="fa fa-arrow-circle-right"></i> Tampilkan Grafik
                         </button>
                     </div>
@@ -116,8 +115,6 @@
    </div>	
    	
     <div class="alert alert-info hide" id="box-chart2">
-        <div id="chartKontenSection" style="height:600px;">
-        </div>
     </div>
     
     <script type="text/javascript">
@@ -202,91 +199,23 @@
 					});
 				});
 				
-				$('#proses-c2').click(function(){
-					$('#box-chart2').removeClass("hide");
-					
-					var chart;		
-					chart = new Highcharts.Chart({
-						chart: {
-							renderTo: 'chartKontenSection',
-							options3d: {
-								enabled: false,
-								alpha: 0,
-								beta: 0,
-								viewDistance: 0,
-								depth: 45
-							},
-							marginTop: 80,
-							marginRight: 20
-						},
-						colors: ['#3D96AE', '#DB843D', '#E10000'],
-						exporting: {
-							buttons: { 
-								exportButton: {
-									enabled:false
-								},
-								printButton: {
-									enabled:true
-								}
-						
-							}
-						},
-						title: {
-							text: 'Analisis Cross Section Capaian Indikator Sasaran Strategis Dan Program',
-							style : { "font-size" : "14px" }
-						},
-						subtitle: {
-							text: 'Tahun 2012',
-							style : { "font-size" : "14px" }
-						},
-						xAxis: {
-							categories: ['Aceh', 'Bali', 'Banten', 'Bengkulu', 'Gorontalo','Jakarta','Jambi','Jawa Barat','Jawa Tengah','Jawa Timur','Kalimantan Barat','Kalimantan Selatan','Kalimantan Tengah','Kalimantan Timur','Kalimantan Utara','Kep. Bangka Belitung','Kep. Riau','Lampung','Maluku','Maluku Utara','Nusa Tenggara Barat','Nusa Tenggara Timur']
-						},
-						yAxis: {
-							title: {
-								text: null
-							},
-							plotLines: [{
-								value: 400,
-								color: '#090',
-								width: 2,
-								label: {
-									text: 'rata-rata',
-									align: 'center'
-								}
-							}]
-						},
-						plotOptions: {
-							spline: {
-								marker: {
-									enabled: false
-								},
-							}
-						},
-						tooltip: {
-							formatter: function() {
-								var s;
-								if (this.point.name) { // the pie chart
-									s = ''+
-										this.point.name +': '+ this.y;
-								} else {
-									s = 'provinsi '+this.x +'<br>'+this.series.name+' :'+this.y;
-								}
-								return s;
-							}
-						},
-						series: [{
-							name: 'Realisasi',
-							type: 'bar',
-							data: [300, 400,200,200,500,300,600,300,400,500,300,400,300, 400,200,200,500,300,600,300,400,500]
-						},{
-							name: 'Target',
-							type: 'bar',
-							data: [300, 400,200,200,500,300,600,300,400,500,300,400,300, 400,200,200,500,300,600,300,400,500]
-						}]
-					});
+				var options = { 
+						target : '#box-chart2',
+						url : '<?=base_url()?>analisis/cross_section/proses_kl',
+						type : 'post',
+						beforeSubmit:  showProcess,
+						//success:     showResponse
+    				}; 
+				$('#form_crosssection_kl').submit(function() { 
+					$(this).ajaxSubmit(options);
+					return false; 
+				});
 				
-				});	
 			});
+			
+			function showProcess() { 
+				$('#box-chart2').removeClass("hide");
+				return true; 
+			}
 				
 		</script>

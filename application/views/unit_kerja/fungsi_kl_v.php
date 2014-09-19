@@ -39,9 +39,11 @@
     <div class="hide" id="konten_fungsikl">
 	<div class="row">
         <div class="col-sm-12">
+        	<?php if(count($kl)==0): ?>
             <div class="pull-right">
                  <a href="#fungsiModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="fungsi_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
              </div>
+            <?php endif; ?>
         </div>
     </div>
     <br />

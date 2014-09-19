@@ -39,9 +39,11 @@
     
         <div class="row">
             <div class="col-sm-12">
-                <div class="pull-right">
-                     <a href="#fModal" data-toggle="modal" class="btn btn-primary btn-sm" onclick="kl_add();" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
-                 </div>
+            	<?php if(count($kl)==0): ?>
+                <div class="pull-right" id="kl_add_btn">
+                  <a href="#fModal" data-toggle="modal" class="btn btn-primary btn-sm" onclick="kl_add();" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         <br />
