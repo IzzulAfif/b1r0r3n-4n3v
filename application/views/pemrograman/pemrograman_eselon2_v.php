@@ -23,11 +23,11 @@
                                 <i class="fa fa-align-center"></i> IKK Eselon II
                             </a>
                         </li>
-                        <li class="">
+                        <!--<li class="">
                             <a data-toggle="tab" href="#pendanaan-content">
                                 <i class="fa fa-clipboard"></i> Pendanaan Eselon II
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </header>
                 <div class="panel-body">

@@ -52,12 +52,8 @@ class Pemrograman_kl extends CI_Controller {
 		if (isset($data)){
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->tahun.'</td>
 					<td>'.$d->kode_program.'</td>
-					<td>'.$d->nama_program.'</td>					
-					<td>'.number_format($d->pagu,0,'.','.').'</td>
-					<td>'.number_format($d->realisasi,0,'.','.').'</td>
-					<td>'.$d->persen.'</td>
+					<td>'.$d->nama_program.'</td>
 				</tr>';
 				endforeach; 
 				/*<td>

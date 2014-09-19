@@ -22,7 +22,7 @@ class Kegiatan_eselon2_model extends CI_Model
 			if (isset($params['tahun'])) $where .= " and f.tahun ='".$params['tahun']."'";
 		}
 		$sql = "select f.*, e2.nama_e2,prog.nama_program from anev_kegiatan_eselon2 f inner join anev_eselon2 e2 on e2.kode_e2=f.kode_e2 and f.tahun between left(e2.tahun_renstra,4) and right(e2.tahun_renstra,4) left join anev_program_eselon1 prog on f.kode_program = prog.kode_program and f.tahun = prog.tahun".$where;
-		$sql .= " order by f.tahun desc, f.kode_kegiatan";
+		$sql .= " group by f.kode_kegiatan order by f.tahun desc, f.kode_kegiatan";
 		return $this->mgeneral->run_sql($sql);
 	}
 

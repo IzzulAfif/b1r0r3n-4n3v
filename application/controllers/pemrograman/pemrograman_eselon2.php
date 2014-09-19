@@ -56,10 +56,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$d->nama_program.'</td>
 					<td>'.$d->kode_kegiatan.'</td>
-					<td>'.$d->nama_kegiatan.'</td>					
-					<td align="right">'.$this->utility->cekNumericFmt($d->pagu).'</td>
-					<td align="right">'.$this->utility->cekNumericFmt($d->realisasi).'</td>
-					<td>'.$d->nama_e2.'</td>
+					<td>'.$d->nama_kegiatan.'</td>
 				</tr>';
 				endforeach; 
 		} else {

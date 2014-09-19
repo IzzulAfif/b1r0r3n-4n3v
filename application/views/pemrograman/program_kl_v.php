@@ -46,13 +46,8 @@
             <table  class="display table table-bordered table-striped" id="program-tbl">
                 <thead>
                 <tr>
-                    <th>Tahun</th>
                     <th>Kode Program</th>
                     <th>Nama Program</th>
-                    <th>Pagu</th>
-                    <th>Realisasi</th>
-                    <th>Persen</th>
-                    <!--<th width="10%">Aksi</th>-->
                 </tr>
                 </thead>
                 <tbody>

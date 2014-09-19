@@ -52,6 +52,5 @@ class sasaran_strategis_m extends CI_Model
  			." order by i.kode_iku_e1 asc, k.tahun asc";
  		return $this->mgeneral->run_sql($sql);	
 	}
-
 }
 

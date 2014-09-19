@@ -140,6 +140,7 @@ limit 0,50';
  				where s.kode_e1 = $kode_e1 AND k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
  				." and i.kode_iku_kl=".$this->db->escape($kode_iku_kl)."and s.kode_ss_kl=".$this->db->escape($kode_ss_kl)
  				." order by i.kode_iku_e1 asc, k.tahun asc";
+		echo $sql;
  		return $this->mgeneral->run_sql($sql);	
 	}
 	

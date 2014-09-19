@@ -54,9 +54,6 @@
                 <th>Nama Program</th>
                 <th>Kode Kegiatan</th>
                 <th>Nama Kegiatan</th>
-                <th>Pagu</th>
-                <th>Realisasi</th>		
-                <th>Unit Kerja</th>
             </tr>
             </thead>
             <tbody>

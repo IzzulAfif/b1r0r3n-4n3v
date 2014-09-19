@@ -22,7 +22,7 @@ class Program_eselon1_model extends CI_Model
 			if (isset($params['tahun_renstra'])) $tahun = explode("-",$params['tahun_renstra']); $where .= "and f.tahun between '".$tahun[0]."' and '".$tahun[1]."'";
 		}
 		$sql = "select f.*, e1.nama_e1 from anev_program_eselon1 f inner join anev_eselon1 e1 on e1.kode_e1=f.kode_e1 ".$where;
-		$sql .= " order by f.tahun desc, f.kode_program";
+		$sql .= "  GROUP BY f.kode_program order by f.tahun desc, f.kode_program";
 		//echo $sql;
 		return $this->mgeneral->run_sql($sql);
 	}
@@ -35,6 +35,7 @@ class Program_eselon1_model extends CI_Model
 		}
 		$sql = "select f.*, e1.nama_e1 from anev_program_eselon1 f inner join anev_eselon1 e1 on e1.kode_e1=f.kode_e1 ".$where;
 		$sql .= " order by f.tahun desc, f.kode_program";
+		#echo $sql;
 		return $this->mgeneral->run_sql($sql);
 	}
 

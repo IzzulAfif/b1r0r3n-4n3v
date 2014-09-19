@@ -23,11 +23,11 @@
                                 <i class="fa fa-align-center"></i> IKU
                             </a>
                         </li>
-                        <li class="">
+                        <!--<li class="">
                             <a data-toggle="tab" href="#pendanaan-content">
                                 <i class="fa fa-clipboard"></i> Pendanaan
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </header>
                 <div class="panel-body">

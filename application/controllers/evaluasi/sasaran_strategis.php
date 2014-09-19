@@ -11,6 +11,7 @@ class sasaran_strategis extends CI_Controller {
 	{	
 		parent::__construct();
 		$this->load->model('evaluasi/sasaran_strategis_m','',TRUE);
+		$this->load->model('analisis/analisis_model','',TRUE);
 	}
 
 	function index()
@@ -26,6 +27,7 @@ class sasaran_strategis extends CI_Controller {
 	
 	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl) 
 	{
+		
 		$thead = '<thead><th rowspan=2>Sasaran Strategis</th><th rowspan=2>Indikator</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
 		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = ""; $temprow = '';
@@ -40,18 +42,18 @@ class sasaran_strategis extends CI_Controller {
 				$kd_iku_kl = $dt->kode_iku_kl;
 			}
 			//die();
-
+			$sum_tahun = array();
 			foreach ($data as $dt) {
-				$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
-					.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
+				$temprow .= "<td>".(is_numeric($dt->target)?$dt->target:$dt->target)."</td><td>"
+					.(is_numeric($dt->realisasi)?$dt->realisasi:$dt->realisasi)."</td><td>"
 					.number_format($dt->persen,2,',','.')."</td>"; 
 				$sum_program += $dt->persen; $thn++;
-				$sum_tahun[$dt->tahun] = $dt->persen;			
+				$sum_tahun[$dt->tahun][] = $dt->persen;			
 				//if ($j+1<$ldata) {
 
 					if (($j+1==$ldata)||$dt->kode_iku_kl!=$data[$j+1]->kode_iku_kl) {
 						$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-						$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
+						$temprow .= '<td>'.number_format(($sum_program/$thn),2,',','.').'</td></tr>';
 						$thn = 0; $sum_program = 0;
 						$detailrow = $this->get_row_detail_capaian_kinerja($tahun_awal, $tahun_akhir, $dt->kode_iku_kl, $dt->kode_ss_kl);
 						$rowspan[$dt->kode_ss_kl]+=$detailrow[0];
@@ -77,13 +79,27 @@ class sasaran_strategis extends CI_Controller {
 		$tbody .= '<tr><td colspan=3>Rata-rata Capaian Kinerja / Tahun</td>';
 		$temp_thead = '<tr>';
 		$total = 0;
-		foreach ($sum_tahun as $k => $val) {
+		
+		foreach ($sum_tahun as $k => $val):
+			$total=0;
+			foreach($val as $v):
+				$total = $total+$v;
+			endforeach;
+			$datasum[$k] = $total;
+		endforeach;
+		
+		#print_r($datasum);
+		#echo $countrow;
+		$totalRata2 = 0;
+		foreach ($datasum as $k => $val) {
+			
 			$thead .= "<th colspan=3>".$k."</th>";
 		 	$temp_thead .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
-		 	$tbody .= '<td></td><td></td><td>'.number_format(($val/$countrow),2,',','.').'</td>'; $total +=$val/$countrow;
+		 	$tbody .= '<td></td><td></td><td>'.number_format(($val/$countrow),2,',','.').'</td>'; 
+			$totalRata2 = $totalRata2+($val/$countrow);
 		}
-		$thead .= "<th rowspan=2>Rata-rata<br>%</th><th rowspan=2></th></th></tr>".$temp_thead.'</tr></thead>';
-		$tbody .= '<td>'.number_format($total,2,',','.').'</td><td></td></tr></tbody>';
+		$thead .= "<th rowspan=2>Rata-rata<br>%</th></tr>".$temp_thead.'</tr></thead>';
+		$tbody .= '<td>'.number_format(($totalRata2/count($datasum)),2,',','.').'</td></tr></tbody>';
 		echo $thead.$tbody;
 	}
 
@@ -102,14 +118,14 @@ class sasaran_strategis extends CI_Controller {
 		}
 		$sum_program = 0;
 		foreach ($data as $dt) {
-			$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
-				.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
+			$temprow .= "<td>".(is_numeric($dt->target)?$dt->target:$dt->target)."</td><td>"
+				.(is_numeric($dt->realisasi)?$dt->realisasi:$dt->realisasi)."</td><td>"
 				.number_format($dt->persen,2,',','.')."</td>"; 
 			$sum_program += $dt->persen; $thn++;
 			//if ($j+1<$ldata) {
 				if (($j+1==$ldata) || $dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
 					$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-					$temprow .= '<td>'.($sum_program/$thn).'</td><td></td></tr>';
+					$temprow .= '<td>'.number_format(($sum_program/$thn),2,',','.').'</td></tr>';
 					$thn = 0; $sum_program = 0;
 					if ($firstrow==1) {
 						$ket = '';
