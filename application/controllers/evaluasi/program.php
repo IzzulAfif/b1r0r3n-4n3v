@@ -84,7 +84,7 @@ class program extends CI_Controller {
 
 	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_e1) 
 	{
-		$thead = '<thead><th rowspan=2>Sasaran Program</th><th rowspan=2>Indikator</th><th rowspan=2>Satuan</th>';
+		$thead = '<thead><th rowspan="2" width="20%">Sasaran Program</th><th rowspan="2" width="20%">Indikator</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
 		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $temprow = ''; $sum_program = 0;
 		$data = $this->program_m->get_capaian_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
@@ -96,16 +96,15 @@ class program extends CI_Controller {
 					$rowspan[$dt->kode_sp_e1]=(!isset($rowspan[$dt->kode_sp_e1]))?1:$rowspan[$dt->kode_sp_e1]+1;
 				$kd_iku_e1 = $dt->kode_iku_e1;
 			}
-
 			foreach ($data as $dt) {
-				$temprow .= "<td>".(is_numeric($dt->target)?number_format($dt->target,2,',','.'):$dt->target)."</td><td>"
-					.(is_numeric($dt->realisasi)?number_format($dt->realisasi,2,',','.'):$dt->realisasi)."</td><td>"
+				$temprow .= "<td>".(is_numeric($dt->target)?$dt->target:$dt->target)."</td><td>"
+					.(is_numeric($dt->realisasi)?$dt->realisasi:$dt->realisasi)."</td><td>"
 					.number_format($dt->persen,2,',','.')."</td>"; 
 				$sum_program += $dt->persen; $thn++;
-				$sum_tahun[$dt->tahun] = (!isset($sum_tahun[$dt->tahun]))?$dt->persen:$sum_tahun[$dt->tahun];			
+				$sum_tahun[$dt->tahun][] = $dt->persen;			
 				if (($j+1==$ldata) || $dt->kode_iku_e1!=$data[$j+1]->kode_iku_e1) {
 					$temprow = '<td>'.$dt->indikator.'</td><td>'.$dt->satuan.'</td>'.$temprow;
-					$temprow .= '<td>'.($sum_program/$thn).'</td></tr>';
+					$temprow .= '<td>'.number_format(($sum_program/$thn),2,',','.').'</td></tr>';
 					$thn = 0; $sum_program = 0;
 					if ($firstrow==1) $temprow = '<tr><td rowspan='.($rowspan[$dt->kode_sp_e1]).'>'.$dt->deskripsi.'</td>'.$temprow;
 						else $temprow ='<tr>'.$temprow;
@@ -121,13 +120,24 @@ class program extends CI_Controller {
 		$tbody .= '<tr><td colspan=3>Rata-rata Capaian Kinerja / Tahun</td>';
 		$temp_thead = '<tr>';
 		$total = 0;
-		foreach ($sum_tahun as $k => $val) {
+		
+		foreach ($sum_tahun as $k => $val):
+			$total=0;
+			foreach($val as $v):
+				$total = $total+$v;
+			endforeach;
+			$datasum[$k] = $total;
+		endforeach;
+		
+		$totalRata2 = 0;
+		foreach ($datasum as $k => $val) {
 			$thead .= "<th colspan=3>".$k."</th>";
 		 	$temp_thead .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
-		 	$tbody .= '<td></td><td></td><td>'.number_format(($val/$countrow),2,',','.').'</td>'; $total +=$val/$countrow;
+		 	$tbody .= '<td></td><td></td><td>'.number_format(($val/$countrow),2,',','.').'</td>'; 
+			$totalRata2 = $totalRata2+($val/$countrow);
 		}
 		$thead .= "<th rowspan=2>Rata-rata<br>%</th></tr>".$temp_thead.'</tr></thead>';
-		$tbody .= '<td>'.number_format($total,2,',','.').'</td></tr></tbody>';
+		$tbody .= '<td>'.number_format(($totalRata2/count($datasum)),2,',','.').'</td></tr></tbody>';
 		echo $thead.$tbody;
 	}
 }

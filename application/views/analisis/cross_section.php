@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator</b></p>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Sasaran</label>
@@ -69,42 +69,23 @@
                         </div>
                     </div>
                     
-                    <div class="col-sm-3">
-                    	<p class="text-primary"><b>Rata-rata Realisasi</b></p>
-                        <p>Rata-rata : 400</p>
-                        <p>SPM : 0</p>
-                    </div>
-                    
                 </div>
                 <hr />
                 <div class="row">
-                
-                	<div class="col-sm-2">
+                	<!--<div class="col-sm-2">
                     	<div class="checkbox">
                             <label>
                                 <input name="rata-rata" value="ok" type="checkbox" checked="checked"> Tampilkan Rata-rata
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-2">
-                        <div class="checkbox">
-                            <label>
-                                <input name="spm" value="ok" type="checkbox" checked="checked"> Tampilkan SPM
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="checkbox">
-                            <label>
-                                <input name="terurut" value="ok" type="checkbox" checked="checked"> Tampilkan terurut
-                            </label>
-                        </div> 
-                    </div>
-                    
-                    <div class="col-sm-2">
+                    -->
+                    <div class="col-sm-12">
+                    	<div class="pull-right">
                     	<button type="submit" class="btn btn-info" id="proses-c2">
                             <i class="fa fa-arrow-circle-right"></i> Tampilkan Grafik
                         </button>
+                        </div>
                     </div>
                 
                 </div>

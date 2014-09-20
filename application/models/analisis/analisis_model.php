@@ -140,8 +140,21 @@ limit 0,50';
  				where s.kode_e1 = $kode_e1 AND k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
  				." and i.kode_iku_kl=".$this->db->escape($kode_iku_kl)."and s.kode_ss_kl=".$this->db->escape($kode_ss_kl)
  				." order by i.kode_iku_e1 asc, k.tahun asc";
-		echo $sql;
  		return $this->mgeneral->run_sql($sql);	
+	}
+	
+	function get_capaian_kinerja_e1($kode_e2, $tahun_awal, $tahun_akhir,$kode_sk,$kode_ikk) {
+		$sql = "select es2.singkatan,s.tahun,k.target, k.realisasi, k.persen,k.kode_sk_e2,k.kode_ikk
+				from anev_sasaran_program s
+				inner join anev_iku_eselon1 i on s.tahun=i.tahun
+				inner join anev_ikk ik on i.kode_iku_e1=ik.kode_iku_e1 
+				inner join anev_kinerja_eselon2 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_ikk=ik.kode_ikk)
+				inner join anev_eselon2 es2 on ik.kode_e2 = es2.kode_e2
+ 				where ik.kode_e2 = '$kode_e2' AND i.tahun<=".$this->db->escape($tahun_akhir)." and i.tahun>=".$this->db->escape($tahun_awal)
+ 				." and i.kode_sp_e1=".$this->db->escape($kode_sk)." and i.kode_iku_e1=".$this->db->escape($kode_ikk)
+ 				." group by ik.tahun,ik.kode_ikk order by ik.kode_ikk asc, ik.tahun asc";
+		#echo $sql;
+ 		return $this->mgeneral->run_sql($sql);	 
 	}
 	
 }

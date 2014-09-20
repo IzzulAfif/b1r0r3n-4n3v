@@ -8,17 +8,23 @@
                 </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                    	<label class="col-md-3">Periode Renstra</label>
-                    	<div class="col-md-2"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
+                    	<label class="col-sm-3">Periode Renstra</label>
+                    	<div class="col-sm-2"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
                     </div>
                     <div class="form-group">
-                    	<label class="col-md-3">Tahun</label>
-                    	<div class="col-md-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
-                    	<div class="col-md-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
+                    	<label class="col-sm-3">Tahun</label>
+                    	<div class="col-sm-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
+                    	<div class="col-sm-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
                     </div>
                     <div class="form-group">
-                    	<label class="col-md-3">Nama Program</label>
-                    	<div class="col-md-8"><?=form_dropdown('nama_program',array(),'','id="nama_program"')?></div>
+                    	<label class="col-sm-3">Nama Program</label>
+                    	<div class="col-sm-8"><?=form_dropdown('nama_program',array(),'','id="nama_program"')?></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">&nbsp;</label>
+                        <button type="button" class="btn btn-info" id="program-btn" style="margin-left:15px;">
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
+                        </button>
                     </div>
                 </form>
             </div>
@@ -112,7 +118,7 @@
             });
         });
 
-        nama_program.change(function(){
+        $('#program-btn').click(function(){
             if (nama_program.val()!=0) {
                 kode_program = nama_program.val();
                 val_awal = tahun_awal.val();

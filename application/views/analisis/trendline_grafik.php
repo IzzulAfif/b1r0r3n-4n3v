@@ -5,6 +5,7 @@
 	$dSimulasi	= "";
 	$dTrendline	= "";
 	$dTargetline= "";
+	$dSimTarget	= "";
 	
 	foreach($gdata as $d):
 		if(count($d)!=0):
@@ -14,8 +15,14 @@
 			$dSimulasi	.= $d['simulasi'].",";
 			$dTrendline	.= $d['trendline'].",";
 			$dTargetline.= $d['targetline'].",";
-		endif;
 			
+			if($d['tahun']==$post['tahun']):
+				$dSimTarget .= $post['target'].",";
+			else:
+				$dSimTarget .= "0,";
+			endif;
+			
+		endif;
 	endforeach;
 ?>
 
@@ -52,21 +59,6 @@
 			xAxis: {
 				categories: [<?=$dTahun?>]
 			},
-			yAxis: {
-				labels: {
-					formatter: function () {
-						return Highcharts.numberFormat(this.value,0);
-					}
-				},
-				title: {
-					text: ''
-				},
-				plotLines: [{
-					value: <?=$post['target']?>,
-					color: '#89A54E',
-					width: 2,
-				}]
-			},
 			tooltip: {
 				formatter: function() {
 					var s;
@@ -89,15 +81,19 @@
 			series: [{
 				type: 'column',
 				name: 'Target',
-				data: [<?=rtrim($dTarget,",")?>]
+				data: [<?=rtrim($dTarget,",")?>],
 			}, {
 				type: 'column',
 				name: 'Realisasi',
-				data: [<?=rtrim($dRealisasi,",")?>] 
+				data: [<?=rtrim($dRealisasi,",")?>],
 			},{
 				type: 'column',
-				name: 'Simulasi',
-				data: [<?=rtrim($dSimulasi,",")?>]
+				name: 'Simulasi Target',
+				data: [<?=rtrim($dSimTarget,",")?>],
+			},{
+				type: 'column',
+				name: 'Simulasi Pencapaian',
+				data: [<?=rtrim($dSimulasi,",")?>],
 			}
 			<?php if($post['trendline']=="ok"):?>
 			,{

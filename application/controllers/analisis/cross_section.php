@@ -58,4 +58,41 @@ class Cross_section extends CI_Controller {
 		$data['rata2']		= $rata2total;
 		$this->load->view('analisis/cross_section_grafik',$data);
 	}
+	
+	function proses_e1()
+	{
+		$eselon2 = $this->mgeneral->getWhere(array('kode_e1'=>$this->input->post("unit_kerja")),"anev_eselon2");
+		$graf_data		  = array();
+		$total_persen_es1 = 0;
+		$total_es1		  = 0;
+		
+		foreach($eselon2 as $e2):
+			$data = $this->analisis_model->get_capaian_kinerja_e1($e2->kode_e2,$this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("sasaran"),$this->input->post("indikator"));
+				
+				$total_persen = 0;
+				if(count($data)!=0):
+					foreach($data as $d):
+						if($d->target!="0" && $d->target!=""):
+							$target 	= (is_numeric($d->target)?$d->target:1);
+							$realisasi	= (is_numeric($d->realisasi)&&$d->realisasi!=0?$d->realisasi:1);
+							$persen 	= ($target/$realisasi)*100;
+							$total_persen = $total_persen+$persen;
+						endif;
+					endforeach;
+					$rata2 = $total_persen/count($data);
+					$total_persen_es1 = $total_persen_es1+$rata2;
+					$total_es1++;
+					$graf_data[] = array('nama'		=> $e2->singkatan,
+								   	 	 'rata2'	=> number_format($rata2,2,'.','.'));
+									 
+				endif;
+			
+		endforeach;
+		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');
+		$data['post']		= $this->input->post();
+		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$this->input->post("sasaran"),'kode_iku_e1'=>$this->input->post("indikator")),"anev_iku_eselon1");
+		$data['gdata'] 		= $graf_data;
+		$data['rata2']		= $rata2total;
+		$this->load->view('analisis/cross_section_grafik',$data);
+	}
 }

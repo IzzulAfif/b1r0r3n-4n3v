@@ -1,6 +1,6 @@
 	
     <div class="feed-box">
-     <form class="form-horizontal">
+     <form class="form-horizontal" id="form_crosssection_e1">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                     	<p class="text-primary"><b>Sasaran Program dan Indikator</b></p>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Sasaran</label>
@@ -69,43 +69,16 @@
                         </div>
                     </div>
                     
-                    <div class="col-sm-3">
-                    	<p class="text-primary"><b>Rata-rata Realisasi</b></p>
-                        <p>Rata-rata : 400</p>
-                        <p>SPM : 0</p>
-                    </div>
-                    
                 </div>
                 <hr />
                 <div class="row">
                 
-                	<div class="col-sm-2">
-                    	<div class="checkbox">
-                            <label>
-                                <input name="rata-rata" value="ok" type="checkbox" checked="checked"> Tampilkan Rata-rata
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="checkbox">
-                            <label>
-                                <input name="spm" value="ok" type="checkbox" checked="checked"> Tampilkan SPM
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="checkbox">
-                            <label>
-                                <input name="terurut" value="ok" type="checkbox" checked="checked"> Tampilkan terurut
-                            </label>
-                        </div> 
-                    </div>
-                    
-                    <div class="col-sm-2">
-                    
-                    	<button type="button" class="btn btn-info" id="proses-c2">
+                    <div class="col-sm-12">
+                    	<div class="pull-right">
+                    	<button type="submit" class="btn btn-info" id="proses-c2">
                             <i class="fa fa-arrow-circle-right"></i> Tampilkan Grafik
                         </button>
+                        </div>
                     </div>
                 
                 </div>
@@ -116,8 +89,6 @@
    </div>	
    	
     <div class="alert alert-info hide" id="box-chart2">
-        <div id="chartKontenSection" style="height:600px;">
-        </div>
     </div>
     
     <script type="text/javascript">
@@ -202,91 +173,23 @@
 					});
 				});
 				
-				$('#proses-c2').click(function(){
-					$('#box-chart2').removeClass("hide");
+				var options = { 
+						target : '#box-chart2',
+						url : '<?=base_url()?>analisis/cross_section/proses_e1',
+						type : 'post',
+						beforeSubmit:  showProcess,
+						//success:     showResponse
+    				}; 
+				$('#form_crosssection_e1').submit(function() { 
+					$(this).ajaxSubmit(options);
+					return false; 
+				});
 					
-					var chart;		
-					chart = new Highcharts.Chart({
-						chart: {
-							renderTo: 'chartKontenSection',
-							options3d: {
-								enabled: false,
-								alpha: 0,
-								beta: 0,
-								viewDistance: 0,
-								depth: 45
-							},
-							marginTop: 80,
-							marginRight: 20
-						},
-						colors: ['#3D96AE', '#DB843D', '#E10000'],
-						exporting: {
-							buttons: { 
-								exportButton: {
-									enabled:false
-								},
-								printButton: {
-									enabled:true
-								}
-						
-							}
-						},
-						title: {
-							text: 'Analisis Cross Section Capaian Indikator Sasaran Strategis Dan Program',
-							style : { "font-size" : "14px" }
-						},
-						subtitle: {
-							text: 'Tahun 2012',
-							style : { "font-size" : "14px" }
-						},
-						xAxis: {
-							categories: ['Aceh', 'Bali', 'Banten', 'Bengkulu', 'Gorontalo','Jakarta','Jambi','Jawa Barat','Jawa Tengah','Jawa Timur','Kalimantan Barat','Kalimantan Selatan','Kalimantan Tengah','Kalimantan Timur','Kalimantan Utara','Kep. Bangka Belitung','Kep. Riau','Lampung','Maluku','Maluku Utara','Nusa Tenggara Barat','Nusa Tenggara Timur']
-						},
-						yAxis: {
-							title: {
-								text: null
-							},
-							plotLines: [{
-								value: 400,
-								color: '#090',
-								width: 2,
-								label: {
-									text: 'rata-rata',
-									align: 'center'
-								}
-							}]
-						},
-						plotOptions: {
-							spline: {
-								marker: {
-									enabled: false
-								},
-							}
-						},
-						tooltip: {
-							formatter: function() {
-								var s;
-								if (this.point.name) { // the pie chart
-									s = ''+
-										this.point.name +': '+ this.y;
-								} else {
-									s = 'provinsi '+this.x +'<br>'+this.series.name+' :'+this.y;
-								}
-								return s;
-							}
-						},
-						series: [{
-							name: 'Realisasi',
-							type: 'bar',
-							data: [300, 400,200,200,500,300,600,300,400,500,300,400,300, 400,200,200,500,300,600,300,400,500]
-						},{
-							name: 'Target',
-							type: 'bar',
-							data: [300, 400,200,200,500,300,600,300,400,500,300,400,300, 400,200,200,500,300,600,300,400,500]
-						}]
-					});
-				
-				});	
 			});
+			
+			function showProcess() { 
+				$('#box-chart2').removeClass("hide");
+				return true; 
+			}
 				
 		</script>

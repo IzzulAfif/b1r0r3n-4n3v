@@ -54,8 +54,8 @@
 					color: '#090',
 					width: 2,
 					label: {
-						text: 'rata-rata',
-						align: 'center'
+						text: 'rata-rata (<?=$rata2?>)',
+						align: 'left'
 					}
 				}]
 			},
@@ -69,7 +69,8 @@
 			series: [{
 				name: 'Rata-rata Pencapaian',
 				type: 'bar',
-				data: [<?=rtrim($nilai,",")?>]
+				data: [<?=rtrim($nilai,",")?>],
+				dataLabels: {enabled: true},
 			}]
 		});
 	});

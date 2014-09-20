@@ -25,12 +25,19 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Sasaran Strategis</label>
+                        <label class="col-md-2 control-label">Sasaran</label>
                         <div class="col-md-9">
                             <?=form_dropdown('sasaran',array(),'','id="sasaran"')?>
                         </div>
                     </div>
-                        
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">&nbsp;</label>
+                        <button type="button" class="btn btn-info" id="sasaran-btn" style="margin-left:15px;">
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
+                        </button>
+                    </div>
+                    
                 </form>
             </div>
         </section>
@@ -94,7 +101,7 @@
             update_table();
         });
 
-        sasaran.change(function(){
+        $('#sasaran-btn').click(function(){
             update_table();
         });
 
