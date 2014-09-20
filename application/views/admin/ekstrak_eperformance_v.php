@@ -54,10 +54,12 @@
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		$("#eperformance-tipe_data").change(function(){
-			alert('tes');
+			//alert('tes');
 			tipe = $(this).val();
 			switch (tipe){
 				case "1" :
+				case "2" :
+				case "3" :
 					//$('#emon-periode').removeClass("hide");
 					//$('#emon-unit_kerja').removeClass("hide");
 					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_unitkerja/loadpage/"+tipe);

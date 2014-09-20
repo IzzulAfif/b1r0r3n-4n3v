@@ -54,4 +54,22 @@ class Kegiatan_model extends CI_Model
 	
 	}
 	
+	//yusup
+	function get_detil_belanja($params){
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kdlokasi'])) $where .= " and i.kdlokasi='".$params['kdlokasi']."'";
+			if (isset($params['kode_e1'])) $where .= " and i.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and sk.kode_e2 = '".$params['kode_e2']."' " ;
+			if (isset($params['indikator'])) $where .= " and sastra.kode_ss_kl='".$params['indikator']."'";
+			if (isset($params['tahun_renstra']))  $where .= " and i.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+		}
+	$sql = 'select distinct i.tahun,i.nmitem, i.volkeg, i.satkeg, kk.nama_kabkota,i.hargasat,i.jumlah from anev_item_satker i left join anev_kabkota kk on i.kdkabkota = kk.kdkabkota left join anev_kegiatan_eselon2 keg on keg.kode_kegiatan = i.kode_kegiatan and keg.tahun=i.tahun left join anev_sasaran_program prog on prog.kode_e1 = i.kode_e1 and i.tahun=prog.tahun
+left join anev_sasaran_strategis sastra on sastra.kode_ss_kl = prog.kode_ss_kl and sastra.tahun = prog.tahun
+left join anev_sasaran_kegiatan sk on sk.kode_sp_e1 = prog.kode_sp_e1 and sk.tahun = prog.tahun '.$where;
+	$sql .= " limit 0,100";
+		return $this->mgeneral->run_sql($sql);
+	
+	}
+	
 }

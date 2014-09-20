@@ -56,6 +56,7 @@
 							</div>
         </section>
     </div>
+	</div>
 						<div class="feed-box" id="box-result">
         <section class="panel tab-bg-form" style="background-color:#F9F9F9">
             <div class="panel-body">

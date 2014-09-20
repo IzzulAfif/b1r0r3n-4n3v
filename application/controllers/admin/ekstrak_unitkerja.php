@@ -14,6 +14,7 @@ class Ekstrak_unitkerja extends CI_Controller {
 		
 		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 		$this->load->model('/admin/webservice_model','webservice');
+		$this->load->model('/admin/unitkerja_model','unitkerja');
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		
 	}
@@ -48,7 +49,7 @@ class Ekstrak_unitkerja extends CI_Controller {
 	function getdata_unitkerja($id){
 		$params = null;
 		//echo $this->satker->get_datatables($params);
-		$data = $this->satker->get_datatables(array("tahun_renstra"=>$tahun_renstra,"kode_e1"=>$kode));
+		$data = $this->unitkerja->get_datatables(array("tahun_renstra"=>$tahun_renstra,"kode_e1"=>$kode));
 		//var_dump($data);
 		//echo json_encode($data);
 		echo $data;

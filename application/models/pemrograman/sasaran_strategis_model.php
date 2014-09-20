@@ -27,19 +27,21 @@ class Sasaran_strategis_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
-	function get_list($tahun_renstra) {
+	function get_list($params) {
 		$where = ' where 1=1 ';
 		if (isset($params)){
-			if (isset($params['kode_kl'])) $where .= " and f.kode_kl='".$params['kode_kl']."'";
-			if (isset($params['kode_sasaran_kl'])) $where .= " and f.kode_sasaran_kl='".$params['kode_sasaran_kl']."'";
-			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+			if (isset($params['kode_kl'])) $where .= " and kode_kl='".$params['kode_kl']."'";
+			if (isset($params['kode_sasaran_kl'])) $where .= " and kode_sasaran_kl='".$params['kode_sasaran_kl']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
 		$sql = "select distinct distinct kode_ss_kl, deskripsi from anev_sasaran_strategis ".$where;
 		//$this->db->escape($tahun_renstra);
 		$result = $this->mgeneral->run_sql($sql);
-		$list[0] = 'Pilih Sasaran';
-		foreach ($result as $i) {
-			$list[$i->kode_ss_kl] = $i->deskripsi;
+		$list[0] = 'Pilih Sasaran Strategis';
+		if (isset($result)){
+			foreach ($result as $i) {
+				$list[$i->kode_ss_kl] = $i->deskripsi;
+			}
 		}
 		return $list;	
 	}
