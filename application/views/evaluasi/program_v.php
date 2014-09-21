@@ -197,7 +197,7 @@
 						}
 					},
 					title: {
-						text: 'Rata-rata capaian kinerja dan daya serap anggaran',
+						text: 'RATA-RATA CAPAIAN KINERJA DAN DAYA SERAP ANGGARAN',
 						style : { "font-size" : "14px" }
 					},
 					xAxis: {

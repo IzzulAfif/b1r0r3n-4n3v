@@ -1,6 +1,6 @@
 	
     <div class="feed-box">
-     <form class="form-horizontal">
+     <form class="form-horizontal" id="form_korelasi_kl">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
@@ -95,7 +95,7 @@
                         	
                 </div>
                 
-                <hr />
+                <!--<hr />
                 
                 <div class="row">
                 	
@@ -148,16 +148,16 @@
                         </div>
                     </div>
                     
-                </div>
+                </div>-->
                 
                 <hr />
                 
                 <div class="row">
                 	<div class="col-sm-10">
-                    	<p>Rata-rata Realisasi : Axis X : 163 - Axis Y : 140</p>
+                    	<!---<p>Rata-rata Realisasi : Axis X : 163 - Axis Y : 140</p>-->
                     </div>
                 	<div class="col-sm-2">
-                    	<button type="button" class="btn btn-info" id="proses-c3">
+                    	<button type="submit" class="btn btn-info" id="proses-c3">
                             <i class="fa fa-arrow-circle-right"></i> Tampilkan Grafik
                         </button>
                     </div>
@@ -169,14 +169,10 @@
    </div>	
    
    <div class="alert alert-info hide" id="box-chart3">
-        <div id="chartKontenKorelasi" style="height:400px;">
-        </div>
    </div>
     
     <script type="text/javascript">
 		
-			var dataTooltip = "Target Indikator 1 : 161.2 <br>Realisasi Indikator 1 : 140 <br> Target Indikator 2 : 161.2 <br>Realisasi Indikator 2 : 140";
-			
 			$(document).ready(function() {
 				$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 				$('#spinnerg31').spinner({value:100, min: 100, max: 1000});
@@ -291,107 +287,23 @@
 					});
 				});
 				
-				$('#proses-c3').click(function(){
-					$('#box-chart3').removeClass("hide");		
-					chart = new Highcharts.Chart({
-						chart: {
-							renderTo: 'chartKontenKorelasi',
-							type: 'scatter',
-							zoomType: 'xy',
-							marginTop: 80,
-							marginRight: 20
-						},
-						exporting: {
-							buttons: { 
-								exportButton: {
-									enabled:false
-								},
-								printButton: {
-									enabled:true
-								}
-						
-							}
-						},
-						title: {
-							text: 'Analisis Korelasi Capaian Indikator Sasaran Strategis Dan Program',
-							style : { "font-size" : "14px" }
-						},
-						subtitle: {
-							text: 'Tahun 2012',
-							style : { "font-size" : "14px" }
-						},
-						xAxis: {
-							title: {
-								enabled: true,
-								text: 'Nama Indikator 2'
-							},
-							startOnTick: true,
-							endOnTick: true,
-							showLastLabel: true,
-							plotLines: [{
-								value: 163,
-								color: '#090',
-								width: 2
-							}]
-						},
-						yAxis: {
-							title: {
-								text: 'Nama Indikator 1'
-							},
-							gridLineWidth: 0,
-							minorGridLineWidth: 0,
-							plotLines: [{
-								value: 140,
-								color: '#090',
-								width: 2
-							}]
-						},
-						legend: {
-							enabled: false,
-						},
-						plotOptions: {
-							scatter: {
-								marker: {
-									symbol : "triangle",
-									states: {
-										hover: {
-											enabled: true,
-											lineColor: 'rgb(100,100,100)'
-										}
-									}
-								},
-								states: {
-									hover: {
-										marker: {
-											enabled: false
-										}
-									}
-								},
-								tooltip: {
-									headerFormat: '<b>Provinsi : {series.name}</b><br>',
-									pointFormat: '{point.myData}'
-								}
-							}
-						},
-						series: [
-							{name: 'Aceh',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:161.2,y:81.6,myData : dataTooltip}]},
-							{name: 'Bali',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:167.5,y:89.0,myData : dataTooltip}]},
-							{name: 'Banten',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:172.5,y:85.2,myData : dataTooltip}]},
-							{name: 'Bengkulu',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:162.0,y:95.0,myData : dataTooltip}]},
-							{name: 'Gorontalo',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:155.0,y:125.9,myData : dataTooltip}]},
-							{name: 'Jakarta',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:174.0,y:175.7,myData : dataTooltip}]},
-							{name: 'Jambi',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:170.3,y:164.8,myData : dataTooltip}]},
-							{name: 'Jawa Barat',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:154.5,y:149.0,myData : dataTooltip}]},
-							{name: 'Jawa Tengah',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:159.5,y:147.6,myData : dataTooltip}]},
-							{name: 'Jawa Timur',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:164.3,y:159.8,myData : dataTooltip}]},
-							{name: 'Kalimantan Barat',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:178.0,y:170.6,myData : dataTooltip}]},
-							{name: 'Kalimantan Selatan',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:149.5,y:144.8,myData : dataTooltip}]},
-							{name: 'Kalimantan Tengah',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:169.4,y:163.4,myData : dataTooltip}]},
-							{name: 'Kalimantan Timur',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:157.5,y:158.8,myData : dataTooltip}]}
-						]
-					});
+				var options = { 
+						target : '#box-chart3',
+						url : '<?=base_url()?>analisis/korelasi/proses_kl',
+						type : 'post',
+						beforeSubmit:  showProcess,
+						//success:     showResponse
+    				}; 
+				$('#form_korelasi_kl').submit(function() { 
+					$(this).ajaxSubmit(options);
+					return false; 
 				});
 				
 			});
+			
+			function showProcess() { 
+				$('#box-chart3').removeClass("hide");
+				return true; 
+			}
 				
 		</script>
