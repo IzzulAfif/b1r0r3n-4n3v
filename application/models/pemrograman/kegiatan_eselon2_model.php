@@ -25,6 +25,24 @@ class Kegiatan_eselon2_model extends CI_Model
 		$sql .= " group by f.kode_kegiatan order by f.tahun desc, f.kode_kegiatan";
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_list($params) {
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_program'])) $where .= " and kode_program='".$params['kode_program']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+		}
+		$sql = "select distinct distinct kode_kegiatan, nama_kegiatan from anev_kegiatan_eselon2 ".$where;
+		//$this->db->escape($tahun_renstra);
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih Program';
+		if (isset($result)){
+			foreach ($result as $i) {
+				$list[$i->kode_kegiatan] = $i->nama_kegiatan;
+			}
+		}
+		return $list;	
+	}
 
 }
 

@@ -5,7 +5,7 @@
 		
                 <section class="panel">
                     <header class="panel-heading tab-bg-light tab-right ">
-                        <p class="pull-left"><b>Informasi Kegiatan Pembangunan Bidang Transportasi</b></p>
+                        <p class="pull-left"><b>Rincian Item Pekerjaan Pembangunan Sektor Transportasi</b></p>
                         <span class="pull-right">
                           
                          </span>
@@ -34,20 +34,31 @@
                         	<?=form_dropdown('kelompok_indikator',$kelompok_indikator,'0','id="kelompok_indikator" class="populate"')?>
                         </div>
                     </div>
-                    
                     <div class="form-group">
+                        <label class="col-md-2 control-label">Program</label>
+                        <div class="col-md-9">
+                        	 <?=form_dropdown('program',array("0"=>"Pilih Program"),'0','id="program" class="populate"')?>
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-md-2 control-label">Kegiatan</label>
+                        <div class="col-md-9">
+                        	 <?=form_dropdown('kegiatan',array("0"=>"Pilih Kegiatan"),'0','id="kegiatan" class="populate"')?>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
                         <div class="col-md-9">
-                        	 <?=form_dropdown('kode_e1',$eselon1,'0','id="kode_e1" class="populate"')?>
+                        	 <=form_dropdown('kode_e1',$eselon1,'0','id="kode_e1" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-9">
-                        	 <?=form_dropdown('kode_e2',array(),'0','id="kode_e2" class="populate"')?>
+                        	 <=form_dropdown('kode_e2',array(),'0','id="kode_e2" class="populate"')?>
                         </div>
                     </div>
-                    
+                    -->
                     <div class="form-group">
                         <label class="col-md-2 control-label">Lokasi</label>
                         <div class="col-md-9">
@@ -72,16 +83,16 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                <p class="text-primary">Daftar Detil Belanja</p><br />
+                <p class="text-primary">Item Pekerjaan Pembangunan</p><br />
                 <table  class="display table table-bordered table-striped" id="list-tbl">
                 	<thead>
                     	<tr>
                     		<th>No</th>
                             <th>Tahun</th>
-                            <th>Nama Kegiatan</th>
+                            <th>Item Pekerjaan</th>
                             <th>Volume</th>
-                            <th>Harga Satuan</th>
                             <th>Satuan</th>
+                            <th>Harga Satuan</th>
                             <th>Jumlah</th>
                         </tr>
                     </thead>
@@ -117,6 +128,33 @@
 					$('#kelompok_indikator').select2({minimumResultsForSearch: -1, width:'resolve'});
 				}
 			});
+			
+			$.ajax({
+				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_program/"+tahun,
+				success:function(result) {
+					$('#program').empty();
+					result = JSON.parse(result);
+					for (a in result) {
+						$('#program').append(new Option(result[a],a));
+					}
+					$('#program').select2({minimumResultsForSearch: -1, width:'resolve'});
+				}
+			});
+			
+		});
+		
+		$("#program").change(function(){
+			$.ajax({
+				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_kegiatan/"+$('#tahun_renstra').val()+"/"+this.value,
+				success:function(result) {
+					
+					$('#kegiatan').empty();					
+					result = JSON.parse(result);
+					for (k in result) {
+						$('#kegiatan').append(new Option(result[k],k));
+					}
+				}
+			});
 		});
 		
 		$("#kode_e1").change(function(){
@@ -141,11 +179,11 @@
 		$("#list-btn").click(function(){
 			tahun = $('#tahun_renstra').val();
 			indikator = $('#kelompok_indikator').val();
-			kode_e1 = $('#kode_e1').val();
-			kode_e2 = $('#kode_e2').val();
+			program = $('#program').val();
+			kegiatan = $('#kegiatan').val();
 			lokasi = $('#list-kdlokasi').val();
 			$.ajax({
-                    url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+kode_e1+"/"+kode_e2+"/"+lokasi,
+                    url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi,
                         success:function(result) {
                             table_body = $('#list-tbl tbody');
                             table_body.empty().html(result);        

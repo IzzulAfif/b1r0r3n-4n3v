@@ -13,10 +13,12 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$this->load->model('analisis/analisis_model','',TRUE);
 		$this->load->model('admin/lokasi_model','lokasi',TRUE);
 		$this->load->model('admin/tahun_renstra_model','tahun_renstra',TRUE);
-		$this->load->model('analisis/kegiatan_model','kegiatan',TRUE);
+		$this->load->model('pemrograman/kegiatan_eselon2_model','kegiatan',TRUE);
+		$this->load->model('analisis/kegiatan_model','pembangungan',TRUE);
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sastra');
+		$this->load->model('/pemrograman/program_eselon1_model','program');
 	}
 	
 	function index()
@@ -54,21 +56,27 @@ class Kegiatan_pembangunan extends CI_Controller {
 		echo json_encode($result);
 	}
 	
-	function get_kegiatan($tahun,$program)
-	{
-		$result	= $this->kegiatan->get_kegiatan($tahun,$program);
+	function get_program($tahun)
+	{		
+		$result	= $this->program->get_list(array("tahun_renstra"=>$tahun));
 		echo json_encode($result);
 	}
 	
-	function get_list_rincian($tahun,$indikator,$kode_e1,$kode_e2,$kdlokasi)
+	function get_kegiatan($tahun,$program)
+	{
+		$result	= $this->kegiatan->get_list(array("tahun_renstra"=>$tahun,"kode_program"=>$program));
+		echo json_encode($result);
+	}
+	
+	function get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi)
 	{
 		$params['tahun_renstra'] = $tahun;
 		$params['indikator'] = $indikator;
-		$params['kode_e1'] = $kode_e1;
-		$params['kode_e2'] = $kode_e2;
+		$params['kode_program'] = $kode_program;
+		$params['kode_kegiatan'] = $kode_kegiatan;
 		$params['kdlokasi'] = $kdlokasi;
 		
-		$data	= $this->kegiatan->get_detil_belanja($params);
+		$data	= $this->pembangungan->get_detil_belanja($params);
 		$totalPagu = 0;
 		$rs = '';$i=1;
 		if (isset($data)){
@@ -79,8 +87,8 @@ class Kegiatan_pembangunan extends CI_Controller {
 					<td>'.$d->tahun.'</td>
 					<td>'.$d->nmitem.'</td>
 					<td align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
-					<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
 					<td>'.$d->satkeg.'</td>					
+					<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
 					<td align="right">'.$this->utility->cekNumericFmt($d->jumlah).'</td>					
 					
 					
