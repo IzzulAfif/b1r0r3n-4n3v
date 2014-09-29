@@ -55,6 +55,7 @@
 					case "3" : //eselon2
 						columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
+						  { "mData": "no", "sWidth": "5px" },
 						  { "mData": "kode_e2", "sWidth": "65px" },
 						  { "mData": "kode_e1" , "sWidth": "70px"},
 						  { "mData": "nama_e1"  },
@@ -72,9 +73,14 @@
 					url: '<?=$webservice_url?>',
 					// Success function. the 'data' parameter is an array of objects that can be looped over
 					success: function(data, textStatus, jqXHR){
-						alert('Successful AJAX request!'+jqXHR);
+						//alert('Successful AJAX request!'+jqXHR);
 						var jsonString = JSON.stringify(data, null, 4);
 						jsonString = jsonString.replace("\"rows\":", "\"data\":");
+						jsonString = jsonString.replace("\"total\":", "\"iTotalRecords\":");
+						data = $.parseJSON(jsonString);
+						data['draw'] = 1;
+						data['iTotalDisplayRecords'] = data['iTotalRecords'];
+						//"draw":0,"iTotalRecords":193435,"iTotalDisplayRecords":193435,
 						$("#unitkerja-tbl").dataTable
 								({
 									"iDisplayStart ": 0,
@@ -88,15 +94,14 @@
 									"sServerMethod" : "POST",
 									"bDestroy": true,
 									 "aoColumns":columsDef,
-									 "aaData":jsonString,
+									 "aaData":data,
 									"bJQueryUI":true,	
 									"scrollX": true	,
 									"sDom": 'rt<"top"lpi>',
 									});
-						
-					//	document.write("<pre>" +
-						//			   JSON.stringify(data, null, 4) + 
-							//		   "</pre>");
+						//alert("<pre>" +JSON.stringify(data, null, 4) + "</pre>");
+				//	document.write(JSON.stringify(data, null, 4));
+					//	document.write("<pre>" +JSON.stringify(data, null, 4) + "</pre>");
 									   
 						/*var obj = JSON.parse(data)[1];
 						obj.data = obj.rows;

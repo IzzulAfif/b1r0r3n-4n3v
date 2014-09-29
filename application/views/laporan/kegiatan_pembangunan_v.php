@@ -92,8 +92,8 @@
                             <th>Item Pekerjaan</th>
                             <th>Volume</th>
                             <th>Satuan</th>
-                            <th>Harga Satuan</th>
-                            <th>Jumlah</th>
+                            <!--<th>Harga Satuan</th>
+                            <th>Jumlah</th>-->
                         </tr>
                     </thead>
 					 <tbody>

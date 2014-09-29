@@ -87,23 +87,22 @@ class Kegiatan_pembangunan extends CI_Controller {
 					<td>'.$d->tahun.'</td>
 					<td>'.$d->nmitem.'</td>
 					<td align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
-					<td>'.$d->satkeg.'</td>					
-					<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
+					<td>'.$d->satkeg.'</td>';
+					//sementara hide dulu coz blm ada data nya
+					/*<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
 					<td align="right">'.$this->utility->cekNumericFmt($d->jumlah).'</td>					
 					
 					
-				</tr>';
+				</tr>';*/
 				endforeach; 
-				$rs .= '<tr class="gradeX">
+				/*$rs .= '<tr class="gradeX">
 					<td colspan="6" align="right">Total Pagu</td>
 					<td align="right">'.$this->utility->cekNumericFmt($totalPagu).'</td>					
 					
 					
-				</tr>';
+				</tr>';*/
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
