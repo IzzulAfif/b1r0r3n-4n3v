@@ -77,5 +77,19 @@ class Profil_eselon1 extends CI_Controller {
 		}
 		echo $rs;
 	}
+	
+   function print_pdf($tahun,$e1)
+   {
+	   $this->load->library('pdf');
+	   $data['renstra']		= $tahun;
+	   $data['nama_unit'] 	= $this->mgeneral->getValue("nama_e1",array('kode_e1'=>$e1,'tahun_renstra'=>$tahun),"anev_eselon1");
+	   $data['unit_kerja']	= $this->eselon2->get_all(array("kode_e1"=>$e1));
+	   $data['fungsi']		= $this->fungsi_e1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
+	   $data['tugas']		= $this->eselon1->get_all(array("kode_e1"=>$e1,"tahun_renstra"=>$tahun));
+	   
+	   $html = $this->load->view('laporan/print/pdf_profile_e1',$data,true);
+	   
+	   echo $this->pdf->cetak($html,"profile_eselon1.pdf");
+   }
 
 }
