@@ -14,7 +14,7 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$this->load->model('admin/lokasi_model','lokasi',TRUE);
 		$this->load->model('admin/tahun_renstra_model','tahun_renstra',TRUE);
 		$this->load->model('pemrograman/kegiatan_eselon2_model','kegiatan',TRUE);
-		$this->load->model('analisis/kegiatan_model','pembangungan',TRUE);
+		$this->load->model('laporan/kegiatan_pembangunan_model','pembangunan',TRUE);
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sastra');
@@ -52,31 +52,31 @@ class Kegiatan_pembangunan extends CI_Controller {
 	
 	function get_sastra($tahun)
 	{		
-		$result	= $this->sastra->get_list(array("tahun_renstra"=>$tahun));
+		$result	= $this->sastra->get_list(array("tahun"=>$tahun));
 		echo json_encode($result);
 	}
 	
 	function get_program($tahun)
 	{		
-		$result	= $this->program->get_list(array("tahun_renstra"=>$tahun));
+		$result	= $this->program->get_list(array("tahun"=>$tahun));
 		echo json_encode($result);
 	}
 	
 	function get_kegiatan($tahun,$program)
 	{
-		$result	= $this->kegiatan->get_list(array("tahun_renstra"=>$tahun,"kode_program"=>$program));
+		$result	= $this->kegiatan->get_list(array("tahun"=>$tahun,"kode_program"=>$program));
 		echo json_encode($result);
 	}
 	
 	function get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi)
 	{
-		$params['tahun_renstra'] = $tahun;
+		$params['tahun'] = $tahun;
 		$params['indikator'] = $indikator;
 		$params['kode_program'] = $kode_program;
 		$params['kode_kegiatan'] = $kode_kegiatan;
 		$params['kdlokasi'] = $kdlokasi;
 		
-		$data	= $this->pembangungan->get_detil_belanja($params);
+		$data	= $this->pembangunan->get_detil_belanja($params);
 		$totalPagu = 0;
 		$rs = '';$i=1;
 		if (isset($data)){

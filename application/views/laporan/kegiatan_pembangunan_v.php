@@ -5,7 +5,7 @@
 		
                 <section class="panel">
                     <header class="panel-heading tab-bg-light tab-right ">
-                        <p class="pull-left"><b>Rincian Item Pekerjaan Pembangunan Sektor Transportasi</b></p>
+                        <p class="pull-left"><b>Rincian Kegiatan Pembangunan Menurut Indikator</b></p>
                         <span class="pull-right">
                           
                          </span>
@@ -26,12 +26,19 @@
 							 <?=form_dropdown('tahun_renstra',$tahun_renstra,'0','id="tahun_renstra"')?>
                         </div>
                     </div>
+					
+					 <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun</label>
+                        <div class="col-md-2">
+							 <?=form_dropdown('tahun',array("0"=>"Pilih Tahun"),'0','id="tahun"')?>
+                        </div>
+                    </div>
                   
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Kelompok Indikator</label>
                         <div class="col-md-9">
-                        	<?=form_dropdown('kelompok_indikator',$kelompok_indikator,'0','id="kelompok_indikator" class="populate"')?>
+                        	<?=form_dropdown('kelompok_indikator',array("0"=>"Pilih Kelompok Indikator"),'0','id="kelompok_indikator" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -115,8 +122,30 @@
     <script type="text/javascript">
     $(document).ready(function () {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		set_tahun = function(){
+			var periode_renstra = $("#tahun_renstra");
+			var tahun = $("#tahun");
+			
+			tahun.empty();
+			
+			 if (periode_renstra.val()!=0) {
+				year = periode_renstra.val().split('-');
+				//alert(year[0]);
+				for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+					tahun.append(new Option(i,i));
+					
+				}
+			 }
+		}
+	
 		$('#tahun_renstra').change(function(){
-			tahun	= $('#tahun_renstra').val();
+			//tahun	= $('#tahun_renstra').val();
+			set_tahun();
+			
+		});
+		
+		$('#tahun').change(function(){
+			tahun	= $('#tahun').val();
 			$.ajax({
 				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_sastra/"+tahun,
 				success:function(result) {
@@ -143,9 +172,10 @@
 			
 		});
 		
+		
 		$("#program").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_kegiatan/"+$('#tahun_renstra').val()+"/"+this.value,
+				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_kegiatan/"+$('#tahun').val()+"/"+this.value,
 				success:function(result) {
 					
 					$('#kegiatan').empty();					
@@ -177,7 +207,7 @@
 		
 		
 		$("#list-btn").click(function(){
-			tahun = $('#tahun_renstra').val();
+			tahun = $('#tahun').val();
 			indikator = $('#kelompok_indikator').val();
 			program = $('#program').val();
 			kegiatan = $('#kegiatan').val();

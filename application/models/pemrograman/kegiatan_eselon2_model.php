@@ -30,6 +30,7 @@ class Kegiatan_eselon2_model extends CI_Model
 		$where = ' where 1=1 ';
 		if (isset($params)){
 			if (isset($params['kode_program'])) $where .= " and kode_program='".$params['kode_program']."'";
+			if (isset($params['tahun'])) $where .= "and tahun = ".$params['tahun'];
 			if (isset($params['tahun_renstra'])) $where .= " and tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
 		$sql = "select distinct distinct kode_kegiatan, nama_kegiatan from anev_kegiatan_eselon2 ".$where;

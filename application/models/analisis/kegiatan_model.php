@@ -64,8 +64,14 @@ class Kegiatan_model extends CI_Model
 			if (isset($params['indikator'])) $where .= " and sastra.kode_ss_kl='".$params['indikator']."'";
 			if (isset($params['kode_program'])) $where .= " and i.kode_program='".$params['kode_program']."'";
 			if (isset($params['kode_kegiatan'])) $where .= " and i.kode_kegiatan='".$params['kode_kegiatan']."'";
+			if (isset($params['tahun']))  $where .= " and i.tahun = ".$params['tahun'];
 			if (isset($params['tahun_renstra']))  $where .= " and i.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
+		
+		/*SELECT DISTINCT ss.tahun, ss.kode_ss_kl, ikukl.kode_iku_kl, ikue1.kode_e1, ikue1.kode_iku_e1, ikk.kode_e2, ikk.kode_ikk, ikk.deskripsi, ikk.satuan 
+FROM anev_sasaran_strategis ss JOIN anev_iku_kl ikukl ON ss.kode_ss_kl=ikukl.kode_ss_kl
+JOIN anev_iku_eselon1 ikue1 ON ikukl.kode_iku_kl=ikue1.kode_iku_kl
+JOIN anev_ikk ikk ON ikue1.kode_iku_e1=ikk.kode_iku_e1*/
 	$sql = 'select distinct i.tahun,i.nmitem, i.volkeg, i.satkeg, kk.nama_kabkota,i.hargasat,i.jumlah from anev_item_satker i 
 	left join anev_kabkota kk on i.kdkabkota = kk.kdkabkota 
 	left join anev_kegiatan_eselon2 keg on keg.kode_kegiatan = i.kode_kegiatan and keg.tahun=i.tahun 
