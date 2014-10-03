@@ -41,7 +41,7 @@ class Anev_kl extends CI_Controller {
 		echo $this->load->view('unit_kerja/anev_kl',$data,true); #load konten template file		
 	}
 
-	function get_body_identitas($tahun,$kl){
+	function get_body_identitas($tahun,$kl=null){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_kl'] = 	$kl;
 		$data=$this->kl->get_all($params); 
@@ -78,7 +78,7 @@ class Anev_kl extends CI_Controller {
 		echo $this->load->view('unit_kerja/fungsi_kl_v',$data,true); #load konten template file		
 	}
 	
-	function get_body_fungsi($tahun,$kl){
+	function get_body_fungsi($tahun,$kl=null){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_kl'] = 	$kl;
 		$data=$this->fungsi_kl->get_all($params); 

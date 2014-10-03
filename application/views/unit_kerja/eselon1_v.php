@@ -8,7 +8,7 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          		<?=form_dropdown('tahun',$tahun_renstra,'0','id="id-tahun" class="populate" style="width:100%"')?>
                         </div>

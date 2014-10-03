@@ -9,7 +9,7 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
                         	<select name="tahun" class="populate" id="fungsi-tahun">
 								<?php $no=0; foreach($renstra as $r): ?>
@@ -19,7 +19,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-3">
                          <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="fungsi-kodekl"  class="populate" style="width:100%"')?>

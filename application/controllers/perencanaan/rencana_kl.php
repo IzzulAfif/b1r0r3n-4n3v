@@ -44,7 +44,7 @@ class Rencana_kl extends CI_Controller {
 	}
 	function get_body_visi($tahun,$kl){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_kl'] = 	$kl;
+		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->visi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
@@ -81,7 +81,7 @@ class Rencana_kl extends CI_Controller {
 	
 	function get_body_misi($tahun,$kl){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_kl'] = 	$kl;
+		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->misi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
@@ -114,7 +114,7 @@ class Rencana_kl extends CI_Controller {
 	
 	function get_body_tujuan($tahun,$kl){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_kl'] = 	$kl;
+		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->tujuan->get_all($params); 
 		$rs = '';
 		if (isset($data)){

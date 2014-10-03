@@ -8,7 +8,7 @@
                 </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          	<select name="tahun" class="populate" id="id-tahun">
 								<?php $no=0; foreach($renstra as $r): ?>
@@ -18,7 +18,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-3">
                          <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="id-kodekl"  class="populate" style="width:100%"')?>
@@ -94,9 +94,9 @@
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		$("#id-btn").click(function(){
 			tahun = $('#id-tahun').val();
-			kl = $('#id-kodekl').val();
+			//kl = $('#id-kodekl').val();
 			$.ajax({
-                    url:"<?php echo site_url(); ?>unit_kerja/anev_kl/get_body_identitas/"+tahun+"/"+kl,
+                    url:"<?php echo site_url(); ?>unit_kerja/anev_kl/get_body_identitas/"+tahun,
                         success:function(result) {
                             table_identitas = $('#id-tbl tbody');
                             table_identitas.empty().html(result);        

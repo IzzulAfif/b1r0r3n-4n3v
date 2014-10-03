@@ -84,20 +84,26 @@ class Pemrograman_eselon1 extends CI_Controller {
 	
 	function get_body_sasaran($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->sasaran->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$prevUK=""; $no=1;
 			foreach($data as $d): 
+				if($prevUK!=$d->nama_e1): $namaUK = $d->nama_e1; $no=1; else: $namaUK = ""; endif;
+				$prevUK = $d->nama_e1;
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->sastra_deskripsi.'</td>
-					<td>'.$d->kode_sp_e1.'</td>					
+					<td>'.$namaUK.'</td>
+					<td>'.$no.'</td>
+					<td width="25%">'.$d->sastra_deskripsi.'</td>
+					<td width="8%">'.$d->kode_sp_e1.'</td>					
 					<td>'.$d->deskripsi.'</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -114,21 +120,27 @@ class Pemrograman_eselon1 extends CI_Controller {
 	}
 	function get_body_iku($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->iku->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$prevUK=""; $no=1;
 			foreach($data as $d): 
+				if($prevUK!=$d->nama_e1): $namaUK = $d->nama_e1; $no=1; else: $namaUK = ""; endif;
+				$prevUK = $d->nama_e1;
 				$rs .= '<tr class="gradeX">
+					<td>'.$namaUK.'</td>
+					<td>'.$no.'</td>
 					<td>'.$d->sasprog_deskripsi.'</td>
 					<td>'.$d->kode_iku_e1.'</td>
 					<td>'.$d->deskripsi.'</td>					
 					<td>'.$d->satuan.'</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

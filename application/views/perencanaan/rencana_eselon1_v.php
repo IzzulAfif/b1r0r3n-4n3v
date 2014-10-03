@@ -9,22 +9,32 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#visi-content">
-                               <i class="fa fa-list-ol"></i> Visi Eselon I
+                               <i class="fa fa-list-ol"></i> Visi
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#misi-content">
-                                <i class="fa fa-bar-chart-o"></i> Misi Eselon I
+                                <i class="fa fa-bar-chart-o"></i> Misi
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#tujuan-content">
-                                <i class="fa fa-align-center"></i> Tujuan Eselon I
+                                <i class="fa fa-align-center"></i> Tujuan
+                            </a>
+                        </li>
+                        <!--<li class="">
+                            <a data-toggle="tab" href="#sasaran-content">
+                                <i class="fa fa-clipboard"></i> Sasaran Eselon I
+                            </a>
+                        </li>-->
+                        <li class="">
+                            <a data-toggle="tab" href="#sasprog-content">
+                                <i class="fa fa-bar-chart-o"></i> Sasaran Strategis
                             </a>
                         </li>
                         <li class="">
-                            <a data-toggle="tab" href="#sasaran-content">
-                                <i class="fa fa-clipboard"></i> Sasaran Eselon I
+                            <a data-toggle="tab" href="#iku-content">
+                                <i class="fa fa-align-center"></i> IKU
                             </a>
                         </li>
                     </ul>
@@ -34,7 +44,9 @@
                        <div class="panel-body tab-pane fade active in" id="visi-content"></div>
 								<div class="panel-body tab-pane fade" id="misi-content"></div>
 								<div class="panel-body tab-pane fade" id="tujuan-content"></div>
-								<div class="panel-body tab-pane fade" id="sasaran-content"></div>
+								<!--<div class="panel-body tab-pane fade" id="sasaran-content"></div>-->
+                                <div class="panel-body tab-pane fade" id="sasprog-content"></div>
+								<div class="panel-body tab-pane fade" id="iku-content"></div>
                 </div>
             </section>
             <!--tab nav end-->
@@ -50,7 +62,8 @@
 			$("#visi-content").load("<?=base_url()?>perencanaan/rencana_eselon1/loadvisi");
 			$("#misi-content").load("<?=base_url()?>perencanaan/rencana_eselon1/loadmisi");
 			$("#tujuan-content").load("<?=base_url()?>perencanaan/rencana_eselon1/loadtujuan");
-			$("#sasaran-content").load("<?=base_url()?>perencanaan/rencana_eselon1/loadsasaran");
-			
+			//$("#sasaran-content").load("<?=base_url()?>perencanaan/rencana_eselon1/loadsasaran");
+			$("#sasprog-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadsasprog");
+			$("#iku-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadiku");
 		});
 	</script>

@@ -47,12 +47,17 @@ class Rencana_eselon2 extends CI_Controller {
 	function get_body_visi($tahun,$kode_e1,$kode_e2){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
-		$params['kode_e2'] = 	$kode_e2;
+		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->visi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
-			foreach($data as $d): 
+			$prevUk = ""; $no=1;
+			foreach($data as $d):
+				if($prevUk!=$d->nama_e2): $namaUK = $d->nama_e2; $no=1; else: $namaUK = ""; endif; 
+				$prevUk = $d->nama_e2;
 				$rs .= '<tr class="gradeX">
+					<td>'.$namaUK.'</td>
+					<td>'.$no.'</td>
 					<td>'.$d->kode_visi_e2.'</td>
 					<td>'.$d->visi_e2.'</td>
 					<td>
@@ -60,10 +65,11 @@ class Rencana_eselon2 extends CI_Controller {
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="visi_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_visi_e2.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -82,12 +88,17 @@ class Rencana_eselon2 extends CI_Controller {
 	function get_body_misi($tahun,$kode_e1,$kode_e2){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
-		$params['kode_e2'] = 	$kode_e2;
+		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->misi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
-			foreach($data as $d): 
+			$prevUk=""; $no=1;
+			foreach($data as $d):
+				if($prevUk!=$d->nama_e2): $namaUK = $d->nama_e2; $no=1; else: $namaUK = ""; endif; 
+				$prevUk = $d->nama_e2; 
 				$rs .= '<tr class="gradeX">
+					<td>'.$namaUK.'</td>
+					<td>'.$no.'</td>
 					<td>'.$d->kode_misi_e2.'</td>
 					<td>'.$d->misi_e2.'</td>					
 					<td>
@@ -95,10 +106,11 @@ class Rencana_eselon2 extends CI_Controller {
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="misi_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_misi_e2.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -116,12 +128,17 @@ class Rencana_eselon2 extends CI_Controller {
 	function get_body_tujuan($tahun,$kode_e1,$kode_e2){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
-		$params['kode_e2'] = 	$kode_e2;
+		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->tujuan->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$prevUk=""; $no=1;
 			foreach($data as $d): 
+				if($prevUk!=$d->nama_e2): $namaUK = $d->nama_e2; $no=1; else: $namaUK = ""; endif; 
+				$prevUk = $d->nama_e2;
 				$rs .= '<tr class="gradeX">
+					<td>'.$namaUK.'</td>
+					<td>'.$no.'</td>
 					<td>'.$d->kode_tujuan_e2.'</td>
 					<td>'.$d->tujuan_e2.'</td>					
 					<td>
@@ -129,10 +146,11 @@ class Rencana_eselon2 extends CI_Controller {
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="tujuan_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_tujuan_e2.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

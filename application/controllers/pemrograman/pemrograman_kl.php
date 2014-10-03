@@ -78,20 +78,19 @@ class Pemrograman_kl extends CI_Controller {
 	}
 	function get_body_sastra($tahun,$kl){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_kl'] = 	$kl;
+		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->sasaran->get_all($params); 
 		$rs = '';
 		if (isset($data)){
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->sasaran_kl.'</td>
 					<td>'.$d->kode_ss_kl.'</td>					
 					<td>'.$d->deskripsi.'</td>
 				</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="2" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -107,7 +106,7 @@ class Pemrograman_kl extends CI_Controller {
 	}
 	function get_body_iku($tahun,$kl){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_kl'] = 	$kl;
+		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->iku->get_all($params); 
 		$rs = '';
 		if (isset($data)){

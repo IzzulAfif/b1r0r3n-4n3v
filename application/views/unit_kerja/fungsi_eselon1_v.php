@@ -8,7 +8,7 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          		<?=form_dropdown('tahun',$tahun_renstra,'0','id="fungsi-tahun" class="populate" style="width:100%"')?>
                         </div>
@@ -44,33 +44,15 @@
         <table  class="display table table-bordered table-striped" id="fungsi-tbl">
         <thead>
         <tr>
-            <th>Kode</th>
+        	<th>Unit Kerja</th>
+            <th>No</th>
+            <th>Kode Fungsi</th>
             <th>Fungsi</th>
             
             <th width="10%">Aksi</th>
         </tr>
         </thead>
         <tbody>
-        
-            
-            <?php if (isset($data)){foreach($data as $d): ?>
-            <tr class="gradeX">
-                <td><?=$d->kode_fungsi_e1?></td>
-            
-                <td><?=$d->fungsi_e1?></td>
-                <td>
-                    <a href="#" class="btn btn-info btn-xs" title="Edit"><i class="fa fa-pencil"></i></a>
-                    <a href="#" class="btn btn-danger btn-xs" title="Hapus"><i class="fa fa-times"></i></a>
-                </td>
-            </tr>
-          <?php endforeach; } else {?>
-            <tr class="gradeX">
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                
-            </tr>
-            <?php }?>
         
         </tbody>
         </table>

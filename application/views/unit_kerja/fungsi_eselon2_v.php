@@ -8,13 +8,13 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          		<?=form_dropdown('tahun',$renstra,'0','id="fungsi-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                    <div class="form-group">
-                        <label class="col-md-2 control-label">Nama Unit Kerja</label>
+                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
                         <div class="col-md-8">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="fungsi-kode_e1" class="populate" style="width:100%"')?>
                         </div>
@@ -52,7 +52,9 @@
 		<table  class="display table table-bordered table-striped" id="fungsi-tbl">
 		<thead>
 		<tr>
-			<th>Kode</th>
+        	<th>Unit Kerja</th>
+            <th>No</th>
+			<th>Kode Fungsi</th>
 			<th>Fungsi</th>
 			
 			<th width="10%">Aksi</th>

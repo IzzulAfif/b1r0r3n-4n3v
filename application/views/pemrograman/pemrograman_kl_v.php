@@ -13,7 +13,7 @@
                                <i class="fa fa-list-ol"></i> Program
                             </a>
                         </li>
-                        <li class="">
+                        <!--<li class="">
                             <a data-toggle="tab" href="#sastra-content">
                                 <i class="fa fa-bar-chart-o"></i> Sasaran Strategis
                             </a>
@@ -22,19 +22,25 @@
                             <a data-toggle="tab" href="#iku-content">
                                 <i class="fa fa-align-center"></i> IKU Kementerian
                             </a>
-                        </li>
-                        <!--<li class="">
-                            <a data-toggle="tab" href="#pendanaan-content">
-                                <i class="fa fa-clipboard"></i> Pendanaan
-                            </a>
                         </li>-->
+                        <li class="">
+                            <a data-toggle="tab" href="#target-content">
+                                <i class="fa fa-clipboard"></i> Target Capaian Kinerja
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#pendanaan-content">
+                                <i class="fa fa-clipboard"></i> Kebutuhan Pendanaan
+                            </a>
+                        </li>
                     </ul>
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
 						<div class="panel-body tab-pane fade active in" id="program-content"></div>
-						<div class="panel-body tab-pane fade" id="sastra-content"></div>
-						<div class="panel-body tab-pane fade" id="iku-content"></div>
+						<!--<div class="panel-body tab-pane fade" id="sastra-content"></div>
+						<div class="panel-body tab-pane fade" id="iku-content"></div>-->
+						<div class="panel-body tab-pane fade" id="target-content"></div>
 						<div class="panel-body tab-pane fade" id="pendanaan-content"></div>
                 </div>
             </section>

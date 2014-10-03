@@ -46,23 +46,29 @@ class Rencana_eselon1 extends CI_Controller {
 	
 	function get_body_visi($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->visi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$prevUK = ""; $no=1;
 			foreach($data as $d): 
+				if($prevUK!=$d->nama_e1): $namaUK = $d->nama_e1; $no=1; else: $namaUK = ""; endif;
+				$prevUK = $d->nama_e1; 
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->kode_visi_e1.'</td>
+					<td width="15%">'.$namaUK.'</td>
+					<td width="2%">'.$no.'</td>
+					<td width="10%">'.$d->kode_visi_e1.'</td>
 					<td>'.$d->visi_e1.'</td>					
 					<td>
 						<a href="#visiModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="visi_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_visi_e1.'\');"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="visi_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_visi_e1.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -80,23 +86,29 @@ class Rencana_eselon1 extends CI_Controller {
 	
 	function get_body_misi($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->misi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$prevUK=""; $no=1;
 			foreach($data as $d): 
+				if($prevUK!=$d->nama_e1): $namaUK = $d->nama_e1; $no=1; else: $namaUK = ""; endif;
+				$prevUK = $d->nama_e1; 
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->kode_misi_e1.'</td>
+					<td width="15%">'.$namaUK.'</td>
+					<td width="2%">'.$no.'</td>
+					<td width="10%">'.$d->kode_misi_e1.'</td>
 					<td>'.$d->misi_e1.'</td>					
 					<td>
 						<a href="#misiModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="misi_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_misi_e1.'\');"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="misi_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_misi_e1.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -114,23 +126,29 @@ class Rencana_eselon1 extends CI_Controller {
 	
 	function get_body_tujuan($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->tujuan->get_all($params); 
 		$rs = '';
 		if (isset($data)){
-			foreach($data as $d): 
+			$prevUK = ""; $no=1;
+			foreach($data as $d):
+				if($prevUK!=$d->nama_e1): $namaUK = $d->nama_e1; $no=1; else: $namaUK = ""; endif;
+				$prevUK = $d->nama_e1; 
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->kode_tujuan_e1.'</td>
+					<td width="15%">'.$namaUK.'</td>
+					<td width="2%">'.$no.'</td>
+					<td width="10%">'.$d->kode_tujuan_e1.'</td>
 					<td>'.$d->tujuan_e1.'</td>					
 					<td>
 						<a href="#tujuanModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="tujuan_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_tujuan_e1.'\');"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="tujuan_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_tujuan_e1.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

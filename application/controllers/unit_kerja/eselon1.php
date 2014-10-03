@@ -82,12 +82,25 @@ class Eselon1 extends CI_Controller {
 	
 	function get_body_fungsi($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
-		$data=$this->fungsi->get_all($params); 
+		if($kode==0): $kode2=null; else: $kode2=$kode; endif;
+		$params['kode_e1'] = $kode2;
+		$data=$this->fungsi->get_all($params);
 		$rs = '';
 		if (isset($data)){
+			$no=1; $prevUK="";
 			foreach($data as $d): 
+				
+				if($prevUK!=$d->nama_e1):
+					$namaUK = $d->nama_e1;
+					$no=1;
+				else:
+					$namaUK ="";
+				endif;
+				$prevUK = $d->nama_e1;
+				
 				$rs .= '<tr class="gradeX">
+					<td>'.$namaUK.'</td>
+					<td>'.$no.'</td>
 					<td>'.$d->kode_fungsi_e1.'</td>
 					<td>'.$d->fungsi_e1.'</td>					
 					<td>
@@ -95,10 +108,11 @@ class Eselon1 extends CI_Controller {
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="fungsiDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_fungsi_e1.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

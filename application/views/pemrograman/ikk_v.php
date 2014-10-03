@@ -8,20 +8,20 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-4">
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
                          		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="ikk-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
-                        <div class="col-md-8">
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="ikk-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                        <?=form_dropdown('kode_e2',array(),'','id="ikk-kode_e2" class="populate"')?>
                         </div>
                     </div>
@@ -54,6 +54,8 @@
         <table  class="display table table-bordered table-striped" id="ikk-tbl">
         <thead>
         <tr>
+        	<th>Unit Kerja</th>
+            <th>No</th>
             <th>Sasaran Kegiatan</th>
             <th>Kode IKK</th>
             <th>Deskripsi</th>
