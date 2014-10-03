@@ -46,12 +46,13 @@ class Pemrograman_kl extends CI_Controller {
 	
 	function get_body_program($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_e1'] = 	$kode;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->program_e1->get_all($params); 
 		$rs = '';
 		if (isset($data)){
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$d->nama_e1.'</td>
 					<td>'.$d->kode_program.'</td>
 					<td>'.$d->nama_program.'</td>
 				</tr>';

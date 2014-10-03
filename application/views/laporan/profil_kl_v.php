@@ -8,12 +8,12 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-5">
                          <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="populate"')?>
@@ -93,7 +93,7 @@
 			$('#cetakpdf_profilekl').click(function(){
 				var tahun = $('#kl-tahun').val();
 				var kodekl = $('#kl-kodekl').val();
-				window.open('<?=base_url()?>laporan/profil/print_pdf/'+tahun+'/'+kodekl,'_blank');			
+				window.open('<?=base_url()?>laporan/profil/print_pdf/'+tahun,'_blank');			
 			});
 		});
 	</script>

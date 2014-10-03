@@ -8,24 +8,29 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
                          	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-3">
                            <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="populate"')?>
                         </div>
                     </div>
-                  
+                  	<div class="form-group">
+                        <label class="col-md-2 control-label">&nbsp;</label>
+                        <button type="button" class="btn btn-info" id="renstrakl-btn" style="margin-left:15px;">
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
+                        </button>
+                    </div>
                 </form>
             </div>
         </section>
     </div>
     
-    <div class="feed-box" id="box-result">
+    <div class="feed-box hide" id="box-result">
         <section class="panel tab-bg-form" style="background-color:#F9F9F9">
             <div class="panel-body">
                
@@ -89,9 +94,10 @@
 				$("#kl-program").load("<?=base_url()?>laporan/renstra_kl/get_program/"+tahun+"/"+kodekl);
 			}
 			
-			 $("#kl-kodekl").change(function(){
+			$("#renstrakl-btn").click(function(){
 				load_profile();
-			}); 
+				$('#box-result').removeClass("hide");
+			});
 			
 			$("#kl-klikdisini").click(function(){
 				var tahun = $('#kl-tahun').val();

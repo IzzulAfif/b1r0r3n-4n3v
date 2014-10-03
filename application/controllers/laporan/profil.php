@@ -67,14 +67,14 @@ class Profil extends CI_Controller {
 		echo $rs;
 	}
 	
-   function print_pdf($tahun,$kl)
+   function print_pdf($tahun)
    {
 	   $this->load->library('pdf');
 	   $data['renstra']		= $tahun;
-	   $data['kementerian'] = $this->mgeneral->getValue("nama_kl",array('kode_kl'=>$kl,'tahun_renstra'=>$tahun),"anev_kl");
-	   $data['unit_kerja']	= $this->eselon1->get_all(array("kode_kl"=>$kl));
-	   $data['fungsi']		= $this->fungsi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-	   $data['tugas']		= $this->kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+	   $data['kementerian'] = $this->mgeneral->getValue("nama_kl",array('tahun_renstra'=>$tahun),"anev_kl");
+	   $data['unit_kerja']	= $this->eselon1->get_all(null);
+	   $data['fungsi']		= $this->fungsi_kl->get_all(array("tahun_renstra"=>$tahun));
+	   $data['tugas']		= $this->kl->get_all(array("tahun_renstra"=>$tahun));
 	   
 	   $html = $this->load->view('laporan/print/pdf_profile_kl',$data,true);
 	   

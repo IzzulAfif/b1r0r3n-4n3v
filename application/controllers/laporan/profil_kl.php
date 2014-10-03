@@ -42,7 +42,7 @@ class Profil_kl extends CI_Controller {
 	
 	
 	function get_unit_kerja($kl){
-		$data = $this->eselon1->get_all(array("kode_kl"=>$kl));
+		$data = $this->eselon1->get_all(null);
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
@@ -55,7 +55,7 @@ class Profil_kl extends CI_Controller {
 	}
 	
 	function get_fungsi($tahun,$kl){
-		$data = $this->fungsi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+		$data = $this->fungsi_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
@@ -68,7 +68,7 @@ class Profil_kl extends CI_Controller {
 	}
 	
 	function get_tugas($tahun,$kl){
-		$data = $this->kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+		$data = $this->kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';

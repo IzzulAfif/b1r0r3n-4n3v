@@ -59,8 +59,8 @@ class Renstra_kl extends CI_Controller {
 	}
 	
 	
-	function get_visi($tahun,$kl){
-		$data = $this->visi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+	function get_visi($tahun){
+		$data = $this->visi_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
@@ -72,8 +72,8 @@ class Renstra_kl extends CI_Controller {
 		echo $rs;
 	}
 	
-	function get_misi($tahun,$kl){
-		$data = $this->misi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+	function get_misi($tahun){
+		$data = $this->misi_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
@@ -85,8 +85,8 @@ class Renstra_kl extends CI_Controller {
 		echo $rs;
 	}
 	
-	function get_tujuan($tahun,$kl){
-		$data = $this->tujuan_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+	function get_tujuan($tahun){
+		$data = $this->tujuan_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
@@ -98,8 +98,8 @@ class Renstra_kl extends CI_Controller {
 		echo $rs;
 	}
 	
-	function get_program($tahun,$kl){
-		$data = $this->program_e1->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+	function get_program($tahun){
+		$data = $this->program_e1->get_renstra(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
@@ -115,7 +115,7 @@ class Renstra_kl extends CI_Controller {
 	
 	function get_sasaran($tahun,$kl){
 		$dataAll = array();
-		$data = $this->sasaran_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+		$data = $this->sasaran_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<table class="display table table-bordered table-striped">';

@@ -48,12 +48,13 @@ class Pemrograman_eselon2 extends CI_Controller {
 	function get_body_kegiatan($tahun,$kode_e1,$kode_e2){
 		$params['tahun_renstra'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
-		$params['kode_e2'] = 	$kode_e2;
+		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->kegiatan->get_all($params); 
 		$rs = '';
 		if (isset($data)){
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$d->nama_e2.'</td>
 					<td>'.$d->nama_program.'</td>
 					<td>'.$d->kode_kegiatan.'</td>
 					<td>'.$d->nama_kegiatan.'</td>
