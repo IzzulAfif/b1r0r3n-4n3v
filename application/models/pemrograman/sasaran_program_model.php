@@ -34,7 +34,8 @@ class Sasaran_program_model extends CI_Model
 			if (isset($params['kode_sasaran_e1'])) $where .= " and f.kode_sasaran_e1='".$params['kode_sasaran_e1']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql = "select distinct kode_ss_e1, deskripsi from anev_sasaran_strategis f ".$where;
+		$sql = "select distinct kode_sp_e1, deskripsi, e.nama_e1 from anev_sasaran_program f inner join anev_eselon1 e on e.kode_e1=f.kode_e1 and f.tahun between left(e.tahun_renstra,4) and right(e.tahun_renstra,4) ".$where;
+		$sql .= " order by f.kode_e1,kode_sp_e1";
 		return $this->mgeneral->run_sql($sql);
 	}
 

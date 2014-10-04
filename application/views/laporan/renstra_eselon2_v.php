@@ -8,13 +8,13 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e2-tahun" class="populate"')?>
+                        <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                         	<?=form_dropdown('tahun',$renstra,'0','id="e2-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-4">
                            <?=form_dropdown('kode_e1',$eselon1,'0','id="e2-kode_e1" class="populate"')?>
                         </div>
@@ -22,16 +22,21 @@
 					<div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-4">
-                           <?=form_dropdown('kode_e2',array(),'','id="e2-kode_e2" class="populate"')?>
+                           <?=form_dropdown('kode_e2',array("0"=>"Pilih Unit Kerja Eselon II"),'','id="e2-kode_e2" class="populate"')?>
                         </div>
                     </div>
-                  
+                   	<div class="form-group">
+                        <label class="col-md-2 control-label">&nbsp;</label>
+                        <button type="button" class="btn btn-info" id="renstrae2-btn" style="margin-left:15px;">
+                            <i class="fa fa-check-square-o"></i> Tampilkan Data
+                        </button>
+                    </div>
                 </form>
             </div>
         </section>
     </div>
     
-    <div class="feed-box" id="box-result">
+    <div class="feed-box hide" id="box-result-e2">
         <section class="panel tab-bg-form" style="background-color:#F9F9F9">
             <div class="panel-body">
                
@@ -62,8 +67,8 @@
                     	<div class="col-md-10" ><a href="#" id="e2-klikdisini">Klik Disini</a></div>
                     </div>
 					<div class="form-group">
-                    	<label class="col-md-2 text-primary">Program</label>
-                    	<div class="col-md-10" id="e2-program"></div>
+                    	<label class="col-md-2 text-primary">Kegiatan</label>
+                    	<div class="col-md-10" id="e2-kegiatan"></div>
                     </div>
                 </form>
                 
@@ -82,17 +87,38 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-			load_profile_e2 = function(){
-				var tahun = $('#e2-tahun').val();
-				var kodee2 = $('#e2-kode_e2').val();
+			load_profile_e2 = function(tahun,kodee1,kodee2){
 				
-				$("#e2-visi").load("<?=base_url()?>laporan/renstra_eselon2/get_visi/"+tahun+"/"+kodee2);
-				$("#e2-misi").load("<?=base_url()?>laporan/renstra_eselon2/get_misi/"+tahun+"/"+kodee2);
-				$("#e2-tujuan").load("<?=base_url()?>laporan/renstra_eselon2/get_tujuan/"+tahun+"/"+kodee2);
+				
+				$("#e2-visi").load("<?=base_url()?>laporan/renstra_eselon2/get_visi/"+tahun+"/"+kodee1+"/"+kodee2);
+				$("#e2-misi").load("<?=base_url()?>laporan/renstra_eselon2/get_misi/"+tahun+"/"+kodee1+"/"+kodee2);
+				$("#e2-tujuan").load("<?=base_url()?>laporan/renstra_eselon2/get_tujuan/"+tahun+"/"+kodee1+"/"+kodee2);
+				$("#e2-kegiatan").load("<?=base_url()?>laporan/renstra_eselon2/get_kegiatan/"+tahun+"/"+kodee1+"/"+kodee2);
+				$("#e2-sasaran").load("<?=base_url()?>laporan/renstra_eselon2/get_sasaran/"+tahun+"/"+kodee1+"/"+kodee2);
 			}
 			
+			
+			$("#renstrae2-btn").click(function(){
+				var tahun = $('#e2-tahun').val();
+				var kodee1 = $('#e2-kode_e1').val();
+				var kodee2 = $('#e2-kode_e2').val();
+				if (tahun=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#e2-tahun').select2('open');
+				}
+				else if (kodee1=="0") {
+					alert("Unit Kerja Eselon I belum ditentukan");
+					$('#e2-kode_e1').select2('open');
+				}
+				else {
+					load_profile_e2(tahun,kodee1,kodee2);
+					$('#box-result-e2').removeClass("hide");
+				}
+			});
+			
+			
 			 $("#e2-kode_e2").change(function(){
-				load_profile_e2();
+				
 			}); 
 			$("#e2-kode_e1").change(function(){
 				$.ajax({
@@ -107,6 +133,12 @@
 					}
 				});
 			});
+			
+			$("#e2-klikdisini").click(function(){
+				var tahun = $('#e2-tahun').val();
+				var kodee2 = $('#e2-kode_e2').val();
+				window.open("<?=base_url()?>laporan/renstra_eselon2/get_detail/"+tahun+"/"+kodee2);
+			}); 
 
 		});
 	</script>

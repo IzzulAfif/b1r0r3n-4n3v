@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
+                         	<?=form_dropdown('tahun',$renstra,'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group hide">
@@ -83,9 +83,7 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-			load_profile = function(){
-				var tahun = $('#kl-tahun').val();
-				var kodekl = $('#kl-kodekl').val();
+			load_profile = function(tahun,kodekl){
 				
 				$("#kl-visi").load("<?=base_url()?>laporan/renstra_kl/get_visi/"+tahun+"/"+kodekl);
 				$("#kl-misi").load("<?=base_url()?>laporan/renstra_kl/get_misi/"+tahun+"/"+kodekl);
@@ -95,8 +93,16 @@
 			}
 			
 			$("#renstrakl-btn").click(function(){
-				load_profile();
-				$('#box-result').removeClass("hide");
+				var tahun = $('#kl-tahun').val();
+				var kodekl = $('#kl-kodekl').val();
+				if (tahun=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#kl-tahun').select2('open');
+				}
+				else {
+					load_profile(tahun,kodekl);
+					$('#box-result').removeClass("hide");
+				}
 			});
 			
 			$("#kl-klikdisini").click(function(){

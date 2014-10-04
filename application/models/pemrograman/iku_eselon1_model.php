@@ -32,10 +32,10 @@ class Iku_eselon1_model extends CI_Model
 		$where = ' where 1=1 ';
 		if (isset($params)){
 			if (isset($params['kode_e1'])) $where .= " and f.kode_e1='".$params['kode_e1']."'";
-			if (isset($params['kode_ss_e1'])) $where .= " and f.kode_ss_e1='".$params['kode_ss_e1']."'";
+			if (isset($params['kode_sp_e1'])) $where .= " and f.kode_sp_e1='".$params['kode_sp_e1']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql = "select distinct kode_iku_e1, deskripsi from anev_iku_e1 f inner join anev_e1 kl on f.kode_e1=kl.kode_e1 ".$where;
+		$sql = "select distinct kode_iku_e1, deskripsi from anev_iku_eselon1 f inner join anev_eselon1 kl on f.kode_e1=kl.kode_e1 ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	

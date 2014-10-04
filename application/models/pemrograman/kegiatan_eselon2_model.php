@@ -45,6 +45,23 @@ class Kegiatan_eselon2_model extends CI_Model
 		}
 		return $list;	
 	}
+	
+	function get_jml_kegiatan($params){		
+		$rs = $this->mgeneral->run_sql('select count(distinct kode_kegiatan) as jml_kegiatan from anev_kegiatan_eselon2 where '.$params);
+		//var_dump($rs);
+		return $rs[0]->jml_kegiatan;
+		//$this->mgeneral->getValue('count(kode_e1)', $params, 'anev_program_eselon1');
+	}
 
+	function get_renstra($params){
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_e1'])) $where .= " and e.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and f.kode_e2='".$params['kode_e2']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+		}
+		$sql = "select distinct kode_kegiatan, nama_kegiatan,e.nama_e2,f.kode_e2 from anev_kegiatan_eselon2 f inner join anev_eselon2 e on f.kode_e2=e.kode_e2 and f.tahun between left(e.tahun_renstra,4) and right(e.tahun_renstra,4) ".$where;
+		return $this->mgeneral->run_sql($sql);
+	}
 }
 

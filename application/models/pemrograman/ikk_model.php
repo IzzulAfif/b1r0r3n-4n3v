@@ -41,10 +41,10 @@ class Ikk_model extends CI_Model
 		$where = ' where 1=1 ';
 		if (isset($params)){
 			if (isset($params['kode_e2'])) $where .= " and f.kode_e2='".$params['kode_e2']."'";
-			if (isset($params['kode_ss_e2'])) $where .= " and f.kode_ss_e2='".$params['kode_ss_e2']."'";
+			if (isset($params['kode_sk_e2'])) $where .= " and f.kode_sk_e2='".$params['kode_sk_e2']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql = "select distinct kode_ikk, deskripsi from anev_iku_e2 f inner join anev_e2 kl on f.kode_e2=kl.kode_e2 ".$where;
+		$sql = "select distinct kode_ikk, deskripsi from anev_ikk f inner join anev_eselon2 e on f.kode_e2=e.kode_e2 and f.tahun between left(e.tahun_renstra,4) and right(e.tahun_renstra,4) ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	

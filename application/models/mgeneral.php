@@ -71,7 +71,7 @@ class mgeneral extends CI_Model
     #ex akses : $this->mgeneral->getValue(field1,array('field2'=>'data'),'nama_tabel');
 
     function getValue($field, $where, $tabel) {
-        $this->db->select($field);
+        $this->db->select($field,false);
         $this->db->where($where);
         $result = $this->db->get($tabel)->result();
 		$value	= "";

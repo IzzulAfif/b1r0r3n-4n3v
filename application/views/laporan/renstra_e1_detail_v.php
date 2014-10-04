@@ -8,18 +8,17 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <b>Detail Perencanaan</b><br>
-						Kementerian Perhubungan<br>
-						Periode <?=$periode?>
+                        <b>Detail Perencanaan</b>
                         <span class="pull-right">
                             
                          </span> 
                     </header>
-                    <div class="panel-body">					
-						<div id="detail_rencana" >
-								<?=$data?>	
-						</div>
+                    <div class="panel-body">
 						
+                    <div id="detail_rencana" >
+							<?=$data?>	
+					</div>
+                    
                     </div>
                 </section>
             </div>
@@ -30,9 +29,9 @@
 		$(document).ready(function() {
 			load_detail = function(){
 				var tahun = $('#tahun').val();
-				var kodekl = $('#kodekl').val();
+				var kodekl = $('#kodee1').val();
 				
-				$("#detail_rencana").load("<?=base_url()?>laporan/renstra_kl/get_rencana_detail/"+tahun+"/"+kodekl);
+				$("#detail_rencana").load("<?=base_url()?>laporan/renstra_eselon1/get_rencana_detail/"+tahun+"/"+kodekl);
 				
 			}
 			

@@ -21,8 +21,13 @@ class Visi_eselon2_model extends CI_Model
 			if (isset($params['kode_e2'])) $where .= " and f.kode_e2='".$params['kode_e2']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
 		}
-		$sql = "select f.*, e2.nama_e2 from anev_visi_eselon2 f inner join anev_eselon2 e2 on e2.kode_e2=f.kode_e2 ".$where;
+		$sql = "select f.*, e2.nama_e2  from anev_visi_eselon2 f inner join anev_eselon2 e2 on e2.kode_e2=f.kode_e2 and e2.tahun_renstra = f.tahun_renstra ".$where;
+	
 		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_jml_visi($params){		
+		return $this->mgeneral->getValue('count(kode_e2)', $params, 'anev_visi_eselon2');
 	}
 	
 	function get_where($params){

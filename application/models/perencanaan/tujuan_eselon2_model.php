@@ -25,6 +25,10 @@ class Tujuan_eselon2_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
+	function get_jml_tujuan($params){		
+		return $this->mgeneral->getValue('count(kode_e2)', $params, 'anev_tujuan_eselon2');
+	}
+	
 	function get_where($params){
 		$where = ' where 2=2 ';
 		if (isset($params)){
