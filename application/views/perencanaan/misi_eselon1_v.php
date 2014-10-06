@@ -47,7 +47,7 @@
         <tr>
             <th>Unit Kerja</th>
             <th>No</th>
-            <th>Kode Misi</th>
+            <th>Kode</th>
             <th>Misi</th>
             <th width="10%">Aksi</th>
         </tr>

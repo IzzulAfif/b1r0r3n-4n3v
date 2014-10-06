@@ -10,7 +10,7 @@
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#kegiatan-content">
-                               <i class="fa fa-list-ol"></i> Kegiatan Eselon II 
+                               <i class="fa fa-list-ol"></i> Kegiatan
                             </a>
                         </li>
                         <!--<li class="">

@@ -47,9 +47,8 @@
             <tr>
             	<th>Unit Kerja</th>
                 <th>No</th>
-                <th>Sasaran Program</th>
-                <th>Kode IKU</th>
-                <th>Deskripsi</th>                        
+                <th>Kode</th>
+                <th>Indikator Kerja Utama (IKU)</th>                        
                 <th>Satuan</th>
             </tr>
             </thead>

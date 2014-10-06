@@ -47,9 +47,8 @@
             <tr>
                 <th>Unit Kerja</th>
                 <th>No</th>
+                <th>Kode</th>
                 <th>Sasaran Strategis</th>
-                <th>Kode SP</th>
-                <th>Deskripsi</th>
             </tr>
             </thead>
             <tbody>

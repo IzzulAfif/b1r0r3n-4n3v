@@ -12,7 +12,7 @@
                 	<div class="col-sm-5">
                     	<p class="text-primary"><b>Periode Renstra</b></p>
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Unit Kerja </label>
+                            <label class="col-sm-5 control-label">Unit Kerja  <span class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <select name="unit_kerja" id="unit_kerja_g1" class="populate" style="width:100%">
                                     <option value="">Pilih Unit Kerja</option>
@@ -24,7 +24,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Periode renstra </label>
+                            <label class="col-sm-5 control-label">Periode renstra  <span class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <select name="renstra" id="renstra_g1" class="populate" style="width:100%">
                                 </select>
@@ -32,7 +32,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Rentang Tahun</label>
+                            <label class="col-sm-5 control-label">Rentang Tahun <span class="text-danger">*</span></label>
                             <div class="col-sm-3">
                                 <select name="tahun1" id="tahun1_g1" class="populate" style="width:100%">
                                 </select>
@@ -49,22 +49,22 @@
                     	
                         <p class="text-primary"><b>Sasaran Program dan Indikator</b></p>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Sasaran</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="sasaran" id="sasaran_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Indikator</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Indikator <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="indikator" id="indikator_g1" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Satuan</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Satuan</label>
+                            <div class="col-sm-8">
                                 <label class="control-label" id="satuan_g1"></label>
                             </div>
                         </div>

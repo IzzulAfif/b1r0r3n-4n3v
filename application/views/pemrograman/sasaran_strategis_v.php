@@ -47,7 +47,8 @@
             <table  class="display table table-bordered table-striped" id="sastra-tbl">
             <thead>
             <tr>
-                <th>Kode SS</th>
+            	<th width="3%">No</th>
+                <th>Kode</th>
                 <th>Sasaran Strategis</th>
             </tr>
             </thead>

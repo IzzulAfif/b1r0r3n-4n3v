@@ -10,6 +10,33 @@
 	
 </div>
 
+<br />
+<section class="panel">
+    <div class="panel-body">
+            
+        <table  class="display table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Unit Kerja</th>
+            <th>Rata-rata Pencapaian</th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach($gdata as $d): ?>
+            	
+                <tr>
+                    <td><?=$d['nama']?></td>
+                    <td><?=$d['rata2']?> %</td>
+                </tr>
+                    
+            <?php endforeach; ?>
+            <tr><td><b>Rata-rata</b></td><td><b><?=$rata2?> %</b></td></tr>
+        </tbody>
+        </table>
+        
+    </div>
+</section>
+
 <script>
 	$(document).ready(function() {
 		var chart;

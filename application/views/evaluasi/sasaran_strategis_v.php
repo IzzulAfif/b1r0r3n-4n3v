@@ -9,13 +9,13 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
-                        <div class="col-md-2">
+                        <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
+                        <div class="col-md-4">
                             <?=form_dropdown('renstra',$renstra,'0','id="renstra"')?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Rentang Tahun</label>
+                        <label class="col-md-2 control-label">Rentang Tahun <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?>
                         </div>
@@ -33,7 +33,7 @@
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="sasaran-btn" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="sastralist-btn" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>
@@ -52,7 +52,7 @@
                 </div>
                 
                 <p class="text-primary">Capaian Kinerja</p><br />
-                <table  class="display table table-bordered table-striped" id="tabel_capaian">
+                <table  class="display table table-bordered table-striped" id="tabel_capaian" width="100%">
     	        </table>
                 
             </div>
@@ -94,21 +94,21 @@
                 });
             }
         });
-        tahun_awal.change(function(){
+        /*tahun_awal.change(function(){
             update_table();
         });
         tahun_akhir.change(function(){
             update_table();
-        });
+        });*/
 
-        $('#sasaran-btn').click(function(){
+        $('#sastralist-btn').click(function(){
             update_table();
         });
 
         function update_table() {
             val_awal = tahun_awal.val();
             val_akhir = tahun_akhir.val();
-            if (sasaran.val()!=0 && sasaran.val()!='' && val_akhir>=val_awal) {
+            if (val_akhir>=val_awal) {
                 kode_sasaran = sasaran.val();
                 $.ajax({
                     url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,

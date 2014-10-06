@@ -8,20 +8,20 @@
                 </div>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                    	<label class="col-sm-3">Periode Renstra</label>
-                    	<div class="col-sm-2"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
+                    	<label class="col-sm-2">Periode Renstra <span class="text-danger">*</span></label>
+                    	<div class="col-sm-3"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
                     </div>
                     <div class="form-group">
-                    	<label class="col-sm-3">Tahun</label>
+                    	<label class="col-sm-2">Tahun <span class="text-danger">*</span></label>
                     	<div class="col-sm-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
                     	<div class="col-sm-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
                     </div>
                     <div class="form-group">
-                    	<label class="col-sm-3">Nama Program</label>
+                    	<label class="col-sm-2">Nama Program <span class="text-danger">*</span></label>
                     	<div class="col-sm-8"><?=form_dropdown('nama_program',array(),'','id="nama_program"')?></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">&nbsp;</label>
+                        <label class="col-sm-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="program-btn" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>

@@ -47,10 +47,10 @@
             <table  class="display table table-bordered table-striped" id="iku-tbl">
             <thead>
             <tr>
-                
-                <th>Sasaran Strategis</th>
-                <th>Kode IKU</th>
-                <th>Deskripsi</th>
+                <th>No</th>
+                <th>Kode</th>
+                <th>Indikator Kerja Utama (IKU)</th>
+                <th>Satuan</th>
             </tr>
             </thead>
             <tbody>

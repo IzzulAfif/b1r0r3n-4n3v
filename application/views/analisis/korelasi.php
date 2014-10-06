@@ -12,11 +12,10 @@
                 		
                      <div class="col-sm-4">
                      	<p class="text-primary"><b>Periode Renstra</b></p>
-                        <div class="form-group">
+                        <div class="form-group hide">
                             <label class="col-sm-5 control-label">Kementerian </label>
                             <div class="col-sm-7">
                                 <select name="unit_kerja" id="unit_kerja_g3" class="populate" style="width:100%">
-                                    <option value="">Pilih Kementerian</option>
                                     <?php foreach($kl as $k): ?>
                                         <option value="<?=$k->kode_kl?>"><?=$k->nama_kl?></option>
                                     <?php endforeach; ?>
@@ -25,20 +24,20 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Periode renstra </label>
-                            <div class="col-sm-7">
+                            <label class="col-sm-4 control-label">Periode renstra <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="renstra" id="renstra_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Rentang Tahun</label>
-                            <div class="col-sm-3">
+                            <label class="col-sm-4 control-label">Rentang Tahun <span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
                                 <select name="tahun1" id="tahun1_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <select name="tahun2" id="tahun2_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
@@ -48,22 +47,22 @@
                      <div class="col-sm-4">
                      	<p class="text-primary"><b>Sasaran Strategis dan Indikator 1</b></p>
                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Sasaran</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="sasaran" id="sasaran_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Indikator</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Indikator <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="indikator" id="indikator_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Satuan</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Satuan</label>
+                            <div class="col-sm-8">
                                 <label class="control-label" id="satuan_g3"></label>
                             </div>
                         </div>
@@ -72,22 +71,22 @@
                      <div class="col-sm-4">
                      	<p class="text-primary"><b>Sasaran Strategis dan Indikator 2</b></p>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Sasaran</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="sasaran2" id="sasaran2_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Indikator</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Indikator <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
                                 <select name="indikator2" id="indikator2_g3" class="populate" style="width:100%">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Satuan</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 control-label">Satuan</label>
+                            <div class="col-sm-8">
                                 <label class="control-label" id="satuan2_g3"></label>
                             </div>
                         </div>
@@ -177,7 +176,7 @@
 				$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 				$('#spinnerg31').spinner({value:100, min: 100, max: 1000});
 				$('#spinnerg32').spinner({value:100, min: 100, max: 1000});
-				$('#unit_kerja_g3').change(function(){
+				
 					kd_unit	= $('#unit_kerja_g3').val();
 					$.ajax({
 						url:"<?=site_url()?>analisis/trendline/get_renstra/"+kd_unit,
@@ -190,7 +189,6 @@
 							$('#renstra_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
-				});
 				
 				$('#renstra_g3').change(function(){
 					kd_unit	= $('#unit_kerja_g3').val();

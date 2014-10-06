@@ -28,6 +28,43 @@
 
 <div id="chartKonten" style="height:400px;">
 </div>
+<br />
+<section class="panel">
+    <div class="panel-body">
+            
+        <table  class="display table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Tahun</th>
+            <th>Target</th>
+            <th>Realisasi</th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach($gdata as $d): ?>
+            	
+				<?php if($d['tahun']==$post['tahun']): ?>
+					<tr><td colspan="3">Simulasi Target dan Pencapaian</td></tr>
+                    <tr>
+                    	<td><?=$d['tahun']?></td>
+                        <td><?=$post['target']?></td>
+                        <td><?=$d['simulasi']?></td>
+                    </tr>
+				<?php else: ?>
+                	<tr>
+                        <td><?=$d['tahun']?></td>
+                        <td><?=$d['target']?></td>
+                        <td><?=$d['realisasi']?></td>
+                    </tr>
+				<?php endif; ?>
+            
+            <?php endforeach; ?>
+        </tbody>
+        </table>
+        
+    </div>
+</section>
+
 <script>
 	$(document).ready(function() {
 		var chart;

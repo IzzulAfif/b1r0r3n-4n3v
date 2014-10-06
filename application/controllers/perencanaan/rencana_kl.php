@@ -85,8 +85,10 @@ class Rencana_kl extends CI_Controller {
 		$data=$this->misi->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$no=1;
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$no.'</td>
 					<td>'.$d->kode_misi_kl.'</td>
 					<td>'.$d->misi_kl.'</td>					
 					<td>
@@ -94,6 +96,7 @@ class Rencana_kl extends CI_Controller {
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="misi_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_misi_kl.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">

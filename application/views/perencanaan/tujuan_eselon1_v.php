@@ -47,7 +47,7 @@
         <tr>
         	<th>Unit Kerja</th>
             <th>No</th>
-            <th>Kode Tujuan</th>
+            <th>Kode</th>
             <th>Tujuan</th>
             <th width="10%">Aksi</th>
         </tr>

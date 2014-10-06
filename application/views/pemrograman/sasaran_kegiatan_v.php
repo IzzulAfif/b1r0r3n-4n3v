@@ -53,9 +53,8 @@
             <tr>	
             	<th>Unit Kerja</th>
                 <th>No</th>
-                <th>Sasaran Program</th>
-                <th>Kode SK</th>
-                <th>Sasaran Kegiatan</th>
+                <th>Kode</th>
+                <th>Sasaran Strategis</th>
             </tr>
             </thead>
             <tbody>

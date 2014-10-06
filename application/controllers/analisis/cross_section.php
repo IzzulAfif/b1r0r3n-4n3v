@@ -88,7 +88,7 @@ class Cross_section extends CI_Controller {
 				endif;
 			
 		endforeach;
-		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');
+		if($total_es1!=0): $rata2total = number_format($total_persen_es1/$total_es1,2,'.','.'); else: $rata2total = 0; endif;
 		$data['post']		= $this->input->post();
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$this->input->post("sasaran"),'kode_iku_e1'=>$this->input->post("indikator")),"anev_iku_eselon1");
 		$data['gdata'] 		= $graf_data;

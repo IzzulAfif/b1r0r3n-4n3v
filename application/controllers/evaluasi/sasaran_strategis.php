@@ -12,11 +12,12 @@ class sasaran_strategis extends CI_Controller {
 		parent::__construct();
 		$this->load->model('evaluasi/sasaran_strategis_m','',TRUE);
 		$this->load->model('analisis/analisis_model','',TRUE);
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	}
 
 	function index()
 	{
-		$data['renstra']	= $this->sasaran_strategis_m->get_renstra_list();
+		$data['renstra']	= $this->setting_th->get_list();
 		$this->load->view('evaluasi/sasaran_strategis_v',$data);
 	}
 	
@@ -33,6 +34,7 @@ class sasaran_strategis extends CI_Controller {
 		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = ""; $temprow = '';
 		$sum_program = 0; $rowsection = '';
 		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
+		
 		$ldata = sizeof($data);
 		$kd_iku_kl = '';
 		if ($ldata!=0) {

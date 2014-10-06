@@ -29,6 +29,34 @@
 
 <div id="chartKontenKorelasi" style="height:400px;">
 </div>
+<br />
+<section class="panel">
+    <div class="panel-body">
+            
+        <table  class="display table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Unit Kerja</th>
+            <th>Indikator 1 (x)</th>
+            <th>Indikator 2 (y)</th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach($data_graf as $d): ?>
+            	
+                <tr>
+                    <td><?=$d['nama']?></td>
+                    <td><?=$d['nilaix']?></td>
+                    <td><?=$d['nilaiy']?></td>
+                </tr>
+                    
+            <?php endforeach; ?>
+        </tbody>
+        </table>
+        
+    </div>
+</section>
+
 <script>
 	$(document).ready(function() {
 		chart = new Highcharts.Chart({

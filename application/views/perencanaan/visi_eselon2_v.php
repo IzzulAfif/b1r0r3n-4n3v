@@ -52,8 +52,7 @@
         <thead>
         <tr>
         	<th>Unit Kerja</th>
-            <th>No</th>
-            <th>Kode Visi</th>
+            <th>Kode</th>
             <th>Visi</th>
             <th width="10%">Aksi</th>
         </tr>

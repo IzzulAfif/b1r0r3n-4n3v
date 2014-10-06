@@ -57,7 +57,6 @@ class Rencana_eselon2 extends CI_Controller {
 				$prevUk = $d->nama_e2;
 				$rs .= '<tr class="gradeX">
 					<td>'.$namaUK.'</td>
-					<td>'.$no.'</td>
 					<td>'.$d->kode_visi_e2.'</td>
 					<td>'.$d->visi_e2.'</td>
 					<td>

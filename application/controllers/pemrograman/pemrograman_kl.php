@@ -83,11 +83,14 @@ class Pemrograman_kl extends CI_Controller {
 		$data=$this->sasaran->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$no=1;
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$no.'</td>
 					<td>'.$d->kode_ss_kl.'</td>					
 					<td>'.$d->deskripsi.'</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
@@ -111,12 +114,15 @@ class Pemrograman_kl extends CI_Controller {
 		$data=$this->iku->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$no=1;
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
-					<td>'.$d->sastra_deskripsi.'</td>
+					<td>'.$no.'</td>
 					<td>'.$d->kode_iku_kl.'</td>
 					<td>'.$d->deskripsi.'</td>
+					<td>'.$d->satuan.'</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">

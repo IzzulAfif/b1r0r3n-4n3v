@@ -92,7 +92,6 @@ class Pemrograman_eselon2 extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$namaUK.'</td>
 					<td>'.$no.'</td>
-					<td>'.$d->sasprog_deskripsi.'</td>
 					<td>'.$d->kode_sk_e2.'</td>					
 					<td>'.$d->deskripsi.'</td>
 				</tr>';
@@ -131,9 +130,9 @@ class Pemrograman_eselon2 extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$namaUK.'</td>
 					<td>'.$no.'</td>
-					<td>'.$d->saskeg_deskripsi.'</td>
 					<td>'.$d->kode_ikk.'</td>
 					<td>'.$d->deskripsi.'</td>
+					<td>'.$d->satuan.'</td>
 				</tr>';
 				$no++;
 				endforeach; 

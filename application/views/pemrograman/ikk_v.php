@@ -56,9 +56,9 @@
         <tr>
         	<th>Unit Kerja</th>
             <th>No</th>
-            <th>Sasaran Kegiatan</th>
-            <th>Kode IKK</th>
-            <th>Deskripsi</th>
+            <th>Kode</th>
+            <th>Indikator Kerja Utama (IKU)</th>
+            <th>Satuan</th>
         </tr>
         </thead>
         <tbody>

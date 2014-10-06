@@ -47,7 +47,7 @@
         <thead>
         <tr>
           
-            <th width="10%">Kode Tujuan</th>
+            <th width="10%">Kode</th>
             <th>Tujuan</th>
             <th width="10%">Aksi</th>
         </tr>

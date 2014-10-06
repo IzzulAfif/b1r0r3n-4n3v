@@ -49,8 +49,7 @@
         <table  class="display table table-bordered table-striped" id="visi-tbl">
         <thead>
         <tr>
-            
-            <th width="10%">Kode Visi</th>
+            <th width="10%">Kode</th>
             <th>Visi</th>
             <th width="10%">Aksi</th>
         </tr>

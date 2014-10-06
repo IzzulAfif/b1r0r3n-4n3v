@@ -47,8 +47,8 @@
         <table  class="display table table-bordered table-striped" id="misi-tbl">
         <thead>
         <tr>
-        
-            <th width="10%">Kode Misi</th>
+        	<th width="3%">No</th>
+            <th width="10%">Kode</th>
             <th>Misi</th>
             <th width="10%">Aksi</th>
         </tr>
