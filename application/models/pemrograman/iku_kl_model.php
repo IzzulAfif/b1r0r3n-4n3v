@@ -35,7 +35,7 @@ class Iku_kl_model extends CI_Model
 			if (isset($params['kode_ss_kl'])) $where .= " and f.kode_ss_kl='".$params['kode_ss_kl']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql = "select distinct kode_iku_kl, deskripsi from anev_iku_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl ".$where;
+		$sql = "select distinct kode_iku_kl, deskripsi,satuan from anev_iku_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	

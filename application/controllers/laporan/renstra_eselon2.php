@@ -231,7 +231,9 @@ class Renstra_eselon2 extends CI_Controller {
 			$rs .= '
 			<thead><tr  align="center">						
 						<th style="vertical-align:middle;text-align:center" width="30%" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center" >No.</th>			
 						<th style="vertical-align:middle;text-align:center" width="70%" >Indikator</th>			
+						<th style="vertical-align:middle;text-align:center" >Satuan</th>			
 					</tr>';									
 			$rs .= 	'</thead>';	
 			$rs .= '<tbody>';		
@@ -252,7 +254,7 @@ class Renstra_eselon2 extends CI_Controller {
 			foreach($data_kegiatan as $ss){
 					if (($namaUnit!=$ss->nama_e2)&&($isGrouping)){
 						$namaUnit = $ss->nama_e2;
-						$rs .= '<td colspan="2"><b>'.$ss->nama_e2.'</b></td>';
+						$rs .= '<td colspan="4"><b>'.$ss->nama_e2.'</b></td>';
 						$rs .= '</tr>';
 						$rs .= '<tr>';
 					//	continue;
@@ -268,15 +270,15 @@ class Renstra_eselon2 extends CI_Controller {
 					$x=0;
 					if ($jml_data_iku>0){
 						foreach($ss->ikk as $iku){
-							if ($x==0){
-							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';							  
-							  $rs .= '</tr>';
-							}
-							else {								//
+							if ($x>0){
 								$rs .= '<tr>';
-								$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';								
-								$rs .= '</tr>';
+							  
 							}
+							$rs .= '<td    valign="top">'.($x+1).'.</td>';								
+							$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';								
+							$rs .= '<td    valign="top">'.$iku->satuan.'</td>';								
+							$rs .= '</tr>';
+							
 							$x++;
 						}						
 					}

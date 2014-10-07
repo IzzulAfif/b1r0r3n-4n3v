@@ -8,19 +8,19 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
+                         	<?=form_dropdown('tahun',$renstra,'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
-                        <label class="col-md-2 control-label">Kelompok Indikator</label>
+                        <label class="col-md-2 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
                         <div class="col-md-9">
                         	<?=form_dropdown('kelompok_indikator',$kelompok_indikator,'0','id="kl-kelompok_indikator" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
-                        <label class="col-md-2 control-label">Rentang Tahun</label>
+                        <label class="col-md-2 control-label">Rentang Tahun<span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <?=form_dropdown('tahun_awal',array("0"=>"Pilih Tahun"),'','id="kl-tahun_awal"')?>
                         </div>
@@ -28,7 +28,7 @@
                             <?=form_dropdown('tahun_akhir',array("0"=>"Pilih Tahun"),'','id="kl-tahun_akhir"')?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-5">
                          <?=form_dropdown('kodekl',array("-1"=>"Pilih Kementerian","022"=>"Kementerian Perhubungan"),'0','id="kl-kodekl" class="populate"')?>
@@ -97,11 +97,8 @@
 					
 				}
 			});
-			kl_load_data = function(){
-				var kl_tahun_awal = $('#kl-tahun_awal').val();
-				var kl_tahun_akhir = $('#kl-tahun_akhir').val();
-				var kl_kodekl = $('#kl-kodekl').val();
-				var kl_indikator = $('#kl-kelompok_indikator').val();
+			kl_load_data = function(kl_tahun_awal,kl_tahun_akhir,kl_kodekl,kl_indikator){
+				
 				$("#kl-data").load("<?=base_url()?>laporan/kelompok_indikator_kl/getindikator/"+kl_indikator+"/"+kl_tahun_awal+"/"+kl_tahun_akhir+"/"+kl_kodekl);
 				$("#kl-data").mCustomScrollbar({
 								axis:"x",
@@ -110,8 +107,31 @@
 			}
 			
 			 $("#profilekl-btn").click(function(){
-				kl_load_data();
-				$('#box-result').removeClass("hide");
+				
+				
+				
+				var kl_kodekl = $('#kl-kodekl').val();
+				var kl_indikator = $('#kl-kelompok_indikator').val();
+				if (kl_renstra.val()=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#kl-tahun').select2('open');
+				}
+				else if ((kl_indikator=="0")) {
+					alert("Indikator belum ditentukan");
+					$('#kl-kelompok_indikator').select2('open');
+				}
+				else if ((kl_tahun_awal.val()=="0")) {
+					alert("Rentang Tahun Awal belum ditentukan");
+					$('#kl-tahun_awal').select2('open');
+				}
+				else if ((kl_tahun_akhir.val()=="0")) {
+					alert("Rentang Tahun Akhir belum ditentukan");
+					$('#kl-tahun_akhir').select2('open');
+				}
+				else {
+					kl_load_data(kl_tahun_awal,kl_tahun_akhir,kl_kodekl,kl_indikator);
+					$('#box-result').removeClass("hide");
+				}
 			}); 
 			
 			

@@ -63,13 +63,14 @@
                         </div>
                     </div>
 					<div class="form-group">
-                    	<label class="col-md-2 text-primary">Detail Perencanaan</label>
+                    	<label class="col-md-2 text-primary">Target Capaian Kinerja</label>
                     	<div class="col-md-10" ><a href="#" id="e2-klikdisini">Klik Disini</a></div>
                     </div>
 					<div class="form-group">
-                    	<label class="col-md-2 text-primary">Kegiatan</label>
-                    	<div class="col-md-10" id="e2-kegiatan"></div>
+                    	<label class="col-md-2 text-primary">Kebutuhan Pendanaan</label>
+                    	<div class="col-md-10" ><a href="#" id="e2-dana_klik">Klik Disini</a></div>
                     </div>
+					
                 </form>
                 
             </div>
@@ -93,7 +94,7 @@
 				$("#e2-visi").load("<?=base_url()?>laporan/renstra_eselon2/get_visi/"+tahun+"/"+kodee1+"/"+kodee2);
 				$("#e2-misi").load("<?=base_url()?>laporan/renstra_eselon2/get_misi/"+tahun+"/"+kodee1+"/"+kodee2);
 				$("#e2-tujuan").load("<?=base_url()?>laporan/renstra_eselon2/get_tujuan/"+tahun+"/"+kodee1+"/"+kodee2);
-				$("#e2-kegiatan").load("<?=base_url()?>laporan/renstra_eselon2/get_kegiatan/"+tahun+"/"+kodee1+"/"+kodee2);
+				//$("#e2-kegiatan").load("<?=base_url()?>laporan/renstra_eselon2/get_kegiatan/"+tahun+"/"+kodee1+"/"+kodee2);
 				$("#e2-sasaran").load("<?=base_url()?>laporan/renstra_eselon2/get_sasaran/"+tahun+"/"+kodee1+"/"+kodee2);
 			}
 			

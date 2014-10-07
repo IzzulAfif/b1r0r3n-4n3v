@@ -13,6 +13,7 @@ class Profil_kl extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/kl_model','kl');
 		$this->load->model('/unit_kerja/fungsi_kl_model','fungsi_kl');
+		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 	}	
 	function index()
 	{
@@ -34,6 +35,7 @@ class Profil_kl extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data = null;
+		$data['renstra']	= $this->tahun_renstra->get_list(null);
 		echo $this->load->view('laporan/profil_kl_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -41,8 +43,8 @@ class Profil_kl extends CI_Controller {
 	}
 	
 	
-	function get_unit_kerja($kl){
-		$data = $this->eselon1->get_all(null);
+	function get_unit_kerja($tahun,$kl){
+		$data = $this->eselon1->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
 			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';

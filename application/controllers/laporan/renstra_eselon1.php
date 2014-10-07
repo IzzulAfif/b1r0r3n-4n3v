@@ -20,6 +20,7 @@ class Renstra_eselon1 extends CI_Controller {
 		$this->load->model('/pemrograman/iku_eselon1_model','iku_e1');
 		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 		$this->load->model('/laporan/renstra_e1_model','renstra_e1');
+		$this->load->model('/pemrograman/kegiatan_eselon2_model','kegiatan_e2');
 	}	
 	function index()
 	{
@@ -45,6 +46,12 @@ class Renstra_eselon1 extends CI_Controller {
 		
 		#load container for template view
 		//$this->load->view('template/container_popup',$template);
+	}
+	
+	function get_list_eselon1($tahun)
+	{
+		$params = array("tahun_renstra"=>$tahun);
+		echo json_encode($this->eselon1->get_list($params));
 	}
 	
 	function get_detail($tahun,$e1)
@@ -168,6 +175,48 @@ class Renstra_eselon1 extends CI_Controller {
 		echo $rs;
 	}
 	
+	function get_kegiatan($tahun,$e1,$e2="0"){
+		$params['tahun_renstra'] = $tahun;
+		//$params['kode_e1'] = $e1;
+		if ($e1!="0")
+			$params['kode_e1'] = $e1;
+		$isGrouping = ($e1=="0");
+		$namaUnit = '';
+		$i=0;
+		$data = $this->kegiatan_e2->get_renstra($params);
+		$rs = '';
+		$where='';
+		if (isset($data)){
+			if (($isGrouping)){			
+				foreach($data as $d){
+					if ($d->nama_e1!=$namaUnit){
+						if($i>0) $rs .= '</ol>';
+							
+						$namaUnit = $d->nama_e1;
+						$where = " and kode_e1='".$d->kode_e1."'";
+						//if (!isset($params['tahun']))
+							$where  .=  " and tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+						
+						//unset($params['tahun_renstra']);
+						$rs .='<b>'.$d->nama_e1.'</b>';
+						$rs .= '<ol '.(($this->kegiatan_e2->get_jml_kegiatan($where)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+					}
+					$rs .= '<li>'.$d->nama_kegiatan.'</li>';
+					$i++;
+				 }
+				 $rs .= '</ol>';
+			}
+			else {
+				$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+				foreach($data as $d){
+					$rs .= '<li>'.$d->nama_kegiatan.'</li>';
+				 }
+				 $rs .= '</ol>';
+			}
+		}
+		echo $rs;
+	}
+	
 	function get_program($tahun,$e1){
 		$params['tahun_renstra'] = $tahun;
 		if ($e1!="0")
@@ -223,8 +272,10 @@ class Renstra_eselon1 extends CI_Controller {
 			
 			$rs .= '
 			<thead><tr  align="center">						
-						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>			
+						<th style="vertical-align:middle;text-align:center" width="30%" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center"  >No.</th>			
+						<th style="vertical-align:middle;text-align:center" width="50%" >Indikator</th>			
+						<th style="vertical-align:middle;text-align:center"  >Satuan</th>			
 					</tr>';						
 			$rs .= 	'</thead>';	
 			$rs .= '<tbody>';		
@@ -244,7 +295,7 @@ class Renstra_eselon1 extends CI_Controller {
 			foreach($data_program as $ss){
 					if (($namaUnit!=$ss->nama_e1)&&($isGrouping)){
 						$namaUnit = $ss->nama_e1;
-						$rs .= '<td colspan="2"><b>'.$ss->nama_e1.'</b></td>';
+						$rs .= '<td colspan="4"><b>'.$ss->nama_e1.'</b></td>';
 						$rs .= '</tr>';
 						$rs .= '<tr>';
 						//continue;
@@ -260,15 +311,14 @@ class Renstra_eselon1 extends CI_Controller {
 					$x=0;
 					if ($jml_data_iku>0){
 						foreach($ss->iku as $iku){
-							if ($x==0){
-							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';							  
-							  $rs .= '</tr>';
-							}
-							else {								//
+							if ($x>0){
 								$rs .= '<tr>';
-								$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';								
-								$rs .= '</tr>';
+							 
 							}
+							$rs .= '<td   valign="top">'.($x+1).'.</td>';							  
+							$rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';							  
+							$rs .= '<td   valign="top">'.$iku->satuan.'</td>';							  
+							$rs .= '</tr>';
 							$x++;
 						}						
 					}

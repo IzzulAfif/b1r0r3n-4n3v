@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-4">
-                           <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kodee1" class="populate"')?>
+                           <?=form_dropdown('kode_e1',array("0"=>"Pilih Unit Kerja Eselon I"),'0','id="e1-kodee1" class="populate"')?>
                         </div>
                     </div>
                    	<div class="form-group">
@@ -51,18 +51,22 @@
                     	<div class="col-md-10" id="e1-tujuan"></div>
                     </div>
 					<div class="form-group">
-                    	<p class="text-primary col-md-12" ><b>Sasaran</b></p>
+                    	<p class="text-primary col-md-12" ><b>Sasaran Strategis dan IKU</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
                             <div id="e1-sasaran"  ></div>
                         </div>
                     </div>
 					<div class="form-group">
-                    	<label class="col-md-2 text-primary">Detail Perencanaan</label>
+                    	<label class="col-md-2 text-primary">Target Capaian Kinerja</label>
                     	<div class="col-md-10" ><a href="#" id="e1-klikdisini">Klik Disini</a></div>
                     </div>
 					<div class="form-group">
-                    	<label class="col-md-2 text-primary">Program</label>
-                    	<div class="col-md-10" id="e1-program"></div>
+                    	<label class="col-md-2 text-primary">Kegiatan</label>
+                    	<div class="col-md-10" id="e1-kegiatan"></div>
+                    </div>
+					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Kebutuhan Pendanaan</label>
+                    	<div class="col-md-10" ><a href="#" id="e1-dana_klik">Klik Disini</a></div>
                     </div>
                 </form>
                 
@@ -87,9 +91,24 @@
 				$("#e1-visi").load("<?=base_url()?>laporan/renstra_eselon1/get_visi/"+tahun+"/"+kodee1);
 				$("#e1-misi").load("<?=base_url()?>laporan/renstra_eselon1/get_misi/"+tahun+"/"+kodee1);
 				$("#e1-tujuan").load("<?=base_url()?>laporan/renstra_eselon1/get_tujuan/"+tahun+"/"+kodee1);
-				$("#e1-program").load("<?=base_url()?>laporan/renstra_eselon1/get_program/"+tahun+"/"+kodee1);
+				$("#e1-kegiatan").load("<?=base_url()?>laporan/renstra_eselon1/get_kegiatan/"+tahun+"/"+kodee1);
 				$("#e1-sasaran").load("<?=base_url()?>laporan/renstra_eselon1/get_sasaran/"+tahun+"/"+kodee1);
 			}
+			
+			 $("#e1-tahun").change(function(){
+				 $.ajax({
+					url:"<?php echo site_url(); ?>laporan/renstra_eselon1/get_list_eselon1/"+this.value,
+					success:function(result) {
+						$('#e1-kodee1').empty();
+						//alert('kadieu');
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#e1-kodee1').append(new Option(result[k],k));
+						}
+						$("#e1-kodee1").select2("val", "0");
+					}
+				});
+			});
 			
 			$("#renstrae1-btn").click(function(){
 			    var tahun = $('#e1-tahun').val();

@@ -62,7 +62,7 @@ class Renstra_kl extends CI_Controller {
 	}
 	
 	
-	function get_visi($tahun){
+	function get_visi($tahun,$ajaxCall=true){
 		$data = $this->visi_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
@@ -72,10 +72,11 @@ class Renstra_kl extends CI_Controller {
 			 }
 			 $rs .= '</ol>';
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_misi($tahun){
+	function get_misi($tahun,$ajaxCall=true){
 		$data = $this->misi_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
@@ -85,10 +86,11 @@ class Renstra_kl extends CI_Controller {
 			 }
 			 $rs .= '</ol>';
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_tujuan($tahun){
+	function get_tujuan($tahun,$ajaxCall=true){
 		$data = $this->tujuan_kl->get_all(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
@@ -98,10 +100,11 @@ class Renstra_kl extends CI_Controller {
 			 }
 			 $rs .= '</ol>';
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_program($tahun){
+	function get_program($tahun,$ajaxCall=true){
 		$data = $this->program_e1->get_renstra(array("tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
@@ -111,11 +114,12 @@ class Renstra_kl extends CI_Controller {
 			 }
 			 $rs .= '</ol>';
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
 	
-	function get_sasaran($tahun,$kl){
+	function get_sasaran($tahun,$kl,$ajaxCall=true){
 		$dataAll = array();
 		
 		$rs = '';
@@ -126,14 +130,17 @@ class Renstra_kl extends CI_Controller {
 			$rs .= '
 			<thead><tr  align="center">
 						
-						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>
+						<th style="vertical-align:middle;text-align:center" width="30%" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center"  >No.</th>
+						<th style="vertical-align:middle;text-align:center" width="50%" >Indikator Kinerja Utama (IKU)</th>
+						<th style="vertical-align:middle;text-align:center"  >Satuan</th>
 			
 					</tr>';
 			
 						
 			$rs .= 	'</thead>';	
 			$rs .= '<tbody>';		
+			$rs .= '<tr>';		
 			$i=0;
 			foreach($data_strategis as $ss){					
 					$data_iku = $this->iku_kl->get_renstra(array("tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
@@ -160,17 +167,19 @@ class Renstra_kl extends CI_Controller {
 					if ($jml_data_iku>0){
 						foreach($ss->iku as $iku){
 							if ($x==0){
-							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-							  
-							  $rs .= '</tr>';
+							
 							}
 							else {
 								//
 								$rs .= '<tr>';
-								$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
 								
-								$rs .= '</tr>';
 							}
+							
+							  $rs .= '<td   >'.($x+1).'.</td>';
+							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
+							  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+							  
+							  $rs .= '</tr>';
 							$x++;
 						}
 						
@@ -190,116 +199,11 @@ class Renstra_kl extends CI_Controller {
 			 
 			 
 		
-		
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_sasaran_old($tahun,$kl){
-	//ga jadi gara" tble anev_sasaran_kl di DROP
-		$dataAll = array();
-		$data = $this->sasaran_kl->get_all(array("tahun_renstra"=>$tahun));
-		$rs = '';
-		if (isset($data)){
-			$rs = '<table class="display table table-bordered table-striped">';
-			
-			$rs .= '
-			<thead><tr  align="center">
-						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran</th>
-						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>
-			
-					</tr>';
-			
-						
-			$rs .= 	'</thead>';	
-			$rs .= '<tbody>';		
-			$i=0;
-			 
-			foreach($data as $d){
-				
-				$data_strategis = $this->sasaran_strategis->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl));
-				$jml_data_strategis = count($data_strategis);
-				$data[$i]->strategis=$data_strategis;
-				//$data[$i]->rowspan = sizeof($data_strategis);
-				if ($jml_data_strategis>0){				
-					//$rs .="<ol>";
-					$j=0;
-					foreach($data_strategis as $ss){					
-						$data_iku = $this->iku_kl->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
-						$jml_data_iku = count($data_iku);
-						$data[$i]->rowspan += sizeof($data_iku);
-						$data[$i]->strategis[$j]->iku = $data_iku;					
-						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
-						$j++;
-					}			
-				}
-				
-				$i++;
-			 }
-			 
-			 $i=0;
-			 foreach($data as $d){
-				
-				$jml_data_strategis = sizeof($data[$i]->strategis);
-				$colspan_sasaran = 
-				$rs .= '<tr>';
-				$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';
-			
-					
-				if ($jml_data_strategis>0){
-					
-					
-					$j=0;
-					
-					foreach($data[$i]->strategis as $ss){
-						if ($j==0)
-							$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
-						else {
-							
-							$rs .= '<tr>';
-							$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
-						}
-						
-						$jml_data_iku = count($data[$i]->strategis[$j]->iku);
-						$x=0;
-						if ($jml_data_iku>0){
-							foreach($data[$i]->strategis[$j]->iku as $iku){
-								if ($x==0){
-								  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-								  
-								  $rs .= '</tr>';
-								}
-								else {
-									//
-									$rs .= '<tr>';
-									$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
-									
-									$rs .= '</tr>';
-								}
-								$x++;
-							}
-							
-						}
-						else {
-						
-						}
-						
-						$j++;
-					}
-				
-				}
-				else { 
-					
-				}
-				
-				$i++;
-			 }
-			 $rs .= '</tbody>';		
-			 $rs .= '</table>';
-		}
-		
-		echo $rs;
-	}
+	
 	
 	function get_rencana_detail($tahun,$kl){
 		$dataAll = array();
@@ -442,7 +346,130 @@ class Renstra_kl extends CI_Controller {
 		return $rs;
 	}
 	
+	function print_pdf($tahun)
+   {
+	   $this->load->library('pdf');
+	   $data['renstra']		= $tahun;
+	   $data['kementerian'] = $this->mgeneral->getValue("nama_kl",array('tahun_renstra'=>$tahun),"anev_kl");
+	   $data['tujuan']		= $this->get_tujuan($tahun,false);
+	   $data['misi']		= $this->get_misi($tahun,false);
+	   $data['visi']		= $this->get_visi($tahun,false);
+	   $data['program']		= $this->get_program($tahun,false);
+	   $data['sasaran']		= $this->get_sasaran($tahun,null,false);
+	   
+	   $html = $this->load->view('laporan/print/pdf_renstra_kl',$data,true);
+	   
+	   echo $this->pdf->cetak($html,"renstra_kementerian.pdf");
+   }
 	
+	
+	
+	function get_sasaran_old($tahun,$kl){
+	//ga jadi gara" tble anev_sasaran_kl di DROP
+		$dataAll = array();
+		$data = $this->sasaran_kl->get_all(array("tahun_renstra"=>$tahun));
+		$rs = '';
+		if (isset($data)){
+			$rs = '<table class="display table table-bordered table-striped">';
+			
+			$rs .= '
+			<thead><tr  align="center">
+						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran</th>
+						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>
+			
+					</tr>';
+			
+						
+			$rs .= 	'</thead>';	
+			$rs .= '<tbody>';		
+			$i=0;
+			 
+			foreach($data as $d){
+				
+				$data_strategis = $this->sasaran_strategis->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl));
+				$jml_data_strategis = count($data_strategis);
+				$data[$i]->strategis=$data_strategis;
+				//$data[$i]->rowspan = sizeof($data_strategis);
+				if ($jml_data_strategis>0){				
+					//$rs .="<ol>";
+					$j=0;
+					foreach($data_strategis as $ss){					
+						$data_iku = $this->iku_kl->get_renstra(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
+						$jml_data_iku = count($data_iku);
+						$data[$i]->rowspan += sizeof($data_iku);
+						$data[$i]->strategis[$j]->iku = $data_iku;					
+						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
+						$j++;
+					}			
+				}
+				
+				$i++;
+			 }
+			 
+			 $i=0;
+			 foreach($data as $d){
+				
+				$jml_data_strategis = sizeof($data[$i]->strategis);
+				$colspan_sasaran = 
+				$rs .= '<tr>';
+				$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';
+			
+					
+				if ($jml_data_strategis>0){
+					
+					
+					$j=0;
+					
+					foreach($data[$i]->strategis as $ss){
+						if ($j==0)
+							$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+						else {
+							
+							$rs .= '<tr>';
+							$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
+						}
+						
+						$jml_data_iku = count($data[$i]->strategis[$j]->iku);
+						$x=0;
+						if ($jml_data_iku>0){
+							foreach($data[$i]->strategis[$j]->iku as $iku){
+								if ($x==0){
+								  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
+								  
+								  $rs .= '</tr>';
+								}
+								else {
+									//
+									$rs .= '<tr>';
+									$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
+									
+									$rs .= '</tr>';
+								}
+								$x++;
+							}
+							
+						}
+						else {
+						
+						}
+						
+						$j++;
+					}
+				
+				}
+				else { 
+					
+				}
+				
+				$i++;
+			 }
+			 $rs .= '</tbody>';		
+			 $rs .= '</table>';
+		}
+		
+		echo $rs;
+	}
 	function get_rencana_detail_OLD($tahun,$kl){
 	//ga jadi gara" anev_sasaran_kl di DROP
 		$dataAll = array();

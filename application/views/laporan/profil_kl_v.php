@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         	<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kl-tahun" class="populate"')?>
+                         	<?=form_dropdown('tahun',$renstra,'0','id="kl-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group hide">
@@ -41,7 +41,7 @@
 				
 				<form class="form-horizontal grid-form" role="form">                	
                     <div class="form-group">
-                    	<label class="col-md-2 text-primary">Tugas Pokok</label>
+                    	<label class="col-md-2 text-primary">Tugas </label>
                     	<div class="col-md-10" id="kl-tugas"></div>
                     </div>
                     <div class="form-group">
@@ -76,17 +76,24 @@
 		$(document).ready(function() {
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 	
-			load_profile = function(){
-				var tahun = $('#kl-tahun').val();
-				var kodekl = $('#kl-kodekl').val();
-				$("#kl-unitkerja").load("<?=base_url()?>laporan/profil_kl/get_unit_kerja/"+kodekl);
+			load_profile = function(tahun,kodekl){
+				
+				$("#kl-unitkerja").load("<?=base_url()?>laporan/profil_kl/get_unit_kerja/"+tahun+"/"+kodekl);
 				$("#kl-fungsi").load("<?=base_url()?>laporan/profil_kl/get_fungsi/"+tahun+"/"+kodekl);
 				$("#kl-tugas").load("<?=base_url()?>laporan/profil_kl/get_tugas/"+tahun+"/"+kodekl);
 			}
 			
 			 $("#profilekl-btn").click(function(){
-				load_profile();
-				$('#box-result').removeClass("hide");
+				var tahun = $('#kl-tahun').val();
+				var kodekl = $('#kl-kodekl').val();
+				
+				if (tahun=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#kl-tahun').select2('open');
+				}else {
+					load_profile(tahun,kodekl);
+					$('#box-result').removeClass("hide");
+				}
 			}); 
 			
 			

@@ -51,22 +51,29 @@
                     	<div class="col-md-10" id="kl-tujuan"></div>
                     </div>
 					<div class="form-group">
-                    	<p class="text-primary col-md-12" ><b>Sasaran</b></p>
+                    	<p class="text-primary col-md-12" ><b>Sasaran Strategis dan IKU</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
                             <div id="kl-sasaran"  ></div>
                         </div>
                     </div>
 					<div class="form-group">
-                    	<label class="col-md-2 text-primary">Detail Perencanaan</label>
+                    	<label class="col-md-2 text-primary">Target Capaian Kinerja</label>
                     	<div class="col-md-10" ><a href="#" id="kl-klikdisini">Klik Disini</a></div>
                     </div>
 					<div class="form-group">
                     	<label class="col-md-2 text-primary">Program</label>
                     	<div class="col-md-10" id="kl-program"></div>
                     </div>
+						<div class="form-group">
+                    	<label class="col-md-2 text-primary">Kebutuhan Pendanaan</label>
+                    	<div class="col-md-10" ><a href="#" id="kl-dana_klik">Klik Disini</a></div>
+                    </div>
                 </form>
 				
-               
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_renstrakl"><i class="fa fa-download"></i> Download PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_renstrakl"><i class="fa fa-download"></i> Download Excel</button>
+                </div>
                 
             </div>
         </section>
@@ -110,5 +117,11 @@
 				var kodekl = $('#kl-kodekl').val();
 				window.open("<?=base_url()?>laporan/renstra_kl/get_detail/"+tahun+"/"+kodekl);
 			}); 
+			
+			$('#cetakpdf_renstrakl').click(function(){
+				var tahun = $('#kl-tahun').val();
+				var kodekl = $('#kl-kodekl').val();
+				window.open('<?=base_url()?>laporan/renstra_kl/print_pdf/'+tahun,'_blank');			
+			});
 		});
 	</script>

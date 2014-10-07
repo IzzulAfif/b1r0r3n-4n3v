@@ -13,6 +13,7 @@ class Kelompok_indikator_eselon2 extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 		$this->load->model('/admin/kel_indikator_model','kel_indikator');
+		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 		$this->load->model('/laporan/kelompok_indikator_e2_model','indikator');
 		
 	}	
@@ -36,6 +37,7 @@ class Kelompok_indikator_eselon2 extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['eselon1'] = $this->eselon1->get_list(array("check_locking"=>true));
 		$data['kelompok_indikator'] = $this->kel_indikator->get_list(null);
+		$data['renstra']	= $this->tahun_renstra->get_list(null);
 		echo $this->load->view('laporan/kelompok_indikator_eselon2_v',$data,true); #load konten template file
 		
 		#load container for template view

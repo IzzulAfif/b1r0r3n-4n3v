@@ -34,6 +34,7 @@ class Eselon1_model extends CI_Model
 				// eselon1 tertentu saja jika setting FILTER_E1_LOCKING bernilai true (lihat constants.php)
 				if (($params['check_locking']==true)&&(FILTER_E1_LOCKING==true)) $where .= " and kode_e1 in (".FILTER_E1_LIST.")";
 			}
+			if (isset($params['tahun_renstra'])) $where .= " and tahun_renstra='".$params['tahun_renstra']."'";
 		}
 		$sql = "select distinct kode_e1, nama_e1 from anev_eselon1 ".$where;
 		

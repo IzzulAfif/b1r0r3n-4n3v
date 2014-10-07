@@ -13,6 +13,7 @@ class Kelompok_indikator_kl extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/kl_model','kl');
 		$this->load->model('/admin/kel_indikator_model','kel_indikator');
+		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 		$this->load->model('/laporan/kelompok_indikator_kl_model','indikator');
 	}	
 	function index()
@@ -36,6 +37,7 @@ class Kelompok_indikator_kl extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data = null;
 		$data['kelompok_indikator'] = $this->kel_indikator->get_list(null);
+		$data['renstra']	= $this->tahun_renstra->get_list(null);
 		echo $this->load->view('laporan/kelompok_indikator_kl_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -46,7 +48,7 @@ class Kelompok_indikator_kl extends CI_Controller {
 		$params['tahun_awal'] = $tahun_awal;
 		$params['tahun_akhir'] = $tahun_akhir;
 		$params['kode_ss_kl'] = $kel_indikator;
-		$params['kode_kl'] = $kode_kl;
+	//	$params['kode_kl'] = $kode_kl;
 		$data= $this->indikator->get_data($params);
 		$showTahun = ($tahun_akhir-$tahun_awal)>0;
 		

@@ -21,13 +21,13 @@
 
 							<div class="form-horizontal">
 								<div class="form-group">
-									<label class="col-sm-2 control-label">Periode Renstra</label>
-									<div class="col-sm-2">									
+									<label class="col-sm-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
+									<div class="col-sm-3">									
 										<?=form_dropdown('periode_renstra',$renstra,'0','id="periode_renstra" class="populate"')?>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label">Rentang Tahun</label>
+									<label class="col-sm-2 control-label">Rentang Tahun<span class="text-danger">*</span></label>
 									<div class="col-sm-2">									
 										<?=form_dropdown('rentang_awal',array(),'','id="rentang_awal"  class="populate"')?>
 										
@@ -38,7 +38,7 @@
 										<?=form_dropdown('rentang_akhir',array(),'','id="rentang_akhir"  class="populate"')?>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group hide">
 									<label class="col-sm-2 control-label">Kementerian</label>
 									<div class="col-sm-3">									
 										<?=form_dropdown('kl',array("0"=>"Pilih Kementrian","022"=>"Kementerian Perhubungan"),'0','id="kodekl" class="populate"')?>

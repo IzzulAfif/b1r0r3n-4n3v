@@ -8,19 +8,19 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="populate"')?>
+                         		<?=form_dropdown('tahun',$renstra,'0','id="e1-tahun" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
-                        <label class="col-md-2 control-label">Kelompok Indikator</label>
+                        <label class="col-md-2 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
                         <div class="col-md-9">
                         	<?=form_dropdown('kelompok_indikator',$kelompok_indikator,'0','id="e1-kelompok_indikator" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
-                        <label class="col-md-2 control-label">Rentang Tahun</label>
+                        <label class="col-md-2 control-label">Rentang Tahun<span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <?=form_dropdown('tahun_awal',array("0"=>"Pilih Tahun"),'','id="e1-tahun_awal"')?>
                         </div>
@@ -101,12 +101,9 @@
 				}
 			});
 			
-			load_data_e1 = function(){
-				var e1_tahun_awal = $('#e1-tahun_awal').val();
-				var e1_tahun_akhir = $('#e1-tahun_akhir').val();
-				var e1_kodee1 = $('#e1-kode_e1').val();
-				var e1_indikator = $('#e1-kelompok_indikator').val();
-				$("#e1-data").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/getindikator/"+e1_indikator+"/"+e1_tahun_awal+"/"+e1_tahun_akhir+"/"+e1_kodee1);
+			load_data_e1 = function(e1_kodee1,e1_indikator){
+				
+				$("#e1-data").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/getindikator/"+e1_indikator+"/"+e1_tahun_awal.val()+"/"+e1_tahun_akhir.val()+"/"+e1_kodee1);
 				$("#e1-data").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
@@ -115,8 +112,29 @@
 			}
 			
 			 $("#profilee1-btn").click(function(){
-				load_data_e1();
-				$('#e1-box-result').removeClass("hide");
+			
+				var e1_kodee1 = $('#e1-kode_e1').val();
+				var e1_indikator = $('#e1-kelompok_indikator').val();
+				if (e1_renstra.val()=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#e1-tahun').select2('open');
+				}
+				else if ((e1_indikator =="0")) {
+					alert("Indikator belum ditentukan");
+					$('#e1-kelompok_indikator').select2('open');
+				}
+				else if ((e1_tahun_awal.val()=="0")) {
+					alert("Rentang Tahun Awal belum ditentukan");
+					$('#e1-tahun_awal').select2('open');
+				}
+				else if ((e1_tahun_akhir.val()=="0")) {
+					alert("Rentang Tahun Akhir belum ditentukan");
+					$('#e1-tahun_akhir').select2('open');
+				}
+				else {
+					load_data_e1(e1_kodee1,e1_indikator);
+					$('#e1-box-result').removeClass("hide");
+				}
 			}); 
 			
 			

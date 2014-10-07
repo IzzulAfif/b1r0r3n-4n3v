@@ -8,19 +8,19 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e2-tahun" class="populate"')?>
+                         		<?=form_dropdown('tahun',$renstra,'0','id="e2-tahun" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
-                        <label class="col-md-2 control-label">Kelompok Indikator</label>
+                        <label class="col-md-2 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
                         <div class="col-md-9">
                         	<?=form_dropdown('kelompok_indikator',$kelompok_indikator,'0','id="e2-kelompok_indikator" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
-                        <label class="col-md-2 control-label">Rentang Tahun</label>
+                        <label class="col-md-2 control-label">Rentang Tahun<span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <?=form_dropdown('tahun_awal',array("0"=>"Pilih Tahun"),'','id="e2-tahun_awal"')?>
                         </div>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-4">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="e2-kode_e1" class="populate"')?>
                         </div>
@@ -116,11 +116,8 @@ $(document).ready(function() {
 			}
 		});
 		
-	load_data_e2 = function(){
-		var e2_tahun_awal = $('#e2-tahun_awal').val();
-		var e2_tahun_akhir = $('#e2-tahun_akhir').val();
+	load_data_e2 = function(e2_tahun_awal,e2_tahun_akhir,e2_indikator){
 		
-		var e2_indikator = $('#e2-kelompok_indikator').val();
 		$("#e2-data").load("<?=base_url()?>laporan/kelompok_indikator_eselon2/getindikator/"+e2_indikator+"/"+e2_tahun_awal+"/"+e2_tahun_akhir+"/"+e2_kodee1.val()+"/"+e2_kodee2.val());
 		$("#e2-data").mCustomScrollbar({
 						axis:"x",
@@ -146,8 +143,33 @@ $(document).ready(function() {
 	});
 
 	 $("#profilee2-btn").click(function(){
-		load_data_e2();
-		$('#e2-box-result').removeClass("hide");
+		var e2_tahun_awal = $('#e2-tahun_awal').val();
+		var e2_tahun_akhir = $('#e2-tahun_akhir').val();		
+		var e2_indikator = $('#e2-kelompok_indikator').val();
+		if (renstra.val()=="0") {
+			alert("Periode Renstra belum ditentukan");
+			$('#e2-tahun').select2('open');
+		}
+		else if ((e2_indikator=="0")) {
+			alert("Indikator belum ditentukan");
+			$('#e2-kelompok_indikator').select2('open');
+		}
+		else if ((e2_tahun_awal=="0")) {
+			alert("Rentang Tahun Awal belum ditentukan");
+			$('#e2-tahun_awal').select2('open');
+		}
+		else if ((e2_tahun_akhir=="0")) {
+			alert("Rentang Tahun Akhir belum ditentukan");
+			$('#e2-tahun_akhir').select2('open');
+		}
+		else if ((e2_kodee1.val()=="0")) {
+			alert("Unit Kerja Eselon I belum ditentukan");
+			$('#e2-kode_e1').select2('open');
+		}
+		else {
+			load_data_e2(e2_tahun_awal,e2_tahun_akhir,e2_indikator);
+			$('#e2-box-result').removeClass("hide");
+		}
 	}); 
 });
 </script>

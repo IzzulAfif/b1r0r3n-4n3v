@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="e1-tahun" class="populate"')?>
+                         		<?=form_dropdown('tahun',$renstra,'0','id="e1-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="e1-kode_e1" class="populate"')?>
+                       <?=form_dropdown('kode_e1',array("0"=>"Pilih Unit Kerja Eselon I"),'0','id="e1-kode_e1" class="populate"')?>
                         </div>
                     </div>
                     
@@ -76,17 +76,42 @@
 		$(document).ready(function() {
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 
-			load_profile_e1 = function(){
-				var tahun = $('#e1-tahun').val();
-				var kodee1 = $('#e1-kode_e1').val();
-				$("#e1-unitkerja").load("<?=base_url()?>laporan/profil_eselon1/get_unit_kerja/"+kodee1);
+			load_profile_e1 = function(tahun,kodee1){
+				
+				$("#e1-unitkerja").load("<?=base_url()?>laporan/profil_eselon1/get_unit_kerja/"+tahun+"/"+kodee1);
 				$("#e1-fungsi").load("<?=base_url()?>laporan/profil_eselon1/get_fungsi/"+tahun+"/"+kodee1);
 				$("#e1-tugas").load("<?=base_url()?>laporan/profil_eselon1/get_tugas/"+tahun+"/"+kodee1);
 			}
 			
+			 $("#e1-tahun").change(function(){
+				 $.ajax({
+					url:"<?php echo site_url(); ?>laporan/profil_eselon1/get_list_eselon1/"+this.value,
+					success:function(result) {
+						$('#e1-kode_e1').empty();
+						//alert('kadieu');
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#e1-kode_e1').append(new Option(result[k],k));
+						}
+						$("#e1-kode_e1").select2("val", "0");
+					}
+				});
+			});
+			
 			 $("#profilee1-btn").click(function(){
-				load_profile_e1();
-				$('#box-resulte1').removeClass("hide");
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kode_e1').val();
+				if (tahun=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#e1-tahun').select2('open');
+				}
+				else if (kodee1=="0") {
+					alert("Unit Kerja Eselon I belum ditentukan");
+					$('#e1-kode_e1').select2('open');
+				}else {
+					load_profile_e1(tahun,kodee1);
+					$('#box-resulte1').removeClass("hide");
+				}
 			}); 
 			
 			$('#cetakpdf_profilee1').click(function(){
