@@ -23,7 +23,7 @@ class Kel_indikator_model extends CI_Model
 			if (isset($params['kode_ss_kl'])) $where .= " and kode_ss_kl='".$params['kode_ss_kl']."'";
 		}
 		$sql = "select distinct kode_ss_kl, deskripsi from anev_kel_indikator ".$where;
-		$sql .= " order by deskripsi";
+		$sql .= " order by kode_ss_kl";
 		
 		$result = $this->mgeneral->run_sql($sql);
 		

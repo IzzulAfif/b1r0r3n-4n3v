@@ -53,6 +53,66 @@ class Kelompok_indikator_kl extends CI_Controller {
 		$showTahun = ($tahun_akhir-$tahun_awal)>0;
 		
 		$rs = '';$i=1;
+		
+		$head = '<table class="display table table-bordered table-striped" width="100%">';
+		
+		$head .= '
+		<thead><tr  align="center">
+					<th style="vertical-align:middle;text-align:center">No.</th>'.						
+					'<th style="vertical-align:middle;text-align:center" >Kode IKU KL</th>
+					<th style="vertical-align:middle;text-align:center" >Deskripsi</th>
+					<th style="vertical-align:middle;text-align:center" >Satuan</th>					
+				</tr>';
+					$rs .= 	'</tr></thead>';	
+		$head .= '<tbody>';	
+		
+		$foot = '</tbody>';		
+		$foot .= '</table>';
+		
+		//$rs .= 	'<tr>';
+		$tahun = "";
+		if (isset($data)){
+			foreach($data as $d): 
+				if ($tahun!=$d->tahun){
+					$tahun=$d->tahun;
+					if ($i>1) $rs .=$foot;
+					$i=1;
+					$rs .= "Tahun : ".$tahun;
+					$rs .= $head;
+				}
+				$rs .= '<tr class="gradeX">
+					<td>'.($i++).'</td>'
+				
+					
+					.'<td>'.$d->kode_iku_kl.'</td>					
+					<td>'.$d->indikator_kl.'</td>					
+					<td>'.$d->satuan.'</td>					
+					
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>'				
+					.'<td>&nbsp;</td>				
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		
+		$rs .= $foot;
+		echo $rs;
+	}
+	
+	function getindikator_old($kel_indikator,$tahun_awal,$tahun_akhir,$kode_kl){
+		$params['tahun_awal'] = $tahun_awal;
+		$params['tahun_akhir'] = $tahun_akhir;
+		$params['kode_ss_kl'] = $kel_indikator;
+	//	$params['kode_kl'] = $kode_kl;
+		$data= $this->indikator->get_data($params);
+		$showTahun = ($tahun_akhir-$tahun_awal)>0;
+		
+		$rs = '';$i=1;
+		
 		$rs = '<table class="display table table-bordered table-striped" width="100%">';
 		
 		$rs .= '

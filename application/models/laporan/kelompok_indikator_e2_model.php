@@ -25,7 +25,7 @@ class Kelompok_indikator_e2_model extends CI_Model
 			if (isset($params['tahun_awal'])) $where .= " and d.tahun between ".$params['tahun_awal']."  and  ".$params['tahun_akhir'];
 		}
 		$sql = "SELECT DISTINCT a.no_kel AS nomor, a.deskripsi AS kel_indikator, d.tahun, d.kode_e2 AS kode_e2, d.kode_ikk AS kode_ikk, d.deskripsi AS indikator_e2, d.satuan AS satuan,f.nama_e2 FROM anev_kel_indikator a LEFT JOIN anev_iku_kl b ON a.kode_ss_kl = b.kode_ss_kl JOIN anev_iku_eselon1 c on b.kode_iku_kl = c.kode_iku_kl and b.tahun=c.tahun JOIN anev_ikk d on c.kode_iku_e1=d.kode_iku_e1 and c.tahun=d.tahun LEFT JOIN anev_eselon2 f ON f.kode_e2=d.kode_e2 and d.tahun between left(f.tahun_renstra,4) and right(f.tahun_renstra,4) ".$where;
-		$sql .= " ORDER BY d.tahun, kode_e2, kode_ikk ";
+		$sql .= " ORDER BY  kode_e2,d.tahun, kode_ikk ";
 		return $this->mgeneral->run_sql($sql);
 	
 	}

@@ -68,6 +68,71 @@ class Kelompok_indikator_eselon1 extends CI_Controller {
 		$showUnitKerja = !isset($params['kode_e1']);
 		
 		$rs = '';$i=1;
+		$head = '<table class="display table table-bordered table-striped" width="100%">';
+		
+		$head .= '
+		<thead><tr  align="center">
+					<th style="vertical-align:middle;text-align:center">No.</th>'.					
+					
+					'<th style="vertical-align:middle;text-align:center" >Kode IKU Eselon I</th>
+					<th style="vertical-align:middle;text-align:center" >Deskripsi</th>
+					<th style="vertical-align:middle;text-align:center" >Satuan</th>					
+				</tr>';
+					$rs .= 	'</tr></thead>';	
+		$head .= '<tbody>';
+
+		$foot = '</tbody>';		
+		$foot .= '</table>';	
+		//$rs .= 	'<tr>';
+		$tahun ="";
+		$unitkerja = "";
+		if (isset($data)){
+			foreach($data as $d): 
+				if ($unitkerja!=$d->nama_e1){
+					$unitkerja=$d->nama_e1;
+					
+				}
+				if ($tahun!=$d->tahun){
+					$tahun=$d->tahun;
+					if ($i>1) $rs .=$foot;
+					$i=1;
+					$rs .= "Unit : ".$unitkerja;
+					$rs .= "<br>Tahun : ".$tahun;
+					$rs .= $head;
+				}
+				$rs .= '<tr class="gradeX">
+					<td>'.($i++).'</td>'					
+					.'<td>'.$d->kode_iku_e1.'</td>					
+					<td>'.$d->indikator_e1.'</td>					
+					<td>'.$d->satuan.'</td>					
+					
+				</tr>';
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>'
+					
+					.'<td>&nbsp;</td>				
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+		}
+		$rs .= $foot;
+		
+		echo $rs;
+	}
+	
+	function getindikator_old($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1){
+		$params['tahun_awal'] = $tahun_awal;
+		$params['tahun_akhir'] = $tahun_akhir;
+		$params['kode_ss_kl'] = $kel_indikator;
+		if (($kode_e1!="-1")&&($kode_e1!="0"))
+			$params['kode_e1'] = $kode_e1;
+		$data= $this->indikator->get_data($params);
+		$showTahun = ($tahun_akhir-$tahun_awal)>0;
+		$showUnitKerja = !isset($params['kode_e1']);
+		
+		$rs = '';$i=1;
 		$rs = '<table class="display table table-bordered table-striped" width="100%">';
 		
 		$rs .= '

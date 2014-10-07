@@ -13,6 +13,9 @@ class Kelompok_indikator extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/unit_kerja/kl_model','kl');
 		$this->load->model('/admin/kel_indikator_model','kel_indikator');
+		$this->load->model('/laporan/kelompok_indikator_kl_model','kel_indikator_kl');
+		$this->load->model('/laporan/kelompok_indikator_e1_model','kel_indikator_e1');
+		$this->load->model('/laporan/kelompok_indikator_e2_model','kel_indikator_e2');
 		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 	}	
 	function index()
@@ -23,6 +26,7 @@ class Kelompok_indikator extends CI_Controller {
 		$template			= $this->template->load($setting); #load static template file		
 		$data = null;
 		$data['renstra']	= $this->tahun_renstra->get_list(null);
+		$data['kelompok_indikator'] = $this->kel_indikator->get_list(null);
 		$template['konten']	= $this->load->view('laporan/kelompok_indikator_v',$data,true); #load konten template file
 		
 		#load container for template view
