@@ -28,6 +28,21 @@ class Program_eselon1_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
+	function get_pendanaan($params)
+	{
+		$where = ' where 1=1 ';
+		$where2 = ' where kode_program = a.kode_program ';
+		
+		if (isset($params)){
+			if (isset($params['kode_e1'])) $where .= " and a.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['tahun'])) $where .= "and a.tahun = ".$params['tahun'];
+			if (isset($params['tahun_renstra'])) {$tahun = explode("-",$params['tahun_renstra']); $where .= "and a.tahun between '".$tahun[0]."' and '".$tahun[1]."'"; $where2 .= "and a.tahun between '".$tahun[0]."' and '".$tahun[1]."'";}
+		}
+		$sql = "SELECT a.*,(SELECT sum(pagu) as total  FROM anev_program_eselon1 ".$where2.") as total FROM anev_program_eselon1 a ".$where." group by kode_program";
+		//echo $sql;
+		return $this->mgeneral->run_sql($sql);
+	}
+	
 	function get_list($params) {
 		$where = ' where 1=1 ';
 		if (isset($params)){

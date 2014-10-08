@@ -15,6 +15,7 @@ class Pemrograman_kl extends CI_Controller {
 		
 		$this->load->model('/pemrograman/program_eselon1_model','program_e1');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sasaran');
+		$this->load->model('/pemrograman/target_capaian_model','target');
 		$this->load->model('/pemrograman/iku_kl_model','iku');
 		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	/*	$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
@@ -132,15 +133,83 @@ class Pemrograman_kl extends CI_Controller {
 		echo $rs;
 	}
 	
+	function loadtarget()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['renstra']	= $this->setting_th->get_list();
+		echo $this->load->view('pemrograman/target_capaian_kl_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_target($tahun,$sasaran){
+		
+		$params['tahun_renstra'] = 	$tahun;
+		if($sasaran!="0")$params['sasaran'] = $sasaran;
+		
+		$data=$this->target->get_all($params); 
+		$rs = '';
+		if (isset($data)){
+			$no=1;
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td width="3%">'.$no.'</td>
+					<td>'.$d->kode_iku_kl.'</td>					
+					<td width="20%">'.$d->deskripsi.'</td>
+					<td>'.$d->satuan.'</td>					
+					<td width="10%">'.$d->target_thn1.'</td>					
+					<td width="10%">'.$d->target_thn2.'</td>					
+					<td width="10%">'.$d->target_thn3.'</td>					
+					<td width="10%">'.$d->target_thn4.'</td>					
+					<td width="10%">'.$d->target_thn5.'</td>
+				</tr>';
+				$no++;
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td colspan="10" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+			</tr>';
+		}
+		echo $rs;
+	}
+	
 	function loadpendanaan()
 	{
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->sasaran->get_all(null);
-		echo $this->load->view('pemrograman/pendanaan_kl_v',$data,true); #load konten template file		
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}
 	
+	function get_body_pendanaan($tahun,$kode){
+		$params['tahun_renstra'] = 	$tahun;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
+		$data=$this->program_e1->get_pendanaan($params); 
+		$rs = '';
+		if (isset($data)){
+			$no=1;
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$no.'</td>
+					<td>'.$d->kode_program.'</td>
+					<td>'.$d->nama_program.'</td>
+					<td align="right">'.number_format($d->total,0,',','.').'</td>
+				</tr>';
+				$no++;
+				endforeach; 
+				/*<td>
+						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="program_delete(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-times"></i></a>
+					</td>*/
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+			</tr>';
+		}
+		echo $rs;
+	}
 	
 	function get_unit_kerja($kl){
 		$data = $this->eselon1->get_all(array("kode_kl"=>$kl));

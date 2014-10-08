@@ -54,8 +54,8 @@
 		$(document).ready(function() {
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});			
 			$("#program-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadprogram");
-			$("#sastra-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadsastra");
-			$("#iku-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadiku");
+			$("#target-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadtarget");
+			$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadpendanaan");
 			//$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadpendanaan");
 			
 		});
