@@ -11,6 +11,7 @@ class Kelompok_indikator extends CI_Controller {
 	{	
 		parent::__construct();
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
+		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 		$this->load->model('/unit_kerja/kl_model','kl');
 		$this->load->model('/admin/kel_indikator_model','kel_indikator');
 		$this->load->model('/laporan/kelompok_indikator_kl_model','kel_indikator_kl');
@@ -47,11 +48,23 @@ class Kelompok_indikator extends CI_Controller {
 		echo $rs;
 	}
 	
+	function get_list_eselon1($tahun)	{
+		$params = array("tahun_renstra"=>$tahun,"isNotMandatory"=>true);
+		echo json_encode($this->eselon1->get_list($params));
+	}
+		
+	function get_list_eselon2($tahun,$kode_e1)	{
+		$params = array("tahun_renstra"=>$tahun,"kode_e1"=>$kode_e1,"isNotMandatory"=>true);
+		echo json_encode($this->eselon2->get_list($params));
+	}
 	
 	function getindikator($kel_indikator,$tahun_awal,$tahun_akhir){
 		$params['tahun_awal'] = $tahun_awal;
 		$params['tahun_akhir'] = $tahun_akhir;
 		$params['kode_ss_kl'] = $kel_indikator;
+		$showKL = $this->input->post('chkKl');
+		$showE1 = $this->input->post('chkE1');
+		$showE2 = $this->input->post('chkE2');
 	//	$params['kode_kl'] = $kode_kl;
 		$data= $this->indikator->get_data($params);
 		$showTahun = ($tahun_akhir-$tahun_awal)>0;

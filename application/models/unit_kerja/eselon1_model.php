@@ -40,8 +40,9 @@ class Eselon1_model extends CI_Model
 		
 		
 		$result = $this->mgeneral->run_sql($sql);
-		
 		$list[0] = 'Pilih Unit Kerja Eselon I';
+		if (isset($params['isNotMandatory'])) $list[0] = 'Semua Unit Kerja Eselon I';
+		
 		if (isset($result))
 			foreach ($result as $i) {
 				$list[$i->kode_e1] = $i->nama_e1;

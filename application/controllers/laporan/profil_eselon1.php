@@ -47,6 +47,8 @@ class Profil_eselon1 extends CI_Controller {
 		echo json_encode($this->eselon1->get_list($params));
 	}
 	
+
+	
 	function get_unit_kerja($tahun,$e1){
 		$data = $this->eselon2->get_all(array("tahun_renstra"=>$tahun,"kode_e1"=>$e1));
 		$rs = '';

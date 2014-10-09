@@ -45,12 +45,12 @@ class Kelompok_indikator_kl extends CI_Controller {
 	}
 	
 	function getindikator($kel_indikator,$tahun_awal,$tahun_akhir,$kode_kl){
-		$params['tahun_awal'] = $tahun_awal;
-		$params['tahun_akhir'] = $tahun_akhir;
+		$params['tahun'] = $tahun_awal;
+		//$params['tahun_akhir'] = $tahun_akhir;
 		$params['kode_ss_kl'] = $kel_indikator;
 	//	$params['kode_kl'] = $kode_kl;
 		$data= $this->indikator->get_data($params);
-		$showTahun = ($tahun_akhir-$tahun_awal)>0;
+		$showTahun = false;//($tahun_akhir-$tahun_awal)>0;
 		
 		$rs = '';$i=1;
 		
@@ -58,10 +58,10 @@ class Kelompok_indikator_kl extends CI_Controller {
 		
 		$head .= '
 		<thead><tr  align="center">
-					<th style="vertical-align:middle;text-align:center">No.</th>'.						
-					'<th style="vertical-align:middle;text-align:center" >Kode IKU KL</th>
+					<th style="vertical-align:middle;text-align:center;width:10px">No.</th>'.						
+					'<th style="vertical-align:middle;text-align:center;width:40px" >Kode</th>
 					<th style="vertical-align:middle;text-align:center" >Deskripsi</th>
-					<th style="vertical-align:middle;text-align:center" >Satuan</th>					
+					<th style="vertical-align:middle;text-align:center;width:40px" >Satuan</th>					
 				</tr>';
 					$rs .= 	'</tr></thead>';	
 		$head .= '<tbody>';	
@@ -77,7 +77,7 @@ class Kelompok_indikator_kl extends CI_Controller {
 					$tahun=$d->tahun;
 					if ($i>1) $rs .=$foot;
 					$i=1;
-					$rs .= "Tahun : ".$tahun;
+					$rs .= "<p class='text-info'><b>Tahun : ".$tahun.'</b></p>';
 					$rs .= $head;
 				}
 				$rs .= '<tr class="gradeX">
