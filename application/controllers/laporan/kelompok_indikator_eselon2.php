@@ -89,7 +89,7 @@ class Kelompok_indikator_eselon2 extends CI_Controller {
 		<thead><tr  align="center">
 					<th style="vertical-align:middle;text-align:center;width:10px">No.</th>'.						
 					'<th style="vertical-align:middle;text-align:center;width:60px" >Kode</th>
-					<th style="vertical-align:middle;text-align:center" >Deskripsi</th>
+					<th style="vertical-align:middle;text-align:center" >Indikator Kinerja Kegiatan (IKK)</th>
 					<th style="vertical-align:middle;text-align:center;width:40px" >Satuan</th>	
 				</tr>';
 					$head .= 	'</tr></thead>';	
