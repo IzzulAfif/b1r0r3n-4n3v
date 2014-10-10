@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-8">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="id-kode_e1" class="populate" style="width:100%"')?>
+                       <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="id-kode_e1" class="populate" style="width:100%"')?>
                         </div>
                     </div> 
 					<div class="form-group">
@@ -45,20 +45,8 @@
         </div>
         
 	    <br />
-        <div class="adv-table">
-        <table  class="display table table-bordered table-striped" id="id-tbl">
-        <thead>
-        <tr>
-            <th>Kode Unit Kerja</th>
-            <th>Nama Unit Kerja</th>
-            <th>Singkatan</th>
-            <th>Tugas Pokok</th>
-            <th width="10%">Aksi</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        </table>
+        <div class="adv-table" id="div-id-e1">
+        
         </div>
 	</div>
 
@@ -94,15 +82,32 @@
 		$("#id-btn").click(function(){
 			tahun = $('#id-tahun').val();
 			kode = $('#id-kode_e1').val();
-			$.ajax({
-                    url:"<?php echo site_url(); ?>unit_kerja/eselon1/get_body_identitas/"+tahun+"/"+kode,
-                        success:function(result) {
-                            table_identitas = $('#id-tbl tbody');
-                            table_identitas.empty().html(result);        
-                            $('#konten_es1').removeClass("hide");
-                        }
-                });  
+			if (tahun=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#id-tahun').select2('open');
+					return;
+			}
+			$("#div-id-e1").load("<?php echo site_url(); ?>unit_kerja/eselon1/get_body_identitas/"+tahun+"/"+kode);
+			$('#konten_es1').removeClass("hide");
+			
 		});
+		
+		
+		 $("#id-tahun").change(function(){
+				 $.ajax({
+					url:"<?php echo site_url(); ?>unit_kerja/eselon1/get_list_eselon1/"+this.value,
+					success:function(result) {
+						$('#id-kode_e1').empty();
+						//alert('kadieu');
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#id-kode_e1').append(new Option(result[k],k));
+						}
+						$("#id-kode_e1").select2("val", "0");
+					}
+				});
+			});
+			
 		
 		 identitasAdd =function(){
 			$("#identitas_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Identitas dan Tugas Eselon I');

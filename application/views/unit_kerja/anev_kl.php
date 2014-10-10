@@ -52,9 +52,9 @@
             <thead>
             <tr>
                 <th>Kode</th>
-                <th>Nama</th>
-                <th>Singkatan</th>
-                <th>Tugas Pokok</th>
+                <th>Nama Kementerian</th>
+                
+                <th>Tugas </th>
                 <th width="10%">Aksi</th>
             </tr>
             </thead>
@@ -95,6 +95,11 @@
 		$("#id-btn").click(function(){
 			tahun = $('#id-tahun').val();
 			//kl = $('#id-kodekl').val();
+			if (tahun=="") {
+					alert("Periode Renstra belum ditentukan");
+					$('#id-tahun').select2('open');
+					return;
+			}
 			$.ajax({
                     url:"<?php echo site_url(); ?>unit_kerja/anev_kl/get_body_identitas/"+tahun,
                         success:function(result) {

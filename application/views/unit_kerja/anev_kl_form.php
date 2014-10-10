@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Tugas Pokok</label>
+                <label class="col-sm-4 control-label">Tugas</label>
                 <div class="col-sm-8">
                     <textarea name="tugas" class="form-control"><?=$data[0]->tugas_kl?></textarea>
                 </div>

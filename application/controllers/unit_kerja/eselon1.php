@@ -42,31 +42,55 @@ class Eselon1 extends CI_Controller {
 		echo $this->load->view('unit_kerja/eselon1_v',$data,true); #load konten template file		
 	}
 	
+	function get_list_eselon1($tahun)
+	{
+		$params = array("tahun_renstra"=>$tahun,"isNotMandatory"=>true);
+		echo json_encode($this->eselon1->get_list($params));
+	}
+	
 	function get_body_identitas($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
 		if ($kode!="0")
 			$params['kode_e1'] = 	$kode;
 		$data=$this->eselon1->get_all($params); 
-		$rs = '';
+		
+		$rs = '<table  class="display table table-bordered table-striped" id="id-tbl">
+        <thead>
+        <tr>'.
+            (count($data)>1?"<th>No</th>":"")
+            .'
+            <th>Kode</th>
+            <th>Nama Unit Kerja</th>
+            
+            <th>Tugas</th>
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>';
+        $foot ='</tbody>
+        </table>';
 		if (isset($data)){
+			$no=1; 
 			foreach($data as $d): 
-				$rs .= '<tr class="gradeX">
-					<td>'.$d->kode_e1.'</td>
+				$rs .= '<tr class="gradeX">'.
+					(count($data)>1?'<td>'.$no.'</td>':"")
+					.'<td>'.$d->kode_e1.'</td>
 					<td>'.$d->nama_e1.'</td>					
-					<td>'.$d->singkatan.'</td>					
+								
 					<td>'.$d->tugas_e1.'</td>					
 					<td>
 						<a href="#identitasModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="identitasEdit(\''.$d->tahun_renstra.'\',\''.$d->kode_e1.'\');"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="identitasDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_e1.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
-		echo $rs;
+		echo $rs.$foot;
 	}
 	
 	function loadfungsi()
@@ -86,6 +110,22 @@ class Eselon1 extends CI_Controller {
 		$params['kode_e1'] = $kode2;
 		$data=$this->fungsi->get_all($params);
 		$rs = '';
+		$rs = '<table  class="display table table-bordered table-striped" id="fungsi-tbl">
+        <thead>
+        <tr>
+        	<th>Unit Kerja</th>'.
+            (count($data)>1?"<th>No</th>":"")
+            .'<th>Kode </th>
+            <th>Fungsi</th>
+            
+            <th width="10%">Aksi</th>
+        </tr>
+        </thead>
+        <tbody>';
+        
+        $foot ='</tbody>
+        </table>';
+		
 		if (isset($data)){
 			$no=1; $prevUK="";
 			foreach($data as $d): 
@@ -99,9 +139,9 @@ class Eselon1 extends CI_Controller {
 				$prevUK = $d->nama_e1;
 				
 				$rs .= '<tr class="gradeX">
-					<td>'.$namaUK.'</td>
-					<td>'.$no.'</td>
-					<td>'.$d->kode_fungsi_e1.'</td>
+					<td>'.$namaUK.'</td>'.
+					(count($data)>1?'<td>'.$no.'</td>':"")
+					.'<td>'.$d->kode_fungsi_e1.'</td>
 					<td>'.$d->fungsi_e1.'</td>					
 					<td>
 						<a href="#fungsiModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="fungsiEdit(\''.$d->tahun_renstra.'\',\''.$d->kode_fungsi_e1.'\');"><i class="fa fa-pencil"></i></a>
@@ -115,7 +155,7 @@ class Eselon1 extends CI_Controller {
 				<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
-		echo $rs;
+		echo $rs.$foot;
 	}
 	
 	function initFormData($tipe){

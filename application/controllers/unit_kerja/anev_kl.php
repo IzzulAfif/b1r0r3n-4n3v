@@ -51,7 +51,7 @@ class Anev_kl extends CI_Controller {
 				$rs .= '<tr class="gradeX">
 					<td>'.$d->kode_kl.'</td>
 					<td>'.$d->nama_kl.'</td>
-					<td>'.$d->singkatan.'</td>
+					
 					<td>'.$d->tugas_kl.'</td>
 					<td>
 						<a href="#fModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="kl_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_kl.'\');"><i class="fa fa-pencil"></i></a>
@@ -61,7 +61,7 @@ class Anev_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-						<td colspan="5" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+						<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 					</tr>';
 		}
 		echo $rs;
@@ -83,9 +83,11 @@ class Anev_kl extends CI_Controller {
 		$params['kode_kl'] = 	$kl;
 		$data=$this->fungsi_kl->get_all($params); 
 		$rs = '';
+		$i=1;
 		if (isset($data)){
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.($i++).'</td>
 					<td>'.$d->kode_fungsi_kl.'</td>
 					<td>'.$d->fungsi_kl.'</td>					
 					<td>
@@ -96,7 +98,7 @@ class Anev_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-						<td colspan="3" align="center"><i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+						<td colspan="4" align="center"><i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 					</tr>';
 		}
 		echo $rs;

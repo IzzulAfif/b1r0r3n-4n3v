@@ -51,6 +51,7 @@
         <table  class="display table table-bordered table-striped" id="fungsi-tbl">
         <thead>
         <tr>
+            <th>No.</th>
             <th>Kode</th>
             <th>Fungsi</th>
             <th width="10%">Aksi</th>
@@ -93,6 +94,11 @@
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		$("#fungsi-btn").click(function(){
 			tahun = $('#fungsi-tahun').val();
+			if (tahun=="") {
+					alert("Periode Renstra belum ditentukan");
+					$('#fungsi-tahun').select2('open');
+					return;
+			}
 			kl = $('#fungsi-kodekl').val();
 			$.ajax({
                     url:"<?php echo site_url(); ?>unit_kerja/anev_kl/get_body_fungsi/"+tahun+"/"+kl,
