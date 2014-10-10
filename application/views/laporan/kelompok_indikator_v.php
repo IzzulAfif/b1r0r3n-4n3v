@@ -110,13 +110,13 @@
                         </div>
                     </div>
 					<div class="form-group hide" id="divE1">
-                    	<p class="text-primary col-md-12" ><b>IKU Eselon I</b></p>
+                    	<p class="text-primary col-md-12" id="e1-title"><b>IKU Eselon I</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
                             <div id="e1-indikator"  ></div>
                         </div>
                     </div>
 					<div class="form-group hide" id="divE2">
-                    	<p class="text-primary col-md-12" ><b>IKU Eselon II</b></p>
+                    	<p class="text-primary col-md-12" id="e2-title"><b>IKU Eselon II</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
                             <div id="e2-indikator"  ></div>
                         </div>
@@ -208,6 +208,11 @@
 				}
 						
 				if ($("#chkE1").is(':checked')){			
+					if ($("#chkE2").is(':checked'))
+						$("#e1-title").html("<b>IKU Eselon I dan IKK Eselon II</b>");
+					else
+						$("#e1-title").html("<b>IKU Eselon I</b>");
+					
 					$("#e1-indikator").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/getindikator/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+($("#chkE2").is(':checked')?"/"+$("#kode_e2").val():""));
 					$("#e1-indikator").mCustomScrollbar({
 								axis:"x",
@@ -229,6 +234,8 @@
 				}else{
 					$('#divE2').addClass("hide");
 				}			
+				
+				
 							
 			}
 			

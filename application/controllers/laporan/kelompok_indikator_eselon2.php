@@ -108,7 +108,7 @@ class Kelompok_indikator_eselon2 extends CI_Controller {
 					if ($i>1) $rs .=$foot;
 					$i=1;
 					$rs .= "<p class='text-info'><b>Unit Kerja Eselon II : ".$unitkerja.'</b></p>';
-					$rs .= "<p class='text-info'><b>Tahun : ".$d->tahun.'</b></p>';
+				//	$rs .= "<p class='text-info'><b>Tahun : ".$d->tahun.'</b></p>';
 					$rs .= $head;
 				}
 				if ($tahun!=$d->tahun){
