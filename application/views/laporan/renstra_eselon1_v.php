@@ -14,9 +14,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Nama Unit Kerja</label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
                         <div class="col-md-4">
-                           <?=form_dropdown('kode_e1',array("0"=>"Pilih Unit Kerja Eselon I"),'0','id="e1-kodee1" class="populate"')?>
+                           <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="e1-kodee1" class="populate"')?>
                         </div>
                     </div>
                    	<div class="form-group">

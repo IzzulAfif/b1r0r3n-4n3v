@@ -152,7 +152,7 @@ class Renstra_kl extends CI_Controller {
 			}			
 			$i=0;
 			
-				
+			$no=1;	
 			foreach($data_strategis as $ss){
 					if ($i==0)
 						$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
@@ -175,12 +175,13 @@ class Renstra_kl extends CI_Controller {
 								
 							}
 							
-							  $rs .= '<td   >'.($x+1).'.</td>';
+							  $rs .= '<td   >'.($no).'.</td>';
 							  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
 							  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
 							  
 							  $rs .= '</tr>';
 							$x++;
+							$no++;
 						}
 						
 					}
@@ -219,24 +220,26 @@ class Renstra_kl extends CI_Controller {
 			$rs .= '
 			<thead><tr  align="center">
 						
-						<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="40%" rowspan="2">Indikator</th>
+						<th style="vertical-align:middle;text-align:center" width="30%" rowspan="2">Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center" rowspan="2" >No.</th>
+						<th style="vertical-align:middle;text-align:center" width="50%" rowspan="2">Indikator Kinerja Utama (IKU)</th>
 						<th style="vertical-align:middle;text-align:center" width="100px" rowspan="2">Satuan</th>
-						<th style="vertical-align:middle;text-align:center" width="100px" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
+						<th style="vertical-align:middle;text-align:center"  colspan="'.($rangetahun+1).'">Target Pencapaian</th>
 					</tr>';
 			$rs .= 	'<tr>';
 				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
 						$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
 						
 			$rs .= 	'		</tr></thead>';	
-			$rs .= '<tbody>';		
+			$rs .= '<tbody>';
+						
 			$i=0;
 			 
 			
 				
 				$data_strategis = $this->sasaran_strategis->get_renstra(array("tahun_renstra"=>$tahun));
 				$jml_data_strategis = count($data_strategis);
-				
+				$no=1;
 				//$data[$i]->rowspan = sizeof($data_strategis);
 				if (isset($data_strategis)){				
 					//$rs .="<ol>";
@@ -248,22 +251,27 @@ class Renstra_kl extends CI_Controller {
 						if (isset($data_iku)) {
 							$x=0;
 							foreach($data_iku as $iku){
-								if ($kode_iku != $iku->kode_iku_kl){
+								//if ($kode_iku != $iku->kode_iku_kl){
 									$kode_iku = $iku->kode_iku_kl;
 									$data_strategis[$j]->iku[$x]->deskripsi = $iku->deskripsi;					
 									$data_strategis[$j]->iku[$x]->satuan = $iku->satuan;					
-									$data_strategis[$j]->iku[$x]->target[$iku->tahun] = $iku->target;	
-								
-									//$data_strategis[$j]->rowspan = sizeof($data_iku);
+								//	$data_strategis[$j]->iku[$x]->target[$iku->tahun] = $iku->target;	
+									$data_strategis[$j]->iku[$x]->target1 = $iku->target_thn1;	
+									$data_strategis[$j]->iku[$x]->target2 = $iku->target_thn2;	
+									$data_strategis[$j]->iku[$x]->target3 = $iku->target_thn3;	
+									$data_strategis[$j]->iku[$x]->target4 = $iku->target_thn4;	
+									$data_strategis[$j]->iku[$x]->target5 = $iku->target_thn5;	
+										
+						
 									$data_strategis[$j]->rowspan++;
 									$x++;
-								}
+							/*	}
 								else {
-									$data_strategis[$j]->iku[$x-1]->target[$iku->tahun] = $iku->target;	
-								}
+									//$data_strategis[$j]->iku[$x-1]->target[$iku->tahun] = $iku->target;	
+								}*/
 							}
 						}
-						//$jml_data_iku = count($data_iku);
+						
 						
 						$j++;
 					}			
@@ -272,7 +280,7 @@ class Renstra_kl extends CI_Controller {
 			 $i=0;
 			
 				$jml_data_strategis = sizeof($data_strategis);
-				$colspan_sasaran = 
+			
 				$rs .= '<tr>';
 				
 					
@@ -301,27 +309,31 @@ class Renstra_kl extends CI_Controller {
 						if ($jml_data_iku>0){
 							foreach($data_strategis[$j]->iku as $iku){
 								if ($x==0){
-								  $rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-								  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
-								  for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){	
-										
-										$realisasi = isset($iku->target[$colTahun])?$iku->target[$colTahun]:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
-								  }		
-								  $rs .= '</tr>';
+								  
 								}
 								else {
-									//
 									$rs .= '<tr>';
-									$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
-									$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
-									for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){	
-										$realisasi = isset($iku->target[$colTahun])?$iku->target[$colTahun]:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
-									}
-									$rs .= '</tr>';
 								}
+								$rs .= '<td   valign="top">'.$no.'</td>';
+								$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';
+								$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+								//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){	
+									//$realisasi = isset($iku->target[$colTahun])?$iku->target[$colTahun]:'-';
+									$realisasi = isset($iku->target1)?$iku->target1:'-';
+									$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+									$realisasi = isset($iku->target2)?$iku->target2:'-';
+									$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+									$realisasi = isset($iku->target3)?$iku->target3:'-';
+									$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+									$realisasi = isset($iku->target4)?$iku->target4:'-';
+									$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+									$realisasi = isset($iku->target5)?$iku->target5:'-';
+									$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+									
+								//}
+								$rs .= '</tr>';
 								$x++;
+								$no++;
 							}
 							
 						}
@@ -376,7 +388,7 @@ class Renstra_kl extends CI_Controller {
 			<thead><tr  align="center">
 						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran</th>
 						<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator</th>
+						<th style="vertical-align:middle;text-align:center" width="40%" >Indikator Kinerja Utama (IKU)</th>
 			
 					</tr>';
 			

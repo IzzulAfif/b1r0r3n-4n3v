@@ -22,7 +22,7 @@
 					<div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-4">
-                           <?=form_dropdown('kode_e2',array("0"=>"Pilih Unit Kerja Eselon II"),'','id="e2-kode_e2" class="populate"')?>
+                           <?=form_dropdown('kode_e2',array("0"=>"Semua Unit Kerja Eselon II"),'','id="e2-kode_e2" class="populate"')?>
                         </div>
                     </div>
                    	<div class="form-group">
@@ -57,7 +57,7 @@
                     	<div class="col-md-10" id="e2-tujuan"></div>
                     </div>
 					<div class="form-group">
-                    	<p class="text-primary col-md-12" ><b>Sasaran</b></p>
+                    	<p class="text-primary col-md-12" ><b>Sasaran Strategis & IKK</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
                             <div id="e2-sasaran"  ></div>
                         </div>
@@ -118,19 +118,31 @@
 			});
 			
 			
-			 $("#e2-kode_e2").change(function(){
-				
+			 $("#e2-tahun").change(function(){
+				$.ajax({
+					url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon1/"+this.value,
+					success:function(result) {
+						
+						$('#e2-kode_e1').empty();
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#e2-kode_e1').append(new Option(result[k],k));
+						}
+						$("#e2-kode_e1").select2("val", "0");
+					}
+				});
 			}); 
 			$("#e2-kode_e1").change(function(){
 				$.ajax({
 					url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon2/"+this.value,
 					success:function(result) {
-						kode_e2 = $('#e2-kode_e2');
-						kode_e2.empty();
+						
+						$('#e2-kode_e2').empty();
 						result = JSON.parse(result);
 						for (k in result) {
-							kode_e2.append(new Option(result[k],k));
+							$('#e2-kode_e2').append(new Option(result[k],k));
 						}
+						$("#e2-kode_e2").select2("val", "0");
 					}
 				});
 			});
@@ -138,7 +150,7 @@
 			$("#e2-klikdisini").click(function(){
 				var tahun = $('#e2-tahun').val();
 				var kodee2 = $('#e2-kode_e2').val();
-				window.open("<?=base_url()?>laporan/renstra_eselon2/get_detail/"+tahun+"/"+kodee2);
+				window.open("<?=base_url()?>laporan/renstra_eselon2/get_detail/"+tahun+"/"+$('#e2-kode_e1').val()+"/"+kodee2);
 			}); 
 
 		});

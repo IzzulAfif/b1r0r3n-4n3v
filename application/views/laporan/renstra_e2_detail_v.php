@@ -8,7 +8,8 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <b>Detail Perencanaan</b>
+                        <b>TARGET CAPAIAN KINERJA <?=$unitkerja?></b><br>
+						TAHUN <?=$periode?>
                         <span class="pull-right">
                             
                          </span> 

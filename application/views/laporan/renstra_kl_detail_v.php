@@ -8,9 +8,9 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        <b>Detail Perencanaan</b><br>
-						Kementerian Perhubungan<br>
-						Periode <?=$periode?>
+                        <b>TARGET CAPAIAN KINERJA KEMENTERIAN PERHUBUNGAN</b><br>
+						
+						TAHUN <?=$periode?>
                         <span class="pull-right">
                             
                          </span> 
