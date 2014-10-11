@@ -118,6 +118,12 @@
 				window.open("<?=base_url()?>laporan/renstra_kl/get_detail/"+tahun+"/"+kodekl);
 			}); 
 			
+			$("#kl-dana_klik").click(function(){
+				var tahun = $('#kl-tahun').val();
+				var kodekl = $('#kl-kodekl').val();
+				window.open("<?=base_url()?>laporan/renstra_eselon1/get_pendanaan/"+tahun+"/0/kl");
+			}); 
+			
 			$('#cetakpdf_renstrakl').click(function(){
 				var tahun = $('#kl-tahun').val();
 				var kodekl = $('#kl-kodekl').val();

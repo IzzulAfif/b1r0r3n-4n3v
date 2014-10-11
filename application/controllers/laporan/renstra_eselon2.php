@@ -20,6 +20,7 @@ class Renstra_eselon2 extends CI_Controller {
 		$this->load->model('/pemrograman/sasaran_kegiatan_model','sasaran_kegiatan');
 		$this->load->model('/pemrograman/ikk_model','ikk');
 		$this->load->model('/laporan/renstra_e2_model','renstra_e2');
+		$this->load->model('/pemrograman/pendanaan_kegiatan_model','pendanaan');
 	}	
 	function index()
 	{
@@ -76,7 +77,24 @@ class Renstra_eselon2 extends CI_Controller {
 		#load container for template view
 		$this->load->view('template/container_popup',$template);
 	}
+	
+function get_pendanaan($tahun,$e1,$e2)
+	{
+		#settingan untuk static template file
+		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['data'] = $this->get_pendanaan_detail($tahun,$e1,$e2);
+		$data['periode'] = $tahun;
+		if ($e2=="0")
+			$data['unitkerja'] = 'UNIT KERJA ESELON II';
+		else
+			$data['unitkerja'] =$data['unitkerja'] = $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2),"anev_eselon2");
+		$template['konten']	= $this->load->view('laporan/renstra_e2_pendanaan_v',$data,true); #load konten template file
 		
+		#load container for template view
+		$this->load->view('template/container_popup',$template);
+	}	
 	function get_visi($tahun,$e1,$e2){
 		$params['tahun_renstra'] = $tahun;
 		$params['kode_e1'] = $e1;
@@ -270,6 +288,7 @@ class Renstra_eselon2 extends CI_Controller {
 						$rs .= '<td colspan="4"><b>'.$ss->nama_e2.'</b></td>';
 						$rs .= '</tr>';
 						$rs .= '<tr>';
+						$no=1;
 					//	continue;
 					}
 					if ($i==0)
@@ -460,5 +479,98 @@ class Renstra_eselon2 extends CI_Controller {
 		// var_dump($data[0]);die;
 		return $rs;
 	}
+	
+	function get_pendanaan_detail($tahun,$e1,$e2){
+		$dataAll = array();
+		$params['tahun_renstra']=$tahun;
+		$params['kode_e1'] = $e1;
+		if ($e2!="0")
+			$params['kode_e2'] = $e2;
+		$isGrouping = ($e2=="0");
+		$rs = '';
+		
+			$rs = '<table class="display table table-bordered table-striped">';
+			$arrTahun = explode("-",$tahun);
+			
+			$rangetahun = $arrTahun[1]-$arrTahun[0];
+			
+		//	$rs = '<table class="table" border="1">';
+			$rs .= '
+			<thead><tr  align="center">
+						
+						<th style="vertical-align:middle;text-align:center"  rowspan="2">No.</th>
+						<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Nama Kegiatan</th>
+						<th style="vertical-align:middle;text-align:center"   colspan="'.($rangetahun+1).'">Kebutuhan Pendanaan</th>
+					</tr>';
+			$rs .= 	'<tr>';
+				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
+						$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
+						
+			$rs .= 	'		</tr></thead>';	
+			$rs .= '<tbody>';		
+			$i=0;
+			 
+			
+				
+				$data_program = $this->pendanaan->get_renstra($params);
+				$jml_data_program = count($data_program);
+				$unitKerja ="";
+				
+				
+			 $i=0;
+			 $no=1;
+			
+				$jml_data_program = sizeof($data_program);
+				
+				
+				if (isset($data_program)){		
+					
+					foreach($data_program as $ss){
+						if (($unitKerja!=$ss->nama_e2)&&($isGrouping)){
+							$unitKerja = $ss->nama_e2;
+							$rs .= '<tr>';
+							$rs .= '<td colspan="'.($rangetahun+3).'"><b>'.$ss->nama_e2.'</b></td>';
+							$rs .= '</tr>';
+							
+							$no=1;
+							//continue;
+						}
+						
+						$rs .= '<tr>';
+						
+						$rs .= '<td    valign="top">'.$no.'</td>';
+						$rs .= '<td    valign="top">'.$ss->nama_kegiatan.'</td>';
+						
+						
+							$realisasi = isset($ss->target_thn1)?$ss->target_thn1:'-';
+							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$realisasi = isset($ss->target_thn2)?$ss->target_thn2:'-';
+							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$realisasi = isset($ss->target_thn3)?$ss->target_thn3:'-';
+							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$realisasi = isset($ss->target_thn4)?$ss->target_thn4:'-';
+							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$realisasi = isset($ss->target_thn5)?$ss->target_thn5:'-';
+							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+						
+						$rs .= '</tr>';
 
+						$no++;
+					
+					}
+				
+				}
+				else { 
+					//$rs .= '<td></td>';
+					//$rs .= '<td></td>';
+				}
+				//$rs .= '</tr>';
+				
+			 $rs .= '</tbody>';		
+			 $rs .= '</table>';
+		
+		// var_dump($data[0]);die;
+		return $rs;
+	}
 }

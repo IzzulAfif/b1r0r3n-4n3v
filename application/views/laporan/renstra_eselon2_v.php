@@ -151,6 +151,12 @@
 				var tahun = $('#e2-tahun').val();
 				var kodee2 = $('#e2-kode_e2').val();
 				window.open("<?=base_url()?>laporan/renstra_eselon2/get_detail/"+tahun+"/"+$('#e2-kode_e1').val()+"/"+kodee2);
+			});
+
+			$("#e2-dana_klik").click(function(){
+				var tahun = $('#e2-tahun').val();
+				var kodee2 = $('#e2-kode_e2').val();
+				window.open("<?=base_url()?>laporan/renstra_eselon2/get_pendanaan/"+tahun+"/"+$('#e2-kode_e1').val()+"/"+kodee2);
 			}); 
 
 		});

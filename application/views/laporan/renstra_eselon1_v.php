@@ -132,5 +132,11 @@
 				var kodee1 = $('#e1-kodee1').val();
 				window.open("<?=base_url()?>laporan/renstra_eselon1/get_detail/"+tahun+"/"+kodee1);
 			}); 
+			
+			$("#e1-dana_klik").click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open("<?=base_url()?>laporan/renstra_eselon1/get_pendanaan/"+tahun+"/"+kodee1);
+			}); 
 		});
 	</script>
