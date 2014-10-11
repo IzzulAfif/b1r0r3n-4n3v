@@ -14,15 +14,15 @@
                         </div>
                     </div>
                    <div class="form-group">
-                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-8">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="fungsi-kode_e1" class="populate" style="width:100%"')?>
+                       <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="fungsi-kode_e1" class="populate" style="width:100%"')?>
                         </div>
                     </div> 
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-8">
-                       <?=form_dropdown('kode_e2',array("0"=>"Pilih Unit Kerja Eselon II"),'0','id="fungsi-kode_e2" class="populate"  style="width:100%"')?>
+                       <?=form_dropdown('kode_e2',array("0"=>"Semua Unit Kerja Eselon II"),'0','id="fungsi-kode_e2" class="populate"  style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
@@ -48,22 +48,8 @@
         </div>
         <br />
         
-        <div class="adv-table">
-		<table  class="display table table-bordered table-striped" id="fungsi-tbl">
-		<thead>
-		<tr>
-        	<th>Unit Kerja</th>
-            <th>No</th>
-			<th>Kode Fungsi</th>
-			<th>Fungsi</th>
-			
-			<th width="10%">Aksi</th>
-		</tr>
-		</thead>
-		<tbody>
+        <div class="adv-table" id="div-fungsi-e2">
 		
-		</tbody>
-		</table>
 		</div>
    </div>
    
@@ -93,30 +79,52 @@
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		$("#fungsi-kode_e1").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_list_eselon2/"+this.value,
+				url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_list_eselon2/"+$("#fungsi-tahun").val()+"/"+this.value,
 				success:function(result) {
-					kode_e2=$("#fungsi-kode_e2");
-					kode_e2.empty();
+					
+					$("#fungsi-kode_e2").empty();
 					result = JSON.parse(result);
 					for (k in result) {
-						kode_e2.append(new Option(result[k],k));
+						$("#fungsi-kode_e2").append(new Option(result[k],k));
 					}
+					$("#fungsi-kode_e2").select2("val", "0");
 				}
 			});
 		});
+		
+		$("#fungsi-tahun").change(function(){
+				 $.ajax({
+					url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_list_eselon1/"+this.value,
+					success:function(result) {
+						$('#fungsi-kode_e1').empty();
+						//alert('kadieu');
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#fungsi-kode_e1').append(new Option(result[k],k));
+						}
+						$("#fungsi-kode_e1").select2("val", "0");
+						$("#fungsi-kode_e1").change();
+					}
+				});
+			});
 		
 		$("#fungsi-btn").click(function(){
 			tahun = $('#fungsi-tahun').val();
 			kode = $('#fungsi-kode_e1').val();
 			kode2 = $('#fungsi-kode_e2').val();
-			$.ajax({
-                    url:"<?php echo site_url(); ?>unit_kerja/eselon2/get_body_fungsi/"+tahun+"/"+kode+"/"+kode2,
-                        success:function(result) {
-                            table_body = $('#fungsi-tbl tbody');
-                            table_body.empty().html(result);        
-                            $('#fungsi_es2').removeClass("hide");
-                        }
-                });  
+			if (tahun=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#fungsi-tahun').select2('open');
+					return;
+			}
+			else if (kode=="0") {
+					alert("Unit Kerja Eselon I belum ditentukan");
+					$('#fungsi-kode_e1').select2('open');
+					return;
+			}
+			$("#div-fungsi-e2").load("<?php echo site_url(); ?>unit_kerja/eselon2/get_body_fungsi/"+tahun+"/"+kode+"/"+kode2);
+			$('#fungsi_es2').removeClass("hide");
+			
 		});
 		
 		fungsiAdd =function(){
