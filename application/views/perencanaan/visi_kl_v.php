@@ -93,7 +93,12 @@
 		$("#visi-btn").click(function(){
 			tahun = $('#visi-tahun').val();
 			kode = $('#visi-kodekl').val();
-			$.ajax({
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#visi-tahun').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>perencanaan/rencana_kl/get_body_visi/"+tahun+"/"+kode,
                         success:function(result) {
                             table_body = $('#visi-tbl tbody');
@@ -101,6 +106,7 @@
 							$('#visi_kl_konten').removeClass("hide");
                         }
                 });  
+			}
 		});
 		visi_add =function(){
 			$("#visi_title").html('<i class="fa fa-plus-square"></i> Tambah Visi Kementerian');

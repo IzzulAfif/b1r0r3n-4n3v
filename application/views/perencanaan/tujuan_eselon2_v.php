@@ -16,13 +16,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I <span class="text-danger">*</span></label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="tujuan-kode_e1" class="populate"')?>
+                       <?=form_dropdown('kode_e1',array("0"=>"Pilih Unit Kerja Eselon I"),'0','id="tujuan-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e2',array(),'','id="tujuan-kode_e2" class="populate"')?>
+                       <?=form_dropdown('kode_e2',array("0"=>"Semua Unit Kerja Eselon II"),'','id="tujuan-kode_e2" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
@@ -93,9 +93,25 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		 $("#tujuan-tahun").change(function(){
+				$.ajax({
+					url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon1/"+this.value,
+					success:function(result) {
+						
+						$('#tujuan-kode_e1').empty();
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#tujuan-kode_e1').append(new Option(result[k],k));
+						}
+						$("#tujuan-kode_e1").select2("val", "0");
+						$("#tujuan-kode_e1").change();
+					}
+				});
+			}); 
+			
 		$("#tujuan-kode_e1").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>perencanaan/rencana_eselon2/get_list_eselon2/"+this.value,
+				url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon2/"+$("#tujuan-tahun").val()+"/"+this.value,
 				success:function(result) {
 					kode_e2=$("#tujuan-kode_e2");
 					kode_e2.empty();
@@ -111,7 +127,16 @@
 			tahun = $('#tujuan-tahun').val();
 			kode_e1 = $('#tujuan-kode_e1').val();
 			kode_e2 = $('#tujuan-kode_e2').val();
-			$.ajax({
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#tujuan-tahun').select2('open');
+			}
+			else if (kode_e1=="0") {
+				alert("Unit Kerja Eselon I belum ditentukan");
+				$('#tujuan-kode_e1').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>perencanaan/rencana_eselon2/get_body_tujuan/"+tahun+"/"+kode_e1+"/"+kode_e2,
                         success:function(result) {
                             table_body = $('#tujuan-tbl tbody');
@@ -119,6 +144,7 @@
                             $('#tujuan_es2_konten').removeClass("hide");
                         }
                 });  
+			}
 		});
 		tujuan_add =function(){
 			$("#tujuan_title").html('<i class="fa fa-plus-square"></i> Tambah Tujuan Eselon 2');

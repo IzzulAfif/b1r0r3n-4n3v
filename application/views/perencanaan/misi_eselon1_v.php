@@ -14,9 +14,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Nama Unit Kerja</label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e1',$eselon1,'0','id="misi-kode_e1" class="populate"')?>
+                       <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="misi-kode_e1" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
@@ -90,7 +90,12 @@
 		$("#misi-btn").click(function(){
 			tahun = $('#misi-tahun').val();
 			kode = $('#misi-kode_e1').val();
-			$.ajax({
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#misi-tahun').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>perencanaan/rencana_eselon1/get_body_misi/"+tahun+"/"+kode,
                         success:function(result) {
                             table_body = $('#misi-tbl tbody');
@@ -98,7 +103,23 @@
                          	$('#misi_es1_konten').removeClass("hide");   
                         }
                 });  
+			}
 		});
+		
+		 $("#misi-tahun").change(function(){
+				 $.ajax({
+					url:"<?php echo site_url(); ?>laporan/renstra_eselon1/get_list_eselon1/"+this.value,
+					success:function(result) {
+						$('#misi-kode_e1').empty();
+						//alert('kadieu');
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#misi-kode_e1').append(new Option(result[k],k));
+						}
+						$("#misi-kode_e1").select2("val", "0");
+					}
+				});
+			});
 		misi_add =function(){
 			$("#misi_title").html('<i class="fa fa-plus-square"></i> Tambah Misi Eselon 1');
 			$("#misi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon1/save/misi');

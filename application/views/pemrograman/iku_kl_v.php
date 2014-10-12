@@ -66,7 +66,12 @@
 		$("#iku-btn").click(function(){
 			tahun = $('#iku-tahun').val();
 			kode = $('#iku-kodekl').val();
-			$.ajax({
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#iku-tahun').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_iku/"+tahun+"/"+kode,
                         success:function(result) {
                             table_body = $('#iku-tbl tbody');
@@ -74,6 +79,7 @@
                             $('#iku_kl_konten').removeClass("hide");
                         }
                 });  
+			}
 		});
 	
 	})

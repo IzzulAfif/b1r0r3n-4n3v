@@ -35,9 +35,9 @@ class Renstra_eselon2 extends CI_Controller {
 		$this->load->view('template/container',$template);
 	}
 	
-	function get_list_eselon2($kode_e1)
+	function get_list_eselon2($tahun,$kode_e1)
 	{
-		$params = array("kode_e1"=>$kode_e1,"isNotMandatory"=>true);
+		$params = array("tahun_renstra"=>$tahun,"kode_e1"=>$kode_e1,"isNotMandatory"=>true);
 		echo json_encode($this->eselon2->get_list($params));
 	}
 	function loadprofile()

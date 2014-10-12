@@ -87,7 +87,12 @@
 		$("#sasaran-btn").click(function(){
 			tahun = $('#sasaran-tahun').val();
 			kode = $('#sasaran-kodekl').val();
-			$.ajax({
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#sasaran-tahun').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>perencanaan/rencana_kl/get_body_sasaran/"+tahun+"/"+kode,
                         success:function(result) {
                             table_body = $('#sasaran-tbl tbody');
@@ -95,6 +100,7 @@
                             $('#sasaran_kl_konten').removeClass("hide");
                         }
                 });  
+			}
 		});
 		sasaran_add =function(){
 			$("#sasaran_title").html('<i class="fa fa-plus-square"></i> Tambah Sasaran Kementerian');

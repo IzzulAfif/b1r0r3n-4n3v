@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-4">
-                           <?=form_dropdown('kode_e1',$eselon1,'0','id="e2-kode_e1" class="populate"')?>
+                           <?=form_dropdown('kode_e1',array("0"=>"Pilih Unit Kerja Eselon I"),'0','id="e2-kode_e1" class="populate"')?>
                         </div>
                     </div> 
 					<div class="form-group">
@@ -129,12 +129,13 @@
 							$('#e2-kode_e1').append(new Option(result[k],k));
 						}
 						$("#e2-kode_e1").select2("val", "0");
+						$("#e2-kode_e1").change();
 					}
 				});
 			}); 
 			$("#e2-kode_e1").change(function(){
 				$.ajax({
-					url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon2/"+this.value,
+					url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon2/"+$("#e2-tahun").val()+"/"+this.value,
 					success:function(result) {
 						
 						$('#e2-kode_e2').empty();

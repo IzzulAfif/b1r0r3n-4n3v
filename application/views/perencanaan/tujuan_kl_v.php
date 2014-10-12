@@ -86,14 +86,20 @@
 		$("#tujuan-btn").click(function(){
 			tahun = $('#tujuan-tahun').val();
 			kode = $('#tujuan-kodekl').val();
-			$.ajax({
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#tujuan-tahun').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>perencanaan/rencana_kl/get_body_tujuan/"+tahun+"/"+kode,
                         success:function(result) {
                             table_body = $('#tujuan-tbl tbody');
                             table_body.empty().html(result);        
                             $('#tujuan_kl_konten').removeClass("hide");
                         }
-                });  
+                }); 
+			}
 		});
 		tujuan_add =function(){
 			$("#tujuan_title").html('<i class="fa fa-plus-square"></i> Tambah Tujuan Kementerian');
