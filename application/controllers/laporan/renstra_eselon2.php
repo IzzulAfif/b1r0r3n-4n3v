@@ -95,7 +95,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		#load container for template view
 		$this->load->view('template/container_popup',$template);
 	}	
-	function get_visi($tahun,$e1,$e2){
+	function get_visi($tahun,$e1,$e2,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
@@ -129,10 +129,11 @@ function get_pendanaan($tahun,$e1,$e2)
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_misi($tahun,$e1,$e2){
+	function get_misi($tahun,$e1,$e2,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
@@ -166,10 +167,11 @@ function get_pendanaan($tahun,$e1,$e2)
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_tujuan($tahun,$e1,$e2){
+	function get_tujuan($tahun,$e1,$e2,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
@@ -203,10 +205,11 @@ function get_pendanaan($tahun,$e1,$e2)
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_kegiatan($tahun,$e1,$e2){
+	function get_kegiatan($tahun,$e1,$e2,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
@@ -245,10 +248,11 @@ function get_pendanaan($tahun,$e1,$e2)
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_sasaran($tahun,$e1,$e2){
+	function get_sasaran($tahun,$e1,$e2,$ajaxCall=true){
 		$dataAll = array();		
 		$rs = '';
 		$params['tahun_renstra'] = $tahun;
@@ -257,13 +261,16 @@ function get_pendanaan($tahun,$e1,$e2)
 			$params['kode_e2'] = $e2;
 		$data_kegiatan = $this->sasaran_kegiatan->get_renstra($params);
 		if (isset($data_kegiatan)){
-			$rs = '<table class="display table table-bordered table-striped">';			
+			if ($ajaxCall)
+				$rs = '<table class="display table table-bordered table-striped">';
+			else
+				$rs = '<table  border="1" cellpadding="4" cellspacing="0">';		
 			$rs .= '
 			<thead><tr  align="center">						
-						<th style="vertical-align:middle;text-align:center" width="30%" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" >No.</th>			
-						<th style="vertical-align:middle;text-align:center" width="70%" >Indikator Kinerja Kegiatan (IKK)</th>			
-						<th style="vertical-align:middle;text-align:center" >Satuan</th>			
+						<th style="vertical-align:middle;text-align:center" width="180" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center"  width="30">No.</th>
+						<th style="vertical-align:middle;text-align:center" width="230" >Indikator Kinerja Kegiatan (IKK)</th>
+						<th style="vertical-align:middle;text-align:center" width="80" >Satuan</th>
 					</tr>';									
 			$rs .= 	'</thead>';	
 			$rs .= '<tbody>';		
@@ -280,23 +287,25 @@ function get_pendanaan($tahun,$e1,$e2)
 			$i=0;							
 			$isGrouping = ($e2=="0");
 			$namaUnit= "";
-			$rs .= '<tr>';
+			//$rs .= '<tr>';
 			$no=1;
 			foreach($data_kegiatan as $ss){
 					if (($namaUnit!=$ss->nama_e2)&&($isGrouping)){
 						$namaUnit = $ss->nama_e2;
-						$rs .= '<td colspan="4"><b>'.$ss->nama_e2.'</b></td>';
-						$rs .= '</tr>';
 						$rs .= '<tr>';
+						$rs .= '<td width="520" colspan="4"><b>'.$ss->nama_e2.'</b></td>';
+						$rs .= '</tr>';
 						$no=1;
 					//	continue;
 					}
-					if ($i==0)
+					/*if ($i==0)
 						$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
 					else {						
 						$rs .= '<tr>';
 						$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
-					}
+					}*/
+					$rs .= '<tr>';
+					$rs .= '<td  width="180" rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
 					
 					$jml_data_iku = count($ss->ikk);
 					$x=0;
@@ -306,9 +315,9 @@ function get_pendanaan($tahun,$e1,$e2)
 								$rs .= '<tr>';
 							  
 							}
-							$rs .= '<td    valign="top">'.($no).'.</td>';								
-							$rs .= '<td    valign="top">'.$iku->deskripsi.'</td>';								
-							$rs .= '<td    valign="top">'.$iku->satuan.'</td>';								
+							$rs .= '<td   width="30" valign="top">'.($no).'.</td>';							  
+							$rs .= '<td   width="230" valign="top">'.$iku->deskripsi.'</td>';							  
+							$rs .= '<td   width="80" valign="top">'.$iku->satuan.'</td>';									
 							$rs .= '</tr>';
 							$no++;
 							$x++;
@@ -322,7 +331,8 @@ function get_pendanaan($tahun,$e1,$e2)
 			$rs .= '</tbody>';		
 			$rs .= '</table>';			
 		} 
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
 	
@@ -573,4 +583,59 @@ function get_pendanaan($tahun,$e1,$e2)
 		// var_dump($data[0]);die;
 		return $rs;
 	}
+
+	public function print_pdf($tahun,$e1,$e2){
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Rencana Strategis Unit Kerja Eselon II');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Rencana Strategis '.($e2=="0"?"Unit Kerja Eselon II":$this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2")), '', 0, 'L', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		 $data['renstra']		= $tahun;
+		$data['e1_nama'] = $this->mgeneral->getValue("nama_e1",array('tahun_renstra'=>$tahun,'kode_e1'=>$e1),"anev_eselon1");
+	   $data['tujuan']		= $this->get_tujuan($tahun,$e1,$e2,false);
+	   $data['misi']		= $this->get_misi($tahun,$e1,$e2,false);
+	   $data['visi']		= $this->get_visi($tahun,$e1,$e2,false);	  
+	   $data['sasaran']		= $this->get_sasaran($tahun,$e1,$e2,false);
+		$html = $this->load->view('laporan/print/pdf_renstra_e2',$data,true);
+		//$html = $data['sasaran'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);
+		
+		
+	
+	
+	
+		$pdf->Output('RenstraEselonII.pdf', 'I');
+	}
+
 }

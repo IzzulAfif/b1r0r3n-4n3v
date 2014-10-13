@@ -91,7 +91,7 @@ class Renstra_eselon1 extends CI_Controller {
 		$this->load->view('template/container_popup',$template);
 	}
 		
-	function get_visi($tahun,$e1){
+	function get_visi($tahun,$e1,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		if ($e1!="0")
 			$params['kode_e1'] = $e1;
@@ -124,10 +124,11 @@ class Renstra_eselon1 extends CI_Controller {
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_misi($tahun,$e1){
+	function get_misi($tahun,$e1,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		if ($e1!="0")
 			$params['kode_e1'] = $e1;
@@ -160,10 +161,11 @@ class Renstra_eselon1 extends CI_Controller {
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_tujuan($tahun,$e1){
+	function get_tujuan($tahun,$e1,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		if ($e1!="0")
 			$params['kode_e1'] = $e1;
@@ -196,10 +198,11 @@ class Renstra_eselon1 extends CI_Controller {
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_kegiatan($tahun,$e1,$e2="0"){
+	function get_kegiatan($tahun,$e1,$e2="0",$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		//$params['kode_e1'] = $e1;
 		if ($e1!="0")
@@ -238,10 +241,11 @@ class Renstra_eselon1 extends CI_Controller {
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_program($tahun,$e1){
+	function get_program($tahun,$e1,$ajaxCall=true){
 		$params['tahun_renstra'] = $tahun;
 		if ($e1!="0")
 			$params['kode_e1'] = $e1;
@@ -279,10 +283,11 @@ class Renstra_eselon1 extends CI_Controller {
 				 $rs .= '</ol>';
 			}
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_sasaran($tahun,$e1){
+	function get_sasaran($tahun,$e1,$ajaxCall=true){
 		$dataAll = array();		
 		$rs = '';
 		$params['tahun_renstra'] = $tahun;
@@ -292,14 +297,17 @@ class Renstra_eselon1 extends CI_Controller {
 		
 		$data_program = $this->sasaran_program->get_renstra($params);
 		if (isset($data_program)){
-			$rs = '<table class="display table table-bordered table-striped">';
+			if ($ajaxCall)
+				$rs = '<table class="display table table-bordered table-striped">';
+			else
+				$rs = '<table  border="1" cellpadding="4" cellspacing="0">';
 			
 			$rs .= '
 			<thead><tr  align="center">						
-						<th style="vertical-align:middle;text-align:center" width="30%" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center"  >No.</th>			
-						<th style="vertical-align:middle;text-align:center" width="50%" >Indikator Kinerja Utama (IKU)</th>			
-						<th style="vertical-align:middle;text-align:center"  >Satuan</th>			
+						<th style="vertical-align:middle;text-align:center" width="180" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center"  width="30">No.</th>
+						<th style="vertical-align:middle;text-align:center" width="230" >Indikator Kinerja Utama (IKU)</th>
+						<th style="vertical-align:middle;text-align:center" width="80" >Satuan</th>
 					</tr>';						
 			$rs .= 	'</thead>';	
 			$rs .= '<tbody>';		
@@ -315,23 +323,26 @@ class Renstra_eselon1 extends CI_Controller {
 			$i=0;				
 			$no=1;
 			$namaUnit= "";
-			$rs .= '<tr>';
+			//$rs .= '<tr>';
 			foreach($data_program as $ss){
 					if (($namaUnit!=$ss->nama_e1)&&($isGrouping)){
 						$namaUnit = $ss->nama_e1;
-						$rs .= '<td colspan="4"><b>'.$ss->nama_e1.'</b></td>';
-						$rs .= '</tr>';
+				//		if ($i>0)
 						$rs .= '<tr>';
+						$rs .= '<td width="520" colspan="4"><b>'.$ss->nama_e1.'</b></td>';
+						$rs .= '</tr>';
+					///	if ($i==0)
+						//	$rs .= '<tr>';
 						$no=1;
 						//continue;
 					}
-					if ($i==0)
-						$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
-					else {
+				//	if ($i==0)
+					//	$rs .= '<td  width="180"  rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+				//	else {
 						
 						$rs .= '<tr>';
-						$rs .= '<td  rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
-					}					
+						$rs .= '<td  width="180" rowspan="'.$ss->rowspan.'" valign="top">'.$ss->deskripsi.'</td>';
+					//}					
 					$jml_data_iku = count($ss->iku);
 					$x=0;
 					if ($jml_data_iku>0){
@@ -340,9 +351,9 @@ class Renstra_eselon1 extends CI_Controller {
 								$rs .= '<tr>';
 							 
 							}
-							$rs .= '<td   valign="top">'.($no).'.</td>';							  
-							$rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';							  
-							$rs .= '<td   valign="top">'.$iku->satuan.'</td>';							  
+							$rs .= '<td   width="30" valign="top">'.($no).'.</td>';							  
+							$rs .= '<td   width="230" valign="top">'.$iku->deskripsi.'</td>';							  
+							$rs .= '<td   width="80" valign="top">'.$iku->satuan.'</td>';							  
 							$rs .= '</tr>';
 							$x++;
 							$no++;
@@ -356,7 +367,8 @@ class Renstra_eselon1 extends CI_Controller {
 			$rs .= '</tbody>';		
 			$rs .= '</table>';			
 		} 
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
 	function get_rencana_detail($tahun,$e1){
@@ -601,6 +613,62 @@ class Renstra_eselon1 extends CI_Controller {
 		
 		// var_dump($data[0]);die;
 		return $rs;
+	}
+	
+	
+	public function print_pdf($tahun,$e1){
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Rencana Strategis Unit Kerja Eselon I');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Rencana Strategis '.($e1=="0"?"Unit Kerja Eselon I":$this->mgeneral->getValue("nama_e1",array('tahun_renstra'=>$tahun,'kode_e1'=>$e1),"anev_eselon1")), '', 0, 'L', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		 $data['renstra']		= $tahun;
+	//	$data['unitkerja'] = ;
+	   $data['tujuan']		= $this->get_tujuan($tahun,$e1,false);
+	   $data['misi']		= $this->get_misi($tahun,$e1,false);
+	   $data['visi']		= $this->get_visi($tahun,$e1,false);
+	   $data['kegiatan']		= $this->get_kegiatan($tahun,$e1,"0",false);
+	   $data['sasaran']		= $this->get_sasaran($tahun,$e1,false);
+		$html = $this->load->view('laporan/print/pdf_renstra_e1',$data,true);
+		//$html = $data['sasaran'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);
+		
+		
+	
+	
+	
+		$pdf->Output('RenstraEselonI.pdf', 'I');
 	}
 
 }

@@ -55,8 +55,8 @@
                 </form>
                 
                   <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_profilee2"><i class="fa fa-download"></i> Download PDF</button>          
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_profilee2"><i class="fa fa-download"></i> Download Excel</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_profilee2"><i class="fa fa-download"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_profilee2"><i class="fa fa-download"></i> Ekspor Excel</button>
                 </div>
                 
             </div>
@@ -95,6 +95,7 @@ $(document).ready(function() {
 					kode_e1.append(new Option(result[k],k));
 				}
 				$("#e2-kode_e1").select2("val", "0");
+				 $("#e2-kode_e1").change();
 			}
 		});
 	});

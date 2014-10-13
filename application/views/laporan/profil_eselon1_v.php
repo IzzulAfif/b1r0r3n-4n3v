@@ -56,8 +56,8 @@
                 </form>
 				
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_profilee1"><i class="fa fa-download"></i> Download PDF</button>          
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_profilee1"><i class="fa fa-download"></i> Download Excel</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_profilee1"><i class="fa fa-download"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_profilee1"><i class="fa fa-download"></i> Ekspor Excel</button>
                 </div>
                 
             </div>

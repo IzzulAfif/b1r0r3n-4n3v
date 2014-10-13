@@ -72,7 +72,10 @@
                     </div>
 					
                 </form>
-                
+					 <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_renstrae2"><i class="fa fa-download"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_renstrae2"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
             </div>
         </section>
     </div>
@@ -159,6 +162,13 @@
 				var kodee2 = $('#e2-kode_e2').val();
 				window.open("<?=base_url()?>laporan/renstra_eselon2/get_pendanaan/"+tahun+"/"+$('#e2-kode_e1').val()+"/"+kodee2);
 			}); 
+			
+			$('#cetakpdf_renstrae2').click(function(){
+				var tahun = $('#e2-tahun').val();
+				var kodee1 = $('#e2-kode_e1').val();
+				var kodee2 = $('#e2-kode_e2').val();
+				window.open('<?=base_url()?>laporan/renstra_eselon2/print_pdf/'+tahun+"/"+kodee1+"/"+kodee2,'_blank');			
+			});
 
 		});
 	</script>

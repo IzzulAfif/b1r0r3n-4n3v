@@ -69,7 +69,10 @@
                     	<div class="col-md-10" ><a href="#" id="e1-dana_klik">Klik Disini</a></div>
                     </div>
                 </form>
-                
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_renstrae1"><i class="fa fa-download"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_renstrae1"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
             </div>
         </section>
     </div>
@@ -138,5 +141,11 @@
 				var kodee1 = $('#e1-kodee1').val();
 				window.open("<?=base_url()?>laporan/renstra_eselon1/get_pendanaan/"+tahun+"/"+kodee1);
 			}); 
+			
+			$('#cetakpdf_renstrae1').click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open('<?=base_url()?>laporan/renstra_eselon1/print_pdf/'+tahun+"/"+kodee1,'_blank');			
+			});
 		});
 	</script>
