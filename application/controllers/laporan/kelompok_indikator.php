@@ -58,6 +58,227 @@ class Kelompok_indikator extends CI_Controller {
 		echo json_encode($this->eselon2->get_list($params));
 	}
 	
+	function getindikator_kl($kel_indikator,$tahun_awal,$tahun_akhir,$kode_kl,$ajaxCall=true){
+		$params['tahun'] = $tahun_awal;
+		//$params['tahun_akhir'] = $tahun_akhir;
+		$params['kode_ss_kl'] = $kel_indikator;
+	//	$params['kode_kl'] = $kode_kl;
+		$data= $this->kel_indikator_kl->get_data($params);
+		$showTahun = false;//($tahun_akhir-$tahun_awal)>0;
+		
+		$rs = '';$i=1;
+		if ($ajaxCall)
+				$head = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$head = '<table  border="1" cellpadding="4" cellspacing="0">';
+		
+		
+		$head .= '<thead><tr  align="center">
+					<th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="30">No.</th>
+					<th class="col-sm-2" style="vertical-align:middle;text-align:center;" width="80">Kode</th>
+					<th style="vertical-align:middle;text-align:center" width="330">Indikator Kinerja Utama (IKU)</th>
+					<th class="col-sm-2" style="vertical-align:middle;text-align:center" width="80">Satuan</th>					
+				</tr></thead>';	
+		$head .= '<tbody>';	
+		
+		$foot = '</tbody>';		
+		$foot .= '</table>';
+		
+		//$rs .= 	'<tr>';
+		$tahun = "";
+		if (isset($data)){
+			foreach($data as $d): 
+				if ($i==1) $rs .=$head;
+				$rs .= '<tr class="gradeX">
+					<td width="30">'.($i++).'</td>				
+					<td width="80">'.$d->kode_iku_kl.'</td>					
+					<td width="330">'.$d->indikator_kl.'</td>					
+					<td width="80">'.$d->satuan.'</td>					
+					
+				</tr>';
+				endforeach; 
+				$rs .= $foot;
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>'				
+					.'<td>&nbsp;</td>				
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+			$rs = '';
+		}
+		
+		
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
+	}
+	
+	function getindikator_e1($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2=null,$ajaxCall=true){
+		//kode_E2 null = tampilkan Checkbox Eselon 2 nya tidak dicek
+		$params['tahun'] = $tahun_awal;
+		//$params['tahun_awal'] = $tahun_awal;
+		//$params['tahun_akhir'] = $tahun_akhir;
+		$params['kode_ss_kl'] = $kel_indikator;
+		if (($kode_e1!="-1")&&($kode_e1!="0"))
+			$params['kode_e1'] = $kode_e1;
+		$data= $this->kel_indikator_e1->get_data($params);
+		$showTahun = ($tahun_akhir-$tahun_awal)>0;
+		$showUnitKerja = !isset($params['kode_e1']);
+		
+		$rs = '';$i=1;
+		if ($ajaxCall)
+				$head = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$head = '<table  border="1" cellpadding="4" cellspacing="0">';
+		
+		$head .= '<thead><tr  align="center">
+					<th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="30">No.</th>
+					<th class="col-sm-2" style="vertical-align:middle;text-align:center;" width="80">Kode</th>
+					<th style="vertical-align:middle;text-align:center" width="330">Indikator Kinerja Utama (IKU)</th>
+					<th class="col-sm-2" style="vertical-align:middle;text-align:center" width="80">Satuan</th>							
+				</tr></thead>';	
+		$head .= '<tbody>';
+
+		$foot = '</tbody>';		
+		$foot .= '</table><br>'.(!$ajaxCall?"<br><br>":"");	
+		//$rs .= 	'<tr>';
+		$tahun ="";
+		$unitkerja = "";
+		$kode="";
+		if (isset($data)){
+			foreach($data as $d): 
+				if ($unitkerja!=$d->nama_e1){
+					$unitkerja=$d->nama_e1;
+					if ($i>1) {
+						$rs .=$foot;
+						
+						if ($kode_e2!=null){
+							//var_dump($kode);die;
+							$z= $this->getindikator_e2($kel_indikator,$tahun_awal,$tahun_akhir,$kode,$kode_e2,$ajaxCall,true);
+							//var_dump($z);die;
+							$rs .= $z;
+							//var_dump($z);
+						}
+					}
+					$kode = $d->kode_e1;
+					$i=1;
+					if ($ajaxCall)
+						$rs .= "<p class='text-info'><b>Unit Kerja Eselon I : ".$unitkerja.'</b></p>';
+					else
+						$rs .= "<b>Unit Kerja Eselon I : ".$unitkerja.'</b><br><br>';
+				
+					$rs .= $head;
+				}
+				if ($tahun!=$d->tahun){
+					$tahun=$d->tahun;
+					
+				}
+				$rs .= '<tr class="gradeX">
+						<td width="30">'.($i++).'</td>				
+					<td width="80">'.$d->kode_iku_e1.'</td>					
+					<td width="330">'.$d->indikator_e1.'</td>					
+					<td width="80">'.$d->satuan.'</td>				
+					
+				</tr>';
+				endforeach; 
+				$rs .= $foot;
+				if ($kode_e2!=null){
+					$z= $this->getindikator_e2($kel_indikator,$tahun_awal,$tahun_akhir,$kode,$kode_e2,$ajaxCall,true);
+					$rs .= $z;
+				}
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>'
+					
+					.'<td>&nbsp;</td>				
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+			$rs = '';
+		}
+		
+		
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
+	}
+	
+	function getindikator_e2($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2,$ajaxCall=true,$callFromE1=false){
+		$params['tahun'] = $tahun_awal;
+		$params['kode_ss_kl'] = $kel_indikator;
+		if (($kode_e1!="-1")&&($kode_e1!="0"))
+			$params['kode_e1'] = $kode_e1;
+		if (($kode_e2!="-1")&&($kode_e2!="0"))
+			$params['kode_e2'] = $kode_e2;
+		$data= $this->kel_indikator_e2->get_data($params);
+		$showTahun = ($tahun_akhir-$tahun_awal)>0;
+		$showUnitKerja = !isset($params['kode_e2']);
+		
+		$rs = '';$i=1;
+		if ($ajaxCall)
+				$head = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$head = '<table  border="1" cellpadding="4" cellspacing="0">';
+		
+		$head .= '<thead><tr  align="center">
+					<th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="30">No.</th>
+					<th class="col-sm-2" style="vertical-align:middle;text-align:center;" width="80">Kode</th>
+					<th style="vertical-align:middle;text-align:center" width="330">Indikator Kinerja Kegiatan (IKK)</th>
+					<th class="col-sm-2" style="vertical-align:middle;text-align:center" width="80">Satuan</th>	
+				</tr></thead>';	
+		$head	 .= '<tbody>';	
+		
+		
+		 $foot = '</tbody>';		
+		 $foot .= '</table><br>'.(!$ajaxCall?"<br><br>":"");
+		//$rs .= 	'<tr>';
+		$tahun ="";
+		$unitkerja = "";
+		if (isset($data)){
+			foreach($data as $d): 
+				if ($unitkerja!=$d->nama_e2){
+					$unitkerja=$d->nama_e2;
+					if ($i>1) $rs .=$foot;
+					$i=1;
+					if ($ajaxCall)
+						$rs .= "<p class='text-info'><b>Unit Kerja Eselon II : ".$unitkerja.'</b></p>';
+					else
+						$rs .= "<b>Unit Kerja Eselon II : ".$unitkerja.'</b><br><br>';
+				//	$rs .= "<p class='text-info'><b>Tahun : ".$d->tahun.'</b></p>';
+					$rs .= $head;
+				}
+				if ($tahun!=$d->tahun){
+					$tahun=$d->tahun;
+					
+				}
+				$rs .= '<tr class="gradeX">
+					<td width="30">'.($i++).'</td>				
+					<td width="80">'.$d->kode_ikk.'</td>					
+					<td width="330">'.$d->indikator_e2.'</td>					
+					<td width="80">'.$d->satuan.'</td>				
+					
+				</tr>';
+				endforeach; 
+			$rs .= $foot;
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td>&nbsp;</td>'
+				.'<td>&nbsp;</td>				
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>';
+			
+			$rs ='';
+		}
+		
+		
+		//var_dump("<pre>".$rs."</pre>");die;
+		
+		if ($ajaxCall){
+			if ($callFromE1) return $rs;
+			else echo $rs;
+		}else return $rs;
+	}
+	
 	function getindikator($kel_indikator,$tahun_awal,$tahun_akhir){
 		$params['tahun_awal'] = $tahun_awal;
 		$params['tahun_akhir'] = $tahun_akhir;
@@ -111,18 +332,63 @@ class Kelompok_indikator extends CI_Controller {
 		echo $rs;
 	}
 	
-   function print_pdf($tahun,$kl)
+					//2010-2014/2013/SSKP.01/0/0/true/true/false
+   function print_pdf($renstra,$tahun,$indikator,$e1,$e2,$showKl,$showE1,$showE2)
    {
-	   $this->load->library('pdf');
-	   $data['renstra']		= $tahun;
-	   $data['kementerian'] = $this->mgeneral->getValue("nama_kl",array('kode_kl'=>$kl,'tahun_renstra'=>$tahun),"anev_kl");
-	   $data['unit_kerja']	= $this->eselon1->get_all(array("kode_kl"=>$kl));
-	   $data['fungsi']		= $this->fungsi_kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
-	   $data['tugas']		= $this->kl->get_all(array("kode_kl"=>$kl,"tahun_renstra"=>$tahun));
+	    $this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Kelompok Indikator');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Kelompok  Indikator ', '', 0, 'L', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		$data['renstra']		= $renstra;
+	   $data['tahun']		= $tahun;
+	   $data['indikator']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator),"anev_kel_indikator");
+	   $data['showKl']		= $showKl;
+	   $data['showE1']		= $showE1;
+	   $data['showE2']		= $showE2;
+//	   $data['kementerian'] = $this->mgeneral->getValue("nama_kl",array('kode_kl'=>$kl,'tahun_renstra'=>$tahun),"anev_kl");
+	   $data['ikuKl']	= $this->getindikator_kl($indikator,$tahun,$tahun,"",false);
+												//$kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2=null,$ajaxCall
+												//var_dump(($showE1=="true")&&($showE2=="true"));die;
+	   $data['ikuE1']	= $this->getindikator_e1($indikator,$tahun,$tahun,$e1,(($showE1=="true")&&($showE2=="true")?$e2:null),false);
+	   if ($showE2=="true")
+			$data['ikuE2']	= $this->getindikator_e2($indikator,$tahun,$tahun,$e1,$e2,false,false);
 	   
-	   $html = $this->load->view('laporan/print/pdf_profile_kl',$data,true);
-	   
-	   echo $this->pdf->cetak($html,"profile_kementerian.pdf");
+		$html = $this->load->view('laporan/print/pdf_indikator',$data,true);
+	//	$html = $data['ikuE2'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('KelompokIndikator.pdf', 'I');
    }
 	
 }

@@ -73,13 +73,7 @@ class Kelompok_indikator_kl extends CI_Controller {
 		$tahun = "";
 		if (isset($data)){
 			foreach($data as $d): 
-				if ($tahun!=$d->tahun){
-					$tahun=$d->tahun;
-					if ($i>1) $rs .=$foot;
-					$i=1;
-				//	$rs .= "<p class='text-info'><b>Tahun : ".$tahun.'</b></p>';
-					$rs .= $head;
-				}
+				if ($i==1) $rs .=$head;
 				$rs .= '<tr class="gradeX">
 					<td>'.($i++).'</td>'
 				

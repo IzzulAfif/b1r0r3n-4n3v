@@ -121,7 +121,10 @@
                             <div id="e2-indikator"  ></div>
                         </div>
                     </div>
-					
+					<div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_indikator"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_indikator"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
                
                 
             </div>
@@ -197,7 +200,7 @@
 			load_data = function(){
 			//	alert($("#chkKl").is(':checked'));
 				if ($("#chkKl").is(':checked')){
-					$("#kl-indikator").load("<?=base_url()?>laporan/kelompok_indikator_kl/getindikator/"+indikator.val()+"/"+tahun_awal.val()+"/-1/-1");
+					$("#kl-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_kl/"+indikator.val()+"/"+tahun_awal.val()+"/-1/-1");
 					$("#kl-indikator").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
@@ -213,7 +216,7 @@
 					else
 						$("#e1-title").html("<b>IKU Eselon I</b>");
 					
-					$("#e1-indikator").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/getindikator/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+($("#chkE2").is(':checked')?"/"+$("#kode_e2").val():""));
+					$("#e1-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_e1/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+($("#chkE2").is(':checked')?"/"+$("#kode_e2").val():""));
 					$("#e1-indikator").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
@@ -225,7 +228,7 @@
 				
 				if (($("#chkE2").is(':checked'))&&(!$("#chkE1").is(':checked'))){	
 					
-					$("#e2-indikator").load("<?=base_url()?>laporan/kelompok_indikator_eselon2/getindikator/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+"/"+$("#kode_e2").val());
+					$("#e2-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_e2/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+"/"+$("#kode_e2").val());
 					$("#e2-indikator").mCustomScrollbar({
 									axis:"x",
 									theme:"dark-2"
@@ -266,6 +269,12 @@
 					$('#box-result').removeClass("hide");
 				}
 			}); 
+			
+			$('#cetakpdf_indikator').click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open('<?=base_url()?>laporan/kelompok_indikator/print_pdf/'+renstra.val()+"/"+tahun_awal.val()+"/"+indikator.val()+"/"+ $("#kode_e1").val()+"/"+ $("#kode_e2").val()+"/"+$("#chkKl").is(':checked')+"/"+$("#chkE1").is(':checked')+"/"+$("#chkE2").is(':checked'),'_blank');			
+			});
 			//$("#kl-content").load("<?=base_url()?>laporan/kelompok_indikator_kl/loadindikator");
 			//$("#e1-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/loadindikator");
 			//$("#e2-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon2/loadindikator");
