@@ -21,14 +21,14 @@
                 <form class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
                         <div class="col-md-2">
 							 <?=form_dropdown('tahun_renstra',$tahun_renstra,'0','id="tahun_renstra"')?>
                         </div>
                     </div>
 					
 					 <div class="form-group">
-                        <label class="col-md-2 control-label">Tahun</label>
+                        <label class="col-md-2 control-label">Tahun<span class="text-danger">*</span></label>
                         <div class="col-md-2">
 							 <?=form_dropdown('tahun',array("0"=>"Pilih Tahun"),'0','id="tahun"')?>
                         </div>
@@ -36,19 +36,19 @@
                   
                     
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Kelompok Indikator</label>
+                        <label class="col-md-2 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
                         <div class="col-md-9">
-                        	<?=form_dropdown('kelompok_indikator',array("0"=>"Pilih Kelompok Indikator"),'0','id="kelompok_indikator" class="populate"')?>
+                        	<?=form_dropdown('kelompok_indikator',$kelompok_indikator,'0','id="kelompok_indikator" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Program</label>
+                        <label class="col-md-2 control-label">Program<span class="text-danger">*</span></label>
                         <div class="col-md-9">
                         	 <?=form_dropdown('program',array("0"=>"Pilih Program"),'0','id="program" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
-                        <label class="col-md-2 control-label">Kegiatan</label>
+                        <label class="col-md-2 control-label">Kegiatan<span class="text-danger">*</span></label>
                         <div class="col-md-9">
                         	 <?=form_dropdown('kegiatan',array("0"=>"Pilih Kegiatan"),'0','id="kegiatan" class="populate"')?>
                         </div>
@@ -67,7 +67,7 @@
                     </div>
                     -->
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Lokasi</label>
+                        <label class="col-md-2 control-label">Lokasi<span class="text-danger">*</span></label>
                         <div class="col-md-9">
                         	<?=form_dropdown('kdlokasi',$lokasi,'0','id="list-kdlokasi" class="populate" style="width:100%"')?>
                         </div>
@@ -107,6 +107,10 @@
 					 </tbody>
     	        </table>
                 </div>
+				<div class="pull-right">
+						<button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatanpembangunan"><i class="fa fa-print"></i> Cetak PDF</button>          
+						<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatanpembangunan"><i class="fa fa-download"></i> Ekspor Excel</button>
+					</div>
                 </section>
             </div>
         </section>
@@ -127,15 +131,19 @@
 			var tahun = $("#tahun");
 			
 			tahun.empty();
-			
+			tahun.append(new Option("Pilih Tahun","0"));
 			 if (periode_renstra.val()!=0) {
 				year = periode_renstra.val().split('-');
 				//alert(year[0]);
+				
+				tahun.select2("val", "0");
 				for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
 					tahun.append(new Option(i,i));
 					
 				}
+				
 			 }
+			 $('#tahun').select2({minimumResultsForSearch: -1, width:'resolve'});
 		}
 	
 		$('#tahun_renstra').change(function(){
@@ -146,7 +154,7 @@
 		
 		$('#tahun').change(function(){
 			tahun	= $('#tahun').val();
-			$.ajax({
+		/*	$.ajax({
 				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_sastra/"+tahun,
 				success:function(result) {
 					$('#kelompok_indikator').empty();
@@ -156,7 +164,7 @@
 					}
 					$('#kelompok_indikator').select2({minimumResultsForSearch: -1, width:'resolve'});
 				}
-			});
+			});*/
 			
 			$.ajax({
 				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_program/"+tahun,
@@ -183,6 +191,7 @@
 					for (k in result) {
 						$('#kegiatan').append(new Option(result[k],k));
 					}
+					$('#kegiatan').select2({minimumResultsForSearch: -1, width:'resolve'});
 				}
 			});
 		});
@@ -212,7 +221,32 @@
 			program = $('#program').val();
 			kegiatan = $('#kegiatan').val();
 			lokasi = $('#list-kdlokasi').val();
-			$.ajax({
+			if ($('#tahun_renstra').val()=="0"){
+				alert("Periode Renstra belum ditentukan");
+				$('#tahun_renstra').select2('open');
+			}
+			else if (tahun=="0"){
+				alert("Tahun belum ditentukan");
+				$('#tahun').select2('open');
+			}
+			else if (indikator=="0"){
+				alert("Kelompok Indikator belum ditentukan");
+				$('#kelompok_indikator').select2('open');
+			}
+			else if (program=="0"){
+				alert("Program belum ditentukan");
+				$('#program').select2('open');
+			}
+			else if (kegiatan=="0"){
+				alert("Kegiatan belum ditentukan");
+				$('#kegiatan').select2('open');
+			}
+			else if (lokasi=="0"){
+				alert("Lokasi belum ditentukan");
+				$('#list-kdlokasi').select2('open');
+			}
+			else {
+				$.ajax({
                     url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi,
                         success:function(result) {
                             table_body = $('#list-tbl tbody');
@@ -220,7 +254,15 @@
                             $('#box-result').removeClass("hide");
                         }
                 });  
+			}
 		});
+		
+		$('#cetakpdf_kegiatanpembangunan').click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/print_pdf/','_blank');			
+			});
+			
     });
     </script>
     <!--js-->

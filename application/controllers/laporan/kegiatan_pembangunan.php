@@ -19,6 +19,8 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$this->load->model('/unit_kerja/eselon2_model','eselon2');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sastra');
 		$this->load->model('/pemrograman/program_eselon1_model','program');
+		$this->load->model('/admin/kel_indikator_model','kel_indikator');
+		
 	}
 	
 	function index()
@@ -30,7 +32,7 @@ class Kegiatan_pembangunan extends CI_Controller {
 		
 		$data['tahun_renstra']				= $this->tahun_renstra->get_list(null);
 		$data['eselon1'] = $this->eselon1->get_list(array("check_locking"=>false));
-		$data['kelompok_indikator'] = array();
+		$data['kelompok_indikator'] = $this->kel_indikator->get_list(null);
 		$data['lokasi'] = $this->lokasi->get_list(null);
 		$template['konten']	= $this->load->view('laporan/kegiatan_pembangunan_v',$data,true); #load konten template file
 		

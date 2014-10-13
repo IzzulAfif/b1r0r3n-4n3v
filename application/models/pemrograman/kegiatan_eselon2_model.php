@@ -37,7 +37,7 @@ class Kegiatan_eselon2_model extends CI_Model
 		$sql = "select distinct distinct kode_kegiatan, nama_kegiatan from anev_kegiatan_eselon2 ".$where;
 		//$this->db->escape($tahun_renstra);
 		$result = $this->mgeneral->run_sql($sql);
-		$list[0] = 'Pilih Program';
+		$list[0] = 'Pilih Kegiatan';
 		if (isset($result)){
 			foreach ($result as $i) {
 				$list[$i->kode_kegiatan] = $i->nama_kegiatan;

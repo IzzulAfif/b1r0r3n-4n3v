@@ -122,9 +122,9 @@
                         </div>
                     </div>
 					<div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_indikator"><i class="fa fa-print"></i> Cetak PDF</button>          
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_indikator"><i class="fa fa-download"></i> Ekspor Excel</button>
-                </div>
+						<button type="button" class="btn btn-primary btn-sm" id="cetakpdf_indikator"><i class="fa fa-print"></i> Cetak PDF</button>          
+						<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_indikator"><i class="fa fa-download"></i> Ekspor Excel</button>
+					</div>
                
                 
             </div>
