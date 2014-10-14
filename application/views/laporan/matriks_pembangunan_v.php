@@ -29,13 +29,13 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">Rentang Tahun<span class="text-danger">*</span></label>
 									<div class="col-sm-2">									
-										<?=form_dropdown('rentang_awal',array(),'','id="rentang_awal"  class="populate"')?>
+										<?=form_dropdown('rentang_awal',array("0"=>"Pilih Tahun"),'0','id="rentang_awal"  class="populate"')?>
 										
 									</div>
 									<label class="col-sm-1 control-label" style="text-align:center;width:10px;margin-left:-20px">s.d.</label>
 								
 									<div class="col-sm-2">																			
-										<?=form_dropdown('rentang_akhir',array(),'','id="rentang_akhir"  class="populate"')?>
+										<?=form_dropdown('rentang_akhir',array("0"=>"Pilih Tahun"),'0','id="rentang_akhir"  class="populate"')?>
 									</div>
 								</div>
 								<div class="form-group hide">
@@ -64,11 +64,11 @@
                 <div class="corner-ribon black-ribon">
                    <i class="fa fa-file-text"></i>
                 </div>
-                                        	<form  method="post" id="matriks_form" name="matriks_form" action="<?=base_url()?>laporan/matriks_pembangunan/save" >
-                                            <div id="reportKonten">
-                                            </div>
-                                            </form>
-                                        </div>
+					<form  method="post" id="matriks_form" name="matriks_form" action="<?=base_url()?>laporan/matriks_pembangunan/save" >
+					<div id="reportKonten">
+					</div>
+					</form>
+				</div>
                 </section>
             </div>
         </section>
@@ -96,7 +96,8 @@ $(document).ready(function() {
 		var range_awal = $("#rentang_awal");
 		var range_akhir = $("#rentang_akhir");
 		range_awal.empty();range_akhir.empty();
-		
+		range_awal.append(new Option("Pilih Tahun","0"));
+		range_akhir.append(new Option("Pilih Tahun","0"));
 		 if (periode_renstra.val()!=0) {
 			year = periode_renstra.val().split('-');
 			//alert(year[0]);
@@ -104,7 +105,10 @@ $(document).ready(function() {
 				range_awal.append(new Option(i,i));
 				range_akhir.append(new Option(i,i));
 			}
+			
 		 }
+		 $('#rentang_awal').select2({minimumResultsForSearch: -1, width:'resolve'});
+			$('#rentang_akhir').select2({minimumResultsForSearch: -1, width:'resolve'});
 	}
 	
 	
