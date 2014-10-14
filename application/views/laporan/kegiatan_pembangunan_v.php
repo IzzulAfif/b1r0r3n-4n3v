@@ -91,27 +91,14 @@
                    <i class="fa fa-file-text"></i>
                 </div>
                 <p class="text-primary">Item Pekerjaan Pembangunan</p><br />
-                <table  class="display table table-bordered table-striped" id="list-tbl">
-                	<thead>
-                    	<tr>
-                    		<th>No</th>
-                            <th>Tahun</th>
-                            <th>Item Pekerjaan</th>
-                            <th>Volume</th>
-                            <th>Satuan</th>
-                            <!--<th>Harga Satuan</th>
-                            <th>Jumlah</th>-->
-                        </tr>
-                    </thead>
-					 <tbody>
-					 </tbody>
-    	        </table>
-                </div>
-				<div class="pull-right">
-						<button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatanpembangunan"><i class="fa fa-print"></i> Cetak PDF</button>          
-						<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatanpembangunan"><i class="fa fa-download"></i> Ekspor Excel</button>
-					</div>
-                </section>
+               <div id="div-pembangunan">
+			   </div>
+            </div>
+			<div class="pull-right">
+					<button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatanpembangunan"><i class="fa fa-print"></i> Cetak PDF</button>          
+					<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatanpembangunan"><i class="fa fa-download"></i> Ekspor Excel</button>
+				</div>
+			</section>
             </div>
         </section>
     </section>
@@ -246,21 +233,18 @@
 				$('#list-kdlokasi').select2('open');
 			}
 			else {
-				$.ajax({
-                    url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi,
-                        success:function(result) {
-                            table_body = $('#list-tbl tbody');
-                            table_body.empty().html(result);        
-                            $('#box-result').removeClass("hide");
-                        }
-                });  
+				$("#div-pembangunan").load("<?=base_url()?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi);
+					$("#div-pembangunan").mCustomScrollbar({
+								axis:"x",
+								theme:"dark-2"
+							});
+					 $('#box-result').removeClass("hide");
+				
 			}
 		});
 		
-		$('#cetakpdf_kegiatanpembangunan').click(function(){
-				var tahun = $('#e1-tahun').val();
-				var kodee1 = $('#e1-kodee1').val();
-				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/print_pdf/','_blank');			
+		$('#cetakpdf_kegiatanpembangunan').click(function(){				
+				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/print_pdf/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
 			});
 			
     });

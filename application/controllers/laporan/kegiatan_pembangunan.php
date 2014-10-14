@@ -70,7 +70,7 @@ class Kegiatan_pembangunan extends CI_Controller {
 		echo json_encode($result);
 	}
 	
-	function get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi)
+	function get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi,$ajaxCall=true)
 	{
 		$params['tahun'] = $tahun;
 		$params['indikator'] = $indikator;
@@ -79,41 +79,106 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$params['kdlokasi'] = $kdlokasi;
 		
 		$data	= $this->pembangunan->get_detil_belanja($params);
+		if ($ajaxCall)
+				$head = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$head = '<table  border="1" cellpadding="4" cellspacing="0">';
+					
+		$head .= '<thead>
+                    	<tr>
+                    		<th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="30">No.</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="80">Tahun</th>
+                            <th style="vertical-align:middle;text-align:center" width="270">Item Pekerjaan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="80">Volume</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="80">Satuan</th>
+                        </tr>
+                    </thead>
+					 <tbody>';
+					 
+		$foot =	'</tbody>
+    	        </table>';
 		$totalPagu = 0;
-		$rs = '';$i=1;
+		$rs = $head;$i=1;
 		if (isset($data)){
+			//$rs .= $head;
 			foreach($data as $d): 
 				$totalPagu += $d->jumlah;
 				$rs .= '<tr class="gradeX">
-					<td>'.($i++).'</td>
-					<td>'.$d->tahun.'</td>
-					<td>'.$d->nmitem.'</td>
-					<td align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
-					<td>'.$d->satkeg.'</td>';
+					<td width="30">'.($i++).'</td>
+					<td width="80">'.$d->tahun.'</td>
+					<td width="270">'.$d->nmitem.'</td>
+					<td width="80" align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
+					<td width="80">'.$d->satkeg.'</td>'
 					//sementara hide dulu coz blm ada data nya
 					/*<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
 					<td align="right">'.$this->utility->cekNumericFmt($d->jumlah).'</td>					
 					
-					
-				</tr>';*/
+					*/
+					.'</tr>';
 				endforeach; 
-				/*$rs .= '<tr class="gradeX">
-					<td colspan="6" align="right">Total Pagu</td>
-					<td align="right">'.$this->utility->cekNumericFmt($totalPagu).'</td>					
-					
-					
-				</tr>';*/
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>';
+					<td colspan="5" width="540">Data tidak ditemukan</td>
+					</tr>';
 		}
-		echo $rs;
+		$rs .= $foot;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
+	
+	function print_pdf($renstra,$tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi)
+   {
+	    $this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Rincian Kegiatan Pembangunan Menurut Indikator');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Rincian Kegiatan Pembangunan Menurut Indikator', '', 0, 'L', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		$data['renstra']		= $renstra;
+	   $data['tahun']		= $tahun;
+	   $data['indikator']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator),"anev_kel_indikator");
+	   $data['program']		= $this->mgeneral->getValue("nama_program",array('kode_program'=>$kode_program,'tahun'=>$tahun),"anev_program_eselon1");
+	   $data['kegiatan']		= $this->mgeneral->getValue("nama_kegiatan",array('kode_kegiatan'=>$kode_kegiatan,'tahun'=>$tahun),"anev_kegiatan_eselon2");
+	   $data['lokasi']		= $this->mgeneral->getValue("lokasi",array('kdlokasi'=>$kdlokasi),"anev_lokasi");
+	   //$data['indikator']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator,'tahun_renstra'=>$indikator),"anev_kel_indikator");
+	   
+	   $data['itempekerjaan'] = $this->get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi,false);
+	   
+		$html = $this->load->view('laporan/print/pdf_pembangunan',$data,true);
+	//	$html = $data['ikuE2'];
+	//	var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('RincianKegiatanPembangunan.pdf', 'I');
+   }
 	
 	function map()
 	{
