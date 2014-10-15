@@ -54,9 +54,8 @@
 		$(document).ready(function() {
 			
 			$("#kegiatan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadkegiatan");
-			$("#saskeg-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadsaskeg");
-			$("#ikk-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadikk");
-			//$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadpendanaan");
+			$("#target-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadtarget");
+			$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon2/loadpendanaan");
 			
 		});
 	</script>

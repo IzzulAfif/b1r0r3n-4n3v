@@ -43,6 +43,18 @@ class Program_eselon1_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
+	function get_pendanaan2($params)
+	{
+		$where = " where a.tahun_renstra = '".$params['tahun_renstra']."'";
+		
+		if (isset($params)){
+			if (isset($params['kode_e1'])) $where .= " and a.kode_e1='".$params['kode_e1']."'";
+		}
+		$sql = "SELECT * FROM anev_pendanaan_program a inner join anev_program_eselon1 b ON a.kode_program = b.kode_program ".$where." group by a.kode_program";
+		//echo $sql;
+		return $this->mgeneral->run_sql($sql);
+	}
+	
 	function get_list($params) {
 		$where = ' where 1=1 ';
 		if (isset($params)){
@@ -72,6 +84,16 @@ class Program_eselon1_model extends CI_Model
 		$sql .= " order by f.tahun desc, f.kode_program";
 		#echo $sql;
 		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_program_list($tahun_awal, $tahun_akhir) {
+		$sql = "select distinct kode_sp_e1, deskripsi from anev_sasaran_program where tahun<=$tahun_akhir and tahun>=$tahun_awal";
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih Sasaran Strategis';
+		foreach ($result as $i) {
+			$list[$i->kode_sp_e1] = $i->deskripsi;
+		}
+		return $list;	
 	}
 
 }

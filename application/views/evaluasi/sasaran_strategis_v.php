@@ -17,10 +17,10 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Rentang Tahun <span class="text-danger">*</span></label>
                         <div class="col-md-2">
-                            <?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?>
+                            <?=form_dropdown('tahun_awal',array("Pilih Tahun"),'','id="tahun_awal"')?>
                         </div>
                         <div class="col-md-2">
-                            <?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?>
+                            <?=form_dropdown('tahun_akhir',array("Pilih Tahun"),'','id="tahun_akhir"')?>
                         </div>
                     </div>
                     
@@ -108,29 +108,41 @@
         function update_table() {
             val_awal = tahun_awal.val();
             val_akhir = tahun_akhir.val();
-            if (val_akhir>=val_awal) {
-                kode_sasaran = sasaran.val();
-                $.ajax({
-                    url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,
-                        success:function(result) {
-                            tabel_capaian = $('#tabel_capaian');
-                            tabel_capaian.empty().html(result);        
-                            $('#box-result').removeClass("hide");
-                            $('.toggler').click(function(e){
-                                e.preventDefault();
-                                $('.detail'+$(this).attr('id')).toggle();
-                                target = $('#'+$(this).attr('target_rowspan'));
-                                if (e.target.id==$(this).attr('id')) {
-                                    num_rowspan = parseInt($(this).attr('num_rowspan'));
-                                    target.attr('rowspan',(num_rowspan+parseInt(target.attr('rowspan'))));
-                                    $(this).attr('num_rowspan',num_rowspan*-1);
-                                }
-                                //console.log('.detail'+$(this).attr('detail_num'));
-                            });
-                        }
-                });    
-            }
-        }
+			if($('#renstra').val()==0)
+			{
+				alert("Periode Renstra belum ditentukan");
+				$('#renstra').select2('open');
+			}
+			else if(val_awal=="" || val_akhir=="")
+			{
+				alert("Rentang tahun belum ditentukan");
+			}
+			else
+			{
+				if (val_akhir>=val_awal) {
+					kode_sasaran = sasaran.val();
+					$.ajax({
+						url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,
+							success:function(result) {
+								tabel_capaian = $('#tabel_capaian');
+								tabel_capaian.empty().html(result);        
+								$('#box-result').removeClass("hide");
+								$('.toggler').click(function(e){
+									e.preventDefault();
+									$('.detail'+$(this).attr('id')).toggle();
+									target = $('#'+$(this).attr('target_rowspan'));
+									if (e.target.id==$(this).attr('id')) {
+										num_rowspan = parseInt($(this).attr('num_rowspan'));
+										target.attr('rowspan',(num_rowspan+parseInt(target.attr('rowspan'))));
+										$(this).attr('num_rowspan',num_rowspan*-1);
+									}
+									//console.log('.detail'+$(this).attr('detail_num'));
+								});
+							}
+					});    
+				}
+			}
+		}
     });
     </script>
     <!--js-->

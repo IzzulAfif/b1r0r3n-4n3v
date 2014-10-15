@@ -16,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Sasaran Strategis</label>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <?=form_dropdown('sasaran',array('0'=>"Pilih Sasaran Strategis"),'','id="target-sasaran" class="populate" style="width:100%"')?>
                         </div>
                     </div>
@@ -65,8 +65,9 @@
 		sasaran = $('#target-sasaran');
 		renstra.change(function(){
             if (renstra.val()!="") {
+				var arrayrenstra = $('#target-tahun').val().split('-');
                 $.ajax({
-                    url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_sasaran/"+renstra.val(),
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_saskeg/"+arrayrenstra[0]+"/"+arrayrenstra[1],
                     success:function(result) {
                         $('#target-sasaran').empty();
                         result = JSON.parse(result);
@@ -94,7 +95,7 @@
 					no++;
 				}
 			$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_target/"+tahun+'/'+sasaran,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_target/"+tahun+'/'+sasaran,
                         success:function(result) {
                             table_body = $('#target-tbl tbody');
                             table_body.empty().html(result);        

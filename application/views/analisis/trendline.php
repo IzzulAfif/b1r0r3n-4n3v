@@ -34,10 +34,12 @@
                             <label class="col-sm-5 control-label">Rentang Tahun <span class="text-danger">*</span></label>
                             <div class="col-sm-3">
                                 <select name="tahun1" id="tahun1_g1" class="populate" style="width:100%">
+                                	<option value="0">Pilih Tahun</option>
                                 </select>
                             </div>
                             <div class="col-sm-3">
                                 <select name="tahun2" id="tahun2_g1" class="populate" style="width:100%">
+                                	<option value="0">Pilih Tahun</option>
                                 </select>
                             </div>
                         </div>
@@ -51,6 +53,7 @@
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="sasaran" id="sasaran_g1" class="populate" style="width:100%">
+                                	<option value="0">Pilih Sasaran</option>
                                 </select>
                             </div>
                         </div>
@@ -58,6 +61,7 @@
                             <label class="col-sm-4 control-label">Indikator <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="indikator" id="indikator_g1" class="populate" style="width:100%">
+                                	<option value="0">Pilih Indikator</option>
                                 </select>
                             </div>
                         </div>
@@ -226,9 +230,36 @@
 						beforeSubmit:  showProcess,
 						//success:     showResponse
     				}; 
-				$('#form_trendline_kl').submit(function() { 
-					$(this).ajaxSubmit(options);
-					return false; 
+				$('#form_trendline_kl').submit(function() {
+					if($('#renstra_g1').val()=="Pilih Periode Renstra"){
+						alert("Periode Renstra belum ditentukan");
+						$('#renstra_g1').select2('open');
+						return false;
+					}
+					else if($('#tahun1_g1').val()==0 || $('#tahun1_g1').val() == "Pilih Tahun"){
+						alert("Rentang tahun belum ditentukan");
+						$('#tahun1_g1').select2('open');
+						return false;
+					}
+					else if($('#tahun2_g1').val() == 0 || $('#tahun2_g1').val() == "Pilih Tahun"){
+						alert("Rentang tahun belum ditentukan");
+						$('#tahun2_g1').select2('open');
+						return false;
+					}
+					else if($('#sasaran_g1').val()==0 || $('#sasaran_g1').val() == ""){
+						alert("Sasaran belum ditentukan");
+						$('#sasaran_g1').select2('open');
+						return false;
+					}
+					else if($('#indikator_g1').val()==0 || $('#indikator_g1').val() == ""){
+						alert("Indikator belum ditentukan");
+						$('#indikator_g1').select2('open');
+						return false;
+					}
+					else{
+						$(this).ajaxSubmit(options);
+						return false; 
+					}
 				}); 
 			});
 			

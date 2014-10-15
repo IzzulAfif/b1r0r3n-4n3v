@@ -63,5 +63,28 @@ class Kegiatan_eselon2_model extends CI_Model
 		$sql = "select distinct kode_kegiatan, nama_kegiatan,e.nama_e2,f.kode_e2,e1.nama_e1,e.kode_e1 from anev_kegiatan_eselon2 f inner join anev_eselon2 e on f.kode_e2=e.kode_e2 and f.tahun between left(e.tahun_renstra,4) and right(e.tahun_renstra,4) inner join anev_eselon1 e1 on e1.kode_e1=e.kode_e1 and e.tahun_renstra = e1.tahun_renstra ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_kegiatan_list($tahun_awal, $tahun_akhir) {
+		$sql = "select distinct kode_sk_e2, deskripsi from anev_sasaran_kegiatan where tahun<=$tahun_akhir and tahun>=$tahun_awal";
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih Sasaran Strategis';
+		foreach ($result as $i) {
+			$list[$i->kode_sk_e2] = $i->deskripsi;
+		}
+		return $list;	
+	}
+	
+	function get_pendanaan($params)
+	{
+		$where = " where a.tahun_renstra = '".$params['tahun_renstra']."'";
+		
+		if (isset($params)){
+			if (isset($params['kode_e1'])) $where .= " and c.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and a.kode_e2='".$params['kode_e2']."'";
+		}
+		$sql = "SELECT * FROM anev_pendanaan_kegiatan a inner join anev_kegiatan_eselon2 b ON a.kode_kegiatan = b.kode_kegiatan inner join anev_eselon2 c ON b.kode_e2 = c.kode_e2 ".$where." group by a.kode_kegiatan";
+		//echo $sql;
+		return $this->mgeneral->run_sql($sql);
+	}
 }
 

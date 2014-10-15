@@ -51,12 +51,15 @@ class Pemrograman_kl extends CI_Controller {
 		$data=$this->program_e1->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$no=1;
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$no.'</td>
 					<td>'.$d->nama_e1.'</td>
 					<td>'.$d->kode_program.'</td>
 					<td>'.$d->nama_program.'</td>
 				</tr>';
+				$no++;
 				endforeach; 
 				/*<td>
 						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
@@ -64,7 +67,7 @@ class Pemrograman_kl extends CI_Controller {
 					</td>*/
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -95,7 +98,7 @@ class Pemrograman_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="2" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;
@@ -157,11 +160,11 @@ class Pemrograman_kl extends CI_Controller {
 					<td>'.$d->kode_iku_kl.'</td>					
 					<td width="20%">'.$d->deskripsi.'</td>
 					<td>'.$d->satuan.'</td>					
-					<td width="10%">'.$d->target_thn1.'</td>					
-					<td width="10%">'.$d->target_thn2.'</td>					
-					<td width="10%">'.$d->target_thn3.'</td>					
-					<td width="10%">'.$d->target_thn4.'</td>					
-					<td width="10%">'.$d->target_thn5.'</td>
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn1).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn2).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn3).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn4).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn5).'</td>
 				</tr>';
 				$no++;
 				endforeach; 
@@ -171,6 +174,18 @@ class Pemrograman_kl extends CI_Controller {
 			</tr>';
 		}
 		echo $rs;
+	}
+	
+	function cek_tipe_numerik($str)
+	{
+		if(is_numeric($str)):
+			$cekFormat = explode(".",$str);
+			if(count($cekFormat)==1): $fangka = "0"; else: $fangka="2"; endif;
+			$format = number_format($str,$fangka,',','.');
+			return $format;
+		else:
+			return $str;
+		endif;
 	}
 	
 	function loadpendanaan()
@@ -186,16 +201,19 @@ class Pemrograman_kl extends CI_Controller {
 	function get_body_pendanaan($tahun,$kode){
 		$params['tahun_renstra'] = 	$tahun;
 		if($kode!=0)$params['kode_e1'] = 	$kode;
-		$data=$this->program_e1->get_pendanaan($params); 
+		$data=$this->program_e1->get_pendanaan2($params); 
 		$rs = '';
 		if (isset($data)){
 			$no=1;
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
 					<td>'.$no.'</td>
-					<td>'.$d->kode_program.'</td>
 					<td>'.$d->nama_program.'</td>
-					<td align="right">'.number_format($d->total,0,',','.').'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn1).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn2).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn3).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
 				</tr>';
 				$no++;
 				endforeach; 

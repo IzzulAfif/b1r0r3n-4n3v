@@ -67,6 +67,11 @@
 		$("#sastra-btn").click(function(){
 			tahun = $('#sastra-tahun').val();
 			kode = $('#sastra-kodekl').val();
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#sastra-tahun').select2('open');
+			}
+			else {
 			$.ajax({
                     url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_sastra/"+tahun+"/"+kode,
                         success:function(result) {
@@ -74,7 +79,8 @@
                             table_body.empty().html(result);        
                             $('#ss_kl_konten').removeClass("hide");
                         }
-                });  
+                });
+			}
 		});
 	
 	})

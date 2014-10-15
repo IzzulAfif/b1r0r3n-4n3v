@@ -35,10 +35,12 @@
                             <label class="col-sm-4 control-label">Rentang Tahun <span class="text-danger">*</span></label>
                             <div class="col-sm-4">
                                 <select name="tahun1" id="tahun1_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Tahun</option>
                                 </select>
                             </div>
                             <div class="col-sm-4">
                                 <select name="tahun2" id="tahun2_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Tahun</option>
                                 </select>
                             </div>
                         </div>
@@ -50,6 +52,7 @@
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="sasaran" id="sasaran_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Sasaran</option>
                                 </select>
                             </div>
                         </div>
@@ -57,6 +60,7 @@
                             <label class="col-sm-4 control-label">Indikator <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="indikator" id="indikator_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Indikator</option>
                                 </select>
                             </div>
                         </div>
@@ -74,6 +78,7 @@
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="sasaran2" id="sasaran2_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Sasaran</option>
                                 </select>
                             </div>
                         </div>
@@ -81,6 +86,7 @@
                             <label class="col-sm-4 control-label">Indikator <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="indikator2" id="indikator2_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Indikator</option>
                                 </select>
                             </div>
                         </div>
@@ -293,8 +299,45 @@
 						//success:     showResponse
     				}; 
 				$('#form_korelasi_kl').submit(function() { 
-					$(this).ajaxSubmit(options);
-					return false; 
+					if($('#renstra_g3').val()=="Pilih Periode Renstra"){
+						alert("Periode Renstra belum ditentukan");
+						$('#renstra_g3').select2('open');
+						return false;
+					}
+					else if($('#tahun1_g3').val()==0 || $('#tahun1_g3').val() == "Pilih Tahun"){
+						alert("Rentang tahun belum ditentukan");
+						$('#tahun1_g3').select2('open');
+						return false;
+					}
+					else if($('#tahun2_g3').val() == 0 || $('#tahun2_g3').val() == "Pilih Tahun"){
+						alert("Rentang tahun belum ditentukan");
+						$('#tahun2_g3').select2('open');
+						return false;
+					}
+					else if($('#sasaran_g3').val()==0 || $('#sasaran_g3').val() == ""){
+						alert("Sasaran belum ditentukan");
+						$('#sasaran_g3').select2('open');
+						return false;
+					}
+					else if($('#indikator_g3').val()==0 || $('#indikator_g3').val() == ""){
+						alert("Indikator belum ditentukan");
+						$('#indikator_g3').select2('open');
+						return false;
+					}
+					else if($('#sasaran2_g3').val()==0 || $('#sasaran2_g3').val() == ""){
+						alert("Sasaran belum ditentukan");
+						$('#sasaran2_g3').select2('open');
+						return false;
+					}
+					else if($('#indikator2_g3').val()==0 || $('#indikator2_g3').val() == ""){
+						alert("Indikator belum ditentukan");
+						$('#indikator2_g3').select2('open');
+						return false;
+					}
+					else{
+						$(this).ajaxSubmit(options);
+						return false; 
+					}
 				});
 				
 			});

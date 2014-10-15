@@ -19,7 +19,7 @@ class analisis_model extends CI_Model
 		
 		$sql = "SELECT distinct(tahun_renstra) as tahun FROM anev_kl WHERE 1 = 1";
 		$data= $this->mgeneral->run_sql($sql);
-		$list[] = 'Tahun';
+		$list[] = 'Pilih Periode Renstra';
 		foreach ($data as $d) {
 			$list[] = $d->tahun;
 		}
@@ -30,7 +30,7 @@ class analisis_model extends CI_Model
 		
 		$sql = "SELECT distinct(tahun_renstra) as tahun FROM anev_eselon1 WHERE 1 = 1";
 		$data= $this->mgeneral->run_sql($sql);
-		$list[] = 'Tahun';
+		$list[] = 'Pilih Periode Renstra';
 		foreach ($data as $d) {
 			$list[] = $d->tahun;
 		}
@@ -39,7 +39,7 @@ class analisis_model extends CI_Model
 	
 	function get_tahun_sasaran_strategis($kode,$renstra){
 		$thn_renstra = explode("-",$renstra);
-		$list[] = 'Tahun';
+		$list[] = 'Pilih Tahun';
 		for($a=$thn_renstra[0]; $a<=$thn_renstra[1]; $a++) {
 			$list[] = $a;
 		}
@@ -49,7 +49,7 @@ class analisis_model extends CI_Model
 	function get_tahun_sasaran_program($kode,$renstra)
 	{
 		$thn_renstra = explode("-",$renstra);
-		$list[] = 'Tahun';
+		$list[] = 'Pilih Tahun';
 		for($a=$thn_renstra[0]; $a<=$thn_renstra[1]; $a++) {
 			$list[] = $a;
 		}

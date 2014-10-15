@@ -14,10 +14,16 @@
                          	<?=form_dropdown('tahun',$renstra,'0','id="program-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="kode_e1-box1">
                         <label class="col-md-2 control-label">Unit Kerja</label>
                         <div class="col-md-6">
-                         <?=form_dropdown('kode_e1',$eselon1,'0','id="program-kode_e1"  class="populate" style="width:100%"')?>
+						 <?=form_dropdown('kode_e1_s',array("Pilih Unit Kerja"),'0','id="program-kode_e1_s"  class="populate" style="width:100%"')?>
+                        </div>
+                    </div>
+                    <div class="form-group hide" id="kode_e1-box2">
+                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <div class="col-md-6">
+						 <?=form_dropdown('kode_e1',$eselon1,'0','id="program-kode_e1"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">
@@ -46,8 +52,9 @@
             <table  class="display table table-bordered table-striped" id="program-tbl">
                 <thead>
                 <tr>
+                	<th>No</th>
                 	<th>Unit Kerja</th>
-                    <th>Kode Program</th>
+                    <th>Kode</th>
                     <th>Nama Program</th>
                 </tr>
                 </thead>
@@ -82,9 +89,18 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		$("#program-tahun").click(function(){
+			$("#kode_e1-box1").addClass("hide");
+			$("#kode_e1-box2").removeClass("hide");
+		});
 		$("#program-btn").click(function(){
 			tahun = $('#program-tahun').val();
 			kode = $('#program-kode_e1').val();
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#program-tahun').select2('open');
+			}
+			else {
 			$.ajax({
                     url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_program/"+tahun+"/"+kode,
                         success:function(result) {
@@ -92,7 +108,8 @@
                             table_body.empty().html(result);        
                             $('#program_kl_konten').removeClass("hide");
                         }
-                });  
+                });
+			}
 		});
 		program_add =function(){
 			$("#program_title").html('<i class="fa fa-plus-square"></i> Tambah Program');

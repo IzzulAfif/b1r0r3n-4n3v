@@ -28,7 +28,7 @@ class sasaran_strategis_m extends CI_Model
 	function get_sasaran_list($tahun_renstra) {
 		$sql = "select distinct kode_ss_kl, deskripsi from anev_sasaran_strategis where 1=1";
 		$result = $this->mgeneral->run_sql($sql);
-		$list[0] = 'Pilih sasaran';
+		$list[0] = 'Pilih sasaran strategis';
 		foreach ($result as $i) {
 			$list[$i->kode_ss_kl] = $i->deskripsi;
 		}
@@ -36,8 +36,6 @@ class sasaran_strategis_m extends CI_Model
 	}
 
 	function get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir) {
-		echo "$kode_sasaran_kl, $tahun_awal, $tahun_akhir";
-		
 		if($kode_sasaran_kl=="0"): 
 			$where = ""; 
 		else: 
@@ -49,7 +47,6 @@ class sasaran_strategis_m extends CI_Model
 			on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_ss_kl=s.kode_ss_kl and k.kode_iku_kl=i.kode_iku_kl) 
  			where k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
  			." ".$where."order by i.kode_iku_kl asc, k.tahun asc";
-			echo $sql;
  		return $this->mgeneral->run_sql($sql);	
 	}
 

@@ -67,6 +67,11 @@
 		$("#sasaran-btn").click(function(){
 			tahun = $('#sasaran-tahun').val();
 			kode = $('#sasaran-kode_e1').val();
+			if (tahun=="0") {
+				alert("Periode Renstra belum ditentukan");
+				$('#sasaran-tahun').select2('open');
+			}
+			else {
 			$.ajax({
                     url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_body_sasaran/"+tahun+"/"+kode,
                         success:function(result) {
@@ -74,7 +79,8 @@
                             table_body.empty().html(result);        
                          	$('#sp_konten').removeClass("hide");   
                         }
-                });  
+                });
+			}
 		});
 	})
 </script>	               

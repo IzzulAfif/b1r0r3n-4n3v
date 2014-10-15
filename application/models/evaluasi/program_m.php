@@ -33,7 +33,7 @@ class program_m extends CI_Model
 		$result = $this->mgeneral->run_sql($sql);
 		$list[0] = 'Pilih program';
 		foreach ($result as $i) {
-			$list[$i->kode_program] = $i->nama_program.' ('.$i->kode_program.')';
+			$list[$i->kode_program] = $i->nama_program;
 		}
 		return $list;	
 	}

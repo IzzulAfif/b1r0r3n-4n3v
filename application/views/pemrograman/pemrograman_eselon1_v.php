@@ -54,8 +54,8 @@
 		$(document).ready(function() {
 			
 			$("#program-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadprogram");
-			$("#sasprog-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadsasprog");
-			$("#iku-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadiku");
+			$("#target-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadtarget");
+			$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadpendanaan");
 			//$("#pendanaan-content").load("<?=base_url()?>pemrograman/pemrograman_eselon1/loadpendanaan");
 			
 		});

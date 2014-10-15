@@ -13,12 +13,12 @@
                     </div>
                     <div class="form-group">
                     	<label class="col-sm-2">Tahun <span class="text-danger">*</span></label>
-                    	<div class="col-sm-2"><?=form_dropdown('tahun_awal',array(),'','id="tahun_awal"')?></div>
-                    	<div class="col-sm-2"><?=form_dropdown('tahun_akhir',array(),'','id="tahun_akhir"')?></div>
+                    	<div class="col-sm-2"><?=form_dropdown('tahun_awal',array("Pilih Tahun"),'','id="tahun_awal"')?></div>
+                    	<div class="col-sm-2"><?=form_dropdown('tahun_akhir',array("Pilih Tahun"),'','id="tahun_akhir"')?></div>
                     </div>
                     <div class="form-group">
                     	<label class="col-sm-2">Nama Program <span class="text-danger">*</span></label>
-                    	<div class="col-sm-8"><?=form_dropdown('nama_program',array(),'','id="nama_program"')?></div>
+                    	<div class="col-sm-8"><?=form_dropdown('nama_program',array("Pilih Program"),'','id="nama_program"')?></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">&nbsp;</label>
@@ -119,29 +119,40 @@
         });
 
         $('#program-btn').click(function(){
-            if (nama_program.val()!=0) {
-                kode_program = nama_program.val();
-                val_awal = tahun_awal.val();
-                val_akhir = tahun_akhir.val();
-                //req kegiatan & pelaksana
-                $.ajax({
-                    url:"<?php echo site_url(); ?>evaluasi/program/get_kegiatan_pelaksana_program/"+kode_program,
-                    success:function(result) {
-						$('#box-result').removeClass("hide");
-                        result = JSON.parse(result);
-                        update_table(kode_program, val_awal, val_akhir, result.pelaksana.kode_e1);
-                        $('#pelaksana').html(result.pelaksana.nama_e1+" ("+result.pelaksana.kode_e1+")");
-                        list_kegiatan = '<ol>';
-                        nama_kegiatan = $('#nama_kegiatan');
-                        nama_kegiatan.empty();
-                        //nama_kegiatan.append('<ol>');
-                        for (i in result.kegiatan) list_kegiatan+='<li>'+result.kegiatan[i]+'</li>';                
-                        list_kegiatan += '</ol>';
-                        nama_kegiatan.append(list_kegiatan);
-                    }
-                });
-            } 
-        });
+            if($('#renstra').val()==0){
+				alert("Periode Renstra belum ditentukan");
+				$('#renstra').select2('open');
+			}
+			else if($('#nama_program').val()==0){
+				alert("Nama Program belum ditentukan");
+				$('#nama_program').select2('open');
+			}
+			else
+			{
+				if (nama_program.val()!=0) {
+					kode_program = nama_program.val();
+					val_awal = tahun_awal.val();
+					val_akhir = tahun_akhir.val();
+					//req kegiatan & pelaksana
+					$.ajax({
+						url:"<?php echo site_url(); ?>evaluasi/program/get_kegiatan_pelaksana_program/"+kode_program,
+						success:function(result) {
+							$('#box-result').removeClass("hide");
+							result = JSON.parse(result);
+							update_table(kode_program, val_awal, val_akhir, result.pelaksana.kode_e1);
+							$('#pelaksana').html(result.pelaksana.nama_e1+" ("+result.pelaksana.kode_e1+")");
+							list_kegiatan = '<ol>';
+							nama_kegiatan = $('#nama_kegiatan');
+							nama_kegiatan.empty();
+							//nama_kegiatan.append('<ol>');
+							for (i in result.kegiatan) list_kegiatan+='<li>'+result.kegiatan[i]+'</li>';                
+							list_kegiatan += '</ol>';
+							nama_kegiatan.append(list_kegiatan);
+						}
+					});
+				} 
+			}
+		});
 
         function update_table(kd_program, thn_awal, thn_akhir, kd_pelaksana) {
             //req capaian

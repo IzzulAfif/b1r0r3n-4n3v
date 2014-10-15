@@ -18,6 +18,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$this->load->model('/pemrograman/sasaran_kegiatan_model','sasaran');
 		$this->load->model('/pemrograman/ikk_model','iku');
 		$this->load->model('/admin/tahun_renstra_model','setting_th');
+		$this->load->model('/pemrograman/target_capaian_model','target');
 	/*	$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
 		*/
 	}	
@@ -52,13 +53,16 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$data=$this->kegiatan->get_all($params); 
 		$rs = '';
 		if (isset($data)){
+			$no=1;
 			foreach($data as $d): 
 				$rs .= '<tr class="gradeX">
+					<td>'.$no.'</td>
 					<td>'.$d->nama_e2.'</td>
 					<td>'.$d->nama_program.'</td>
 					<td>'.$d->kode_kegiatan.'</td>
 					<td>'.$d->nama_kegiatan.'</td>
 				</tr>';
+				$no++;
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
@@ -68,6 +72,45 @@ class Pemrograman_eselon2 extends CI_Controller {
 		echo $rs;
 	}
 		
+	function loadtarget()
+	{
+		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
+		$setting['page']	= array('pg_aktif'	=> "datatables");
+		$template			= $this->template->load_popup($setting); #load static template file		
+		$data['renstra']	= $this->setting_th->get_list();
+		echo $this->load->view('pemrograman/target_capaian_e2_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_target($tahun,$sasaran){
+		$params['tahun_renstra'] = 	$tahun;
+		if($sasaran!="0")$params['sasaran'] = $sasaran;
+		
+		$data=$this->target->get_e2($params); 
+		$rs = '';
+		if (isset($data)){
+			$no=1;
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td width="3%">'.$no.'</td>
+					<td>'.$d->kode_ikk.'</td>					
+					<td width="20%">'.$d->deskripsi.'</td>
+					<td>'.$d->satuan.'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn1).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn2).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn3).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn4).'</td>					
+					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+				</tr>';
+				$no++;
+				endforeach; 
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td colspan="10" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+			</tr>';
+		}
+		echo $rs;
+	}
+	
 	function loadsaskeg()
 	{
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
@@ -149,9 +192,41 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "PEMROGRAMAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = null;//$this->sasaran->get_all(null);
-		$data['eselon1'] = $this->eselon1->get_list(null);
-		echo $this->load->view('pemrograman/pendanaan_kl_v',$data,true); #load konten template file		
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		echo $this->load->view('pemrograman/dana_e2_v',$data,true); #load konten template file		
+	}
+	
+	function get_body_pendanaan($tahun,$kode,$kode2){
+		$params['tahun_renstra'] = 	$tahun;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
+		if($kode2!=0)$params['kode_e2'] = 	$kode2;
+		$data=$this->kegiatan->get_pendanaan($params); 
+		$rs = '';
+		if (isset($data)){
+			$no=1;
+			foreach($data as $d): 
+				$rs .= '<tr class="gradeX">
+					<td>'.$no.'</td>
+					<td>'.$d->nama_kegiatan.'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn1).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn2).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn3).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
+					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+				</tr>';
+				$no++;
+				endforeach; 
+				/*<td>
+						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
+						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="program_delete(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-times"></i></a>
+					</td>*/
+		} else {
+			$rs .= '<tr class="gradeX">
+				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+			</tr>';
+		}
+		echo $rs;
 	}
 	
 	
@@ -200,5 +275,20 @@ class Pemrograman_eselon2 extends CI_Controller {
 		echo $rs;
 	}
 	
+	function get_saskeg($tahun_awal, $tahun_akhir)
+	{
+		echo json_encode($this->kegiatan->get_kegiatan_list($tahun_awal, $tahun_akhir));
+	}
 	
+	function cek_tipe_numerik($str)
+	{
+		if(is_numeric($str)):
+			$cekFormat = explode(".",$str);
+			if(count($cekFormat)==1): $fangka = "0"; else: $fangka="2"; endif;
+			$format = number_format($str,$fangka,',','.');
+			return $format;
+		else:
+			return $str;
+		endif;
+	}
 }
