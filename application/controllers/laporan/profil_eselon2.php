@@ -94,7 +94,32 @@ class Profil_eselon2 extends CI_Controller {
 	
 	function print_pdf($tahun,$e2)
    {
-	   $this->load->library('pdf');
+	  $this->load->library('tcpdf_','pdf');
+	   
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Rencana Strategis Kementerian');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+		// add a page
+		$pdf->AddPage();
+		$pdf->Write(0, 'PROFILE UNIT KERJA ESELON II', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', 'B', 10);
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 10);
+		
 	   $data['renstra']		= $tahun;
 	   $data['nama_unit'] 	= $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2,'tahun_renstra'=>$tahun),"anev_eselon2");
 	   $data['unit_kerja']	= $this->eselon2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
@@ -103,7 +128,10 @@ class Profil_eselon2 extends CI_Controller {
 	   
 	   $html = $this->load->view('laporan/print/pdf_profile_e2',$data,true);
 	   
-	   echo $this->pdf->cetak($html,"profile_eselon2.pdf");
+	   $pdf->writeHTML($html, true, false, false, false, '');
+		$pdf->SetFont('helvetica', 'B', 10);
+	
+		$pdf->Output('profile_eselon2.pdf', 'I');
    }
 
 }

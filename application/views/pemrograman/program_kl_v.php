@@ -14,7 +14,7 @@
                          	<?=form_dropdown('tahun',$renstra,'0','id="program-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
-                    <div class="form-group" id="kode_e1-box1">
+                    <div class="form-group <?php if($page=="kl"): echo "hide"; endif; ?>" id="kode_e1-box1">
                         <label class="col-md-2 control-label">Unit Kerja</label>
                         <div class="col-md-6">
 						 <?=form_dropdown('kode_e1_s',array("Pilih Unit Kerja"),'0','id="program-kode_e1_s"  class="populate" style="width:100%"')?>
@@ -89,10 +89,12 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		<?php if($page!="kl"):?>
 		$("#program-tahun").click(function(){
 			$("#kode_e1-box1").addClass("hide");
 			$("#kode_e1-box2").removeClass("hide");
 		});
+		<?php endif; ?>
 		$("#program-btn").click(function(){
 			tahun = $('#program-tahun').val();
 			kode = $('#program-kode_e1').val();

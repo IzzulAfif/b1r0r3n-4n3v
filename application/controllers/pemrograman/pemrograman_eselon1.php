@@ -42,6 +42,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] = $this->eselon1->get_list(null);
+		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/program_kl_v',$data,true); #load konten template file		
 	}
 	
@@ -191,6 +192,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}	
 	

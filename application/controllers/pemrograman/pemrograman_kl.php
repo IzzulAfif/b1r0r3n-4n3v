@@ -42,6 +42,7 @@ class Pemrograman_kl extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$data['page']		= "kl";
 		echo $this->load->view('pemrograman/program_kl_v',$data,true); #load konten template file		
 	}
 	
@@ -195,6 +196,7 @@ class Pemrograman_kl extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$data['page']		= "kl";
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}
 	
@@ -204,8 +206,9 @@ class Pemrograman_kl extends CI_Controller {
 		$data=$this->program_e1->get_pendanaan2($params); 
 		$rs = '';
 		if (isset($data)){
-			$no=1;
+			$no=1; $total = 0; $total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0; $total_all = 0;
 			foreach($data as $d): 
+				$total = $d->target_thn1+$d->target_thn2+$d->target_thn3+$d->target_thn4+$d->target_thn5;
 				$rs .= '<tr class="gradeX">
 					<td>'.$no.'</td>
 					<td>'.$d->nama_program.'</td>
@@ -214,9 +217,26 @@ class Pemrograman_kl extends CI_Controller {
 					<td>'.$this->cek_tipe_numerik($d->target_thn3).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+					<td>'.$this->cek_tipe_numerik($total).'</td>
 				</tr>';
+				$total1 = $total1+$d->target_thn1;
+				$total2 = $total2+$d->target_thn2;
+				$total3 = $total3+$d->target_thn3;
+				$total4 = $total4+$d->target_thn4;
+				$total5 = $total5+$d->target_thn5;
+				$total_all = $total_all+$total;
 				$no++;
 				endforeach; 
+				$rs .= '<tr class="gradeX">
+						<td colspan="2"><center><b>Total</b></center></td>
+						<td><b>'.$this->cek_tipe_numerik($total1).'</b></td>
+						<td><b>'.$this->cek_tipe_numerik($total2).'</b></td>
+						<td><b>'.$this->cek_tipe_numerik($total3).'</b></td>
+						<td><b>'.$this->cek_tipe_numerik($total4).'</b></td>
+						<td><b>'.$this->cek_tipe_numerik($total5).'</b></td>
+						<td><b>'.$this->cek_tipe_numerik($total_all).'</b></td>
+					 </tr>
+				';
 				/*<td>
 						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
 						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="program_delete(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-times"></i></a>

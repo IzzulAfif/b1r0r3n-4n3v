@@ -14,7 +14,7 @@
                          	<?=form_dropdown('tahun',$renstra,'0','id="dana-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group <?php if($page=="kl"): echo "hide"; endif; ?>">
                         <label class="col-md-2 control-label">Unit Kerja</label>
                         <div class="col-md-6">
                          <?=form_dropdown('kode_e1',$eselon1,'0','id="dana-kode_e1"  class="populate" style="width:100%"')?>
@@ -40,6 +40,7 @@
                 	<th rowspan="2">No</th>
                     <th rowspan="2">Nama Program</th>
                     <th colspan="5"><center>Alokasi Pendanaan</center></th>
+                    <th rowspan="2">Total</th>
                 </tr>
                 <tr>
                 	<th><span id="dana-tahun1">-</span></th>

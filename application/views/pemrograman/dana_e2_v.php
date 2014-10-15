@@ -46,6 +46,7 @@
                 	<th rowspan="2">No</th>
                     <th rowspan="2">Nama Kegiatan</th>
                     <th colspan="5"><center>Alokasi Pendanaan</center></th>
+                    <th rowspan="2">Total</th>
                 </tr>
                 <tr>
                 	<th><span id="dana-tahun1">-</span></th>
