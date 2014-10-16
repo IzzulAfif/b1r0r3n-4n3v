@@ -65,7 +65,7 @@ class Renstra_eselon2 extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
-		$data['data'] = $this->get_rencana_detail($tahun,$e1,$e2);
+		$data['data'] = $this->get_rencana_detail($tahun,$e1,$e2,true);
 		$data['periode'] = $tahun;
 		if ($e2=="0")
 			$data['unitkerja'] = 'UNIT KERJA ESELON II';
@@ -336,7 +336,7 @@ function get_pendanaan($tahun,$e1,$e2)
 	}
 	
 	
-	function get_rencana_detail($tahun,$e1,$e2){
+	function get_rencana_detail($tahun,$e1,$e2,$ajaxCall=true){
 		$dataAll = array();
 		
 		$rs = '';
@@ -344,24 +344,27 @@ function get_pendanaan($tahun,$e1,$e2)
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
 			$params['kode_e2'] = $e2;
-			$rs = '<table class="display table table-bordered table-striped">';
+			if ($ajaxCall)
+				$rs = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$rs = '<table  border="1" cellpadding="2" cellspacing="0">';
 			$arrTahun = explode("-",$tahun);
 			
 			$rangetahun = $arrTahun[1]-$arrTahun[0];
-			
+			$setValignMiddle = '';$rowspan =2;
+			if (!$ajaxCall)
+				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 		//	$rs = '<table class="table" border="1">';
-			$rs .= '
-			<thead><tr  align="center">
-						
-						<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center"   rowspan="2">No.</th>
-						<th style="vertical-align:middle;text-align:center" width="40%" rowspan="2">Indikator Kinerja Kegiatan (IKK)</th>
-						<th style="vertical-align:middle;text-align:center" width="100px" rowspan="2">Satuan</th>
-						<th style="vertical-align:middle;text-align:center" width="100px" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
+			$rs .= '<thead><tr  align="center" valign="middle">						
+						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
+						<th style="vertical-align:middle;text-align:center;width:50%" width="150" rowspan="2">'.$setValignMiddle.'Indikator Kinerja Kegiatan (IKK)</th>
+						<th style="vertical-align:middle;text-align:center;width:10%" width="80" rowspan="2">'.$setValignMiddle.'Satuan</th>
+						<th style="vertical-align:middle;text-align:center" width="'.(85*($rangetahun+1)).'" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
 					</tr>';
 			$rs .= 	'<tr>';
 				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-						$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
+						$rs .= 	'<th style="vertical-align:middle;text-align:center" width="85">'.$colTahun.'</th>';
 						
 			$rs .= 	'		</tr></thead>';	
 			$rs .= '<tbody>';		
@@ -408,31 +411,25 @@ function get_pendanaan($tahun,$e1,$e2)
 					}			
 				}
 				
-			 $i=0;$no=1;
-			
+			 $i=0;$no=1;			
 				$jml_data_kegiatan = sizeof($data_kegiatan);
 				$colspan_sasaran = 
-				$rs .= '<tr>';
-				
-					
-				if (isset($data_kegiatan)){		
-					
-					
-					$j=0;
-					
+				$rs .= '<tr>';					
+				if (isset($data_kegiatan)){						
+					$j=0;					
 					foreach($data_kegiatan as $ss){
 						if ($j==0){
 							if ($ss->rowspan==0)
-								$rs .= '<td     valign="top">'.$ss->deskripsi.'</td>';
+								$rs .= '<td  width="100"    valign="top">'.$ss->deskripsi.'</td>';
 							else
-								$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+								$rs .= '<td width="100"    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
 						}
 						else {
 							$rs .= '<tr>';							
 							if ($ss->rowspan==0)								
-								$rs .= '<td     valign="top">'.$ss->deskripsi.'</td>';
+								$rs .= '<td   width="100"   valign="top">'.$ss->deskripsi.'</td>';
 							else								
-								$rs .= '<td    rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
+								$rs .= '<td  width="100"   rowspan="'.$ss->rowspan.'"  valign="top">'.$ss->deskripsi.'</td>';
 						}
 						
 						$jml_data_iku = count($data_kegiatan[$j]->iku);
@@ -447,21 +444,21 @@ function get_pendanaan($tahun,$e1,$e2)
 									$rs .= '<tr>';
 									
 								}
-									$rs .= '<td   valign="top">'.$no.'</td>';
-									$rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-								  $rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+									$rs .= '<td  width="30"  align="center" valign="top">'.$no.'</td>';
+									$rs .= '<td width="150"   valign="top">'.$iku->deskripsi.'</td>';
+								  $rs .= '<td  width="80" valign="top">'.$iku->satuan.'</td>';
 								//  for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){	
 										//$realisasi = isset($iku->target[$colTahun])?$iku->target[$colTahun]:'-';
 										$realisasi = isset($iku->target1)?$iku->target1:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+										$rs .= 	'<td width="85" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 										$realisasi = isset($iku->target2)?$iku->target2:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+										$rs .= 	'<td width="85" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 										$realisasi = isset($iku->target3)?$iku->target3:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+										$rs .= 	'<td width="85" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 										$realisasi = isset($iku->target4)?$iku->target4:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+										$rs .= 	'<td width="85" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 										$realisasi = isset($iku->target5)?$iku->target5:'-';
-										$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+										$rs .= 	'<td width="85" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 										
 								//  }		
 								  $rs .= '</tr>';

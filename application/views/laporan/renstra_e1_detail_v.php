@@ -14,10 +14,13 @@
                     </header>
                     <div class="panel-body">
 						
-                    <div id="detail_rencana" >
-							<?=$data?>	
-					</div>
-                    
+						<div id="detail_rencana" >
+								<?=$data?>	
+						</div>
+						<div class="pull-right">
+							<button type="button" class="btn btn-primary btn-sm" id=	"cetakpdf_detaile1"><i class="fa fa-print"></i> Cetak PDF</button>          
+							<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_detaile1"><i class="fa fa-download"></i> Ekspor Excel</button>
+						</div>
                     </div>
                 </section>
             </div>
@@ -26,14 +29,8 @@
 	
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
-			load_detail = function(){
-				var tahun = $('#tahun').val();
-				var kodekl = $('#kodee1').val();
-				
-				$("#detail_rencana").load("<?=base_url()?>laporan/renstra_eselon1/get_rencana_detail/"+tahun+"/"+kodekl);
-				
-			}
-			
-			//load_detail();
+			$('#cetakpdf_detaile1').click(function(){				
+				window.open('<?=base_url()?>laporan/renstra_eselon1/target_print_pdf/<?=$periode?>/<?=$e1?>','_blank');			
+			});
 		});
 	</script>

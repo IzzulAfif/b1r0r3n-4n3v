@@ -61,6 +61,10 @@
                     	<div class="col-md-10" ><a href="#" id="e1-klikdisini">Klik Disini</a></div>
                     </div>
 					<div class="form-group">
+                    	<label class="col-md-2 text-primary">Program</label>
+                    	<div class="col-md-10" id="e1-program"></div>
+                    </div>
+					<div class="form-group">
                     	<label class="col-md-2 text-primary">Kegiatan</label>
                     	<div class="col-md-10" id="e1-kegiatan"></div>
                     </div>
@@ -96,6 +100,7 @@
 				$("#e1-tujuan").load("<?=base_url()?>laporan/renstra_eselon1/get_tujuan/"+tahun+"/"+kodee1);
 				$("#e1-kegiatan").load("<?=base_url()?>laporan/renstra_eselon1/get_kegiatan/"+tahun+"/"+kodee1);
 				$("#e1-sasaran").load("<?=base_url()?>laporan/renstra_eselon1/get_sasaran/"+tahun+"/"+kodee1);
+				$("#e1-program").load("<?=base_url()?>laporan/renstra_eselon1/get_program/"+tahun+"/"+kodee1);
 			}
 			
 			 $("#e1-tahun").change(function(){

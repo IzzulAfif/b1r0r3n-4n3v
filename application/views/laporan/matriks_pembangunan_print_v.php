@@ -16,9 +16,9 @@
 							<?=$data?>	
 					</div>
                     <div class="pull-right">
-					<button type="button" class="btn btn-primary btn-sm" id=	"cetakpdf_matriks"><i class="fa fa-print"></i> Cetak PDF</button>          
-					<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_matriks"><i class="fa fa-download"></i> Ekspor Excel</button>
-				</div>
+						<button type="button" class="btn btn-primary btn-sm" id=	"cetakpdf_matriks"><i class="fa fa-print"></i> Cetak PDF</button>          
+						<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_matriks"><i class="fa fa-download"></i> Ekspor Excel</button>
+					</div>
                     </div>
                 </section>
             </div>

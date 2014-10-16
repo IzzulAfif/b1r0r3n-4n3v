@@ -42,7 +42,17 @@
                <? echo $sasaran?> 
             </td>
         </tr>
-        <tr><td><b>Kegiatan</b></td></tr>
+        <tr><td><b>Program</b></td></tr>
+        <tr>
+            <td>
+            	
+            	<?php echo $program;
+				
+				?>
+                
+            </td>
+        </tr>
+		<tr><td><b>Kegiatan</b></td></tr>
         <tr>
             <td>
             	
