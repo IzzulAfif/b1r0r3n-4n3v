@@ -487,33 +487,37 @@ function get_pendanaan($tahun,$e1,$e2)
 		return $rs;
 	}
 	
-	function get_pendanaan_detail($tahun,$e1,$e2){
+	function get_pendanaan_detail($tahun,$e1,$e2,$ajaxCall=true){
 		$dataAll = array();
 		$params['tahun_renstra']=$tahun;
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
 			$params['kode_e2'] = $e2;
-		$isGrouping = ($e2=="0");
+		$isGrouping = false;//($e2=="0");
 		$rs = '';
 		
-			$rs = '<table class="display table table-bordered table-striped">';
+			if ($ajaxCall)
+				$rs = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$rs = '<table  border="1" cellpadding="2" cellspacing="0">';
 			$arrTahun = explode("-",$tahun);
 			
 			$rangetahun = $arrTahun[1]-$arrTahun[0];
-			
+			$setValignMiddle = '';$rowspan =2;
+			if (!$ajaxCall)
+				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 		//	$rs = '<table class="table" border="1">';
-			$rs .= '
-			<thead><tr  align="center">
-						
-						<th style="vertical-align:middle;text-align:center"  rowspan="2">No.</th>
-						<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Nama Kegiatan</th>
-						<th style="vertical-align:middle;text-align:center"   colspan="'.($rangetahun+1).'">Kebutuhan Pendanaan</th>
+			$rs .= '<thead><tr  align="center">						
+						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
+						<th style="vertical-align:middle;text-align:center;width:20%" width="200" rowspan="2">'.$setValignMiddle.'NAMA KEGIATAN</th>
+						<th style="vertical-align:middle;text-align:center" width="'.(90*($rangetahun+1)).'"  colspan="'.($rangetahun+1).'">ALOKASI PENDANAAN</th>
+						<th style="vertical-align:middle;text-align:center;width:15%" width="100" rowspan="2">'.$setValignMiddle.'TOTAL</th>
 					</tr>';
 			$rs .= 	'<tr>';
 				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
-						$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
+					$rs .= 	'<th style="vertical-align:middle;text-align:center"  width="90">'.$colTahun.'</th>';
 						
-			$rs .= 	'		</tr></thead>';	
+			$rs .= 	'</tr></thead>';	
 			$rs .= '<tbody>';		
 			$i=0;
 			 
@@ -545,20 +549,32 @@ function get_pendanaan($tahun,$e1,$e2)
 						
 						$rs .= '<tr>';
 						
-						$rs .= '<td    valign="top">'.$no.'</td>';
-						$rs .= '<td    valign="top">'.$ss->nama_kegiatan.'</td>';
+						$rs .= '<td width="30"   align="center">'.$no.'</td>';
+						$rs .= '<td  width="200"   valign="top">'.$ss->nama_kegiatan.'</td>';
 						
 						
+							$total = 0;
 							$realisasi = isset($ss->target_thn1)?$ss->target_thn1:'-';
-							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$total += isset($ss->target_thn1)?$ss->target_thn1:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn2)?$ss->target_thn2:'-';
-							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$total += isset($ss->target_thn2)?$ss->target_thn2:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn3)?$ss->target_thn3:'-';
-							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$total += isset($ss->target_thn3)?$ss->target_thn3:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn4)?$ss->target_thn4:'-';
-							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$total += isset($ss->target_thn4)?$ss->target_thn4:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn5)?$ss->target_thn5:'-';
-							$rs .= 	'<td align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							$total += isset($ss->target_thn5)?$ss->target_thn5:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$rs .= 	'<td width="100" align="right">'.$this->utility->cekNumericFmt($total).'</td>';
 							
 						
 						$rs .= '</tr>';
@@ -607,7 +623,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		// add a page
 		$pdf->AddPage();
 		//var_dump($e1);
-		 $pdf->Write(0, 'Rencana Strategis '.($e2=="0"?"Unit Kerja Eselon II":$this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2")), '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, 'RENCANA STRATEGIS '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))), '', 0, 'L', true, 0, false, false, 0);
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
@@ -615,7 +631,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		$pdf->SetFont('helvetica', '', 8);
 
 		 $data['renstra']		= $tahun;
-		$data['e1_nama'] = $this->mgeneral->getValue("nama_e1",array('tahun_renstra'=>$tahun,'kode_e1'=>$e1),"anev_eselon1");
+		$data['e1_nama'] = strtoupper($this->mgeneral->getValue("nama_e1",array('tahun_renstra'=>$tahun,'kode_e1'=>$e1),"anev_eselon1"));
 	   $data['tujuan']		= $this->get_tujuan($tahun,$e1,$e2,false);
 	   $data['misi']		= $this->get_misi($tahun,$e1,$e2,false);
 	   $data['visi']		= $this->get_visi($tahun,$e1,$e2,false);	  
@@ -635,4 +651,87 @@ function get_pendanaan($tahun,$e1,$e2)
 		$pdf->Output('RenstraEselonII.pdf', 'I');
 	}
 
+	public function target_print_pdf($tahun,$e1,$e2){
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Rencana Strategis Eselon II');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetLeftMargin(10);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+			//$e1='';
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage('L');
+	
+		 $pdf->Write(0, 'TARGET CAPAIAN KINERJA '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))), '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, 'TAHUN '.$tahun, '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		$data['target'] =  $this->get_rencana_detail($tahun,$e1,false);
+		$html = $this->load->view('laporan/print/pdf_renstra_target_e2',$data,true);
+	//	var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');		
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('TargetCapaianEselonII.pdf', 'I');
+	}
+	
+	public function dana_print_pdf($tahun,$e1,$e2){
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Alokasi Pendanaan Eselon II');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetLeftMargin(10);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+			
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage('L');
+		
+		$pdf->Write(0, 'KEBUTUHAN PENDANAAN '.($e1=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))), '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, 'TAHUN '.$tahun, '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		$data['dana'] =  $this->get_pendanaan_detail($tahun,$e1,$e2,false);
+		$html = $this->load->view('laporan/print/pdf_renstra_dana_e2',$data,true);
+	//	$html = $data['sasaran'];
+		$pdf->writeHTML($html, true, false, false, false, '');		
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('AlokasiDanaEselonII.pdf', 'I');
+	}
 }

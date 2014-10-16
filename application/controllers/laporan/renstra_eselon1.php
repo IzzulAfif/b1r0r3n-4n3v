@@ -738,14 +738,15 @@ class Renstra_eselon1 extends CI_Controller {
 		//	$rs = '<table class="table" border="1">';
 			$rs .= '<thead><tr  align="center">						
 						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
-						<th style="vertical-align:middle;text-align:center;width:20%" width="300" rowspan="2">'.$setValignMiddle.'NAMA PROGRAM</th>
+						<th style="vertical-align:middle;text-align:center;width:20%" width="200" rowspan="2">'.$setValignMiddle.'NAMA PROGRAM</th>
 						<th style="vertical-align:middle;text-align:center" width="'.(90*($rangetahun+1)).'"  colspan="'.($rangetahun+1).'">ALOKASI PENDANAAN</th>
+						<th style="vertical-align:middle;text-align:center;width:15%" width="100" rowspan="2">'.$setValignMiddle.'TOTAL</th>
 					</tr>';
 			$rs .= 	'<tr>';
 				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
 						$rs .= 	'<th style="vertical-align:middle;text-align:center"  width="90">'.$colTahun.'</th>';
 						
-			$rs .= 	'		</tr></thead>';	
+			$rs .= 	'</tr></thead>';	
 			$rs .= '<tbody>';		
 			$i=0;
 			 
@@ -763,9 +764,10 @@ class Renstra_eselon1 extends CI_Controller {
 				
 				
 				if (isset($data_program)){		
-					
+					$total1=0;$total2=0;$total3=0;$total4=0;$total5=0;
 					foreach($data_program as $ss){
 						if (($unitKerja!=$ss->nama_e1)&&($isGrouping)){
+						//GA KEPAKE
 							$unitKerja = $ss->nama_e1;
 							$rs .= '<tr>';
 							$rs .= '<td  colspan="'.($rangetahun+3).'"><b>'.$ss->nama_e1.'</b></td>';
@@ -778,19 +780,35 @@ class Renstra_eselon1 extends CI_Controller {
 						$rs .= '<tr>';
 						
 						$rs .= '<td width="30"   align="center">'.$no.'</td>';
-						$rs .= '<td  width="300"   valign="top">'.$ss->nama_program.'</td>';
+						$rs .= '<td  width="200"   valign="top">'.$ss->nama_program.'</td>';
 						
-						
+							$total = 0;
 							$realisasi = isset($ss->target_thn1)?$ss->target_thn1:'-';
+							$total += isset($ss->target_thn1)?$ss->target_thn1:0;
+							$total1 += isset($ss->target_thn1)?$ss->target_thn1:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn2)?$ss->target_thn2:'-';
+							$total += isset($ss->target_thn2)?$ss->target_thn2:0;
+							$total2 += isset($ss->target_thn2)?$ss->target_thn2:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn3)?$ss->target_thn3:'-';
+							$total += isset($ss->target_thn3)?$ss->target_thn3:0;
+							$total3 += isset($ss->target_thn3)?$ss->target_thn3:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn4)?$ss->target_thn4:'-';
+							$total += isset($ss->target_thn4)?$ss->target_thn4:0;
+							$total4 += isset($ss->target_thn4)?$ss->target_thn4:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
 							$realisasi = isset($ss->target_thn5)?$ss->target_thn5:'-';
+							$total += isset($ss->target_thn5)?$ss->target_thn5:0;
+							$total5 += isset($ss->target_thn5)?$ss->target_thn5:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$rs .= 	'<td width="100" align="right">'.$this->utility->cekNumericFmt($total).'</td>';
 							
 						
 						$rs .= '</tr>';
@@ -798,7 +816,15 @@ class Renstra_eselon1 extends CI_Controller {
 						$no++;
 					
 					}
-				
+					$rs .= '<tr>';
+					$rs .= '<td  colspan="2" align="center" width="230"><b>TOTAL</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total1).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total2).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total3).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total4).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total5).'</b></td>';
+					$rs .= 	'<td width="100" align="right"><b>'.$this->utility->cekNumericFmt($total1+$total2+$total3+$total4+$total5).'</b></td>';
+					$rs .= '</tr>';
 				}
 				else { 
 					//$rs .= '<td></td>';
