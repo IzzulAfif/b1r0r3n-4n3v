@@ -36,7 +36,7 @@
         </section>
     </div>
     
-    <div class="feed-box" id="box-resulte2 hide">
+    <div class="feed-box hide" id="box-resulte2">
         <section class="panel tab-bg-form" style="background-color:#F9F9F9">
             <div class="panel-body">
                

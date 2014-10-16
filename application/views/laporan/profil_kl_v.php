@@ -100,7 +100,7 @@
 			$('#cetakpdf_profilekl').click(function(){
 				var tahun = $('#kl-tahun').val();
 				var kodekl = $('#kl-kodekl').val();
-				window.open('<?=base_url()?>laporan/profil/print_pdf/'+tahun,'_blank');			
+				window.open('<?=base_url()?>laporan/profil_kl/print_pdf/'+tahun+"/0",'_blank');			
 			});
 		});
 	</script>

@@ -66,41 +66,49 @@ class Profil_eselon2 extends CI_Controller {
 		echo $rs;
 	}
 	
-	function get_fungsi($tahun,$e2){
+	function get_fungsi($tahun,$e2,$ajaxCall=true){
 		$data = $this->fungsi_e2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
-			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			$showNumber = (count($data)>1);
+			if ($showNumber) $rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
 			foreach($data as $d){
-				$rs .= '<li>'.$d->fungsi_e2.'</li>';
+				if ($showNumber) $rs .= '<li>'.$d->fungsi_e2.'</li>';
+				else $rs .= $d->fungsi_e2;
 			 }
-			 $rs .= '</ol>';
+			 if ($showNumber) $rs .= '</ol>';
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
-	function get_tugas($tahun,$e2){
+	function get_tugas($tahun,$e2,$ajaxCall=true){
 		$data = $this->eselon2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
 		$rs = '';
 		if (isset($data)){
-			$rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			$showNumber = (count($data)>1);
+			if ($showNumber) $rs = '<ol '.((count($data)<=1)?'style="list-style:none;margin-left:-15px;"':'').'>';
 			foreach($data as $d){
-				$rs .= '<li>'.$d->tugas_e2.'</li>';
+				if ($showNumber) $rs .= '<li>'.$d->tugas_e2.'</li>';
+				else $rs .= $d->tugas_e2;
 			 }
-			 $rs .= '</ol>';
+			 if ($showNumber) $rs .= '</ol>';
 		}
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
 	function print_pdf($tahun,$e2)
    {
-	  $this->load->library('tcpdf_','pdf');
-	   
+	   //$this->load->library('pdf');
+	    $this->load->library('tcpdf_','pdf');
 		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->SetTitle('Rencana Strategis Kementerian');
+		$pdf->SetTitle('Profil Unit Kerja Eselon II');
 		$pdf->SetHeaderMargin(15);
 		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
 		$pdf->setFooterMargin(5);
 		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 		$pdf->setPrintHeader(false);
@@ -111,27 +119,38 @@ class Profil_eselon2 extends CI_Controller {
 		$pdf->SetDisplayMode('real', 'default');
 		
 		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+		
 		// set font
 		$pdf->SetFont('helvetica', 'B', 12);
+
 		// add a page
 		$pdf->AddPage();
-		$pdf->Write(0, 'PROFILE UNIT KERJA ESELON II', '', 0, 'L', true, 0, false, false, 0);
-		$pdf->SetFont('helvetica', 'B', 10);
-		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
-		$pdf->SetFont('helvetica', '', 10);
+		//var_dump($e1);
+		 $pdf->Write(0, 'Profil Unit Kerja Eselon II ', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
 		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
 	   $data['renstra']		= $tahun;
 	   $data['nama_unit'] 	= $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2,'tahun_renstra'=>$tahun),"anev_eselon2");
-	   $data['unit_kerja']	= $this->eselon2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
-	   $data['fungsi']		= $this->fungsi_e2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
-	   $data['tugas']		= $this->eselon2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
+	  // $data['unit_kerja']	= $this->eselon2->get_all(array("kode_e2"=>$e2,"tahun_renstra"=>$tahun));
+	   $data['fungsi']		= $this->get_fungsi($tahun,$e2,false);
+	   $data['tugas']		= $this->get_tugas($tahun,$e2,false);
 	   
-	   $html = $this->load->view('laporan/print/pdf_profile_e2',$data,true);
-	   
-	   $pdf->writeHTML($html, true, false, false, false, '');
-		$pdf->SetFont('helvetica', 'B', 10);
+		$html = $this->load->view('laporan/print/pdf_profile_e2',$data,true);
+	//	$html = $data['ikuE2'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
 	
-		$pdf->Output('profile_eselon2.pdf', 'I');
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('ProfilEselonII.pdf', 'I');
+		
+	 
    }
 
 }

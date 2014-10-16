@@ -148,8 +148,8 @@ class Renstra_kl extends CI_Controller {
 			$rs .= '
 			<thead><tr  align="center">
 						
-						<th style="vertical-align:middle;text-align:center" width="180" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center"  width="30">No.</th>
+						<th style="vertical-align:middle;text-align:center" class="col-sm-3" width="180" >Sasaran Strategis</th>
+						<th style="vertical-align:middle;text-align:center;width:10px"  width="30">No.</th>
 						<th style="vertical-align:middle;text-align:center" width="230" >Indikator Kinerja Utama (IKU)</th>
 						<th style="vertical-align:middle;text-align:center" width="80" >Satuan</th>
 			
