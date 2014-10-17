@@ -55,6 +55,11 @@
             </table>
         </div>
 	
+    	<div class="pull-right">
+            <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_danakl"><i class="fa fa-print"></i> Cetak PDF</button>          
+            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_danakl"><i class="fa fa-download"></i> Ekspor Excel</button>
+        </div>
+        
     </div>
     
 	<script type="text/javascript">
@@ -84,6 +89,11 @@
                         }
                 });
 			}
+		});
+		$('#cetakpdf_danakl').click(function(){
+			tahun = $('#dana-tahun').val();
+			kode = $('#dana-kode_e1').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_dana_pdf/'+tahun+"/"+kode,'_blank');			
 		});
 	})
 	</script>	        

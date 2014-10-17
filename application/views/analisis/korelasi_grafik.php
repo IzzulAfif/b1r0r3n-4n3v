@@ -12,17 +12,48 @@
 			$dg2[$g2['kode']] = array('kode'=>$g1['kode'],'nama'=> $g2['nama'],'nilai'=>$g2['rata2']);
 		endforeach;
 	
+	$tipe = "";
 	if(count($dg1)>=count($dg2)):
 		foreach($dg1 as $d1):
+		if(isset($dg2[$d1['kode']]['nilai'])):
+			 $nilaiy = $dg2[$d1['kode']]['nilai'];
+		else:
+			$nilaiy  = 0;
+		endif;
+		
 			$data_graf[]= array('nama'		=>$d1['nama'],
 								'nilaix'	=>$d1['nilai'],
-								'nilaiy'	=>(isset($dg2[$d1['kode']]['nilai']))?$dg2[$d1['kode']]['nilai']:0);
+								'nilaiy'	=>$nilaiy);
+			
+			if($tipe!="not numeric"):
+				if(!is_numeric($d1['nilai']) || !is_numeric($nilaiy)):
+					$tipe = "not numeric";
+				else:
+					$tipe = "numeric";
+				endif;
+			endif;
+			
 		endforeach;
 	else:
 		foreach($dg2 as $d2):
+			if(isset($dg1[$d2['kode']]['nilai'])):
+				 $nilaix = $dg1[$d2['kode']]['nilai'];
+			else:
+				$nilaix  = 0;
+			endif;
+		
 			$data_graf[]= array('nama'		=>$d2['nama'],
 								'nilaiy'	=>$d2['nilai'],
-								'nilaix'	=>(isset($dg1[$d2['kode']]['nilai']))?$dg1[$d2['kode']]['nilai']:0);
+								'nilaix'	=>$nilaix);
+			
+			if($tipe!="not numeric"):
+				if(!is_numeric($d2['nilai']) || !is_numeric($nilaix)):
+					$tipe = "not numeric";
+				else:
+					$tipe = "numeric";
+				endif;
+			endif;
+			
 		endforeach;
 	endif;
 ?>

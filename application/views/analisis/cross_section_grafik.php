@@ -1,13 +1,24 @@
 <?php
 	$bar 	= "";
 	$nilai 	= "";
+	$tipe	= "";
 	foreach($gdata as $d):
 		$bar	.= "'".$d['nama']."',";
 		$nilai	.= $d['rata2'].",";
+		
+		if(!is_numeric($d['rata2']) && $tipe!="not numeric"):
+			$tipe = "not numeric";
+		elseif(is_numeric($d['rata2']) && $tipe!="not numeric"):
+			$tipe = "numeric";
+		endif;
+		
 	endforeach;
-?>
-<div id="chartKontenSection" style="height:400px;">
 	
+?>
+<div id="chartKontenSection" style=" <?php if($tipe=="numeric"): ?>height:400px; <?php endif; ?>">
+	<?php if($tipe!="numeric"): ?>
+    	<div class="alert alert-danger">Grafik tidak dapat ditampilkan, data tidak tersedia atau bukan numeric.</div>
+	<?php endif; ?>
 </div>
 
 <br />
@@ -39,6 +50,7 @@
 
 <script>
 	$(document).ready(function() {
+	<?php if($tipe=="numeric"): ?>
 		var chart;
 		chart = new Highcharts.Chart({
 			chart: {
@@ -100,5 +112,6 @@
 				dataLabels: {enabled: true},
 			}]
 		});
+		<?php endif; ?>
 	});
 </script>

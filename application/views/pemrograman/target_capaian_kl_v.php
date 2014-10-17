@@ -55,6 +55,11 @@
             </tbody>
             </table>
         </div>
+        
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_targetkl"><i class="fa fa-print"></i> Cetak PDF</button>          
+            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_targetkl"><i class="fa fa-download"></i> Ekspor Excel</button>
+        </div>
 	
     </div>
     
@@ -102,6 +107,12 @@
                         }
                 });
 			}
+		});
+		
+		$('#cetakpdf_targetkl').click(function(){
+			tahun = $('#target-tahun').val();
+			sasaran = $('#target-sasaran').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_target_pdf/'+tahun+"/"+sasaran,'_blank');			
 		});
 	})
 	</script>	        

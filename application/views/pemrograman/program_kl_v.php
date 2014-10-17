@@ -62,6 +62,11 @@
                 </tbody>
             </table>
         </div>
+        
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_programkl"><i class="fa fa-print"></i> Cetak PDF</button>          
+            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_programkl"><i class="fa fa-download"></i> Ekspor Excel</button>
+        </div>
 	
     </div>
     
@@ -113,6 +118,13 @@
                 });
 			}
 		});
+		
+		$('#cetakpdf_programkl').click(function(){
+			var tahun = $('#program-tahun').val();
+			var kodee1 = $('#program-kode_e1').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_program_pdf/'+tahun+"/"+kodee1,'_blank');			
+		});
+		
 		program_add =function(){
 			$("#program_title").html('<i class="fa fa-plus-square"></i> Tambah Program');
 			$("#program_form").attr("action",'<?=base_url()?>pemrograman/pemrograman_kl/save/program');

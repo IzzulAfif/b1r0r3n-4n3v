@@ -21,14 +21,26 @@
 			else:
 				$dSimTarget .= "0,";
 			endif;
+			if($tipe!="not numeric"):
+				if(!is_numeric($d['tahun']) || !is_numeric($d['target']) || !is_numeric($d['realisasi']) || !is_numeric($d['simulasi']) || !is_numeric($d['trendline']) || !is_numeric($d['targetline'])):
+					$tipe = "not numeric";
+				else:
+					$tipe = "numeric";
+				endif;
+			endif;
 			
 		endif;
 	endforeach;
 ?>
 
-<div id="chartKonten" style="height:400px;">
+<div id="chartKonten" style=" <?php if($tipe=="numeric"): ?>height:400px; <?php endif; ?>">
+	<?php if($tipe!="numeric"): ?>
+    	<div class="alert alert-danger">Grafik tidak dapat ditampilkan, data tidak tersedia atau bukan numeric.</div>
+	<?php endif; ?>
 </div>
 <br />
+
+<?php if(count($gdata)!=0): ?>
 <section class="panel">
     <div class="panel-body">
             
@@ -67,6 +79,7 @@
 
 <script>
 	$(document).ready(function() {
+	<?php if($tipe=="numeric"): ?>
 		var chart;
 		chart = new Highcharts.Chart({
 			chart: {
@@ -148,5 +161,7 @@
 			<?php endif; ?>
 			]
 		});
+		<?php endif; ?>
 	});
 </script>
+<?php endif; ?>

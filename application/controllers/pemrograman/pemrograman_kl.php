@@ -486,4 +486,156 @@ class Pemrograman_kl extends CI_Controller {
 		
 		echo $msg;
 	}
+	
+	function print_program_pdf($tahun,$kode)
+   {
+	    $this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Program Kementerian Perhubungan');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Program Kementerian Perhubungan ', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+	   	$params['tahun_renstra'] = 	$tahun;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
+		$data['result'] =$this->program_e1->get_all($params);
+		
+		$html = $this->load->view('pemrograman/print/pdf_program_kl',$data,true);
+	//	$html = $data['ikuE2'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('ProgramKementerian.pdf', 'I');
+		
+	
+   }
+   
+   function print_target_pdf($tahun,$sasaran)
+   {
+	    $this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Target Capaian Kinerja Kementerian Perhubungan');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Target Capaian Kinerja Kementerian Perhubungan ', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+	   	$params['tahun_renstra'] = 	$tahun;
+		if($sasaran!="0")$params['sasaran'] = $sasaran;
+		$data['result']=$this->target->get_all($params); 
+		$data['renstra'] = $tahun;
+				
+		$html = $this->load->view('pemrograman/print/pdf_target_kl',$data,true);
+	//	$html = $data['ikuE2'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('targetCapaianKinerjaKementerian.pdf', 'I');
+		
+	
+   }
+   
+   function print_dana_pdf($tahun,$kode)
+   {
+	    $this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Kebutuhan Pendanaan Kementerian Perhubungan');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Kebutuhan Pendanaan Kementerian Perhubungan ', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+	   	$params['tahun_renstra'] = 	$tahun;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
+		$data['result']=$this->program_e1->get_pendanaan2($params); 
+		$data['renstra'] = $tahun;
+			
+		$html = $this->load->view('pemrograman/print/pdf_dana_kl',$data,true);
+	//	$html = $data['ikuE2'];
+		//var_dump($html);
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('kebutuhanPendanaanKementerian.pdf', 'I');
+		
+	
+   }
 }
