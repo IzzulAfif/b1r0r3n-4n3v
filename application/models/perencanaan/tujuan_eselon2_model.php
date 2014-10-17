@@ -18,10 +18,11 @@ class Tujuan_eselon2_model extends CI_Model
 	function get_all($params){
 		$where = ' where 2=2 ';
 		if (isset($params)){
-			if (isset($params['kode_e2'])) $where .= " and f.kode_e2='".$params['kode_e2']."'";
-			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
+			if (isset($params['kode_e1'])) $where .= " and e2.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and e2.kode_e2='".$params['kode_e2']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and e2.tahun_renstra='".$params['tahun_renstra']."'";
 		}
-		$sql = "select f.*, e2.nama_e2 from anev_tujuan_eselon2 f inner join anev_eselon2 e2 on e2.kode_e2=f.kode_e2 ".$where;
+		$sql = "select f.*, e2.nama_e2 from anev_eselon2 e2 inner join anev_tujuan_eselon2 f  on e2.kode_e2=f.kode_e2 ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	

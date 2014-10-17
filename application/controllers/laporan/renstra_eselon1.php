@@ -484,7 +484,7 @@ class Renstra_eselon1 extends CI_Controller {
 			$rs .= '
 			<thead><tr  align="center">						
 						<th style="vertical-align:middle;text-align:center" width="180" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center"  width="30">No.</th>
+						<th style="vertical-align:middle;text-align:center;width:1%"  width="30">No.</th>
 						<th style="vertical-align:middle;text-align:center" width="230" >Indikator Kinerja Utama (IKU)</th>
 						<th style="vertical-align:middle;text-align:center" width="80" >Satuan</th>
 					</tr>';						
@@ -573,7 +573,7 @@ class Renstra_eselon1 extends CI_Controller {
 				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 			$rs .= '<thead><tr  align="center" valign="middle">						
 						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
+						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
 						<th style="vertical-align:middle;text-align:center;width:50%" width="150" rowspan="2">'.$setValignMiddle.'Indikator Kinerja Utama (IKU)</th>
 						<th style="vertical-align:middle;text-align:center;width:10%" width="80" rowspan="2">'.$setValignMiddle.'Satuan</th>
 						<th style="vertical-align:middle;text-align:center" width="'.(85*($rangetahun+1)).'" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
@@ -737,8 +737,8 @@ class Renstra_eselon1 extends CI_Controller {
 				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 		//	$rs = '<table class="table" border="1">';
 			$rs .= '<thead><tr  align="center">						
-						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
-						<th style="vertical-align:middle;text-align:center;width:20%" width="200" rowspan="2">'.$setValignMiddle.'NAMA PROGRAM</th>
+						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
+						<th style="vertical-align:middle;text-align:center;width:30%" width="200" rowspan="2">'.$setValignMiddle.'NAMA PROGRAM</th>
 						<th style="vertical-align:middle;text-align:center" width="'.(90*($rangetahun+1)).'"  colspan="'.($rangetahun+1).'">ALOKASI PENDANAAN</th>
 						<th style="vertical-align:middle;text-align:center;width:15%" width="100" rowspan="2">'.$setValignMiddle.'TOTAL</th>
 					</tr>';

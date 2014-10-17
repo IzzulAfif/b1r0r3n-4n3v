@@ -67,11 +67,13 @@ class Renstra_eselon2 extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->get_rencana_detail($tahun,$e1,$e2,true);
 		$data['periode'] = $tahun;
+		$data['e1'] = $e1;
+		$data['e2'] = $e2;
 		if ($e2=="0")
 			$data['unitkerja'] = 'UNIT KERJA ESELON II';
 		else
-			$data['unitkerja'] = $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2),"anev_eselon2");
-			
+			$data['unitkerja'] = strtoupper($this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2),"anev_eselon2"));
+		$data['e1_nama'] =  strtoupper($this->mgeneral->getValue("nama_e1",array('kode_e1'=>$e1),"anev_eselon1"));	
 		$template['konten']	= $this->load->view('laporan/renstra_e2_detail_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -86,10 +88,13 @@ function get_pendanaan($tahun,$e1,$e2)
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['data'] = $this->get_pendanaan_detail($tahun,$e1,$e2);
 		$data['periode'] = $tahun;
+		$data['e1'] = $e1;
+		$data['e2'] = $e2;
 		if ($e2=="0")
 			$data['unitkerja'] = 'UNIT KERJA ESELON II';
 		else
-			$data['unitkerja'] =$data['unitkerja'] = $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2),"anev_eselon2");
+			$data['unitkerja'] =  strtoupper($this->mgeneral->getValue("nama_e2",array('kode_e2'=>$e2),"anev_eselon2"));
+		$data['e1_nama'] =  strtoupper($this->mgeneral->getValue("nama_e1",array('kode_e1'=>$e1),"anev_eselon1"));
 		$template['konten']	= $this->load->view('laporan/renstra_e2_pendanaan_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -107,26 +112,64 @@ function get_pendanaan($tahun,$e1,$e2)
 		$i=0;
 		if (isset($data)){
 			if (($isGrouping)){			
-				foreach($data as $d){
-					if ($d->nama_e2!=$namaUnit){
-						if($i>0) $rs .= '</ol>';
-							
-						$namaUnit = $d->nama_e2;
-						$params['kode_e2'] = $d->kode_e2;
-						$rs .='<b>'.$d->nama_e2.'</b>';
-						$rs .= '<ol '.(($this->visi_e2->get_jml_visi($params)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+				if ($ajaxCall){
+					foreach($data as $d){
+						if ($d->nama_e2!=$namaUnit){
+							if($i>0) $rs .= '</ol>';
+								
+							$namaUnit = $d->nama_e2;
+							unset($params['kode_e1']);
+							$params['kode_e2'] = $d->kode_e2;
+							$rs .='<b>'.$d->nama_e2.'</b>';
+							$rs .= '<ol '.(($this->visi_e2->get_jml_visi($params)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+						}
+						$rs .= '<li>'.($d->visi_e2==""?"-":$d->visi_e2).'</li>';
+						$i++;
+					 }
+					 $rs .= '</ol>';
+				}
+				else {
+					$rs .= '<table  border="0" cellpadding="2" cellspacing="0">';
+					foreach($data as $d){
+						if ($d->nama_e2!=$namaUnit){
+							$i=1;
+							$namaUnit = $d->nama_e2;
+							unset($params['kode_e1']);
+							$params['kode_e2'] = $d->kode_e2;
+							$jmldata = $this->visi_e2->get_jml_visi($params);
+							$showNumber = ($jmldata>1);
+						    $rs .= '<tr><td colpan="3" width="525">'.$d->nama_e2.'</td></tr>';
+						}
+						if ($showNumber)
+							$rs .= '<tr><td width="10">&nbsp;</td><td width="15" align="right">'.($i).'.</td><td width="500">'.$d->visi_e2.'</td></tr>';
+						else
+							$rs .= '<tr><td width="10">&nbsp;</td><td colspan="2" width="515">'.$d->visi_e2.'</td></tr>';
+						$i++;
 					}
-					$rs .= '<li>'.$d->visi_e2.'</li>';
-					$i++;
-				 }
-				 $rs .= '</ol>';
+					$rs .= '</table>';
+				}
 			}
 			else {
-				$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
-				foreach($data as $d){
-					$rs .= '<li>'.$d->visi_e2.'</li>';
-				 }
-				 $rs .= '</ol>';
+				if ($ajaxCall){
+					$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+					foreach($data as $d){
+						$rs .= '<li>'.$d->visi_e2.'</li>';
+					 }
+					 $rs .= '</ol>';
+				}
+				else {
+					$i=1;
+					$showNumber = (count($data)>1);
+					$rs .= '<table  border="0" cellpadding="2" cellspacing="0">';
+					foreach($data as $d){					
+						if ($showNumber)
+							$rs .= '<tr><td width="10">&nbsp;</td><td width="15" align="right">'.($i).'.</td><td width="500">'.$d->visi_e2.'</td></tr>';
+						else
+							$rs .= '<tr><td width="10">&nbsp;</td><td colspan="2" width="515">'.$d->visi_e2.'</td></tr>';
+						$i++;
+					}
+					$rs .= '</table>';
+				}
 			}
 		}
 		if ($ajaxCall)	echo $rs;
@@ -144,27 +187,65 @@ function get_pendanaan($tahun,$e1,$e2)
 		$rs = '';
 		$i=0;
 		if (isset($data)){
-			if (($isGrouping)){			
-				foreach($data as $d){
-					if ($d->nama_e2!=$namaUnit){
-						if($i>0) $rs .= '</ol>';
-							
-						$namaUnit = $d->nama_e2;
-						$params['kode_e2'] = $d->kode_e2;
-						$rs .='<b>'.$d->nama_e2.'</b>';
-						$rs .= '<ol '.(($this->misi_e2->get_jml_misi($params)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			if (($isGrouping)){
+				if ($ajaxCall){
+					foreach($data as $d){
+						if ($d->nama_e2!=$namaUnit){
+							if($i>0) $rs .= '</ol>';
+							unset($params['kode_e1']);	
+							$namaUnit = $d->nama_e2;
+							$params['kode_e2'] = $d->kode_e2;
+							$rs .='<b>'.$d->nama_e2.'</b>';
+							$rs .= '<ol '.(($this->misi_e2->get_jml_misi($params)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+						}
+						$rs .= '<li>'.($d->misi_e2==""?"-":$d->misi_e2).'</li>';
+						$i++;
+					 }
+					 $rs .= '</ol>';
+				}
+				else
+				{
+					$rs .= '<table  border="0" cellpadding="2" cellspacing="0">';
+					foreach($data as $d){
+						if ($d->nama_e2!=$namaUnit){
+							$i=1;
+							$namaUnit = $d->nama_e2;
+							unset($params['kode_e1']);
+							$params['kode_e2'] = $d->kode_e2;
+							$jmldata = $this->misi_e2->get_jml_misi($params);
+							$showNumber = ($jmldata>1);
+						    $rs .= '<tr><td colpan="3" width="525">'.$d->nama_e2.'</td></tr>';
+						}
+						if ($showNumber)
+							$rs .= '<tr><td width="10">&nbsp;</td><td width="15" align="right">'.($i).'.</td><td width="500">'.$d->misi_e2.'</td></tr>';
+						else
+							$rs .= '<tr><td width="10">&nbsp;</td><td colspan="2" width="515">'.$d->misi_e2.'</td></tr>';
+						$i++;
 					}
-					$rs .= '<li>'.$d->misi_e2.'</li>';
-					$i++;
-				 }
-				 $rs .= '</ol>';
+					$rs .= '</table>';
+				}
 			}
 			else {
-				$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
-				foreach($data as $d){
-					$rs .= '<li>'.$d->misi_e2.'</li>';
-				 }
-				 $rs .= '</ol>';
+				if ($ajaxCall){
+					$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+					foreach($data as $d){
+						$rs .= '<li>'.$d->misi_e2.'</li>';
+					 }
+					 $rs .= '</ol>';
+				}
+				else {
+					$i=1;
+					$showNumber = (count($data)>1);
+					$rs .= '<table  border="0" cellpadding="2" cellspacing="0">';
+					foreach($data as $d){					
+						if ($showNumber)
+							$rs .= '<tr><td width="10">&nbsp;</td><td width="15" align="right">'.($i).'.</td><td width="500">'.$d->misi_e2.'</td></tr>';
+						else
+							$rs .= '<tr><td width="10">&nbsp;</td><td colspan="2" width="515">'.$d->misi_e2.'</td></tr>';
+						$i++;
+					}
+					$rs .= '</table>';
+				}
 			}
 		}
 		if ($ajaxCall)	echo $rs;
@@ -182,27 +263,64 @@ function get_pendanaan($tahun,$e1,$e2)
 		$rs = '';
 		$i=0;
 		if (isset($data)){
-			if (($isGrouping)){			
-				foreach($data as $d){
-					if ($d->nama_e2!=$namaUnit){
-						if($i>0) $rs .= '</ol>';
-							
-						$namaUnit = $d->nama_e2;
-						$params['kode_e2'] = $d->kode_e2;
-						$rs .='<b>'.$d->nama_e2.'</b>';
-						$rs .= '<ol '.(($this->tujuan_e2->get_jml_tujuan($params)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+			if (($isGrouping)){
+				if ($ajaxCall){
+					foreach($data as $d){
+						if ($d->nama_e2!=$namaUnit){
+							if($i>0) $rs .= '</ol>';
+							unset($params['kode_e1']);	
+							$namaUnit = $d->nama_e2;
+							$params['kode_e2'] = $d->kode_e2;
+							$rs .='<b>'.$d->nama_e2.'</b>';
+							$rs .= '<ol '.(($this->tujuan_e2->get_jml_tujuan($params)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+						}
+						$rs .= '<li>'.($d->tujuan_e2==""?"-":$d->tujuan_e2).'</li>';
+						$i++;
+					 }
+					 $rs .= '</ol>';
+				}
+				else {//PDF
+					$rs .= '<table  border="0" cellpadding="2" cellspacing="0">';
+					foreach($data as $d){
+						if ($d->nama_e2!=$namaUnit){
+							$i=1;
+							$namaUnit = $d->nama_e2;
+							unset($params['kode_e1']);
+							$params['kode_e2'] = $d->kode_e2;
+							$jmldata = $this->tujuan_e2->get_jml_tujuan($params);
+							$showNumber = ($jmldata>1);
+						    $rs .= '<tr><td colpan="3" width="525">'.$d->nama_e2.'</td></tr>';
+						}
+						if ($showNumber)
+							$rs .= '<tr><td width="10">&nbsp;</td><td width="15" align="right">'.($i).'.</td><td width="500">'.$d->tujuan_e2.'</td></tr>';
+						else
+							$rs .= '<tr><td width="10">&nbsp;</td><td colspan="2" width="515">'.$d->tujuan_e2.'</td></tr>';
+						$i++;
 					}
-					$rs .= '<li>'.$d->tujuan_e2.'</li>';
-					$i++;
-				 }
-				 $rs .= '</ol>';
+					$rs .= '</table>';
+				}
 			}
 			else {
-				$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
-				foreach($data as $d){
-					$rs .= '<li>'.$d->tujuan_e2.'</li>';
-				 }
-				 $rs .= '</ol>';
+				if ($ajaxCall){
+					$rs .= '<ol '.((count($data)<2)?'style="list-style:none;margin-left:-15px;"':'').'>';
+					foreach($data as $d){
+						$rs .= '<li>'.$d->tujuan_e2.'</li>';
+					 }
+					 $rs .= '</ol>';
+				}
+				else {//PDF
+					$i=1;
+					$showNumber = (count($data)>1);
+					$rs .= '<table  border="0" cellpadding="2" cellspacing="0">';
+					foreach($data as $d){					
+						if ($showNumber)
+							$rs .= '<tr><td width="10">&nbsp;</td><td width="15" align="right">'.($i).'.</td><td width="500">'.$d->tujuan_e2.'</td></tr>';
+						else
+							$rs .= '<tr><td width="10">&nbsp;</td><td colspan="2" width="515">'.$d->tujuan_e2.'</td></tr>';
+						$i++;
+					}
+					$rs .= '</table>';
+				}
 			}
 		}
 		if ($ajaxCall)	echo $rs;
@@ -268,7 +386,7 @@ function get_pendanaan($tahun,$e1,$e2)
 			$rs .= '
 			<thead><tr  align="center">						
 						<th style="vertical-align:middle;text-align:center" width="180" >Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center"  width="30">No.</th>
+						<th style="vertical-align:middle;text-align:center;width:1%"  width="30">No.</th>
 						<th style="vertical-align:middle;text-align:center" width="230" >Indikator Kinerja Kegiatan (IKK)</th>
 						<th style="vertical-align:middle;text-align:center" width="80" >Satuan</th>
 					</tr>';									
@@ -344,6 +462,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		$params['kode_e1'] = $e1;
 		if ($e2!="0")
 			$params['kode_e2'] = $e2;
+			
 			if ($ajaxCall)
 				$rs = '<table class="display table table-bordered table-striped" width="100%">';
 			else
@@ -357,7 +476,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		//	$rs = '<table class="table" border="1">';
 			$rs .= '<thead><tr  align="center" valign="middle">						
 						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis</th>
-						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
+						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
 						<th style="vertical-align:middle;text-align:center;width:50%" width="150" rowspan="2">'.$setValignMiddle.'Indikator Kinerja Kegiatan (IKK)</th>
 						<th style="vertical-align:middle;text-align:center;width:10%" width="80" rowspan="2">'.$setValignMiddle.'Satuan</th>
 						<th style="vertical-align:middle;text-align:center" width="'.(85*($rangetahun+1)).'" colspan="'.($rangetahun+1).'">Target Pencapaian</th>
@@ -508,8 +627,8 @@ function get_pendanaan($tahun,$e1,$e2)
 				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 		//	$rs = '<table class="table" border="1">';
 			$rs .= '<thead><tr  align="center">						
-						<th style="vertical-align:middle;text-align:center" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
-						<th style="vertical-align:middle;text-align:center;width:20%" width="200" rowspan="2">'.$setValignMiddle.'NAMA KEGIATAN</th>
+						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
+						<th style="vertical-align:middle;text-align:center;width:30%" width="200" rowspan="2">'.$setValignMiddle.'NAMA KEGIATAN</th>
 						<th style="vertical-align:middle;text-align:center" width="'.(90*($rangetahun+1)).'"  colspan="'.($rangetahun+1).'">ALOKASI PENDANAAN</th>
 						<th style="vertical-align:middle;text-align:center;width:15%" width="100" rowspan="2">'.$setValignMiddle.'TOTAL</th>
 					</tr>';
@@ -535,7 +654,7 @@ function get_pendanaan($tahun,$e1,$e2)
 				
 				
 				if (isset($data_program)){		
-					
+					$total1=0;$total2=0;$total3=0;$total4=0;$total5=0;
 					foreach($data_program as $ss){
 						if (($unitKerja!=$ss->nama_e2)&&($isGrouping)){
 							$unitKerja = $ss->nama_e2;
@@ -556,22 +675,27 @@ function get_pendanaan($tahun,$e1,$e2)
 							$total = 0;
 							$realisasi = isset($ss->target_thn1)?$ss->target_thn1:'-';
 							$total += isset($ss->target_thn1)?$ss->target_thn1:0;
+							$total1 += isset($ss->target_thn1)?$ss->target_thn1:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 							
 							$realisasi = isset($ss->target_thn2)?$ss->target_thn2:'-';
 							$total += isset($ss->target_thn2)?$ss->target_thn2:0;
+							$total2 += isset($ss->target_thn2)?$ss->target_thn2:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 							
 							$realisasi = isset($ss->target_thn3)?$ss->target_thn3:'-';
 							$total += isset($ss->target_thn3)?$ss->target_thn3:0;
+							$total3 += isset($ss->target_thn3)?$ss->target_thn3:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 							
 							$realisasi = isset($ss->target_thn4)?$ss->target_thn4:'-';
 							$total += isset($ss->target_thn4)?$ss->target_thn4:0;
+							$total4 += isset($ss->target_thn4)?$ss->target_thn4:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 							
 							$realisasi = isset($ss->target_thn5)?$ss->target_thn5:'-';
 							$total += isset($ss->target_thn5)?$ss->target_thn5:0;
+							$total5 += isset($ss->target_thn5)?$ss->target_thn5:0;
 							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
 							
 							$rs .= 	'<td width="100" align="right">'.$this->utility->cekNumericFmt($total).'</td>';
@@ -582,6 +706,15 @@ function get_pendanaan($tahun,$e1,$e2)
 						$no++;
 					
 					}
+					$rs .= '<tr>';
+					$rs .= '<td  colspan="2" align="center" width="230"><b>TOTAL</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total1).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total2).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total3).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total4).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total5).'</b></td>';
+					$rs .= 	'<td width="100" align="right"><b>'.$this->utility->cekNumericFmt($total1+$total2+$total3+$total4+$total5).'</b></td>';
+					$rs .= '</tr>';
 				
 				}
 				else { 
@@ -658,6 +791,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		$pdf->SetTitle('Rencana Strategis Eselon II');
 		$pdf->SetHeaderMargin(15);
 		$pdf->SetLeftMargin(10);
+		$pdf->SetRightMargin(10);
 		$pdf->SetTopMargin(15);
 		$pdf->setFooterMargin(5);
 		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -679,16 +813,25 @@ function get_pendanaan($tahun,$e1,$e2)
 		$pdf->AddPage('L');
 	
 		 $pdf->Write(0, 'TARGET CAPAIAN KINERJA '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))), '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, strtoupper($this->mgeneral->getValue("nama_e1",array('tahun_renstra'=>$tahun,'kode_e1'=>$e1),"anev_eselon1")), '', 0, 'L', true, 0, false, false, 0);
 		 $pdf->Write(0, 'TAHUN '.$tahun, '', 0, 'L', true, 0, false, false, 0);
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
 		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
 
-		$data['target'] =  $this->get_rencana_detail($tahun,$e1,false);
+		$data['target'] =  $this->get_rencana_detail($tahun,$e1,$e2,false);
 		$html = $this->load->view('laporan/print/pdf_renstra_target_e2',$data,true);
-	//	var_dump($html);
+		
+		
+		
+		
+		
+		//var_dump($html);
 		$pdf->writeHTML($html, true, false, false, false, '');		
+		
+		
+		
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('TargetCapaianEselonII.pdf', 'I');
 	}
@@ -720,7 +863,8 @@ function get_pendanaan($tahun,$e1,$e2)
 		// add a page
 		$pdf->AddPage('L');
 		
-		$pdf->Write(0, 'KEBUTUHAN PENDANAAN '.($e1=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))), '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, 'KEBUTUHAN PENDANAAN '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))), '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, strtoupper($this->mgeneral->getValue("nama_e1",array('tahun_renstra'=>$tahun,'kode_e1'=>$e1),"anev_eselon1")), '', 0, 'L', true, 0, false, false, 0);
 		 $pdf->Write(0, 'TAHUN '.$tahun, '', 0, 'L', true, 0, false, false, 0);
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
