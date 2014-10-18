@@ -149,7 +149,8 @@ class Rencana_kl extends CI_Controller {
 	}
 	function get_body_sasaran($tahun,$kl){
 		$params['tahun_renstra'] = 	$tahun;
-		$params['kode_kl'] = 	$kl;
+		
+		//$params['kode_kl'] = 	$kl;
 		$data=$this->sasaran->get_all($params); 
 		$rs = '';
 		if (isset($data)){

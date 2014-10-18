@@ -23,11 +23,11 @@
                                 <i class="fa fa-align-center"></i> Tujuan
                             </a>
                         </li>
-                        <!--<li class="">
+                        <li class="">
                             <a data-toggle="tab" href="#sasaran-content">
                                 <i class="fa fa-clipboard"></i> Sasaran Kementerian
                             </a>
-                        </li>-->
+                        </li>
                         <li class="">
                             <a data-toggle="tab" href="#sastra-content">
                                 <i class="fa fa-bar-chart-o"></i> Sasaran Strategis
@@ -45,7 +45,7 @@
                        <div class="panel-body tab-pane fade active in" id="visi-content"></div>
 						<div class="panel-body tab-pane fade" id="misi-content"></div>
 						<div class="panel-body tab-pane fade" id="tujuan-content"></div>
-						<!--<div class="panel-body tab-pane fade" id="sasaran-content"></div>-->
+						<div class="panel-body tab-pane fade" id="sasaran-content"></div>
                         <div class="panel-body tab-pane fade" id="sastra-content"></div>
 						<div class="panel-body tab-pane fade" id="iku-content"></div>
                 </div>
@@ -65,7 +65,7 @@
 			$("#visi-content").load("<?=base_url()?>perencanaan/rencana_kl/loadvisi");
 			$("#misi-content").load("<?=base_url()?>perencanaan/rencana_kl/loadmisi");
 			$("#tujuan-content").load("<?=base_url()?>perencanaan/rencana_kl/loadtujuan");
-			//$("#sasaran-content").load("<?=base_url()?>perencanaan/rencana_kl/loadsasaran");
+			$("#sasaran-content").load("<?=base_url()?>perencanaan/rencana_kl/loadsasaran");
 			$("#sastra-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadsastra");
 			$("#iku-content").load("<?=base_url()?>pemrograman/pemrograman_kl/loadiku");
 		});
