@@ -64,8 +64,11 @@ class Kegiatan_eselon2_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
-	function get_kegiatan_list($tahun_awal, $tahun_akhir) {
-		$sql = "select distinct kode_sk_e2, deskripsi from anev_sasaran_kegiatan where tahun<=$tahun_akhir and tahun>=$tahun_awal";
+	function get_kegiatan_list($tahun_awal, $tahun_akhir,$e1) {
+		$where = '';
+		if ($e1!=0) $where = " and kode_e2 LIKE '".$e1."%'";
+		
+		$sql = "select distinct kode_sk_e2, deskripsi from anev_sasaran_kegiatan where tahun<=$tahun_akhir and tahun>=$tahun_awal".$where;
 		$result = $this->mgeneral->run_sql($sql);
 		$list[0] = 'Pilih Sasaran Strategis';
 		foreach ($result as $i) {

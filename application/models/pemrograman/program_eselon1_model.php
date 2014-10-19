@@ -86,8 +86,10 @@ class Program_eselon1_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
-	function get_program_list($tahun_awal, $tahun_akhir) {
-		$sql = "select distinct kode_sp_e1, deskripsi from anev_sasaran_program where tahun<=$tahun_akhir and tahun>=$tahun_awal";
+	function get_program_list($tahun_awal, $tahun_akhir,$e1) {
+		$where = '';
+		if ($e1!=0) $where = " and kode_e1 = '".$e1."'";
+		$sql = "select distinct kode_sp_e1, deskripsi from anev_sasaran_program where tahun<=$tahun_akhir and tahun>=$tahun_awal ".$where;
 		$result = $this->mgeneral->run_sql($sql);
 		$list[0] = 'Pilih Sasaran Strategis';
 		foreach ($result as $i) {

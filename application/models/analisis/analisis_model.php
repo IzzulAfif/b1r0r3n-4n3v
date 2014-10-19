@@ -143,6 +143,15 @@ limit 0,50';
  		return $this->mgeneral->run_sql($sql);	
 	}
 	
+	function get_detail_capaian_kinerja2($kode_e2,$kode_iku_e1, $tahun_awal, $tahun_akhir, $kode_sp_e1) {
+ 		$sql = "select es2.singkatan,s.tahun,k.target, k.realisasi, k.persen,k.kode_sk_e2,k.kode_ikk 
+				from anev_sasaran_kegiatan s 
+				inner join anev_ikk i on s.tahun=i.tahun 
+				inner join anev_kinerja_eselon2 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sk_e2=s.kode_sk_e2 and k.kode_ikk=i.kode_ikk) 
+				inner join anev_eselon2 es2 on s.kode_e2 = es2.kode_e2 where s.kode_e2 = '$kode_e2' AND k.tahun<='$tahun_akhir' and k.tahun>='$tahun_awal' and i.kode_iku_e1='$kode_iku_e1' and s.kode_sp_e1='$kode_sp_e1' order by i.kode_ikk asc, k.tahun asc";
+		return $this->mgeneral->run_sql($sql);	
+	}
+	
 	function get_capaian_kinerja_e1($kode_e2, $tahun_awal, $tahun_akhir,$kode_sk,$kode_ikk) {
 		$sql = "select es2.singkatan,s.tahun,k.target, k.realisasi, k.persen,k.kode_sk_e2,k.kode_ikk
 				from anev_sasaran_program s

@@ -14,6 +14,18 @@
                          	<?=form_dropdown('tahun',$renstra,'0','id="target-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
+                    <div class="form-group <?php if($page=="kl"): echo "hide"; endif; ?>" id="kodep_e1-box1">
+                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <div class="col-md-6">
+						 <?=form_dropdown('kode_e1_s',array("Pilih Unit Kerja"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
+                        </div>
+                    </div>
+                    <div class="form-group hide" id="kodep_e1-box2">
+                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <div class="col-md-6">
+						 <?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e1"  class="populate" style="width:100%"')?>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Sasaran Strategis</label>
                         <div class="col-md-8">
@@ -61,13 +73,38 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		<?php if($page!="kl"):?>
+		$("#target-tahun").click(function(){
+			$("#kodep_e1-box1").addClass("hide");
+			$("#kodep_e1-box2").removeClass("hide");
+		});
+		<?php endif; ?>
 		renstra = $('#target-tahun');
 		sasaran = $('#target-sasaran');
+		e1		= $('#target-kode_e1');
 		renstra.change(function(){
             if (renstra.val()!="") {
 				var arrayrenstra = $('#target-tahun').val().split('-');
+				var kode_e1		 = $('#target-kode_e1').val();
                 $.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_sasprog/"+arrayrenstra[0]+"/"+arrayrenstra[1],
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_sasprog/"+arrayrenstra[0]+"/"+arrayrenstra[1]+"/0",
+                    success:function(result) {
+                        $('#target-sasaran').empty();
+                        result = JSON.parse(result);
+                        for (k in result) {
+                            $('#target-sasaran').append(new Option(result[k],k));
+                        }
+                        $('#target-sasaran').select2({minimumResultsForSearch: -1, width:'resolve'});
+                    }
+                });
+            }
+        });
+		e1.change(function(){
+            if (renstra.val()!="") {
+				var arrayrenstra = $('#target-tahun').val().split('-');
+				var kode_e1		 = $('#target-kode_e1').val();
+                $.ajax({
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_sasprog/"+arrayrenstra[0]+"/"+arrayrenstra[1]+"/"+kode_e1,
                     success:function(result) {
                         $('#target-sasaran').empty();
                         result = JSON.parse(result);
