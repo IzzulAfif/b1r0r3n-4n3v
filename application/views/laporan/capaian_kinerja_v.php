@@ -6,7 +6,7 @@
        <!--tab nav start-->
             <section class="panel">
                 <header class="panel-heading tab-bg-light tab-right ">
-                	<p class="pull-left"><b>Rekapitulasi Capaian Kinerja</b></p>
+                	<p class="pull-left"><b>Realisasi Capaian Kinerja</b></p>
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#kl-content">
@@ -43,7 +43,7 @@
 	<script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-			//$("#kl-content").load("<?=base_url()?>laporan/profil_kl/loadprofile");
+			$("#kl-content").load("<?=base_url()?>laporan/capaian_kinerja_kl/loaddata");
 			$("#e1-content").load("<?=base_url()?>laporan/capaian_kinerja_eselon1/loaddata");
 			//$("#e2-content").load("<?=base_url()?>laporan/profil_eselon2/loadprofile");
 			
