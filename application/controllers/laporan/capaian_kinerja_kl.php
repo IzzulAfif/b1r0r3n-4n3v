@@ -25,7 +25,6 @@ class Capaian_kinerja_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load($setting); #load static template file		
-		$data['eselon1'] = $this->eselon1->get_list(null);
 		$template['konten']	= $this->load->view('laporan/capaian_kinerja_kl_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -36,8 +35,7 @@ class Capaian_kinerja_kl extends CI_Controller {
 	{
 		$setting['sd_left']	= array('cur_menu'	=> "LAPORAN");
 		$setting['page']	= array('pg_aktif'	=> "datatables");
-		$template			= $this->template->load_popup($setting); #load static template file		
-		//$data['eselon1'] = $this->eselon1->get_list(null);
+		$template			= $this->template->load_popup($setting); #load static template file	
 		$data['renstra']	= $this->tahun_renstra->get_list(null);
 		echo $this->load->view('laporan/capaian_kinerja_kl_v',$data,true); #load konten template file
 		
@@ -71,7 +69,7 @@ class Capaian_kinerja_kl extends CI_Controller {
 				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 				
 			$rs .= '<thead><tr  align="center" valign="middle">						
-						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran</th>
+						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Kemenhub</th>
 						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis</th>
 						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
 						<th style="vertical-align:middle;text-align:center;width:30%" width="110" rowspan="2">'.$setValignMiddle.'Indikator Kinerja Utama (IKU)</th>
@@ -141,7 +139,7 @@ class Capaian_kinerja_kl extends CI_Controller {
 				$jml_data_strategis = sizeof($data[$i]->strategis);
 				
 				$rs .= '<tr>';
-				$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->sasaran_kl.'</td>';			
+				$rs .= '<td rowspan="'.($data[$i]->rowspan).'" >'.$d->deskripsi.'</td>';			
 				
 							
 				if ($jml_data_strategis>0){					

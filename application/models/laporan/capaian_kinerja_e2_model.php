@@ -7,7 +7,7 @@
 */
 	
 
-class Capaian_kinerja_e1_model extends CI_Model
+class Capaian_kinerja_e2_model extends CI_Model
 { 
 	
 	function __construct()
@@ -30,6 +30,7 @@ class Capaian_kinerja_e1_model extends CI_Model
 		if (isset($params)){
 			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
 			if (isset($params['kode_e1'])) $where .= " and sasprog.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and saskeg.kode_e2='".$params['kode_e2']."'";
 			if (isset($params['kode_ss_kl'])) $where .= " and ss.kode_ss_kl='".$params['kode_ss_kl']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
 			//if (isset($params['tahun_renstra'])) $where .= " and skl.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
@@ -37,11 +38,11 @@ class Capaian_kinerja_e1_model extends CI_Model
 		$sql ='select distinct skl.tahun_renstra,skl.sasaran_kl as deskripsi,skl.kode_sasaran_kl
 from anev_sasaran_kl skl left join anev_sasaran_strategis ss on ss.kode_sasaran_kl = skl.kode_sasaran_kl
 and ss.tahun between left(skl.tahun_renstra,4) and right(skl.tahun_renstra,4)
-left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl
- and sasprog.tahun = ss.tahun
-left join anev_iku_eselon1 iku on iku.tahun=ss.tahun and iku.kode_sp_e1 = sasprog.kode_sp_e1
-left join anev_kinerja_eselon1 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sp_e1=sasprog.kode_sp_e1 and kinerja.kode_iku_e1 = iku.kode_iku_e1   '.$where;
-		$sql .= 'order by iku.kode_iku_e1';
+left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl and sasprog.tahun = ss.tahun
+left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
+left join anev_ikk iku on iku.tahun=ss.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 and kinerja.kode_ikk = iku.kode_ikk   '.$where;
+		$sql .= 'order by iku.kode_ikk';
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -51,19 +52,20 @@ left join anev_kinerja_eselon1 kinerja on kinerja.tahun = sasprog.tahun and kine
 		if (isset($params)){
 			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
 			if (isset($params['kode_e1'])) $where .= " and sasprog.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and saskeg.kode_e2='".$params['kode_e2']."'";
 			if (isset($params['kode_sasaran_kl'])) $where .= " and skl.kode_sasaran_kl='".$params['kode_sasaran_kl']."'";
 			if (isset($params['kode_ss_kl'])) $where .= " and ss.kode_ss_kl='".$params['kode_ss_kl']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
 			//if (isset($params['tahun_renstra'])) $where .= " and skl.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql ='select distinct skl.tahun_renstra,skl.sasaran_kl,sasprog.deskripsi,sasprog.kode_sp_e1
+		$sql ='select distinct skl.tahun_renstra,skl.sasaran_kl,saskeg.deskripsi,saskeg.kode_sk_e2
 from anev_sasaran_kl skl left join anev_sasaran_strategis ss on ss.kode_sasaran_kl = skl.kode_sasaran_kl
 and ss.tahun between left(skl.tahun_renstra,4) and right(skl.tahun_renstra,4)
-left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl
- and sasprog.tahun = ss.tahun
-left join anev_iku_eselon1 iku on iku.tahun=ss.tahun and iku.kode_sp_e1 = sasprog.kode_sp_e1
-left join anev_kinerja_eselon1 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sp_e1=sasprog.kode_sp_e1 and kinerja.kode_iku_e1 = iku.kode_iku_e1   '.$where;
-		$sql .= 'order by iku.kode_iku_e1';
+left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl and sasprog.tahun = ss.tahun
+left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
+left join anev_ikk iku on iku.tahun=ss.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 and kinerja.kode_ikk = iku.kode_ikk   '.$where;
+		$sql .= 'order by iku.kode_ikk';
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -74,19 +76,21 @@ left join anev_kinerja_eselon1 kinerja on kinerja.tahun = sasprog.tahun and kine
 		if (isset($params)){
 			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
 			if (isset($params['kode_e1'])) $where .= " and sasprog.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and saskeg.kode_e2='".$params['kode_e2']."'";
 			if (isset($params['kode_ss_kl'])) $where .= " and ss.kode_ss_kl='".$params['kode_ss_kl']."'";
 			if (isset($params['kode_sp_e1'])) $where .= " and sasprog.kode_sp_e1='".$params['kode_sp_e1']."'";
+			if (isset($params['kode_sk_e2'])) $where .= " and saskeg.kode_sk_e2='".$params['kode_sk_e2']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
 			//if (isset($params['tahun_renstra'])) $where .= " and skl.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql ='select distinct skl.tahun_renstra,skl.sasaran_kl,iku.deskripsi , sasprog.tahun, kinerja.realisasi,kinerja.target, iku.kode_iku_e1, sasprog.kode_sp_e1, skl.kode_sasaran_kl
+		$sql ='select distinct skl.tahun_renstra,skl.sasaran_kl,iku.deskripsi , sasprog.tahun, kinerja.realisasi,kinerja.target, iku.kode_ikk, saskeg.kode_sk_e2, skl.kode_sasaran_kl
 from anev_sasaran_kl skl left join anev_sasaran_strategis ss on ss.kode_sasaran_kl = skl.kode_sasaran_kl
 and ss.tahun between left(skl.tahun_renstra,4) and right(skl.tahun_renstra,4)
-left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl
- and sasprog.tahun = ss.tahun
-left join anev_iku_eselon1 iku on iku.tahun=ss.tahun and iku.kode_sp_e1 = sasprog.kode_sp_e1
-left join anev_kinerja_eselon1 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sp_e1=sasprog.kode_sp_e1 and kinerja.kode_iku_e1 = iku.kode_iku_e1   '.$where;
-		$sql .= 'order by iku.kode_iku_e1';
+left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl and sasprog.tahun = ss.tahun
+left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
+left join anev_ikk iku on iku.tahun=ss.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 and kinerja.kode_ikk = iku.kode_ikk   '.$where;
+		$sql .= 'order by iku.kode_ikk';
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -97,8 +101,8 @@ left join anev_kinerja_eselon1 kinerja on kinerja.tahun = sasprog.tahun and kine
 			if (isset($params['kode_sp_e1'])) $where .= " and sp.kode_sp_e1='".$params['kode_sp_e1']."'";
 			if (isset($params['range_awal'])) $where .= " and kinerja.tahun between ".$params['range_awal']." and ".$params['range_akhir'];
 		}
-		$sql = "select kinerja.tahun,kinerja.kode_iku_e1,iku.deskripsi, iku.satuan,kinerja.target,kinerja.realisasi, kinerja.persen from anev_kinerja_eselon1 kinerja inner join anev_iku_eselon1 iku on kinerja.kode_iku_e1 = iku.kode_iku_e1 and kinerja.tahun = iku.tahun	inner join anev_sasaran_program sp on sp.kode_sp_e1 = iku.kode_sp_e1 and sp.tahun = iku.tahun	inner join anev_sasaran_strategis ss on sp.kode_ss_kl = ss.kode_ss_kl and sp.tahun = ss.tahun ".$where;
-		$sql .= " order by kinerja.kode_iku_e1, kinerja.tahun ";
+		$sql = "select kinerja.tahun,kinerja.kode_ikk,iku.deskripsi, iku.satuan,kinerja.target,kinerja.realisasi, kinerja.persen from anev_kinerja_eselon2 kinerja inner join anev_ikk iku on kinerja.kode_ikk = iku.kode_ikk and kinerja.tahun = iku.tahun	inner join anev_sasaran_program sp on sp.kode_sp_e1 = iku.kode_sp_e1 and sp.tahun = iku.tahun	inner join anev_sasaran_strategis ss on sp.kode_ss_kl = ss.kode_ss_kl and sp.tahun = ss.tahun ".$where;
+		$sql .= " order by kinerja.kode_ikk, kinerja.tahun ";
 		return $this->mgeneral->run_sql($sql);
 	
 	}

@@ -45,7 +45,7 @@
 			$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 			$("#kl-content").load("<?=base_url()?>laporan/capaian_kinerja_kl/loaddata");
 			$("#e1-content").load("<?=base_url()?>laporan/capaian_kinerja_eselon1/loaddata");
-			//$("#e2-content").load("<?=base_url()?>laporan/profil_eselon2/loadprofile");
+			$("#e2-content").load("<?=base_url()?>laporan/capaian_kinerja_eselon2/loaddata");
 			
 		});
 	</script>
