@@ -39,7 +39,10 @@ class Cross_section extends CI_Controller {
 			if(count($data)!=0):
 				foreach($data as $d):
 					if($d->target!="0" && $d->target!=""):
-						$persen = ($d->target/$d->realisasi)*100;
+						$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						$total_persen = $total_persen+$persen;
+					else:
+						$persen = 100;
 						$total_persen = $total_persen+$persen;
 					endif;
 				endforeach;
@@ -75,7 +78,10 @@ class Cross_section extends CI_Controller {
 						if($d->target!="0" && $d->target!=""):
 							$target 	= (is_numeric($d->target)?$d->target:1);
 							$realisasi	= (is_numeric($d->realisasi)&&$d->realisasi!=0?$d->realisasi:1);
-							$persen 	= ($target/$realisasi)*100;
+							$persen 	= ((2*$target-$realisasi)/$target)*100;
+							$total_persen = $total_persen+$persen;
+						else:
+							$persen = 100;
 							$total_persen = $total_persen+$persen;
 						endif;
 					endforeach;
