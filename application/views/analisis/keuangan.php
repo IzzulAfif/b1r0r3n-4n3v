@@ -41,6 +41,7 @@
 		$(document).ready(function() {
 				
 			$("#kl-keuangan").load("<?=base_url()?>analisis/keuangan/kl");
-			
+			$("#es1-keuangan").load("<?=base_url()?>analisis/keuangan/es1");
+			$("#es2-keuangan").load("<?=base_url()?>analisis/keuangan/es2");
 		});
 	</script>

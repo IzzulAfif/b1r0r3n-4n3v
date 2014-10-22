@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-4">
-                            <?=form_dropdown('renstra',$renstra,'0','id="renstra" class="populate" style="width:100%"')?>
+                            <?=form_dropdown('renstra',$renstra,'0','id="renstra-kl" class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -36,26 +36,9 @@
         </section>
     </div>
                    
-	<div id="keuangan_kl_konten" class="hide">
+	<div id="keuangan_kl_tabel" class="hide">
 
-        <div class="adv-table">
-            <table  class="display table table-bordered table-striped" id="target-tbl">
-            <thead>
-            <tr>
-                <th width="3%">No</th>
-                <th>Program</th>
-                <th>Uraian</th>
-                <th><span id="klkeu-tahun1">-</span></th>
-                <th><span id="klkeu-tahun2">-</span></th>
-                <th><span id="klkeu-tahun3">-</span></th>
-                <th><span id="klkeu-tahun4">-</span></th>
-                <th><span id="klkeu-tahun5">-</span></th>
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            </table>
+        <div id="keuangan_kl_konten">
         </div>
         
         <div class="pull-right">
@@ -68,13 +51,13 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-		renstra = $('#renstra');
+		renstra_kl = $('#renstra-kl');
         tahun_awal = $('#tahun_awal');
         tahun_akhir = $('#tahun_akhir');
-        renstra.change(function(){
+        renstra_kl.change(function(){
             tahun_awal.empty(); tahun_akhir.empty();
-            if (renstra.val()!=0) {
-                year = renstra.val().split('-');
+            if (renstra_kl.val()!=0) {
+                year = renstra_kl.val().split('-');
                 for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
                     tahun_awal.append(new Option(i,i));
                     tahun_akhir.append(new Option(i,i));
@@ -86,32 +69,24 @@
 		
 		$("#klkeu-btn").click(function(){
 			
-			tahun = $('#renstra').val();
+			tahun = $('#renstra-kl').val();
 			tahun_awal = $('#tahun_awal').val();
         	tahun_akhir = $('#tahun_akhir').val();
 			
 			if (tahun=="0")
 			{
 				alert("Periode Renstra belum ditentukan");
-				$('#renstra').select2('open');
+				$('#renstra-kl').select2('open');
 			}
 			else {
-				var arrayrenstra = tahun.split('-');
-				var no = 1;
-				for (i = arrayrenstra[0]; i <=arrayrenstra[1]; i++) { 
-					$('#klkeu-tahun'+no).html(i);
-					no++;
-				}
-			}
-			$.ajax({
-                    url:"<?php echo site_url(); ?>analisis/keuangan/get_body_kl_keu/"+tahun+'/'+tahun_awal+'/'+tahun_akhir,
-                        success:function(result) {
-                            //table_body = $('#target-tbl tbody');
-                            //table_body.empty().html(result);        
-                            $('#keuangan_kl_konten').removeClass("hide");
+				$.ajax({
+					url:"<?php echo site_url(); ?>analisis/keuangan/get_body_kl_keu/"+tahun+'/'+tahun_awal+'/'+tahun_akhir,
+						success:function(result) {       
+							$('#keuangan_kl_tabel').removeClass("hide");
 							$('#keuangan_kl_konten').html(result);
-                        }
-                });
+						}
+				});
+			}
 		});
 		
 		$('#cetakpdf_targetkl').click(function(){
