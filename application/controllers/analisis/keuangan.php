@@ -34,7 +34,7 @@ class Keuangan extends CI_Controller {
 		$this->load->view('analisis/kl_keuangan',$data);
 	}
 	
-	function get_body_kl_keu($renstra,$tahun1,$tahun2)
+	function get_body_kl_keu($renstra,$tahun1,$tahun2,$tipe="html")
 	{
 		$data		= $this->keuangan->get_kl_keu($renstra,$tahun1,$tahun2,null);
 		$th_renstra = explode("-",$renstra);
@@ -45,7 +45,7 @@ class Keuangan extends CI_Controller {
 								"realisasi"	=> "0"); 
 		endfor;
 		
-		$table  = '<table class="display table table-bordered table-striped" border="1">';
+		$table  = '<table class="display table table-bordered table-striped" border="1" cellpadding="4" cellspacing="0">';
 		$table .= '<thead>
             		<tr>
                 		<th width="3%">No</th>
@@ -81,8 +81,8 @@ class Keuangan extends CI_Controller {
 					endfor;
 					#print_r($tblData); echo "<br><br>";
 					
-					$table .= '<tr><td rowspan="3">'.$no.'</td><td rowspan="3">'.$d->nama_program.'</td>';
-					$table .= '<td>Target Renstra</td>';
+					$table .= '<tr><td rowspan="3" width="3%" align="center">'.$no.'</td><td rowspan="3" width="20%">'.$d->nama_program.'</td>';
+					$table .= '<td width="15%">Target Renstra</td>';
 						$tTarget = 0;
 						for($b=$tahun1; $b<=$tahun2; $b++):
 							$table .= '<td>'.number_format($tblData[$b]['target'],0,',','.').'</td>';
@@ -91,7 +91,7 @@ class Keuangan extends CI_Controller {
 						$table .= '<td>'.number_format($tTarget,0,',','.').'</td>';
 					$table .= '</tr>';
 					
-					$table .= '<tr><td>Pagu</td>';
+					$table .= '<tr><td width="15%">Pagu</td>';
 					$totalpagu=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
 						$table .='<td>'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
@@ -99,7 +99,7 @@ class Keuangan extends CI_Controller {
 					endfor;
 					$table .='<td>'.number_format($totalpagu,0,',','.').'</td></tr>';
 					
-					$table .= '<tr><td>Realisasi</td>';
+					$table .= '<tr><td width="15%">Realisasi</td>';
 					$totalrealisasi=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
 						$table .='<td>'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
@@ -112,7 +112,48 @@ class Keuangan extends CI_Controller {
 		
 		$table .= '</tbody>';
 		$table .= "</table>";
-		echo $table;
+		if($tipe=="get"): return $table; else: echo $table; endif;
+	}
+	
+	function print_keuangankl_pdf($renstra,$tahun1,$tahun2)
+	{
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Analisis dan Evaluasi Keuangan Kementerian Perhubungan');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Analisis dan Evaluasi Keuangan Kementerian Perhubungan', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+	
+		$html = $this->get_body_kl_keu($renstra,$tahun1,$tahun2,"get");
+		$pdf->writeHTML($html, true, false, false, false, '');
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('keuanganKementerian.pdf', 'I');
 	}
 	
 	function es1()
@@ -121,7 +162,7 @@ class Keuangan extends CI_Controller {
 		$this->load->view('analisis/es1_keuangan',$data);
 	}
 	
-	function get_body_es1_keu($renstra,$tahun1,$tahun2,$kode_e1)
+	function get_body_es1_keu($renstra,$tahun1,$tahun2,$kode_e1,$tipe="html")
 	{
 		$data		= $this->keuangan->get_kl_keu($renstra,$tahun1,$tahun2,$kode_e1);
 		$th_renstra = explode("-",$renstra);
@@ -132,7 +173,7 @@ class Keuangan extends CI_Controller {
 								"realisasi"	=> "0"); 
 		endfor;
 		
-		$table  = '<table class="display table table-bordered table-striped" border="1">';
+		$table  = '<table class="display table table-bordered table-striped" border="1" cellpadding="4" cellspacing="0">';
 		$table .= '<thead>
             		<tr>
                 		<th width="20%">Program</th>
@@ -167,8 +208,8 @@ class Keuangan extends CI_Controller {
 					endfor;
 					$grafikData[] = $tblData;
 					
-					$table .= '<tr><td rowspan="3">'.$d->nama_program.'</td>';
-					$table .= '<td>Target Renstra</td>';
+					$table .= '<tr><td rowspan="3" width="20%">'.$d->nama_program.'</td>';
+					$table .= '<td width="15%">Target Renstra</td>';
 						$tTarget = 0;
 						for($b=$tahun1; $b<=$tahun2; $b++):
 							$table .= '<td>'.number_format($tblData[$b]['target'],0,',','.').'</td>';
@@ -177,7 +218,7 @@ class Keuangan extends CI_Controller {
 						$table .= '<td>'.number_format($tTarget,0,',','.').'</td>';
 					$table .= '</tr>';
 					
-					$table .= '<tr><td>Pagu</td>';
+					$table .= '<tr><td width="15%">Pagu</td>';
 					$totalpagu=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
 						$table .='<td>'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
@@ -185,7 +226,7 @@ class Keuangan extends CI_Controller {
 					endfor;
 					$table .='<td>'.number_format($totalpagu,0,',','.').'</td></tr>';
 					
-					$table .= '<tr><td>Realisasi</td>';
+					$table .= '<tr><td width="15%">Realisasi</td>';
 					$totalrealisasi=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
 						$table .='<td>'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
@@ -257,8 +298,54 @@ class Keuangan extends CI_Controller {
 								}]
 					});
 				</script>";
-		echo $table;
-		echo $grafik;
+				
+		if($tipe=="get"): 
+			return $table; 
+		else:
+			echo $table;
+			echo $grafik;
+		endif;
+	}
+	
+	function print_keuanganes1_pdf($renstra,$tahun1,$tahun2,$kode_e1)
+	{
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Analisis dan Evaluasi Keuangan Eselon I');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Analisis dan Evaluasi Keuangan Eselon I', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+	
+		$html = $this->get_body_es1_keu($renstra,$tahun1,$tahun2,$kode_e1,"get");
+		$pdf->writeHTML($html, true, false, false, false, '');
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('keuanganEselon1.pdf', 'I');
 	}
 	
 	function es2()
@@ -267,7 +354,7 @@ class Keuangan extends CI_Controller {
 		$this->load->view('analisis/es2_keuangan',$data);
 	}
 	
-	function get_body_es2_keu($renstra,$tahun1,$tahun2,$kode_e1,$kode_e2)
+	function get_body_es2_keu($renstra,$tahun1,$tahun2,$kode_e1,$kode_e2,$tipe="html")
 	{
 		$data		= $this->keuangan->get_es2_keu($renstra,$tahun1,$tahun2,$kode_e2);
 		$th_renstra = explode("-",$renstra);
@@ -278,7 +365,7 @@ class Keuangan extends CI_Controller {
 								"realisasi"	=> "0"); 
 		endfor;
 		
-		$table  = '<table class="display table table-bordered table-striped" border="1">';
+		$table  = '<table class="display table table-bordered table-striped" border="1" cellpadding="4" cellspacing="0">';
 		$table .= '<thead>
             		<tr>
                 		<th width="20%">Kegiatan</th>
@@ -313,8 +400,8 @@ class Keuangan extends CI_Controller {
 					endfor;
 					$grafikData[] = $tblData;
 					
-					$table .= '<tr><td rowspan="3">'.$d->nama_kegiatan.'</td>';
-					$table .= '<td>Target Renstra</td>';
+					$table .= '<tr><td rowspan="3" width="20%">'.$d->nama_kegiatan.'</td>';
+					$table .= '<td width="15%">Target Renstra</td>';
 						$tTarget = 0;
 						for($b=$tahun1; $b<=$tahun2; $b++):
 							$table .= '<td>'.number_format($tblData[$b]['target'],0,',','.').'</td>';
@@ -323,7 +410,7 @@ class Keuangan extends CI_Controller {
 						$table .= '<td>'.number_format($tTarget,0,',','.').'</td>';
 					$table .= '</tr>';
 					
-					$table .= '<tr><td>Pagu</td>';
+					$table .= '<tr><td width="15%">Pagu</td>';
 					$totalpagu=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
 						$table .='<td>'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
@@ -331,7 +418,7 @@ class Keuangan extends CI_Controller {
 					endfor;
 					$table .='<td>'.number_format($totalpagu,0,',','.').'</td></tr>';
 					
-					$table .= '<tr><td>Realisasi</td>';
+					$table .= '<tr><td width="15%">Realisasi</td>';
 					$totalrealisasi=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
 						$table .='<td>'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
@@ -403,7 +490,48 @@ class Keuangan extends CI_Controller {
 								}]
 					});
 				</script>";
-		echo $table;
-		echo $grafik;
+				
+		if($tipe=="get"): return $table; else:  echo $table; echo $grafik; endif;
+	}
+	
+	function print_keuanganes2_pdf($renstra,$tahun1,$tahun2,$kode_e1,$kode_e2)
+	{
+		$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Analisis dan Evaluasi Keuangan Eselon II');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Analisis dan Evaluasi Keuangan Eselon II', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+	
+		$html = $this->get_body_es2_keu($renstra,$tahun1,$tahun2,$kode_e1,$kode_e2,"get");
+		$pdf->writeHTML($html, true, false, false, false, '');
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('keuanganEselon2.pdf', 'I');
 	}
 }

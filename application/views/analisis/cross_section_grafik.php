@@ -29,7 +29,7 @@
         <thead>
         <tr>
             <th>Unit Kerja</th>
-            <th>Rata-rata Pencapaian</th>
+            <th>% Rata-rata Capaian</th>
         </tr>
         </thead>
         <tbody>
@@ -78,8 +78,12 @@
 				}
 			},
 			title: {
-				text: '<?=$title?>',
+				text: '<?=strtoupper($title)?>',
 				style : { "font-size" : "14px" }
+			},
+			subtitle: {
+				text: '<?=strtoupper($subtitle)?>',
+				style : { "font-size" : "13px" }
 			},
 			xAxis: {
 				categories: [<?=rtrim($bar,",")?>]
@@ -106,7 +110,7 @@
 				}
 			},
 			series: [{
-				name: 'Rata-rata Pencapaian',
+				name: '% Rata-rata Capaian',
 				type: 'bar',
 				data: [<?=rtrim($nilai,",")?>],
 				dataLabels: {enabled: true},

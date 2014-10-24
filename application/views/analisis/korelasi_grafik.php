@@ -110,13 +110,17 @@
 			}
 		},
 		title: {
-			text: 'Analisis Korelasi Capaian Indikator Sasaran Strategis',
+			text: 'ANALISIS KORELASI CAPAIAN INDIKATOR DAN SASARAN STRATEGIS',
 			style : { "font-size" : "14px" }
+		},
+		subtitle: {
+			text: 'PERIODE TAHUN <?=$tahun1?> s.d. <?=$tahun2?>',
+			style : { "font-size" : "13px" }
 		},
 		xAxis: {
 			title: {
 				enabled: true,
-				text: '<?=$title2?>'
+				text: '<?=ucwords($title2)?>'
 			},
 			startOnTick: true,
 			endOnTick: true,
@@ -129,7 +133,7 @@
 		},
 		yAxis: {
 			title: {
-				text: '<div title="<?=$title1?>"><p align="center"><?=substr($title1,0,50)?> ...</p></div>',
+				text: '<div title="<?=ucwords($title1)?>"><p align="center"><?=substr(ucwords($title1),0,50)?> ...</p></div>',
 				useHTML : true,
 			},
 			gridLineWidth: 0,

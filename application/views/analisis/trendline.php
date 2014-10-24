@@ -10,9 +10,9 @@
                 
                 <div class="row" id="boxcartscrool">
                 	<div class="col-sm-5">
-                    	<p class="text-primary"><b>Periode Renstra</b></p>
+                    	<p class="text-primary"><b>Periode Renstra dan Tahun</b></p>
                         <div class="form-group hide">
-                            <label class="col-sm-5 control-label">Kementerian </label>
+                            <label class="col-sm-5 pull-left">Kementerian </label>
                             <div class="col-sm-7">
                                 <select name="unit_kerja" id="unit_kerja_g1" class="populate" style="width:100%">
                                     <?php foreach($kl as $k): ?>

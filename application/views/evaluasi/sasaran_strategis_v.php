@@ -25,7 +25,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Sasaran</label>
+                        <label class="col-md-2 control-label">Sasaran Strategis</label>
                         <div class="col-md-9">
                             <?=form_dropdown('sasaran',array(),'','id="sasaran"')?>
                         </div>

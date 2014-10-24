@@ -35,6 +35,8 @@ class Korelasi extends CI_Controller {
 		$data['title2']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$this->input->post("sasaran2"),'kode_iku_kl'=>$this->input->post("indikator2")),"anev_iku_kl");
 		$data['gdata1'] 	= $gdata1;
 		$data['gdata2']		= $gdata2;
+		$data['tahun1']		= $this->input->post("tahun1");
+		$data['tahun2']		= $this->input->post("tahun2");
 		$this->load->view('analisis/korelasi_grafik',$data);
 	}
 	
@@ -82,6 +84,8 @@ class Korelasi extends CI_Controller {
 		$data['title2']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$this->input->post("sasaran2"),'kode_iku_e1'=>$this->input->post("indikator2")),"anev_iku_eselon1");
 		$data['gdata1'] 	= $gdata1;
 		$data['gdata2']		= $gdata2;
+		$data['tahun1']		= $this->input->post("tahun1");
+		$data['tahun2']		= $this->input->post("tahun2");
 		$this->load->view('analisis/korelasi_grafik',$data);
 	}
 	

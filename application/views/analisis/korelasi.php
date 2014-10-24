@@ -11,7 +11,7 @@
                 <div class="row">
                 		
                      <div class="col-sm-4">
-                     	<p class="text-primary"><b>Periode Renstra</b></p>
+                     	<p class="text-primary"><b>Periode Renstra dan Tahun</b></p>
                         <div class="form-group hide">
                             <label class="col-sm-5 control-label">Kementerian </label>
                             <div class="col-sm-7">
@@ -47,7 +47,7 @@
                      </div>
                      
                      <div class="col-sm-4">
-                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator 1</b></p>
+                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator I</b></p>
                        <div class="form-group">
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
@@ -73,7 +73,7 @@
                      </div>
                      
                      <div class="col-sm-4">
-                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator 2</b></p>
+                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator II</b></p>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">

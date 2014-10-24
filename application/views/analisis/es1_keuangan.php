@@ -50,7 +50,7 @@
         </div>
                         
         <div class="pull-right">
-            <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_targetes1"><i class="fa fa-print"></i> Cetak PDF</button>          
+            <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_keuanganes1"><i class="fa fa-print"></i> Cetak PDF</button>          
             <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_targetes1"><i class="fa fa-download"></i> Ekspor Excel</button>
         </div>
 	
@@ -121,10 +121,12 @@
 			}
 		});
 		
-		$('#cetakpdf_targetes1').click(function(){
-			tahun = $('#target-tahun').val();
-			sasaran = $('#target-sasaran').val();
-			window.open('<?=base_url()?>pemrograman/pemrograman_es1/print_target_pdf/'+tahun+"/"+sasaran,'_blank');			
+		$('#cetakpdf_keuanganes1').click(function(){
+			tahun 		= $('#es1-renstra').val();
+			tahun_awal 	= $('#es1-tahun_awal').val();
+        	tahun_akhir = $('#es1-tahun_akhir').val();
+			es1			= $('#es1-kode').val();
+			window.open('<?=base_url()?>analisis/keuangan/print_keuanganes1_pdf/'+tahun+'/'+tahun_awal+'/'+tahun_akhir+'/'+es1,'_blank');			
 		});
 	})
 	</script>	        

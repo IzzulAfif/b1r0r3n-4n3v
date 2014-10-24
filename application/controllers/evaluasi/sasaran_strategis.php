@@ -29,7 +29,7 @@ class sasaran_strategis extends CI_Controller {
 	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl) 
 	{
 		
-		$thead = '<thead><th rowspan=2>Sasaran Strategis</th><th rowspan=2>Indikator</th><th rowspan=2>Satuan</th>';
+		$thead = '<thead><th rowspan=2>Sasaran Strategis</th><th rowspan=2>Indikator Kerja Utama (IKU)</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
 		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $rowspan = ""; $temprow = '';
 		$sum_program = 0; $rowsection = '';

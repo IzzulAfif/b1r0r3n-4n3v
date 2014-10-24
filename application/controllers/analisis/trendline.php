@@ -38,6 +38,7 @@ class Trendline extends CI_Controller {
 		
 		$data['post']	= $this->input->post();
 		$data['gdata'] 		= $dataKonten;
+		$data['satuan']		= $this->get_satuan($unit_kerja,$indikator,"get");
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$sasaran,'kode_iku_kl'=>$indikator),"anev_iku_kl");
 		$data['subtitle']	= "dari Tahun $tahun1 s.d. $tahun2"; 
 		$this->load->view('analisis/trendline_grafik',$data);
@@ -67,6 +68,7 @@ class Trendline extends CI_Controller {
 		
 		$data['post']		= $this->input->post();
 		$data['gdata'] 		= $dataKonten;
+		$data['satuan']		= $this->get_satuan($unit_kerja,$indikator);
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$sasaran,'kode_iku_e1'=>$indikator),"anev_iku_eselon1");
 		$data['subtitle']	= "dari Tahun $tahun1 s.d. $tahun2"; 
 		$this->load->view('analisis/trendline_grafik',$data);
@@ -118,7 +120,7 @@ class Trendline extends CI_Controller {
 		echo json_encode($result);
 	}
 	
-	function get_satuan($kode,$indikator)
+	function get_satuan($kode,$indikator,$tipe="html")
 	{
 		if(strlen($kode)=="3"):
 			$result	= $this->mgeneral->getValue("satuan",array('kode_iku_kl'=>$indikator),"anev_iku_kl");
@@ -126,6 +128,6 @@ class Trendline extends CI_Controller {
 			$result	= $this->mgeneral->getValue("satuan",array('kode_iku_e1'=>$indikator),"anev_iku_eselon1");
 		endif;
 		
-		echo $result;
+		if($tipe="get"): return $result; else: echo $result; endif;
 	}
 }

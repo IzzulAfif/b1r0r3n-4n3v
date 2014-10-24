@@ -131,6 +131,7 @@ a:hover {
 .form-horizontal .control-label {
     font-weight: 300;
     font-size: 14px;
+	text-align:left;
 }
 
 input, textarea, select, button {

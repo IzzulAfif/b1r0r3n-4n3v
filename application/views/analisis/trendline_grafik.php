@@ -48,25 +48,25 @@
         <thead>
         <tr>
             <th>Tahun</th>
-            <th>Target</th>
-            <th>Realisasi</th>
+            <th>Target (<?=$satuan?>)</th>
+            <th>Realisasi (<?=$satuan?>)</th>
         </tr>
         </thead>
         <tbody>
             <?php foreach($gdata as $d): ?>
             	
 				<?php if($d['tahun']==$post['tahun']): ?>
-					<tr><td colspan="3">Simulasi Target dan Pencapaian</td></tr>
+					<tr><td colspan="3">Simulasi Target dan Realisasi</td></tr>
                     <tr>
                     	<td><?=$d['tahun']?></td>
-                        <td><?=$post['target']?></td>
-                        <td><?=$d['simulasi']?></td>
+                        <td><?=$this->template->cek_tipe_numerik($post['target'])?></td>
+                        <td><?=$this->template->cek_tipe_numerik($d['simulasi'])?></td>
                     </tr>
 				<?php else: ?>
                 	<tr>
                         <td><?=$d['tahun']?></td>
-                        <td><?=$d['target']?></td>
-                        <td><?=$d['realisasi']?></td>
+                        <td><?=$this->template->cek_tipe_numerik($d['target'])?></td>
+                        <td><?=$this->template->cek_tipe_numerik($d['realisasi'])?></td>
                     </tr>
 				<?php endif; ?>
             
@@ -99,11 +99,11 @@
 				}
 			},
 			title: {
-				text: '<?=$title?>',
+				text: '<?=strtoupper($title)?>',
 				style : { "font-size" : "14px" }
 			},
 			subtitle: {
-				text: '<?=$subtitle?>',
+				text: '<?=strtoupper($subtitle)?>',
 				style : { "font-size" : "13px" }
 			},
 			xAxis: {
@@ -138,11 +138,11 @@
 				data: [<?=rtrim($dRealisasi,",")?>],
 			},{
 				type: 'column',
-				name: 'Simulasi Target',
+				name: 'Target Simulasi',
 				data: [<?=rtrim($dSimTarget,",")?>],
 			},{
 				type: 'column',
-				name: 'Simulasi Pencapaian',
+				name: 'Realisasi Simulasi',
 				data: [<?=rtrim($dSimulasi,",")?>],
 			}
 			<?php if($post['trendline']=="ok"):?>

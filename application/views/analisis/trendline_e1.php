@@ -10,7 +10,7 @@
                 
                 <div class="row" id="boxcartscrool">
                 	<div class="col-sm-5">
-                    	<p class="text-primary"><b>Periode Renstra</b></p>
+                    	<p class="text-primary"><b>Periode Renstra dan Tahun</b></p>
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Unit Kerja  <span class="text-danger">*</span></label>
                             <div class="col-sm-7">

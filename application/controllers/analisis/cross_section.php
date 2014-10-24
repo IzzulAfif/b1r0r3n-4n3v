@@ -59,6 +59,7 @@ class Cross_section extends CI_Controller {
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$this->input->post("sasaran"),'kode_iku_kl'=>$this->input->post("indikator")),"anev_iku_kl");
 		$data['gdata'] 		= $graf_data;
 		$data['rata2']		= $rata2total;
+		$data['subtitle']	= "dari Tahun ".$this->input->post("tahun1")." s.d. ".$this->input->post("tahun1");
 		$this->load->view('analisis/cross_section_grafik',$data);
 	}
 	
@@ -99,6 +100,7 @@ class Cross_section extends CI_Controller {
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$this->input->post("sasaran"),'kode_iku_e1'=>$this->input->post("indikator")),"anev_iku_eselon1");
 		$data['gdata'] 		= $graf_data;
 		$data['rata2']		= $rata2total;
+		$data['subtitle']	= "dari Tahun ".$this->input->post("tahun1")." s.d. ".$this->input->post("tahun1");
 		$this->load->view('analisis/cross_section_grafik',$data);
 	}
 }
