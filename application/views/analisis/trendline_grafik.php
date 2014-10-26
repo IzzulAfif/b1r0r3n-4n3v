@@ -128,15 +128,8 @@
 					},
 				}
 			},
-			series: [{
-				type: 'column',
-				name: 'Target',
-				data: [<?=rtrim($dTarget,",")?>],
-			}, {
-				type: 'column',
-				name: 'Realisasi',
-				data: [<?=rtrim($dRealisasi,",")?>],
-			},{
+			series: [
+			{
 				type: 'column',
 				name: 'Target Simulasi',
 				data: [<?=rtrim($dSimTarget,",")?>],
@@ -144,12 +137,20 @@
 				type: 'column',
 				name: 'Realisasi Simulasi',
 				data: [<?=rtrim($dSimulasi,",")?>],
+			},{
+				type: 'column',
+				name: 'Target',
+				data: [<?=rtrim($dTarget,",")?>],
+			}, {
+				type: 'column',
+				name: 'Realisasi',
+				data: [<?=rtrim($dRealisasi,",")?>],
 			}
 			<?php if($post['trendline']=="ok"):?>
 			,{
 				type: 'spline',
 				name: 'Trendline',
-				data: [<?=rtrim($dTrendline,",")?>]
+				data: [<?=rtrim($dTrendline,",")?>],
 			}
 			<?php endif; ?>
 			<?php if($post['targetline']=="ok"):?>

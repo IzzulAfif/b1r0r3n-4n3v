@@ -53,7 +53,10 @@ class Korelasi extends CI_Controller {
 			if(count($data)!=0):
 				foreach($data as $d):
 					if($d->target!="0" && $d->target!=""):
-						$persen = ($d->target/$d->realisasi)*100;
+						$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						$total_persen = $total_persen+$persen;
+					else:
+						$persen = 100;
 						$total_persen = $total_persen+$persen;
 					endif;
 				endforeach;
@@ -66,8 +69,23 @@ class Korelasi extends CI_Controller {
 			endif;
 		endforeach;
 		
-		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');	
-		
+		$dataKL	= $this->analisis_model->get_capaian_kinerja_kl($indikator,$tahun1,$tahun2);
+		$total_persen = 0;
+		foreach($dataKL as $kl):
+			if($d->target!="0" && $kl->target!=""):
+				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;
+				$total_persen = $total_persen+$persen;
+			else:
+				$persen = 100;
+				$total_persen = $total_persen+$persen;
+			endif;
+		endforeach;
+		$rata2kl = $total_persen/count($dataKL);
+		$graf_data[] = array('kode'	=> "022",
+							 'nama'	=> "Kementerian",
+							 'rata2'=> number_format($rata2kl,2,'.','.'));
+							 
+		$rata2total = number_format(($total_persen_es1+$rata2kl)/($total_es1+1),2,'.','.');
 		$dataReturn = array('gdata'	=> $graf_data,
 							'rata2'	=> $rata2total);
 		return $dataReturn;
@@ -102,7 +120,10 @@ class Korelasi extends CI_Controller {
 			if(count($data)!=0):
 				foreach($data as $d):
 					if($d->target!="0" && $d->target!=""):
-						$persen = ($d->target/$d->realisasi)*100;
+						$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						$total_persen = $total_persen+$persen;
+					else:
+						$persen = 100;
 						$total_persen = $total_persen+$persen;
 					endif;
 				endforeach;

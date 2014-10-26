@@ -3,15 +3,15 @@
 	$rata2	= $gdata2['rata2'];
 	$grafd1	= $gdata1['gdata'];
 	$grafd2	= $gdata2['gdata'];
-	
+		
 		foreach($grafd1 as $g1):
 			$dg1[$g1['kode']] = array('kode'=>$g1['kode'],'nama'=> $g1['nama'],'nilai'=>$g1['rata2']);
 		endforeach;
 		
 		foreach($grafd2 as $g2):
-			$dg2[$g2['kode']] = array('kode'=>$g1['kode'],'nama'=> $g2['nama'],'nilai'=>$g2['rata2']);
+			$dg2[$g2['kode']] = array('kode'=>$g2['kode'],'nama'=> $g2['nama'],'nilai'=>$g2['rata2']);
 		endforeach;
-	
+		
 	$tipe = "";
 	if(count($dg1)>=count($dg2)):
 		foreach($dg1 as $d1):
@@ -24,7 +24,7 @@
 			$data_graf[]= array('nama'		=>$d1['nama'],
 								'nilaix'	=>$d1['nilai'],
 								'nilaiy'	=>$nilaiy);
-			
+			#print_r($data_graf);
 			if($tipe!="not numeric"):
 				if(!is_numeric($d1['nilai']) || !is_numeric($nilaiy)):
 					$tipe = "not numeric";
@@ -44,8 +44,7 @@
 		
 			$data_graf[]= array('nama'		=>$d2['nama'],
 								'nilaiy'	=>$d2['nilai'],
-								'nilaix'	=>$nilaix);
-			
+								'nilaix'	=>$nilaix);	
 			if($tipe!="not numeric"):
 				if(!is_numeric($d2['nilai']) || !is_numeric($nilaix)):
 					$tipe = "not numeric";
@@ -172,8 +171,8 @@
 			}
 		},
 		series: [
-			<?php foreach($data_graf as $gd): ?>
-			{name: '<?=$gd['nama']?>',marker: { fillColor: '#BF0B23', symbol : "triangle",radius:6},data: [{x:<?=$gd['nilaix']?>,y:<?=$gd['nilaiy']?>,myData : "Rata-rata Pencapaian Indikator 1 : <?=$gd['nilaix']?> <br> Rata-rata Pencapaian Indikator 2 : <?=$gd['nilaiy']?>"}]},
+			<?php foreach($data_graf as $gd): if($gd['nama']=="Kementerian"): $fillColor="#3D96AE"; else: $fillColor="#BF0B23"; endif;?>
+			{name: '<?=$gd['nama']?>',marker: { fillColor: '<?=$fillColor?>', symbol : "triangle",radius:6},data: [{x:<?=$gd['nilaix']?>,y:<?=$gd['nilaiy']?>,myData : "Rata-rata Pencapaian Indikator 1 : <?=$gd['nilaix']?> <br> Rata-rata Pencapaian Indikator 2 : <?=$gd['nilaiy']?>"}]},
 			<?php endforeach; ?>
 		]
 	});

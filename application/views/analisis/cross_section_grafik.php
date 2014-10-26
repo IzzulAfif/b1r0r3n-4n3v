@@ -4,7 +4,11 @@
 	$tipe	= "";
 	foreach($gdata as $d):
 		$bar	.= "'".$d['nama']."',";
-		$nilai	.= $d['rata2'].",";
+		if($d['nama']=="Kementerian"):
+			$nilai	.= "{y: ".$d['rata2'].", color: '#DB843D'},";
+		else:
+			$nilai	.= $d['rata2'].",";
+		endif;
 		
 		if(!is_numeric($d['rata2']) && $tipe!="not numeric"):
 			$tipe = "not numeric";
@@ -13,7 +17,6 @@
 		endif;
 		
 	endforeach;
-	
 ?>
 <div id="chartKontenSection" style=" <?php if($tipe=="numeric"): ?>height:400px; <?php endif; ?>">
 	<?php if($tipe!="numeric"): ?>
