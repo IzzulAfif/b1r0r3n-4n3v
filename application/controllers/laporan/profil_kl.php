@@ -128,7 +128,7 @@ class Profil_kl extends CI_Controller {
 		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
 
-	      $data['renstra']		= $tahun;
+	    $data['renstra']		= $tahun;
 	   $data['kementerian'] = $this->mgeneral->getValue("nama_kl",array('tahun_renstra'=>$tahun),"anev_kl");
 	   $data['unitkerja']	= $this->get_unit_kerja($tahun,$kl,false);
 	   $data['fungsi']		= $this->get_fungsi($tahun,$kl,false);
@@ -144,6 +144,72 @@ class Profil_kl extends CI_Controller {
 		$pdf->Output('ProfilKementerian.pdf', 'I');
 		
 	
+   }
+   
+   public function excel($tahun,$kl){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Profil Kementerian');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:B1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Profil Kementerian Perhubungan');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('A3:B3');
+		$posisiRow = 4;
+		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Tugas');
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow,  $this->get_tugas($tahun,$kl,false));
+		
+		$posisiRow++;
+		$fungsi = $this->fungsi_kl->get_all(array("tahun_renstra"=>$tahun));
+		$fungsi_arr = null;
+		
+		if (isset($fungsi)){
+			foreach ($fungsi as $u){
+				$fungsi_arr[] = array($u->fungsi_kl);
+			}
+		}
+		if (count($fungsi_arr)>1){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($fungsi_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Fungsi');
+		$this->excel->getActiveSheet()->fromArray($fungsi_arr,NULL,'B'.$posisiRow);
+		//$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $this->get_fungsi($tahun,$kl,false));
+		$posisiRow += count($fungsi_arr);
+		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja');
+		$unitkerja = $this->eselon1->get_all(array("tahun_renstra"=>$tahun));
+		$unitkerja_arr = null;
+		
+		if (isset($unitkerja)){
+			foreach ($unitkerja as $u){
+				$unitkerja_arr[] = array($u->nama_e1);
+			}
+		}
+		
+		$this->excel->getActiveSheet()->fromArray($unitkerja_arr,NULL,'B'.$posisiRow);
+		if (count($fungsi_arr)>1){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($unitkerja_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		}
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(100);
+		
+		$this->excel->getActiveSheet()->getStyle('B4:B100'.$this->excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+	
+		$filename='profil_kementerian_'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');		
    }
 	
 }

@@ -140,6 +140,12 @@ $(document).ready(function() {
 		var kodee2 = $('#e2-kode_e2').val();
 		window.open('<?=base_url()?>laporan/profil_eselon2/print_pdf/'+tahun+'/'+kodee2,'_blank');			
 	});
+	
+	$('#cetakexcel_profilee2').click(function(){
+		var tahun = $('#e2-tahun').val();
+		var kodee2 = $('#e2-kode_e2').val();
+		window.open('<?=base_url()?>laporan/profil_eselon2/excel/'+tahun+"/"+kodee2,'_blank');			
+	});
 			
 });
 </script>

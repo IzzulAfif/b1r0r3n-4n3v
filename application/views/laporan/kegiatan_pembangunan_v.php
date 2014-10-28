@@ -22,7 +22,7 @@
                         
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
 							 <?=form_dropdown('tahun_renstra',$tahun_renstra,'0','id="tahun_renstra"')?>
                         </div>
                     </div>
@@ -95,8 +95,8 @@
 			   </div>
             </div>
 			<div class="pull-right">
-					<button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatanpembangunan"><i class="fa fa-print"></i> Cetak PDF</button>          
-					<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatanpembangunan"><i class="fa fa-download"></i> Ekspor Excel</button>
+					<button type="button" class="btn btn-primary btn-sm" id="cetakpdf_realisasiprogram"><i class="fa fa-print"></i> Cetak PDF</button>          
+					<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_realisasiprogram"><i class="fa fa-download"></i> Ekspor Excel</button>
 				</div>
 			</section>
             </div>
@@ -142,7 +142,7 @@
 		$('#tahun').change(function(){
 			tahun	= $('#tahun').val();
 		/*	$.ajax({
-				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_sastra/"+tahun,
+				url:"<?=site_url()?>laporan/realisasi_program/get_sastra/"+tahun,
 				success:function(result) {
 					$('#kelompok_indikator').empty();
 					result = JSON.parse(result);
@@ -154,7 +154,7 @@
 			});*/
 			
 			$.ajax({
-				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_program/"+tahun,
+				url:"<?=site_url()?>laporan/realisasi_program/get_program/"+tahun,
 				success:function(result) {
 					$('#program').empty();
 					result = JSON.parse(result);
@@ -170,7 +170,7 @@
 		
 		$("#program").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_kegiatan/"+$('#tahun').val()+"/"+this.value,
+				url:"<?php echo site_url(); ?>laporan/realisasi_program/get_kegiatan/"+$('#tahun').val()+"/"+this.value,
 				success:function(result) {
 					
 					$('#kegiatan').empty();					
@@ -185,7 +185,7 @@
 		
 		$("#kode_e1").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_list_eselon2/"+this.value,
+				url:"<?php echo site_url(); ?>laporan/realisasi_program/get_list_eselon2/"+this.value,
 				success:function(result) {
 					
 					$('#kode_e2').empty();					
@@ -233,7 +233,7 @@
 				$('#list-kdlokasi').select2('open');
 			}
 			else {
-				$("#div-pembangunan").load("<?=base_url()?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi);
+				$("#div-pembangunan").load("<?=base_url()?>laporan/realisasi_program/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi);
 					$("#div-pembangunan").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
@@ -243,8 +243,8 @@
 			}
 		});
 		
-		$('#cetakpdf_kegiatanpembangunan').click(function(){				
-				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/print_pdf/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
+		$('#cetakpdf_realisasiprogram').click(function(){				
+				window.open('<?=base_url()?>laporan/realisasi_program/print_pdf/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
 			});
 			
     });

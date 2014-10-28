@@ -152,5 +152,60 @@ class Profil_eselon2 extends CI_Controller {
 		
 	 
    }
+   
+   public function excel($tahun,$e2){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Profil Unit Kerja Eselon II');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:B1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Profil Unit Kerja Eselon II');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('A3:B3');
+		$params = array('kode_e2'=>$e2,'tahun_renstra'=>$tahun);
+		$posisiRow = 4;		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja');
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow,  $this->mgeneral->getValue("nama_e2",$params,"anev_eselon2"));
+		$posisiRow++;
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Tugas');
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow,  $this->mgeneral->getValue("tugas_e2",$params,"anev_eselon2"));
+		
+		$posisiRow++;
+		$fungsi = $this->fungsi_e2->get_all($params);
+		$fungsi_arr = null;
+		
+		if (isset($fungsi)){
+			foreach ($fungsi as $u){
+				$fungsi_arr[] = array($u->fungsi_e2);
+			}
+		}
+		if (count($fungsi_arr)>1){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($fungsi_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Fungsi');
+		$this->excel->getActiveSheet()->fromArray($fungsi_arr,NULL,'B'.$posisiRow);
+		//$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $this->get_fungsi($tahun,$kl,false));
+		$posisiRow += count($fungsi_arr);
+		
+		
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(100);
+		
+		$this->excel->getActiveSheet()->getStyle('B4:B100'.$this->excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+	
+		$filename='profil_eselon2_'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');		
+   }
 
 }
