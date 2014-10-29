@@ -125,6 +125,12 @@
 			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_program_pdf/'+tahun+"/"+kodee1,'_blank');			
 		});
 		
+		$('#cetakexcel_programkl').click(function(){
+			var tahun = $('#program-tahun').val();
+			var kodee1 = $('#program-kode_e1').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_program_excel/'+tahun+"/"+kodee1,'_blank');			
+		});
+		
 		program_add =function(){
 			$("#program_title").html('<i class="fa fa-plus-square"></i> Tambah Program');
 			$("#program_form").attr("action",'<?=base_url()?>pemrograman/pemrograman_kl/save/program');

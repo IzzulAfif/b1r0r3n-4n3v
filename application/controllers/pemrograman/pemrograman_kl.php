@@ -537,6 +537,61 @@ class Pemrograman_kl extends CI_Controller {
 	
    }
    
+   function print_program_excel($tahun,$kode)
+   {
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Program Kementerian');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A4:D4')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:D1');
+		
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Program Kementerian Perhubungan');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra : '.$tahun);
+		$this->excel->getActiveSheet()->mergeCells('A2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$posisiRow = 4;
+		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'No');
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, 'Unit Kerja');
+		$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, 'Kode');
+		$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, 'Nama Program');
+		
+		$posisiRow++;
+		
+		$params['tahun_renstra'] = 	$tahun;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
+		$dataExcel = $this->program_e1->get_all($params);
+		
+		if(count($dataExcel)!=0):
+			$no=1;
+			foreach($dataExcel as $d):
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no);
+				$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $d->nama_e1);
+				$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $d->kode_program);
+				$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $d->nama_program);
+				
+				$no++;
+				$posisiRow++;
+			endforeach;
+		endif;
+		
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(60);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(12);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(100);
+		
+		$filename='program_kementerian_'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+		$objWriter->save('php://output');
+		
+   }
+   
    function print_target_pdf($tahun,$sasaran)
    {
 	    $this->load->library('tcpdf_','pdf');
@@ -588,6 +643,89 @@ class Pemrograman_kl extends CI_Controller {
 	
    }
    
+   function print_target_excel($tahun,$sasaran)
+   {
+	    $params['tahun_renstra'] = 	$tahun;
+		if($sasaran!="0")$params['sasaran'] = $sasaran;
+		$dataExcel	= $this->target->get_all($params);
+		
+	   	$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Capaian Kinerja Kementerian');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A4:I5')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:I1');
+		
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Target Capaian Kinerja Kementerian Perhubungan');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra : '.$tahun);
+		$this->excel->getActiveSheet()->mergeCells('A2:I2');
+		$this->excel->getActiveSheet()->mergeCells('A3:I3');
+		$posisiRow = 4;
+		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'No');
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, 'Kode');
+			$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, 'Indikator Kerja Utama');
+			$this->excel->getActiveSheet()->mergeCells('C'.$posisiRow.':C'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, 'Satuan');
+			$this->excel->getActiveSheet()->mergeCells('D'.$posisiRow.':D'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, 'Target Capaian');
+			$this->excel->getActiveSheet()->mergeCells('E'.$posisiRow.':I'.$posisiRow);
+		
+		$posisiRow++;
+		
+		$thn_renstra = explode("-",$tahun);
+		for($a=$thn_renstra[0]; $a<=$thn_renstra[1]; $a++):
+            $tahun_arr[]	= $a;
+        endfor;
+		
+		$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, $tahun_arr[0]);
+		$this->excel->getActiveSheet()->setCellValue('F'.$posisiRow, $tahun_arr[1]);
+		$this->excel->getActiveSheet()->setCellValue('G'.$posisiRow, $tahun_arr[2]);
+		$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, $tahun_arr[3]);
+		$this->excel->getActiveSheet()->setCellValue('I'.$posisiRow, $tahun_arr[4]);
+		
+		$posisiRow++;
+		
+		if(count($dataExcel)!=0):
+			$no=1;
+			foreach($dataExcel as $d):
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no);
+				$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $d->kode_iku_kl);
+				$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $d->deskripsi);
+				$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $d->satuan);
+				$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, $d->target_thn1);
+				$this->excel->getActiveSheet()->setCellValue('F'.$posisiRow, $d->target_thn2);
+				$this->excel->getActiveSheet()->setCellValue('G'.$posisiRow, $d->target_thn3);
+				$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, $d->target_thn4);
+				$this->excel->getActiveSheet()->setCellValue('I'.$posisiRow, $d->target_thn5);
+				$no++;
+				$posisiRow++;
+			endforeach;
+		
+		endif;
+		
+			$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+			$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+			$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(80);
+			$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+			$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('I')->setWidth(10);
+			
+		$filename='target_capaian_kementerian_'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+		$objWriter->save('php://output');
+   }
+   
    function print_dana_pdf($tahun,$kode)
    {
 	    $this->load->library('tcpdf_','pdf');
@@ -637,5 +775,86 @@ class Pemrograman_kl extends CI_Controller {
 		$pdf->Output('kebutuhanPendanaanKementerian.pdf', 'I');
 		
 	
+   }
+   
+   function print_dana_excel($tahun,$kode)
+   {
+	   $params['tahun_renstra'] = 	$tahun;
+		if($kode!=0)$params['kode_e1'] = 	$kode;
+		$dataExcel=$this->program_e1->get_pendanaan2($params);
+		
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Kebutuhan Dana Kementerian');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A4:H5')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:H1');
+		
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Kebutuhan Pendanaan Kementerian Perhubungan');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra : '.$tahun);
+		$this->excel->getActiveSheet()->mergeCells('A2:H2');
+		$this->excel->getActiveSheet()->mergeCells('A3:H3');
+		$posisiRow = 4;
+		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'No');
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, 'Nama Program');
+			$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, 'Alokasi Pendanaan');
+			$this->excel->getActiveSheet()->mergeCells('C'.$posisiRow.':G'.$posisiRow);
+		$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, 'Total');
+			$this->excel->getActiveSheet()->mergeCells('H'.$posisiRow.':H'.($posisiRow+1));
+		
+		$posisiRow++;
+		
+		$thn_renstra = explode("-",$tahun);
+		for($a=$thn_renstra[0]; $a<=$thn_renstra[1]; $a++):
+            $tahun_arr[]	= $a;
+        endfor;
+		
+		$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $tahun_arr[0]);
+		$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $tahun_arr[1]);
+		$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, $tahun_arr[2]);
+		$this->excel->getActiveSheet()->setCellValue('F'.$posisiRow, $tahun_arr[3]);
+		$this->excel->getActiveSheet()->setCellValue('G'.$posisiRow, $tahun_arr[4]);
+		
+		$posisiRow++;
+		
+		if(count($dataExcel)!=0):
+			$no=1;
+			foreach($dataExcel as $d):
+				$total = $d->target_thn1+$d->target_thn2+$d->target_thn3+$d->target_thn4+$d->target_thn5;
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no);
+				$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $d->nama_program);
+				$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $d->target_thn1);
+				$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $d->target_thn2);
+				$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, $d->target_thn3);
+				$this->excel->getActiveSheet()->setCellValue('F'.$posisiRow, $d->target_thn4);
+				$this->excel->getActiveSheet()->setCellValue('G'.$posisiRow, $d->target_thn5);
+				$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, $total);
+				$no++;
+				$posisiRow++;
+			endforeach;
+		
+		endif;
+		
+			$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+			$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(50);
+			$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
+			$this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+			
+		$filename='kebutuhan_pendanaan_kementerian_'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+		$objWriter->save('php://output');
+		
    }
 }

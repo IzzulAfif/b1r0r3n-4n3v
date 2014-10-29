@@ -95,5 +95,10 @@
 			kode = $('#dana-kode_e1').val();
 			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_dana_pdf/'+tahun+"/"+kode,'_blank');			
 		});
+		$('#cetakexcel_danakl').click(function(){
+			tahun = $('#dana-tahun').val();
+			kode = $('#dana-kode_e1').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_dana_excel/'+tahun+"/"+kode,'_blank');			
+		});
 	})
 	</script>	        

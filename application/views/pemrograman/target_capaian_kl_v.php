@@ -114,5 +114,11 @@
 			sasaran = $('#target-sasaran').val();
 			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_target_pdf/'+tahun+"/"+sasaran,'_blank');			
 		});
+		
+		$('#cetakexcel_targetkl').click(function(){
+			tahun = $('#target-tahun').val();
+			sasaran = $('#target-sasaran').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_target_excel/'+tahun+"/"+sasaran,'_blank');			
+		});
 	})
 	</script>	        
