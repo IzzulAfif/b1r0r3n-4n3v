@@ -169,6 +169,13 @@
 				var kodee2 = $('#e2-kode_e2').val();
 				window.open('<?=base_url()?>laporan/renstra_eselon2/print_pdf/'+tahun+"/"+kodee1+"/"+kodee2,'_blank');			
 			});
+			
+			$('#cetakexcel_renstrae2').click(function(){
+				var tahun = $('#e2-tahun').val();
+				var kodee1 = $('#e2-kode_e1').val();
+				var kodee2 = $('#e2-kode_e2').val();
+				window.open('<?=base_url()?>laporan/renstra_eselon2/excel/'+tahun+"/"+kodee1+"/"+kodee2,'_blank');			
+			});
 
 		});
 	</script>

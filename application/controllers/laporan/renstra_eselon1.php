@@ -981,4 +981,33 @@ class Renstra_eselon1 extends CI_Controller {
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('AlokasiDana'.($purpose=="kl"?"Kementerian":"EselonI").'.pdf', 'I');
 	}
+	
+	public function excel($tahun,$e1){
+		$this->load->library('excel');
+		 $data['renstra']		= $tahun;
+	//	$data['unitkerja'] = ;
+	   $data['tujuan']		= $this->get_tujuan($tahun,$e1,false);
+	   $data['misi']		= $this->get_misi($tahun,$e1,false);
+	   $data['visi']		= $this->get_visi($tahun,$e1,false);
+	   $data['program']		= $this->get_program($tahun,$e1,false);
+	   $data['kegiatan']		= $this->get_kegiatan($tahun,$e1,"0",false);
+	   $data['sasaran']		= $this->get_sasaran($tahun,$e1,false);
+		$html = $this->load->view('laporan/print/pdf_renstra_e1',$data,true);
+
+		// Put the html into a temporary file
+		$tmpfile = time().'.html';
+		file_put_contents($tmpfile, $html);
+		var_dump($tmpfile);
+		// Read the contents of the file into PHPExcel Reader class
+		$reader = new PHPExcel_Reader_HTML; 
+		$content = $reader->load($tmpfile); 
+
+		// Pass to writer and output as needed
+		$objWriter = PHPExcel_IOFactory::createWriter($content, 'Excel2007');
+		$objWriter->save('excelfile.xlsx');
+
+		// Delete temporary file
+		unlink($tmpfile);
+	}
+	
 }

@@ -180,29 +180,26 @@ class Profil_eselon1 extends CI_Controller {
 				$fungsi_arr[] = array($u->fungsi_e1);
 			}
 		}
-		if (count($fungsi_arr)>1){
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Fungsi');
+		if (count($fungsi_arr)>0){
 			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($fungsi_arr)-1));
 			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-		}
-		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Fungsi');
-		$this->excel->getActiveSheet()->fromArray($fungsi_arr,NULL,'B'.$posisiRow);
-		//$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $this->get_fungsi($tahun,$kl,false));
-		$posisiRow += count($fungsi_arr);
+			$this->excel->getActiveSheet()->fromArray($fungsi_arr,NULL,'B'.$posisiRow);		
+			$posisiRow += count($fungsi_arr);
+		}else $posisiRow++;
 		
-		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja');
 		$unitkerja = $this->eselon2->get_all($params);
-		$unitkerja_arr = null;
-		
+		$unitkerja_arr = null;		
 		if (isset($unitkerja)){
 			foreach ($unitkerja as $u){
 				$unitkerja_arr[] = array($u->nama_e2);
 			}
-		}
-		
-		$this->excel->getActiveSheet()->fromArray($unitkerja_arr,NULL,'B'.$posisiRow);
-		if (count($fungsi_arr)>1){
+		}		
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja');		
+		if (count($unitkerja_arr)>0){
 			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($unitkerja_arr)-1));
 			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$this->excel->getActiveSheet()->fromArray($unitkerja_arr,NULL,'B'.$posisiRow);
 		}
 		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(100);

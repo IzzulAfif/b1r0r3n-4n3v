@@ -152,5 +152,10 @@
 				var kodee1 = $('#e1-kodee1').val();
 				window.open('<?=base_url()?>laporan/renstra_eselon1/print_pdf/'+tahun+"/"+kodee1,'_blank');			
 			});
+			$('#cetakexcel_renstrae1').click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open('<?=base_url()?>laporan/renstra_eselon1/excel/'+tahun+"/"+kodee1,'_blank');			
+			});
 		});
 	</script>

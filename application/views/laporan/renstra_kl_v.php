@@ -129,5 +129,11 @@
 				var kodekl = $('#kl-kodekl').val();
 				window.open('<?=base_url()?>laporan/renstra_kl/print_pdf/'+tahun,'_blank');			
 			});
+			
+			$('#cetakexcel_renstrakl').click(function(){
+				var tahun = $('#kl-tahun').val();
+				var kodekl = $('#kl-kodekl').val();
+				window.open('<?=base_url()?>laporan/renstra_kl/excel/'+tahun,'_blank');			
+			});
 		});
 	</script>

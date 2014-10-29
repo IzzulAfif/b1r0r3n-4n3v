@@ -175,21 +175,19 @@ class Profil_eselon2 extends CI_Controller {
 		
 		$posisiRow++;
 		$fungsi = $this->fungsi_e2->get_all($params);
-		$fungsi_arr = null;
-		
+		$fungsi_arr = null;		
 		if (isset($fungsi)){
 			foreach ($fungsi as $u){
 				$fungsi_arr[] = array($u->fungsi_e2);
 			}
 		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Fungsi');
 		if (count($fungsi_arr)>1){
 			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($fungsi_arr)-1));
 			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-		}
-		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Fungsi');
-		$this->excel->getActiveSheet()->fromArray($fungsi_arr,NULL,'B'.$posisiRow);
-		//$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $this->get_fungsi($tahun,$kl,false));
-		$posisiRow += count($fungsi_arr);
+			$this->excel->getActiveSheet()->fromArray($fungsi_arr,NULL,'B'.$posisiRow);
+			$posisiRow += count($fungsi_arr);
+		}else $posisiRow++;
 		
 		
 		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
