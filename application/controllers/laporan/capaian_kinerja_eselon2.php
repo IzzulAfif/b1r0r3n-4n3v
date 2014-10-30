@@ -52,7 +52,9 @@ class Capaian_kinerja_eselon2 extends CI_Controller {
 	
 	function get_capaian($tahun,$e2,$ajaxCall=true){
 		$dataAll = array();
-		$data = $this->capaian->get_sasaran_kl(array("tahun_renstra"=>$tahun,"kode_e2"=>$e2));
+		/*20141030 Sasaran Kemenhub diganti menjadi Sasaran Program unit kerja Eselon I (dikarenakan cascading dari Sasaran Kemenhub ke Sasaran Kegiatan masih belum akurat, sehingga informasi yang ditampilkan menjadi salah)*/
+		//$data = $this->capaian->get_sasaran_kl(array("tahun_renstra"=>$tahun,"kode_e2"=>$e2));
+		$data = $this->capaian->get_sasaran_program(array("tahun_renstra"=>$tahun,"kode_e2"=>$e2));
 		$rs = '';
 		if (isset($data)){
 			if ($ajaxCall)
@@ -68,7 +70,7 @@ class Capaian_kinerja_eselon2 extends CI_Controller {
 				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 				
 			$rs .= '<thead><tr  align="center" valign="middle">						
-						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran</th>
+						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis Eselon I</th>
 						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis</th>
 						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
 						<th style="vertical-align:middle;text-align:center;width:30%" width="110" rowspan="2">'.$setValignMiddle.'Indikator Kinerja Kegiatan (IKK)</th>
@@ -83,7 +85,8 @@ class Capaian_kinerja_eselon2 extends CI_Controller {
 			$i=0;
 				 
 			foreach($data as $d){						
-				$data_strategis = $this->capaian->get_sasaran_strategis(array("tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl,"kode_e2"=>$e2));
+				//$data_strategis = $this->capaian->get_sasaran_strategis(array("tahun_renstra"=>$tahun,"kode_sasaran_kl"=>$d->kode_sasaran_kl,"kode_e2"=>$e2));
+				$data_strategis = $this->capaian->get_sasaran_kegiatan(array("tahun_renstra"=>$tahun,"kode_sp_e1"=>$d->kode_sp_e1,"kode_e2"=>$e2));
 				$jml_data_strategis = count($data_strategis);
 				$data[$i]->strategis=$data_strategis;
 				$data[$i]->rowspan =0;//sizeof($data_strategis);
@@ -91,9 +94,10 @@ class Capaian_kinerja_eselon2 extends CI_Controller {
 						//$rs .="<ol>";
 					$j=0;
 					foreach($data_strategis as $ss){                                        
+						//$data_iku = $this->capaian->get_capaian(array("tahun_renstra"=>$tahun,"kode_sk_e2"=>$ss->kode_sk_e2,"kode_e2"=>$e2));
 						$data_iku = $this->capaian->get_capaian(array("tahun_renstra"=>$tahun,"kode_sk_e2"=>$ss->kode_sk_e2,"kode_e2"=>$e2));
 						$jml_data_iku = count($data_iku);
-						$kode_iku = '';
+						$kode_iku = '-1';
 					//	$data_strategis[$j]->rowspan =0;
 						$data[$i]->strategis[$j]->rowspan =0;
 						if (isset($data_iku)) {
@@ -118,15 +122,8 @@ class Capaian_kinerja_eselon2 extends CI_Controller {
 							//$data[$i]->rowspan += sizeof($data_iku);
 							//$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
 						}
-						
-						
 						$j++;
-						/*$data_iku = $this->capaian->get_indikator(array("tahun_renstra"=>$tahun,"kode_ss_kl"=>$ss->kode_ss_kl));
-						$jml_data_iku = count($data_iku);
-						$data[$i]->rowspan += sizeof($data_iku);
-						$data[$i]->strategis[$j]->iku = $data_iku;                                      
-						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
-						$j++;*/
+					
 					}                       
 				}				
 				$i++;

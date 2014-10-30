@@ -44,7 +44,7 @@
                 <form class="form-horizontal grid-form" role="form">                	
                    
 					<div class="form-group">
-                    	<p class="text-primary col-md-12" ><b>Realisasi Capaian Kinerja</b></p>
+                    	<p class="text-primary col-md-12" ><b>Realisasi Capaian Kinerja Eselon I</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
                             <div id="e1-capaian"  ></div>
                         </div>

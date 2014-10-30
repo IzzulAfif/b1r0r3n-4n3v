@@ -40,9 +40,55 @@ from anev_sasaran_kl skl left join anev_sasaran_strategis ss on ss.kode_sasaran_
 and ss.tahun between left(skl.tahun_renstra,4) and right(skl.tahun_renstra,4)
 left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl and sasprog.tahun = ss.tahun
 left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
-left join anev_ikk iku on iku.tahun=ss.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_ikk iku on iku.tahun=saskeg.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
 left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 and kinerja.kode_ikk = iku.kode_ikk   '.$where;
 		$sql .= 'order by iku.kode_ikk';
+	//	var_dump($sql);
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_sasaran_program($params){
+	/*Sasaran Kemenhub diganti menjadi Sasaran Program unit kerja Eselon I (dikarenakan cascading dari Sasaran Kemenhub ke Sasaran Kegiatan masih belum akurat, sehingga informasi yang ditampilkan menjadi salah)*/
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
+			if (isset($params['kode_e1'])) $where .= " and sasprog.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and saskeg.kode_e2='".$params['kode_e2']."'";
+			if (isset($params['kode_ss_kl'])) $where .= " and ss.kode_ss_kl='".$params['kode_ss_kl']."'";
+		//	if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and sasprog.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+		}
+		$sql ='select distinct sasprog.deskripsi as deskripsi,sasprog.kode_sp_e1
+from anev_sasaran_program sasprog 
+left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
+left join anev_ikk iku on iku.tahun=saskeg.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 
+and kinerja.kode_ikk = iku.kode_ikk '.$where;
+		$sql .= 'order by iku.kode_ikk';
+		//var_dump($sql);die;
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_sasaran_kegiatan($params){
+	/*Sasaran Kemenhub diganti menjadi Sasaran Program unit kerja Eselon I (dikarenakan cascading dari Sasaran Kemenhub ke Sasaran Kegiatan masih belum akurat, sehingga informasi yang ditampilkan menjadi salah)*/
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
+			if (isset($params['kode_e1'])) $where .= " and sasprog.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and saskeg.kode_e2='".$params['kode_e2']."'";
+			if (isset($params['kode_ss_kl'])) $where .= " and ss.kode_ss_kl='".$params['kode_ss_kl']."'";
+			if (isset($params['kode_sp_e1'])) $where .= " and sasprog.kode_sp_e1='".$params['kode_sp_e1']."'";
+			//if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and sasprog.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+		}
+		$sql ='select distinct saskeg.deskripsi as deskripsi,saskeg.kode_sk_e2
+from anev_sasaran_program sasprog 
+left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
+left join anev_ikk iku on iku.tahun=saskeg.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 
+and kinerja.kode_ikk = iku.kode_ikk   '.$where;
+		$sql .= 'order by iku.kode_ikk';
+	//	var_dump($sql);die;
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -71,7 +117,34 @@ left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kine
 	
 	
 	function get_capaian($params){
+		/*Sasaran Kemenhub diganti menjadi Sasaran Program unit kerja Eselon I (dikarenakan cascading dari Sasaran Kemenhub ke Sasaran Kegiatan masih belum akurat, sehingga informasi yang ditampilkan menjadi salah)*/
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
+			if (isset($params['kode_e1'])) $where .= " and sasprog.kode_e1='".$params['kode_e1']."'";
+			if (isset($params['kode_e2'])) $where .= " and saskeg.kode_e2='".$params['kode_e2']."'";
+			if (isset($params['kode_ss_kl'])) $where .= " and ss.kode_ss_kl='".$params['kode_ss_kl']."'";
+			if (isset($params['kode_sp_e1'])) $where .= " and sasprog.kode_sp_e1='".$params['kode_sp_e1']."'";
+			if (isset($params['kode_sk_e2'])) $where .= " and saskeg.kode_sk_e2='".$params['kode_sk_e2']."'";
+			//if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
+			if (isset($params['tahun_renstra'])) $where .= " and sasprog.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
+		}
+		$sql ="
+select distinct saskeg.tahun,iku.deskripsi as deskripsi,saskeg.kode_sk_e2,sasprog.tahun, kinerja.realisasi,kinerja.target,
+ iku.kode_ikk, saskeg.kode_sk_e2, sasprog.kode_sp_e1
+from anev_sasaran_program sasprog 
+left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
+left join anev_ikk iku on iku.tahun=saskeg.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 
+and kinerja.kode_ikk = iku.kode_ikk   ".$where;
+		$sql .= 'order by iku.kode_ikk';
+		//var_dump($sql);die;
+		return $this->mgeneral->run_sql($sql);
+	}
 	
+	
+	function get_capaian_old($params){
+		/*Sasaran Kemenhub diganti menjadi Sasaran Program unit kerja Eselon I (dikarenakan cascading dari Sasaran Kemenhub ke Sasaran Kegiatan masih belum akurat, sehingga informasi yang ditampilkan menjadi salah)*/
 		$where = ' where 1=1 ';
 		if (isset($params)){
 			if (isset($params['kode_kl'])) $where .= " and skl.kode_kl='".$params['kode_kl']."'";
@@ -83,14 +156,15 @@ left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kine
 			if (isset($params['tahun_renstra'])) $where .= " and skl.tahun_renstra = '".$params['tahun_renstra']."'";
 			//if (isset($params['tahun_renstra'])) $where .= " and skl.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
-		$sql ='select distinct skl.tahun_renstra,skl.sasaran_kl,iku.deskripsi , sasprog.tahun, kinerja.realisasi,kinerja.target, iku.kode_ikk, saskeg.kode_sk_e2, skl.kode_sasaran_kl
+		$sql ="select distinct skl.tahun_renstra,skl.sasaran_kl,coalesce(iku.deskripsi,'') as deskripsi , sasprog.tahun, kinerja.realisasi,kinerja.target, iku.kode_ikk, saskeg.kode_sk_e2, skl.kode_sasaran_kl
 from anev_sasaran_kl skl left join anev_sasaran_strategis ss on ss.kode_sasaran_kl = skl.kode_sasaran_kl
 and ss.tahun between left(skl.tahun_renstra,4) and right(skl.tahun_renstra,4)
 left join anev_sasaran_program sasprog on sasprog.kode_ss_kl= ss.kode_ss_kl and sasprog.tahun = ss.tahun
 left join anev_sasaran_kegiatan saskeg on saskeg.kode_sp_e1= sasprog.kode_sp_e1 and sasprog.tahun = saskeg.tahun
 left join anev_ikk iku on iku.tahun=ss.tahun and iku.kode_sk_e2 = saskeg.kode_sk_e2
-left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 and kinerja.kode_ikk = iku.kode_ikk   '.$where;
+left join anev_kinerja_eselon2 kinerja on kinerja.tahun = sasprog.tahun and kinerja.kode_sk_e2=saskeg.kode_sk_e2 and kinerja.kode_ikk = iku.kode_ikk   ".$where;
 		$sql .= 'order by iku.kode_ikk';
+		
 		return $this->mgeneral->run_sql($sql);
 	}
 	

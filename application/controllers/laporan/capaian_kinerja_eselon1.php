@@ -68,7 +68,7 @@ class Capaian_kinerja_eselon1 extends CI_Controller {
 				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
 				
 			$rs .= '<thead><tr  align="center" valign="middle">						
-						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran</th>
+						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Kemenhub</th>
 						<th style="vertical-align:middle;text-align:center;width:20%"  valign="middle" width="100" rowspan="2">'.$setValignMiddle.'Sasaran Strategis</th>
 						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2" >'.$setValignMiddle.'No.</th>
 						<th style="vertical-align:middle;text-align:center;width:30%" width="110" rowspan="2">'.$setValignMiddle.'Indikator Kinerja Utama (IKU)</th>
@@ -93,7 +93,7 @@ class Capaian_kinerja_eselon1 extends CI_Controller {
 					foreach($data_strategis as $ss){                                        
 						$data_iku = $this->capaian->get_capaian(array("tahun_renstra"=>$tahun,"kode_sp_e1"=>$ss->kode_sp_e1,"kode_e1"=>$e1));
 						$jml_data_iku = count($data_iku);
-						$kode_iku = '';
+						$kode_iku = '-1';
 					//	$data_strategis[$j]->rowspan =0;
 						$data[$i]->strategis[$j]->rowspan =0;
 						if (isset($data_iku)) {
@@ -111,6 +111,7 @@ class Capaian_kinerja_eselon1 extends CI_Controller {
 									$x++;
 								}
 								else {
+									
 									$data[$i]->strategis[$j]->iku[$x-1]->target[$iku->tahun] = $iku->target;	
 									$data[$i]->strategis[$j]->iku[$x-1]->realisasi[$iku->tahun] = $iku->realisasi;	
 								}
@@ -131,7 +132,7 @@ class Capaian_kinerja_eselon1 extends CI_Controller {
 				}				
 				$i++;
 			}
-				 
+				// var_dump($data);die;
 			$i=0;
 			$no=1;
 			foreach($data as $d){					
