@@ -42,15 +42,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Program<span class="text-danger">*</span></label>
+                        <label class="col-md-2 control-label">Program</label>
                         <div class="col-md-9">
-                        	 <?=form_dropdown('program',array("0"=>"Pilih Program"),'0','id="program" class="populate"')?>
+                        	 <?=form_dropdown('program',array("0"=>"Semua Program"),'0','id="program" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">
-                        <label class="col-md-2 control-label">Kegiatan<span class="text-danger">*</span></label>
+                        <label class="col-md-2 control-label">Kegiatan</label>
                         <div class="col-md-9">
-                        	 <?=form_dropdown('kegiatan',array("0"=>"Pilih Kegiatan"),'0','id="kegiatan" class="populate"')?>
+                        	 <?=form_dropdown('kegiatan',array("0"=>"Semua Kegiatan"),'0','id="kegiatan" class="populate"')?>
                         </div>
                     </div>
                     <!--<div class="form-group">
@@ -65,13 +65,13 @@
                         	 <=form_dropdown('kode_e2',array(),'0','id="kode_e2" class="populate"')?>
                         </div>
                     </div>
-                    -->
+                   
                     <div class="form-group">
                         <label class="col-md-2 control-label">Lokasi<span class="text-danger">*</span></label>
                         <div class="col-md-9">
-                        	<?=form_dropdown('kdlokasi',$lokasi,'0','id="list-kdlokasi" class="populate" style="width:100%"')?>
+                        	<=form_dropdown('kdlokasi',$lokasi,'0','id="list-kdlokasi" class="populate" style="width:100%"')?>
                         </div>
-                    </div>
+                    </div> -->
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="list-btn" style="margin-left:15px;">
@@ -154,7 +154,7 @@
 			});*/
 			
 			$.ajax({
-				url:"<?=site_url()?>laporan/realisasi_program/get_program/"+tahun,
+				url:"<?=site_url()?>laporan/kegiatan_pembangunan/get_program/"+tahun,
 				success:function(result) {
 					$('#program').empty();
 					result = JSON.parse(result);
@@ -170,7 +170,7 @@
 		
 		$("#program").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>laporan/realisasi_program/get_kegiatan/"+$('#tahun').val()+"/"+this.value,
+				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_kegiatan/"+$('#tahun').val()+"/"+this.value,
 				success:function(result) {
 					
 					$('#kegiatan').empty();					
@@ -185,7 +185,7 @@
 		
 		$("#kode_e1").change(function(){
 			$.ajax({
-				url:"<?php echo site_url(); ?>laporan/realisasi_program/get_list_eselon2/"+this.value,
+				url:"<?php echo site_url(); ?>laporan/kegiatan_pembangunan/get_list_eselon2/"+this.value,
 				success:function(result) {
 					
 					$('#kode_e2').empty();					
@@ -207,7 +207,7 @@
 			indikator = $('#kelompok_indikator').val();
 			program = $('#program').val();
 			kegiatan = $('#kegiatan').val();
-			lokasi = $('#list-kdlokasi').val();
+			lokasi = "-1";//$('#list-kdlokasi').val();
 			if ($('#tahun_renstra').val()=="0"){
 				alert("Periode Renstra belum ditentukan");
 				$('#tahun_renstra').select2('open');
@@ -220,7 +220,7 @@
 				alert("Kelompok Indikator belum ditentukan");
 				$('#kelompok_indikator').select2('open');
 			}
-			else if (program=="0"){
+		/*	else if (program=="0"){
 				alert("Program belum ditentukan");
 				$('#program').select2('open');
 			}
@@ -231,9 +231,9 @@
 			else if (lokasi=="0"){
 				alert("Lokasi belum ditentukan");
 				$('#list-kdlokasi').select2('open');
-			}
+			}*/
 			else {
-				$("#div-pembangunan").load("<?=base_url()?>laporan/realisasi_program/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi);
+				$("#div-pembangunan").load("<?=base_url()?>laporan/kegiatan_pembangunan/get_list_rincian/"+tahun+"/"+indikator+"/"+program+"/"+kegiatan+"/"+lokasi);
 					$("#div-pembangunan").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
@@ -244,7 +244,7 @@
 		});
 		
 		$('#cetakpdf_realisasiprogram').click(function(){				
-				window.open('<?=base_url()?>laporan/realisasi_program/print_pdf/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
+				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/print_pdf/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
 			});
 			
     });

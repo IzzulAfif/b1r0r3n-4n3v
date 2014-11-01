@@ -400,11 +400,20 @@ function get_pendanaan($tahun,$e1,$e2)
 					$data_kegiatan[$i]->rowspan += sizeof($data_iku);
 					$data_kegiatan[$i]->ikk = $data_iku;					
 					$data_kegiatan[$i]->rowspan = sizeof($data_iku);
+						//var_dump($data_iku);die;
+					if (!isset($data_iku)){
+						$ikk = new stdClass();
+						$ikk->deskripsi = '';
+						$ikk->satuan = '';
+						$data_kegiatan[$i]->rowspan++;
+						$data_kegiatan[$i]->ikk = array($ikk);
+						//var_dump($data_kegiatan[$i]->ikk);die;
+					}
 					$i++;
 			}			
 			$i=0;							
 			$isGrouping = ($e2=="0");
-			$namaUnit= "";
+			$namaUnit= "-1";
 			//$rs .= '<tr>';
 			$no=1;
 			foreach($data_kegiatan as $ss){
@@ -523,6 +532,17 @@ function get_pendanaan($tahun,$e1,$e2)
 									$data_kegiatan[$j]->iku[$x-1]->target[$iku->tahun] = $iku->target;	
 								}*/
 							}
+						}
+						else {
+							$x=0;
+							$data_kegiatan[$j]->iku[$x]->deskripsi = '';
+							$data_kegiatan[$j]->iku[$x]->satuan = '';
+							//$data_kegiatan[$j]->iku[$x]->target[$iku->tahun] = $iku->target;	
+							$data_kegiatan[$j]->iku[$x]->target1 = '';
+							$data_kegiatan[$j]->iku[$x]->target2 = '';
+							$data_kegiatan[$j]->iku[$x]->target3 = '';
+							$data_kegiatan[$j]->iku[$x]->target4 = '';
+							$data_kegiatan[$j]->iku[$x]->target5 = '';
 						}
 						//$jml_data_iku = count($data_iku);
 						

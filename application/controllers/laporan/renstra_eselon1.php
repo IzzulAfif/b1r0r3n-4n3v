@@ -497,6 +497,14 @@ class Renstra_eselon1 extends CI_Controller {
 					$data_program[$i]->rowspan += sizeof($data_iku);
 					$data_program[$i]->iku = $data_iku;					
 					$data_program[$i]->rowspan = sizeof($data_iku);
+					if (!isset($data_iku)){
+						$iku = new stdClass();
+						$iku->deskripsi = '';
+						$iku->satuan = '';
+						$data_program[$i]->rowspan++;
+						$data_program[$i]->iku = array($iku);
+						//var_dump($data_kegiatan[$i]->ikk);die;
+					}
 					$i++;
 			}			
 			$i=0;				
@@ -597,7 +605,7 @@ class Renstra_eselon1 extends CI_Controller {
 					$j=0;
 					foreach($data_program as $ss){					
 						$data_iku = $this->renstra_e1->get_indikator(array("tahun_renstra"=>$tahun,"kode_sp_e1"=>$ss->kode_sp_e1));
-						$kode_iku = '';
+						$kode_iku = '-1';
 						$data_program[$j]->rowspan =0;
 						if (isset($data_iku)) {
 							$x=0;
@@ -622,7 +630,17 @@ class Renstra_eselon1 extends CI_Controller {
 								}*/
 							}
 						}
-						
+						else {
+							$x=0;
+							$data_program[$j]->iku[$x]->deskripsi = '';
+							$data_program[$j]->iku[$x]->satuan = '';
+							//$data_kegiatan[$j]->iku[$x]->target[$iku->tahun] = $iku->target;	
+							$data_program[$j]->iku[$x]->target1 = '';
+							$data_program[$j]->iku[$x]->target2 = '';
+							$data_program[$j]->iku[$x]->target3 = '';
+							$data_program[$j]->iku[$x]->target4 = '';
+							$data_program[$j]->iku[$x]->target5 = '';
+						}
 						$j++;
 					}			
 				}

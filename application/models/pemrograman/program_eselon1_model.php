@@ -65,6 +65,7 @@ class Program_eselon1_model extends CI_Model
 		//$this->db->escape($tahun_renstra);
 		$result = $this->mgeneral->run_sql($sql);
 		$list[0] = 'Pilih Program';
+		if (isset($params['isNotMandatory'])) $list[0] = 'Semua Program';
 		if (isset($result)){
 			foreach ($result as $i) {
 				$list[$i->kode_program] = $i->nama_program;

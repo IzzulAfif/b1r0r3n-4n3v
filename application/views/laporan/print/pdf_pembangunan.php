@@ -33,12 +33,12 @@
             	<?=$kegiatan?>
             </td>
         </tr>
-		<tr style="border:1px #666666 solid"><td><b>Lokasi</b></td></tr>
+		<!--<tr style="border:1px #666666 solid"><td><b>Lokasi</b></td></tr>
         <tr style="border:1px #666666 solid;">
             <td style="padding:10px 0 20px 20px;">
-            	<?=$lokasi?>
+            	<=$lokasi?>
             </td>
-        </tr>
+        </tr> -->
 		
 		<tr style="border:1px #666666 solid"><td><b>Item Pekerjaan Pembangunan</b></td></tr>
         <tr style="border:1px #666666 solid;">

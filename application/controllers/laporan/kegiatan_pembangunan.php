@@ -60,13 +60,13 @@ class Kegiatan_pembangunan extends CI_Controller {
 	
 	function get_program($tahun)
 	{		
-		$result	= $this->program->get_list(array("tahun"=>$tahun));
+		$result	= $this->program->get_list(array("tahun"=>$tahun,"isNotMandatory"=>true));
 		echo json_encode($result);
 	}
 	
 	function get_kegiatan($tahun,$program)
 	{
-		$result	= $this->kegiatan->get_list(array("tahun"=>$tahun,"kode_program"=>$program));
+		$result	= $this->kegiatan->get_list(array("tahun"=>$tahun,"kode_program"=>$program,"isNotMandatory"=>true));
 		echo json_encode($result);
 	}
 	
@@ -74,9 +74,11 @@ class Kegiatan_pembangunan extends CI_Controller {
 	{
 		$params['tahun'] = $tahun;
 		$params['indikator'] = $indikator;
-		$params['kode_program'] = $kode_program;
-		$params['kode_kegiatan'] = $kode_kegiatan;
-		$params['kdlokasi'] = $kdlokasi;
+		if ($kode_program!="0")
+			$params['kode_program'] = $kode_program;
+		if ($kode_kegiatan!="0")	
+			$params['kode_kegiatan'] = $kode_kegiatan;
+		//$params['kdlokasi'] = $kdlokasi;
 		
 		$data	= $this->pembangunan->get_detil_belanja($params);
 		if ($ajaxCall)
@@ -86,11 +88,13 @@ class Kegiatan_pembangunan extends CI_Controller {
 					
 		$head .= '<thead>
                     	<tr>
-                    		<th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="30">No.</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="80">Tahun</th>
-                            <th style="vertical-align:middle;text-align:center" width="270">Item Pekerjaan</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="80">Volume</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;" width="80">Satuan</th>
+                    		<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="140">Program</th>
+                            <th style="vertical-align:middle;text-align:center;width:20%" width="140">Kegiatan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="150">IKK</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="80">Satuan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="160">Output</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="80">Satuan</th>
                         </tr>
                     </thead>
 					 <tbody>';
@@ -99,26 +103,65 @@ class Kegiatan_pembangunan extends CI_Controller {
     	        </table>';
 		$totalPagu = 0;
 		$rs = $head;$i=1;
+		
+		//setting rowspan
+		if (isset($data)){
+			$nama_program = '';
+			$nama_kegiatan = '';
+			$i=0;
+			$cur_idx_program=0;
+			$cur_idx_kegiatan=0;
+			foreach($data as $d){						
+				if ($nama_program!=$d->nama_program){
+					$nama_program=$d->nama_program;
+					$data[$i]->program_rowspan = 1;
+					$cur_idx_program = $i;
+				}else{
+					$data[$cur_idx_program]->program_rowspan++;
+				}
+				if ($nama_kegiatan!=$d->nama_kegiatan){
+					$nama_kegiatan=$d->nama_kegiatan;
+					$data[$i]->kegiatan_rowspan = 1;
+					$cur_idx_kegiatan = $i;
+				}else{
+					$data[$cur_idx_kegiatan]->kegiatan_rowspan++;
+				}
+				$i++;
+			}
+		}
+			
+			
 		if (isset($data)){
 			//$rs .= $head;
+			$nama_program = '';
+			$i=1;$no=1;
 			foreach($data as $d): 
-				$totalPagu += $d->jumlah;
-				$rs .= '<tr class="gradeX">
-					<td width="30">'.($i++).'</td>
-					<td width="80">'.$d->tahun.'</td>
-					<td width="270">'.$d->nmitem.'</td>
-					<td width="80" align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
-					<td width="80">'.$d->satkeg.'</td>'
+			//	$totalPagu += $d->jumlah;
+				$rs .= '<tr class="gradeX">';
+				
+					
+					if (isset($d->program_rowspan)){
+						$rs .= '<td width="30" '.($d->program_rowspan>0?'rowspan="'.$d->program_rowspan.'"':'').'>'.($no++).'</td>';
+						$rs .= '<td width="140" '.($d->program_rowspan>0?'rowspan="'.$d->program_rowspan.'"':'').'>'.$d->nama_program.'</td>';
+					}
+				if (isset($d->kegiatan_rowspan))
+						$rs .= '<td width="140" '.($d->kegiatan_rowspan>0?'rowspan="'.$d->kegiatan_rowspan.'"':'').'>'.$d->nama_kegiatan.'</td>';
+					$rs .= '<td width="150">'.$d->deskripsi.'</td>
+					<td width="80">'.$d->satuan.'</td>
+					<td width="160">'.$d->nmoutput.'</td>
+					<td width="80">'.$d->satuan_output.'</td>'
+					
 					//sementara hide dulu coz blm ada data nya
 					/*<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
 					<td align="right">'.$this->utility->cekNumericFmt($d->jumlah).'</td>					
+					<td width="80" align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
 					
 					*/
 					.'</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-					<td colspan="5" width="540">Data tidak ditemukan</td>
+					<td colspan="7" width="490">Data tidak ditemukan</td>
 					</tr>';
 		}
 		$rs .= $foot;
@@ -129,7 +172,7 @@ class Kegiatan_pembangunan extends CI_Controller {
 	function print_pdf($renstra,$tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi)
    {
 	    $this->load->library('tcpdf_','pdf');
-		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->SetTitle('Rincian Kegiatan Pembangunan Menurut Indikator');
 		$pdf->SetHeaderMargin(15);
@@ -151,9 +194,9 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$pdf->SetFont('helvetica', 'B', 12);
 
 		// add a page
-		$pdf->AddPage();
+		$pdf->AddPage('L');
 		//var_dump($e1);
-		 $pdf->Write(0, 'Rincian Kegiatan Pembangunan Menurut Indikator', '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, 'OUTPUT KEGIATAN PEMBANGUNAN MENURUT INDIKATOR', '', 0, 'L', true, 0, false, false, 0);
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		

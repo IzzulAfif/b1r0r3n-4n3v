@@ -38,6 +38,7 @@ class Kegiatan_eselon2_model extends CI_Model
 		//$this->db->escape($tahun_renstra);
 		$result = $this->mgeneral->run_sql($sql);
 		$list[0] = 'Pilih Kegiatan';
+		if (isset($params['isNotMandatory'])) $list[0] = 'Semua Kegiatan';
 		if (isset($result)){
 			foreach ($result as $i) {
 				$list[$i->kode_kegiatan] = $i->nama_kegiatan;

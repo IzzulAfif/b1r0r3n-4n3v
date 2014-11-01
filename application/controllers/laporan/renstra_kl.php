@@ -224,6 +224,14 @@ class Renstra_kl extends CI_Controller {
 					$data_strategis[$i]->rowspan += sizeof($data_iku);
 					$data_strategis[$i]->iku = $data_iku;					
 					$data_strategis[$i]->rowspan = sizeof($data_iku);
+					if (!isset($data_iku)){
+						$iku = new stdClass();
+						$iku->deskripsi = '';
+						$iku->satuan = '';
+						$data_strategis[$i]->rowspan++;
+						$data_strategis[$i]->iku = array($iku);
+						//var_dump($data_kegiatan[$i]->ikk);die;
+					}
 					$i++;
 			}			
 			$i=0;
@@ -350,6 +358,17 @@ class Renstra_kl extends CI_Controller {
 									//$data_strategis[$j]->iku[$x-1]->target[$iku->tahun] = $iku->target;	
 								}*/
 							}
+						}
+						else {
+							$x=0;
+							$data_strategis[$j]->iku[$x]->deskripsi = '';
+							$data_strategis[$j]->iku[$x]->satuan = '';
+							//$data_kegiatan[$j]->iku[$x]->target[$iku->tahun] = $iku->target;	
+							$data_strategis[$j]->iku[$x]->target1 = '';
+							$data_strategis[$j]->iku[$x]->target2 = '';
+							$data_strategis[$j]->iku[$x]->target3 = '';
+							$data_strategis[$j]->iku[$x]->target4 = '';
+							$data_strategis[$j]->iku[$x]->target5 = '';
 						}						
 						$j++;
 					}			
