@@ -16,7 +16,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$this->load->model('/perencanaan/program_eselon1_model','program_e1');
 		$this->load->model('/pemrograman/sasaran_strategis_model','sasaran_strategis');
 		$this->load->model('/pemrograman/iku_kl_model','iku_kl');
-		$this->load->model('/laporan/matriks_pembangunan_model','matriks');
+		$this->load->model('/laporan/matriks_pembangunan_e1_model','matriks');
 		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 	}	
 	function index()
@@ -69,6 +69,62 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$this->load->view('template/container_popup',$template);
 	}
 	
+	function get_output($rensta,$rentang_awal,$rentang_akhir,$e1,$ajaxCall=true){
+		$dataAll = array();
+		$data = $this->matriks->get_output(array("rentang_awal"=>$rentang_awal,"rentang_akhir"=>$rentang_akhir,"kode_e1"=>$e1));
+		$rangetahun = $rentang_awal-$rentang_akhir;
+		$rs ='';
+		if ($ajaxCall)
+			$head = '<table class="display table table-bordered table-striped" width="100%">';
+		else
+			$head = '<table  border="1" cellpadding="4" cellspacing="0">';	
+		$head .= '<thead><tr  align="center">
+					<th style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>					
+					<th style="vertical-align:middle;text-align:center;width:30%" width="200" >Kegiatan</th>
+					<th style="vertical-align:middle;text-align:center;width:30%" width="200">Output/Sub-Kegiatan</th>';
+		for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
+			$head .= 	'<th style="vertical-align:middle;text-align:center;width:10%" width="100">'.$colTahun.'</th>';
+			$rangetahun_arr[] = $colTahun;
+		}	
+		$head .= '</tr></thead><tbody>';
+
+		$foot = '</tbody>';		
+		$foot .= '</table><br>'.(!$ajaxCall?"<br><br>":"");	
+		$i=0;
+		$nama_program = "-1";
+		
+		foreach($data as $d){
+			if ($nama_program!=$d->nama_program){
+				$nama_program=$d->nama_program;
+				if ($i>1) {
+					$rs .=$foot;
+				}
+				$i=1;
+				if ($ajaxCall)
+					$rs .= "<p class='text-info'><b>Nama Program : ".$d->nama_program.'</b></p>';
+				else
+					$rs .= "<b>Nama Program : ".$d->nama_program.'</b><br><br>';
+				$rs .= $head;
+			}
+			$rs .= '<tr class="gradeX">
+						<td width="30">'.($i++).'</td>				
+					<td width="80">'.$d->nama_kegiatan.'</td>					
+					<td width="330">'.$d->nmoutput.'</td>';				
+					for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
+						$vol =0;
+						if ($colTahun==$d->tahun)
+							$vol = $d->total_volkeg;
+						$rs .= '<td width="330" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+					}					
+					
+				$rs .= '</tr>';
+		}
+		$rs .= $foot;		
+		
+		echo $rs;
+	}
+	
+	
 	function get_sasaran($tahun,$kl,$range_awal,$range_akhir){
 		$dataAll = array();
 		$data = $this->sasaran_strategis->get_all(array("tahun_awal"=>$range_awal,"tahun_akhir"=>$range_akhir));
@@ -78,22 +134,16 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$rs ='';// '<form  method="post" id="matriks_form" name="matriks_form" action="'.base_url().'laporan/matriks_pembangunan/save/" >';//role="form"
 		$rs .= '<table class="display table table-bordered table-striped">';
 		
-		$rs .= '
-		<thead><tr  align="center">
-					<th style="vertical-align:middle;text-align:center" width="20%" rowspan="2">Sasaran Strategis</th>					
-					
-					<th style="vertical-align:middle;text-align:center" width="40%" rowspan="2">Indikator</th>
-					<th style="vertical-align:middle;text-align:center" width="10%" rowspan="2">Satuan</th>
-					<th style="vertical-align:middle;text-align:center" width="100px" colspan="'.($rangetahun+1).'">Realisasi Pencapaian</th>
-					<th style="vertical-align:middle;text-align:center" width="40%" rowspan="2">#</th>
-					<th style="vertical-align:middle;text-align:center" width="100px" rowspan="2">Keterangan</th>
-				</tr>';
-		$rs .= 	'<tr>';
+		$rs .= '<thead><tr  align="center">
+					<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2">No.</th>					
+					<th style="vertical-align:middle;text-align:center;width:30%" width="200" rowspan="2">Kegiatan</th>
+					<th style="vertical-align:middle;text-align:center;width:30%" width="200" rowspan="2">Output/Sub-Kegiatan</th>';
+		
 		$total_row =0;
 		$rangetahun_arr = array();
 		//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)
 		for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
-			$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
+			$rs .= 	'<th style="vertical-align:middle;text-align:center;width:10%" width="100">'.$colTahun.'</th>';
 			$rangetahun_arr[] = $colTahun;
 		}	
 					
@@ -122,17 +172,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 					}else{
 						$data[$i]->indikator[$j-1]->realisasi[$ss->tahun] = $ss->realisasi;
 					}
-					//$data[$i]->indikator=$data_indikator;
-					//$data[$i]->rowspan += sizeof($data[$i]->indikator);
-				/*if (sizeof($data[$i]->indikator)>0){							
-					$j=0;
-					foreach($data_indikator as $ss){										
-						$data[$i]->strategis[$j]->iku = $data_iku;					
-						$data[$i]->strategis[$j]->rowspan = sizeof($data_iku);
-						$j++;
-					}			
-				}
-				*/
+					
 				}
 			}
 			$i++;
@@ -141,6 +181,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		 $i=0;
 		 foreach($data as $d){			
 			$rs .= '<tr>';
+			$rs .= '<td >'.($i+1).'</td>';
 			if ($data[$i]->rowspan==0) 
 				$rs .= '<td >'.$d->deskripsi.'</td>';
 			else
@@ -165,8 +206,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 							$value = $colTahun.';'.$d->kode_ss_kl.';'.$ss->kode_iku_e1.';'.$realisasi;
 							$rs .= 	'<td align="right"><input type="hidden" value="'.$value.'" name="data_'.$colTahun.'_'.$total_row.'" />'.$this->utility->cekNumericFmt($realisasi).'</td>';
 						}
-						$rs .= '<td    valign="top"><input type="checkbox" onclick="clickIku(\''.$total_row.'\')" name="chk'.$total_row.'" id="chk'.$total_row.'"/></td>';
-						$rs .= '<td    valign="top">'.form_textarea($textarea_opt).'</td>';			
+						
 						$rs .= '</tr>';
 						$j++;
 						$total_row++;

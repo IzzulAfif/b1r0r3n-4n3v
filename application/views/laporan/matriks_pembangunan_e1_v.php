@@ -26,7 +26,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-                        <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-4">
                            <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="e1-kodee1" class="populate"')?>
                         </div>
@@ -76,7 +76,7 @@ $(document).ready(function() {
 		var range_awal = $("#e1-rentang_awal").val();
 		var range_akhir = $("#e1-rentang_akhir").val();
 		
-		$("#e1-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_e1/get_sasaran/"+tahun+"/"+kodee1+"/"+range_awal+"/"+range_akhir);
+		$("#e1-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_e1/get_output/"+tahun+"/"+range_awal+"/"+range_akhir+"/"+kodee1);
 		
 		
 	}

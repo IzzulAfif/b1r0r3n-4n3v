@@ -1,44 +1,82 @@
 <div class="feed-box">
+	 <form id="form_ss" method="post" class="form-horizontal">
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
                 <div class="corner-ribon blue-ribon">
                    <i class="fa fa-cog"></i>
                 </div>
-                <form class="form-horizontal" role="form">
-                        
-                    <div class="form-group">
-						<label class="col-sm-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
-						<div class="col-sm-3">									
-							<?=form_dropdown('periode_renstra',$renstra,'0','id="kl-periode_renstra" class="populate"')?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Rentang Tahun<span class="text-danger">*</span></label>
-						<div class="col-sm-2">									
-							<?=form_dropdown('rentang_awal',array("0"=>"Pilih Tahun"),'0','id="kl-rentang_awal"  class="populate"')?>
-							
-						</div>
-						<label class="col-sm-1 control-label" style="text-align:center;width:10px;margin-left:-20px">s.d.</label>
-					
-						<div class="col-sm-2">																			
-							<?=form_dropdown('rentang_akhir',array("0"=>"Pilih Tahun"),'0','id="kl-rentang_akhir"  class="populate"')?>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						 <div class="col-sm-offset-2 col-sm-3">
-						 
-							<button type="button" id="kl-btnLoad"  class="btn btn-info">
-								<i class="fa fa-play"></i> Tampilkan Data
-							</button>
-						</div>
-					</div>
+                <div class="row" id="boxcartscrool">
 								
-                   
-                </form>
+								<div class="col-sm-5">
+									<p class="text-primary"><b>Periode </b></p>
+									<div class="form-group">
+										<label class="col-sm-5 control-label">Periode Renstra<span class="text-danger">*</span></label>
+										<div class="col-sm-7">									
+											<?=form_dropdown('periode_renstra',$renstra,'0','id="periode_renstra" class="populate"')?>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-5 control-label">Tahun<span class="text-danger">*</span></label>
+										<div class="col-sm-7">									
+											<?=form_dropdown('rentang_awal',array("0"=>"Pilih Tahun"),'','id="rentang_awal"  class="populate"')?>
+											
+										</div>
+										
+									</div>
+								<!--	<div class="form-group">
+										<label class="col-md-5 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
+										<div class="col-sm-7">
+											<=form_dropdown('kelompok_indikator',array(),'0','id="kelompok_indikator" class="populate"')?>
+										</div>
+									</div> -->
+									
+								</div>	
+							
+								<div class="col-sm-7" style="left:65px">
+									<p class="text-primary"><b>Unit Kerja</b></p>
+									 <div class="form-group">										
+										<div class="checkbox">
+											<label class="control-label">
+												<input name="chkKl" id="chkKl" value="ok" type="checkbox" checked="checked"> Tampilkan IKU Kementerian
+											</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="checkbox col-md-4">
+											<label class="control-label">
+												<input name="chkE1" id="chkE1" value="ok" type="checkbox" checked="checked"> Tampilkan IKU Eselon I
+											</label>
+										</div>
+										
+										
+											<div class="col-sm-6">
+										   <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="kode_e1" class="populate"')?>
+											</div>
+										
+									</div>
+									<div class="form-group">
+										<div class="checkbox col-md-4">
+											<label class="control-label">
+												<input name="chkE2" id="chkE2" value="ok" type="checkbox" checked="checked"> Tampilkan IKK
+											</label>
+										</div>
+										<div class="col-sm-6">
+										   <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon II"),'0','id="kode_e2" class="populate"')?>
+											</div>
+									</div>
+									<div class="form-group">
+										 <div class="col-sm-offset-7 col-sm-7">										 
+											<button type="button" id="btnLoad"  class="btn btn-info">
+												<i class="fa fa-play"></i> Tampilkan Data
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
             </div>
         </section>
+		</form>
     </div>
 	
 	
@@ -70,7 +108,7 @@ $(document).ready(function() {
 		var range_awal = $("#kl-rentang_awal").val();
 		var range_akhir = $("#kl-rentang_akhir").val();
 		
-		$("#kl-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_kl/get_sasaran/"+tahun+"/-1/"+range_awal+"/"+range_akhir);
+		$("#kl-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_e1/get_sasaran/"+tahun+"/-1/"+range_awal+"/"+range_akhir);
 		
 		
 	}

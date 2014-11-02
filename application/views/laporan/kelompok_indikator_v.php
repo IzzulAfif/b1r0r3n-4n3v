@@ -18,8 +18,7 @@
 						<div class="corner-ribon blue-ribon">
 						   <i class="fa fa-cog"></i>
 						</div>
-							<div class="row" id="boxcartscrool">
-								
+							<div class="row" id="boxcartscrool">								
 								<div class="col-sm-5">
 									<p class="text-primary"><b>Periode dan Indikator</b></p>
 									<div class="form-group">

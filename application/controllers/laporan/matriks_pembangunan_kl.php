@@ -98,7 +98,7 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		
 		foreach($data as $d){
 			
-			$data_indikator = $this->matriks->get_indikator(array("kode_ss_kl"=>$d->kode_ss_kl,"range_awal"=>$range_awal,"range_akhir"=>$range_akhir));
+			$data_indikator = $this->matriks->get_indikator(array("kode_sasaran_kl"=>$d->kode_sasaran_kl,"range_awal"=>$range_awal,"range_akhir"=>$range_akhir));
 			$kode_iku = '-1';
 			$data[$i]->rowspan=0;
 			if (isset($data_indikator)) {
