@@ -51,7 +51,8 @@ class Cross_section extends CI_Controller {
 				$total_es1++;
 				$graf_data[] = array('nama'		=> $e1->singkatan,
 									 'detail'	=> $data,
-								   	 'rata2'	=> number_format($rata2,2,'.','.'));
+								   	 'rata2'	=> number_format($rata2,2,'.','.'),
+									 'color'	=> "-");
 			endif;
 		endforeach;
 		
@@ -69,7 +70,8 @@ class Cross_section extends CI_Controller {
 		$rata2 = $total_persen/count($dataKL);
 		$graf_data[] = array('nama'		=> "Kementerian",
 							 'detail'	=> $dataKL,
-							 'rata2'	=> number_format($rata2,2,'.','.'));
+							 'rata2'	=> number_format($rata2,2,'.','.'),
+							 'color'	=> "DB843D");
 		
 		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');
 		$data['post']		= $this->input->post();
@@ -107,11 +109,32 @@ class Cross_section extends CI_Controller {
 					$total_persen_es1 = $total_persen_es1+$rata2;
 					$total_es1++;
 					$graf_data[] = array('nama'		=> $e2->singkatan,
-								   	 	 'rata2'	=> number_format($rata2,2,'.','.'));
+										 'detail'	=> $data,
+								   	 	 'rata2'	=> number_format($rata2,2,'.','.'),
+										 'color'	=> "-");
 									 
 				endif;
 			
 		endforeach;
+		
+		$dataKL	= $this->analisis_model->get_capaian_kinerja_eselon1($this->input->post("indikator"),$this->input->post("tahun1"), $this->input->post("tahun2"));
+		$total_persen = 0;
+		foreach($dataKL as $kl):
+			if($d->target!="0" && $kl->target!=""):
+				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;
+				$total_persen = $total_persen+$persen;
+			else:
+				$persen = 100;
+				$total_persen = $total_persen+$persen;
+			endif;
+		endforeach;
+		$e1Nama= $this->mgeneral->getValue("singkatan",array('kode_e1'=>$this->input->post("unit_kerja")),"anev_eselon1");
+		$rata2 = $total_persen/count($dataKL);
+		$graf_data[] = array('nama'		=> $e1Nama,
+							 'detail'	=> $dataKL,
+							 'rata2'	=> number_format($rata2,2,'.','.'),
+							 'color'	=> "DB843D");
+							 
 		if($total_es1!=0): $rata2total = number_format($total_persen_es1/$total_es1,2,'.','.'); else: $rata2total = 0; endif;
 		
 		$data['post']		= $this->input->post();

@@ -4,7 +4,7 @@
 	$tipe	= "";
 	foreach($gdata as $d):
 		$bar	.= "'".$d['nama']."',";
-		if($d['nama']=="Kementerian"):
+		if($d['color']=="DB843D"):
 			$nilai	.= "{y: ".$d['rata2'].", color: '#DB843D'},";
 		else:
 			$nilai	.= $d['rata2'].",";

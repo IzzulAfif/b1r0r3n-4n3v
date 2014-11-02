@@ -138,7 +138,7 @@ class Korelasi extends CI_Controller {
 			endif;
 		endforeach;
 		
-		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');	
+		if($total_es1!=0): $rata2total = number_format($total_persen_es1/$total_es1,2,'.','.'); else: $rata2total = 0; endif;	
 		
 		$dataReturn = array('gdata'	=> $graf_data,
 							'rata2'	=> $rata2total);
