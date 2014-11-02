@@ -65,6 +65,7 @@ class Korelasi extends CI_Controller {
 				$total_es1++;
 				$graf_data[] = array('kode'		=> $e1->kode_e1,
 									 'nama'		=> $e1->singkatan,
+									 'detail'	=> $data,
 								   	 'rata2'	=> number_format($rata2,2,'.','.'));
 			endif;
 		endforeach;
@@ -83,6 +84,7 @@ class Korelasi extends CI_Controller {
 		$rata2kl = $total_persen/count($dataKL);
 		$graf_data[] = array('kode'	=> "022",
 							 'nama'	=> "Kementerian",
+							 'detail'	=> $dataKL,
 							 'rata2'=> number_format($rata2kl,2,'.','.'));
 							 
 		$rata2total = number_format(($total_persen_es1+$rata2kl)/($total_es1+1),2,'.','.');

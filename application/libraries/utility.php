@@ -7,6 +7,18 @@ class Utility{
 	
 	}
 	
+function cek_tipe_numerik($str)
+{
+	if(is_numeric($str)):
+		$cekFormat = explode(".",$str);
+		if(count($cekFormat)==1): $fangka = "0"; else: $fangka="2"; endif;
+		$format = number_format($str,$fangka,',','.');
+		return $format;
+	else:
+		return $str;
+	endif;
+}
+
 function getKelas($name='cmbFilterKelas'){
 	return '<select name="'.$name.'" id="'.$name.'">
 				<option value="1">Non Kelas</option>

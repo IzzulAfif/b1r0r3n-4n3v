@@ -32,7 +32,7 @@ class Cross_section extends CI_Controller {
 		$graf_data		  = array();
 		$total_persen_es1 = 0;
 		$total_es1		  = 0;
-		
+		$detail_data	  = "";
 		foreach($eselon1 as $e1):
 			$data = $this->analisis_model->get_detail_capaian_kinerja($e1->kode_e1,$this->input->post("indikator"),$this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("sasaran"));
 			$total_persen = 0;
@@ -50,6 +50,7 @@ class Cross_section extends CI_Controller {
 				$total_persen_es1 = $total_persen_es1+$rata2;
 				$total_es1++;
 				$graf_data[] = array('nama'		=> $e1->singkatan,
+									 'detail'	=> $data,
 								   	 'rata2'	=> number_format($rata2,2,'.','.'));
 			endif;
 		endforeach;
@@ -66,8 +67,9 @@ class Cross_section extends CI_Controller {
 			endif;
 		endforeach;
 		$rata2 = $total_persen/count($dataKL);
-		$graf_data[] = array('nama'	=> "Kementerian",
-							 'rata2'=> number_format($rata2,2,'.','.'));
+		$graf_data[] = array('nama'		=> "Kementerian",
+							 'detail'	=> $dataKL,
+							 'rata2'	=> number_format($rata2,2,'.','.'));
 		
 		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');
 		$data['post']		= $this->input->post();

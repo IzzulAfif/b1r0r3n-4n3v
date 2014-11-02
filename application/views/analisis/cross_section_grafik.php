@@ -36,20 +36,72 @@
         </tr>
         </thead>
         <tbody>
-            <?php foreach($gdata as $d): ?>
+            <?php $no=1; foreach($gdata as $d): ?>
             	
                 <tr>
-                    <td><?=$d['nama']?></td>
-                    <td><?=$d['rata2']?> %</td>
+                    <td><a href="#detailCrossModal<?=$no?>" data-toggle="modal"><?=$d['nama']?></a></td>
+                    <td><a href="#detailCrossModal<?=$no?>" data-toggle="modal"><?=$d['rata2']?> %</a></td>
                 </tr>
                     
-            <?php endforeach; ?>
+            <?php $no++; endforeach; ?>
             <tr><td><b>Rata-rata</b></td><td><b><?=$rata2?> %</b></td></tr>
         </tbody>
         </table>
         
     </div>
 </section>
+
+<?php $no=1; foreach($gdata as $d): ?>
+<div aria-hidden="true" role="dialog" tabindex="-1" id="detailCrossModal<?=$no?>" class="modal fade">
+    <div class="modal-dialog">   
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                <h5 class="modal-title"><?=$d['nama']?></h5>
+            </div>
+            <div class="modal-body">
+                
+                <table class="display table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Indikator Kinerja Utama</th>
+                        <th>Tahun</th>
+                        <th>Target</th>
+                        <th>Realisasi</th>
+                        <th>Persen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $total_persen=0; foreach($d['detail'] as $dd): ?>
+                        <tr>
+                            <td><?=$dd->nama_iku?></td>
+                            <td><?=$dd->tahun?></td>
+                            <td><?=$this->utility->cek_tipe_numerik($dd->target)?></td>
+                            <td><?=$this->utility->cek_tipe_numerik($dd->realisasi)?></td>
+                            <?php 
+                                if($dd->target!=0 && $dd->target!=""): $persen=((2*$dd->target-$dd->realisasi)/$dd->target)*100; else: $persen="100"; endif;
+                                $total_persen = $total_persen+$persen;
+                            ?>
+                            <td><?=$this->utility->cek_tipe_numerik($persen)?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                        <td colspan="4"> % Rata-rata Capaian</td>
+                        <td><b><?=$this->utility->cek_tipe_numerik($total_persen/count($d['detail']))?></b></td>
+                    </tr>
+                </tbody>
+                </table>
+                
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <button type="button" id="btn-close" class="btn btn-warning" data-dismiss="modal" class="close">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $no++; endforeach; ?>
 
 <script>
 	$(document).ready(function() {
