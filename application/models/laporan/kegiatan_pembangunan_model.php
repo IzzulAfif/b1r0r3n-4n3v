@@ -35,12 +35,13 @@ class Kegiatan_pembangunan_model extends CI_Model
 			if (isset($params['tahun_renstra']))  $where .= " and t0.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)";
 		}
 		
-		$sql1 = "SELECT DISTINCT ss.tahun, ss.kode_ss_kl, ikukl.kode_iku_kl, ikue1.kode_e1, ikue1.kode_iku_e1,  ikk.kode_ikk, ikk.deskripsi, ikk.satuan
+		$sql1 = "SELECT DISTINCT ss.tahun, ss.kode_ss_kl, ikukl.kode_iku_kl, ikue1.kode_e1, ikue1.kode_iku_e1,  ikk.kode_ikk, ikk.deskripsi, ikk.satuan,coalesce(kinerja.realisasi,0) as realisasi
 FROM anev_sasaran_strategis ss JOIN anev_iku_kl ikukl ON ss.kode_ss_kl=ikukl.kode_ss_kl
 JOIN anev_iku_eselon1 ikue1 ON ikukl.kode_iku_kl=ikue1.kode_iku_kl
-JOIN anev_ikk ikk ON ikue1.kode_iku_e1=ikk.kode_iku_e1 ".$where1;
+JOIN anev_ikk ikk ON ikue1.kode_iku_e1=ikk.kode_iku_e1 
+LEFT JOIN anev_kinerja_eselon2 kinerja on kinerja.kode_ikk = ikk.kode_ikk and kinerja.tahun = ikk.tahun ".$where1;
 
-		$sql2 = " select prog.tahun,prog.kode_e1,prog.nama_program,prog.kode_program, keg.nama_kegiatan ,keg.kode_kegiatan,  ikk.kode_e2,ikk.kode_ikk, ikk.deskripsi, ikk.satuan , output.nmoutput, output.satuan as satuan_output 
+		$sql2 = " select prog.tahun,prog.kode_e1,prog.nama_program,prog.kode_program, keg.nama_kegiatan ,keg.kode_kegiatan,  ikk.kode_e2,ikk.kode_ikk, ikk.deskripsi, ikk.satuan , output.nmoutput, output.satuan as satuan_output,rekap.total_volkeg,rekap.total_jumlah 
 from anev_program_eselon1 prog left join anev_kegiatan_eselon2 keg on prog.kode_program = keg.kode_program and prog.tahun = keg.tahun 
 left join anev_rekap_output rekap on rekap.kode_kegiatan = keg.kode_kegiatan and rekap.tahun = keg.tahun 
 left join anev_output output on output.kdoutput = rekap.kdoutput and output.kode_kegiatan = rekap.kode_kegiatan 

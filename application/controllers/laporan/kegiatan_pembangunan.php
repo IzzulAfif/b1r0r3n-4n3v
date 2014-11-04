@@ -88,13 +88,16 @@ class Kegiatan_pembangunan extends CI_Controller {
 					
 		$head .= '<thead>
                     	<tr>
-                    		<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="140">Program</th>
-                            <th style="vertical-align:middle;text-align:center;width:20%" width="140">Kegiatan</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="150">IKK</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="80">Satuan</th>
+                    		<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>'
+                            .($ajaxCall?'<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="100">Program</th>':'')
+                            .'<th style="vertical-align:middle;text-align:center;width:20%" width="100">Kegiatan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="120">IKK</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="70">Satuan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="70">Realisasi</th>
                             <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="160">Output</th>
-                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="80">Satuan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="70">Satuan</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="80">Volume</th>
+                            <th class="col-sm-1" style="vertical-align:middle;text-align:center;width:10%" width="80">Jumlah</th>
                         </tr>
                     </thead>
 					 <tbody>';
@@ -102,15 +105,21 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$foot =	'</tbody>
     	        </table>';
 		$totalPagu = 0;
-		$rs = $head;$i=1;
+		if ($ajaxCall)
+			$rs = $head;
+		else
+			$rs ='';
+		$i=1;
 		
 		//setting rowspan
 		if (isset($data)){
 			$nama_program = '';
 			$nama_kegiatan = '';
+			$kode_ikk = '-1';
 			$i=0;
 			$cur_idx_program=0;
 			$cur_idx_kegiatan=0;
+			$cur_idx_ikk=0;
 			foreach($data as $d){						
 				if ($nama_program!=$d->nama_program){
 					$nama_program=$d->nama_program;
@@ -126,30 +135,68 @@ class Kegiatan_pembangunan extends CI_Controller {
 				}else{
 					$data[$cur_idx_kegiatan]->kegiatan_rowspan++;
 				}
+				if ($kode_ikk!=$d->kode_ikk){
+					$kode_ikk = $d->kode_ikk;
+					$data[$i]->ikk_rowspan = 1;
+					$data[$i]->sum_jumlah = $d->total_jumlah;					
+					$cur_idx_ikk = $i;
+				}else{
+					$data[$cur_idx_ikk]->ikk_rowspan++;
+					$data[$cur_idx_ikk]->sum_jumlah += $d->total_jumlah;
+				}
+				
 				$i++;
 			}
 		}
 			
 			
 		if (isset($data)){
-			//$rs .= $head;
+			//$rs = $head;
 			$nama_program = '';
 			$i=1;$no=1;
 			foreach($data as $d): 
 			//	$totalPagu += $d->jumlah;
-				$rs .= '<tr class="gradeX">';
-				
-					
+				if ($ajaxCall){	
+					$rs .= '<tr class="gradeX">';				
 					if (isset($d->program_rowspan)){
 						$rs .= '<td width="30" '.($d->program_rowspan>0?'rowspan="'.$d->program_rowspan.'"':'').'>'.($no++).'</td>';
-						$rs .= '<td width="140" '.($d->program_rowspan>0?'rowspan="'.$d->program_rowspan.'"':'').'>'.$d->nama_program.'</td>';
+						$rs .= '<td width="100" '.($d->program_rowspan>0?'rowspan="'.$d->program_rowspan.'"':'').'>'.$d->nama_program.'</td>';
 					}
-				if (isset($d->kegiatan_rowspan))
-						$rs .= '<td width="140" '.($d->kegiatan_rowspan>0?'rowspan="'.$d->kegiatan_rowspan.'"':'').'>'.$d->nama_kegiatan.'</td>';
-					$rs .= '<td width="150">'.$d->deskripsi.'</td>
-					<td width="80">'.$d->satuan.'</td>
-					<td width="160">'.$d->nmoutput.'</td>
-					<td width="80">'.$d->satuan_output.'</td>'
+				}else {
+						if ($nama_program != $d->nama_program){
+						//	var_dump('kadie');
+							$nama_program = $d->nama_program;
+							if ($no>1)
+								$rs .= $foot;
+							$rs .= "<p class='text-info'><b>Nama Program : ".$d->nama_program.'</b></p>';
+							$rs .= $head;
+							$rs .= '<tr class="gradeX">';				
+						
+						
+						}
+						else {
+							$rs .= '<tr class="gradeX">';				
+						}
+				
+				}
+				if (isset($d->kegiatan_rowspan)){
+					if (!$ajaxCall){	
+						
+						$rs .= '<td width="30" '.($d->kegiatan_rowspan>0?'rowspan="'.$d->kegiatan_rowspan.'"':'').'>'.($no++).'</td>';
+					}
+					$rs .= '<td width="100" '.($d->kegiatan_rowspan>0?'rowspan="'.$d->kegiatan_rowspan.'"':'').'>'.$d->nama_kegiatan.'</td>';
+				}
+					
+				if (isset($d->ikk_rowspan))
+					$rs .= '<td width="120" '.($d->ikk_rowspan>0?'rowspan="'.$d->ikk_rowspan.'"':'').'>'.$d->deskripsi.'</td>
+					<td width="70" '.($d->ikk_rowspan>0?'rowspan="'.$d->ikk_rowspan.'"':'').'>'.$d->satuan.'</td>
+					<td width="70" align="right" '.($d->ikk_rowspan>0?'rowspan="'.$d->ikk_rowspan.'"':'').'>'.$this->utility->cekNumericFmt($d->realisasi).'</td>';
+					
+				$rs .= '<td width="160">'.$d->nmoutput.'</td>
+				<td width="70">'.$d->satuan_output.'</td><td width="80" align="right" >'.$this->utility->cekNumericFmt($d->total_volkeg).'</td>';
+				
+				if (isset($d->ikk_rowspan))
+					$rs .= '<td width="80" align="right" '.($d->ikk_rowspan>0?'rowspan="'.$d->ikk_rowspan.'"':'').'>'.$this->utility->cekNumericFmt($d->sum_jumlah).'</td>';
 					
 					//sementara hide dulu coz blm ada data nya
 					/*<td align="right">'.$this->utility->cekNumericFmt($d->hargasat).'</td>					
@@ -157,14 +204,19 @@ class Kegiatan_pembangunan extends CI_Controller {
 					<td width="80" align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
 					
 					*/
-					.'</tr>';
+					$rs .='</tr>';
 				endforeach; 
 		} else {
+			if (!$ajaxCall) 
+				$rs .= $head;
 			$rs .= '<tr class="gradeX">
-					<td colspan="7" width="490">Data tidak ditemukan</td>
+					<td colspan="10" width="490">Data tidak ditemukan</td>
 					</tr>';
 		}
+		
+		
 		$rs .= $foot;
+	//	var_dump($rs);die;
 		if ($ajaxCall)	echo $rs;
 		else return $rs;
 	}
@@ -196,7 +248,7 @@ class Kegiatan_pembangunan extends CI_Controller {
 		// add a page
 		$pdf->AddPage('L');
 		//var_dump($e1);
-		 $pdf->Write(0, 'OUTPUT KEGIATAN PEMBANGUNAN MENURUT INDIKATOR', '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, 'OUTPUT KEGIATAN PEMBANGUNAN MENURUT KELOMPOK INDIKATOR', '', 0, 'L', true, 0, false, false, 0);
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
@@ -207,15 +259,15 @@ class Kegiatan_pembangunan extends CI_Controller {
 	   $data['tahun']		= $tahun;
 	   $data['indikator']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator),"anev_kel_indikator");
 	   $data['program']		= $this->mgeneral->getValue("nama_program",array('kode_program'=>$kode_program,'tahun'=>$tahun),"anev_program_eselon1");
-	   $data['kegiatan']		= $this->mgeneral->getValue("nama_kegiatan",array('kode_kegiatan'=>$kode_kegiatan,'tahun'=>$tahun),"anev_kegiatan_eselon2");
-	   $data['lokasi']		= $this->mgeneral->getValue("lokasi",array('kdlokasi'=>$kdlokasi),"anev_lokasi");
+	  // $data['kegiatan']		= $this->mgeneral->getValue("nama_kegiatan",array('kode_kegiatan'=>$kode_kegiatan,'tahun'=>$tahun),"anev_kegiatan_eselon2");
+	//  $data['lokasi']		= $this->mgeneral->getValue("lokasi",array('kdlokasi'=>$kdlokasi),"anev_lokasi");
 	   //$data['indikator']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator,'tahun_renstra'=>$indikator),"anev_kel_indikator");
 	   
 	   $data['itempekerjaan'] = $this->get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi,false);
 	   
 		$html = $this->load->view('laporan/print/pdf_pembangunan',$data,true);
-	//	$html = $data['ikuE2'];
-	//	var_dump($html);
+	
+	//	var_dump($html);die;
 		$pdf->writeHTML($html, true, false, false, false, '');
 		//var_dump('tes');	
 	

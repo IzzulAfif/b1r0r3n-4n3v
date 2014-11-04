@@ -21,7 +21,7 @@
             	<?=$indikator?>
             </td>
         </tr>
-		<tr style="border:1px #666666 solid"><td><b>Program</b></td></tr>
+	<!--	<tr style="border:1px #666666 solid"><td><b>Program</b></td></tr>
         <tr style="border:1px #666666 solid;">
             <td style="padding:10px 0 20px 20px;">
             	<?=$program?>
@@ -32,7 +32,7 @@
             <td style="padding:10px 0 20px 20px;">
             	<?=$kegiatan?>
             </td>
-        </tr>
+        </tr> -->
 		<!--<tr style="border:1px #666666 solid"><td><b>Lokasi</b></td></tr>
         <tr style="border:1px #666666 solid;">
             <td style="padding:10px 0 20px 20px;">
