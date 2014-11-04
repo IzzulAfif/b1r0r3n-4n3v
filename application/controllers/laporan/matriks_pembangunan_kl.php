@@ -68,6 +68,94 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		$this->load->view('template/container_popup',$template);
 	}
 	
+	function get_output($tahun,$kl,$range_awal,$range_akhir){
+		$data = $this->matriks->get_sasaran_kl(array("tahun_renstra"=>$tahun));
+		$arrTahun = explode("-",$tahun);				
+		$rangetahun = $range_akhir-$range_awal;
+		$rs ='';// '<form  method="post" id="matriks_form" name="matriks_form" action="'.base_url().'laporan/matriks_pembangunan/save/" >';//role="form"
+		$rs .= '<table class="display table table-bordered table-striped">';
+		
+		$rs .= '<thead><tr  align="center">
+					<th style="vertical-align:middle;text-align:center" width="1%" >No.</th>				
+					<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Kemenhub</th>				
+					<th style="vertical-align:middle;text-align:center" width="1%" >No.</th>				
+					<th style="vertical-align:middle;text-align:center" width="40%">Indikator</th>
+					<th style="vertical-align:middle;text-align:center" width="10%">Satuan</th>';
+		
+		$total_row =0;
+		$rangetahun_arr = array();
+		//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)
+		for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+			$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
+			$rangetahun_arr[] = $colTahun;
+		}	
+					
+		$rs .= 	'</tr></thead>';	
+		$rs .= '<tbody>';		
+		$i=0;
+		 $j=0;
+		foreach($data as $d){
+			$indikator = $this->matriks->get_indikator(array("kode_sasaran_kl"=>$d->kode_sasaran_kl,"rentang_awal"=>$range_awal,"rentang_akhir"=>$range_akhir));
+			if (isset($indikator)){
+				$data[$i]->rowspan = 0;
+				$j=0;
+				$kode_iku_e1 = '-1';
+				foreach ($indikator as $iku){
+					//if ($kode_iku_e1!=$iku->kode_iku_e1){
+					$data[$i]->iku[$j]->deskripsi = $iku->deskripsi;
+					$data[$i]->iku[$j]->satuan = $iku->satuan;
+					for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+						$data[$i]->iku[$j]->total[$colTahun]=$this->matriks->hitung_total(array("tahun"=>$colTahun,"kode_iku_e1"=>$iku->kode_iku_e1));
+					}
+					
+					$data[$i]->iku[$j]->satuan = $iku->satuan;
+					$data[$i]->rowspan++;
+					$j++;
+				}
+				
+			}
+			else {
+				$x=0;
+				$data[$i]->rowspan = 1;
+				$data[$i]->iku[$x]->deskripsi = '';
+				$data[$i]->iku[$x]->satuan = '';
+				
+			}
+			$i++;
+		} 
+		 
+		 $i=1;
+		foreach($data as $d){
+			$rs .= '<tr>';
+			$rs .= '<td    valign="top" rowspan="'.$d->rowspan.'">'.$i++.'</td>';
+			$rs .= '<td    valign="top" rowspan="'.$d->rowspan.'">'.$d->deskripsi.'</td>';
+			$j=0;				
+			foreach ($d->iku as $iku){
+				if ($j==0){					
+			
+				}else {										
+					$rs .= '<tr>';					
+				}
+				
+				$rs .= '<td   valign="top">'.($j+1).'</td>';
+				$rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
+				$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+				for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+					$vol =0;
+						
+						if (isset($iku->total[$colTahun]))
+							$vol = $iku->total[$colTahun];
+						$rs .= '<td width="330" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+				}
+				$j++;
+			}
+			
+			$rs .= '</tr>';
+		}
+		$rs .= '</tbody></table>'; 
+		echo $rs;
+	}
+	
 	function get_sasaran($tahun,$kl,$range_awal,$range_akhir){
 		$dataAll = array();
 		$data = $this->matriks->get_sasaran_kl(array("tahun_renstra"=>$tahun));

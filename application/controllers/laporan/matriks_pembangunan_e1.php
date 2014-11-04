@@ -81,6 +81,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$head .= '<thead><tr  align="center">
 					<th style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>					
 					<th style="vertical-align:middle;text-align:center;width:30%" width="200" >Kegiatan</th>
+					<th style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>					
 					<th style="vertical-align:middle;text-align:center;width:30%" width="200">Output/Sub-Kegiatan</th>';
 		for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
 			$head .= 	'<th style="vertical-align:middle;text-align:center;width:10%" width="100">'.$colTahun.'</th>';
@@ -92,9 +93,60 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$foot .= '</table><br>'.(!$ajaxCall?"<br><br>":"");	
 		$i=0;
 		$nama_program = "-1";
-		
+		$nama_kegiatan = '-1';
+		$nama_output = '-1';
+		$dataTable = array();
+		//var_dump($data);
+		$idx_kegiatan = 0;
 		foreach($data as $d){
 			if ($nama_program!=$d->nama_program){
+				
+				$nama_program = $d->nama_program;				
+				
+			}
+			
+			if ($nama_kegiatan!=$d->nama_kegiatan){
+				$nama_kegiatan = $d->nama_kegiatan;
+				$dataTable[$i]->rowspan = 0;
+				$idx_kegiatan = $i;//($i==0?$i:($i-1));
+			}
+			else {
+				//$dataTable[$i-1]->rowspan++;
+			}
+			
+			if ($nama_output!=$d->nmoutput){
+				$nama_output = $d->nmoutput;
+				$dataTable[$i]->nama_program = $d->nama_program;
+				$dataTable[$i]->nama_kegiatan = $d->nama_kegiatan;			
+				$dataTable[$i]->nmoutput = $d->nmoutput;
+				$dataTable[$i]->rowspan = 1;
+				$dataTable[$i]->vol[$d->tahun] = $d->total_volkeg;
+			//	if ($i>0){
+					if ($nama_kegiatan==$d->nama_kegiatan){						
+						$dataTable[$idx_kegiatan]->rowspan++;
+					}
+				//}
+				
+				
+				$i++;
+				//continue;
+			}else {
+			
+			//if (($nama_kegiatan==$d->nama_kegiatan)&&($nama_program==$d->nama_program)&&($nama_output==$d->nmoutput)){
+				$dataTable[$i-1]->vol[$d->tahun] = $d->total_volkeg;
+				//$i++;
+			}
+			
+		}
+		//var_dump($dataTable);die;
+		$nama_program = '-1';
+		$nama_kegiatan = '-1';
+		$i=0;$no=1;
+		$idx_kegiatan = 1;
+		foreach($dataTable as $d){
+			
+			if ($nama_program!=$d->nama_program){
+				
 				$nama_program=$d->nama_program;
 				if ($i>1) {
 					$rs .=$foot;
@@ -105,19 +157,34 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 				else
 					$rs .= "<b>Nama Program : ".$d->nama_program.'</b><br><br>';
 				$rs .= $head;
+				//var_dump($d);die;
 			}
-			$rs .= '<tr class="gradeX">
-						<td width="30">'.($i++).'</td>				
-					<td width="80">'.$d->nama_kegiatan.'</td>					
-					<td width="330">'.$d->nmoutput.'</td>';				
+			
+			
+				
+				$rs .= '<tr class="gradeX">';
+						
+				if ($nama_kegiatan!= $d->nama_kegiatan){
+					$nama_kegiatan = $d->nama_kegiatan;
+					$rs .= '<td width="30" rowspan="'.($d->rowspan-1).'">'.($idx_kegiatan++).'</td>				';
+					$rs .= '<td width="80" rowspan="'.($d->rowspan-1).'">'.$d->nama_kegiatan.'</td>';
+					$no=1;
+				}
+				// $rs .= '<td width="30" >'.($i++).'</td>';
+				// $rs .= '<td width="80" >'.$d->nama_kegiatan.'-'.$d->rowspan.'</td>';
+				$rs .= '<td width="30">'.($no++).'</td>';				
+				$rs .= '<td width="330">'.$d->nmoutput.'</td>';				
 					for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
 						$vol =0;
-						if ($colTahun==$d->tahun)
-							$vol = $d->total_volkeg;
+						
+						if (isset($d->vol[$colTahun]))
+							$vol = $d->vol[$colTahun];
 						$rs .= '<td width="330" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
 					}					
 					
 				$rs .= '</tr>';
+			
+			
 		}
 		$rs .= $foot;		
 		

@@ -70,7 +70,7 @@ $(document).ready(function() {
 		var range_awal = $("#kl-rentang_awal").val();
 		var range_akhir = $("#kl-rentang_akhir").val();
 		
-		$("#kl-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_kl/get_sasaran/"+tahun+"/-1/"+range_awal+"/"+range_akhir);
+		$("#kl-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_kl/get_output/"+tahun+"/-1/"+range_awal+"/"+range_akhir);
 		
 		
 	}

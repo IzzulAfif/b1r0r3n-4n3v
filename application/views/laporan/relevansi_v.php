@@ -6,21 +6,21 @@
         <!--tab nav start-->
             <section class="panel">
                 <header class="panel-heading tab-bg-light tab-right ">
-                	<p class="pull-left"><b>Relevansi Informasi</b></p>
+                	<p class="pull-left"><b>Cascading Sasaran dan Indikator</b></p>
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#ss-content">
-                               <i class="fa fa-list-ol"></i> Relevansi Sasaran Strategis
+                               <i class="fa fa-list-ol"></i> Cascading Sasaran Strategis
                             </a>
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#ii-content">
-                                <i class="fa fa-bar-chart-o"></i> Relevansi IKU/IKK
+                                <i class="fa fa-bar-chart-o"></i> Cascading IKU/IKK
                             </a>
                         </li>  
 						<li class="">
                             <a data-toggle="tab" href="#ssii-content">
-                                <i class="fa fa-bar-chart-o"></i> Relevansi Sasaran Strategis dengan IKU/IKK
+                                <i class="fa fa-bar-chart-o"></i> Cascading Sasaran dan IKU/IKK
                             </a>
                         </li>                        
                     </ul>

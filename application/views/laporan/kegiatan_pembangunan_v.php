@@ -5,7 +5,7 @@
 		
                 <section class="panel">
                     <header class="panel-heading tab-bg-light tab-right ">
-                        <p class="pull-left"><b>Rincian Kegiatan Pembangunan Menurut Indikator</b></p>
+                        <p class="pull-left"><b>Output Kegiatan Pembangunan Menurut Indikator</b></p>
                         <span class="pull-right">
                           
                          </span>

@@ -27,7 +27,7 @@ class Matriks_pembangunan_e1_model extends CI_Model
 		$sql ='select prog.tahun,prog.kode_e1,prog.nama_program,prog.kode_program, keg.nama_kegiatan ,keg.kode_kegiatan,  ikk.kode_e2,ikk.kode_ikk, ikk.deskripsi, ikk.satuan , output.nmoutput, output.satuan as satuan_output,rekap.total_volkeg, rekap.total_jumlah 
 from anev_program_eselon1 prog left join anev_kegiatan_eselon2 keg on prog.kode_program = keg.kode_program and prog.tahun = keg.tahun 
 left join anev_rekap_output rekap on rekap.kode_kegiatan = keg.kode_kegiatan and rekap.tahun = keg.tahun 
-left join anev_output output on output.kdoutput = rekap.kdoutput and output.kode_kegiatan = rekap.kode_kegiatan 
+join anev_output output on output.kdoutput = rekap.kdoutput and output.kode_kegiatan = rekap.kode_kegiatan 
 left join anev_ikk ikk on ikk.kode_ikk = rekap.kode_ikk and ikk.tahun = rekap.tahun '.$where;
 		$sql .= 'order by prog.kode_program,keg.kode_kegiatan,output.kdoutput';
 		return $this->mgeneral->run_sql($sql);

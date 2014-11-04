@@ -6,73 +6,72 @@
                 <div class="corner-ribon blue-ribon">
                    <i class="fa fa-cog"></i>
                 </div>
-                <div class="row" id="boxcartscrool">
+                <div class="row" id="boxcartscrool">								
+					<div class="col-sm-5">
+						<p class="text-primary"><b>Periode </b></p>
+						<div class="form-group">
+							<label class="col-sm-5 control-label">Periode Renstra<span class="text-danger">*</span></label>
+							<div class="col-sm-7">									
+								<?=form_dropdown('periode_renstra',$renstra,'0','id="ss-periode_renstra" class="populate"')?>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label">Tahun<span class="text-danger">*</span></label>
+							<div class="col-sm-7">									
+								<?=form_dropdown('rentang_awal',array("0"=>"Pilih Tahun"),'','id="ss-rentang_awal"  class="populate"')?>
 								
-								<div class="col-sm-5">
-									<p class="text-primary"><b>Periode </b></p>
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Periode Renstra<span class="text-danger">*</span></label>
-										<div class="col-sm-7">									
-											<?=form_dropdown('periode_renstra',$renstra,'0','id="periode_renstra" class="populate"')?>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-5 control-label">Tahun<span class="text-danger">*</span></label>
-										<div class="col-sm-7">									
-											<?=form_dropdown('rentang_awal',array("0"=>"Pilih Tahun"),'','id="rentang_awal"  class="populate"')?>
-											
-										</div>
-										
-									</div>
-								<!--	<div class="form-group">
-										<label class="col-md-5 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
-										<div class="col-sm-7">
-											<=form_dropdown('kelompok_indikator',array(),'0','id="kelompok_indikator" class="populate"')?>
-										</div>
-									</div> -->
-									
-								</div>	
+							</div>
 							
-								<div class="col-sm-7" style="left:65px">
-									<p class="text-primary"><b>Unit Kerja</b></p>
-									 <div class="form-group">										
-										<div class="checkbox">
-											<label class="control-label">
-												<input name="chkKl" id="chkKl" value="ok" type="checkbox" checked="checked"> Tampilkan IKU Kementerian
-											</label>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="checkbox col-md-4">
-											<label class="control-label">
-												<input name="chkE1" id="chkE1" value="ok" type="checkbox" checked="checked"> Tampilkan IKU Eselon I
-											</label>
-										</div>
-										
-										
-											<div class="col-sm-6">
-										   <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="kode_e1" class="populate"')?>
-											</div>
-										
-									</div>
-									<div class="form-group">
-										<div class="checkbox col-md-4">
-											<label class="control-label">
-												<input name="chkE2" id="chkE2" value="ok" type="checkbox" checked="checked"> Tampilkan IKK
-											</label>
-										</div>
-										<div class="col-sm-6">
-										   <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon II"),'0','id="kode_e2" class="populate"')?>
-											</div>
-									</div>
-									<div class="form-group">
-										 <div class="col-sm-offset-7 col-sm-7">										 
-											<button type="button" id="btnLoad"  class="btn btn-info">
-												<i class="fa fa-play"></i> Tampilkan Data
-											</button>
-										</div>
-									</div>
+						</div>
+					<!--	<div class="form-group">
+							<label class="col-md-5 control-label">Kelompok Indikator<span class="text-danger">*</span></label>
+							<div class="col-sm-7">
+								<=form_dropdown('kelompok_indikator',array(),'0','id="kelompok_indikator" class="populate"')?>
+							</div>
+						</div> -->
+						
+					</div>	
+							
+					<div class="col-sm-7" style="left:65px">
+						<p class="text-primary"><b>Unit Kerja</b></p>
+						 <div class="form-group">										
+							<div class="checkbox">
+								<label class="control-label">
+									<input name="chkKl" id="ss-chkKl" value="ok" type="checkbox" checked="checked"> Tampilkan Sasaran Kementerian
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="checkbox col-md-4">
+								<label class="control-label">
+									<input name="chkE1" id="ss-chkE1" value="ok" type="checkbox" checked="checked"> Tampilkan Sasaran Program
+								</label>
+							</div>
+							
+							
+								<div class="col-sm-6">
+							   <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="ss-kode_e1" class="populate"')?>
 								</div>
+							
+						</div>
+						<div class="form-group">
+							<div class="checkbox col-md-4">
+								<label class="control-label">
+									<input name="chkE2" id="ss-chkE2" value="ok" type="checkbox" checked="checked"> Tampilkan Sasaran Kegiatan
+								</label>
+							</div>
+							<div class="col-sm-6">
+							   <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon II"),'0','id="ss-kode_e2" class="populate"')?>
+								</div>
+						</div>
+						<div class="form-group">
+							 <div class="col-sm-offset-7 col-sm-7">										 
+								<button type="button" id="ss-btnLoad"  class="btn btn-info">
+									<i class="fa fa-play"></i> Tampilkan Data
+								</button>
+							</div>
+						</div>
+					</div>
 							</div>
             </div>
         </section>
@@ -87,7 +86,7 @@
                    <i class="fa fa-file-text"></i>
                 </div>
                 <form class="form-horizontal grid-form" role="form">  
-				<div id="kl-reportKonten">
+				<div id="ss-reportKonten">
 					</div>
 				</form>	
 			</div>
@@ -102,109 +101,133 @@
 <script  type="text/javascript" language="javascript">
 $(document).ready(function() {
 	$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-	load_profile_kl = function(){
-		var tahun = $('#kl-periode_renstra').val();
-		
-		var range_awal = $("#kl-rentang_awal").val();
-		var range_akhir = $("#kl-rentang_akhir").val();
-		
-		$("#kl-reportKonten").load("<?=base_url()?>laporan/matriks_pembangunan_e1/get_sasaran/"+tahun+"/-1/"+range_awal+"/"+range_akhir);
-		
-		
-	}
-
-	set_rentang_kl = function(){
-		var periode_renstra = $("#kl-periode_renstra");
-		var range_awal = $("#kl-rentang_awal");
-		var range_akhir = $("#kl-rentang_akhir");
-		range_awal.empty();range_akhir.empty();
-		range_awal.append(new Option("Pilih Tahun","0"));
-		range_akhir.append(new Option("Pilih Tahun","0"));
-		 if (periode_renstra.val()!=0) {
-			year = periode_renstra.val().split('-');
-			//alert(year[0]);
-			for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
-				range_awal.append(new Option(i,i));
-				range_akhir.append(new Option(i,i));
+			ss_renstra = $('#ss-periode_renstra');
+			ss_tahun_awal = $('#ss-rentang_awal');
+			
+			ss_renstra.change(function(){
+				ss_tahun_awal.empty(); 				
+				ss_tahun_awal.append(new Option("Pilih Tahun","0"));
+				$("#ss-rentang_awal").select2("val", "0");
+				if (ss_renstra.val()!=0) {
+					year = ss_renstra.val().split('-');					
+					for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+						ss_tahun_awal.append(new Option(i,i));
+					}
+					ss_tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); 					
+				}
+				
+				$.ajax({
+					url:"<?php echo site_url(); ?>laporan/kelompok_indikator/get_list_eselon1/"+this.value,
+					success:function(result) {
+						$('#ss-kode_e1').empty();
+						//alert('kadieu');
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#ss-kode_e1').append(new Option(result[k],k));
+						}
+						$("#ss-kode_e1").select2("val", "0");
+					}
+				});
+			});
+			
+			
+			 $("#ss-kode_e1").change(function(){
+				$.ajax({
+					url:"<?php echo site_url(); ?>laporan/kelompok_indikator/get_list_eselon2/"+ $('#ss-periode_renstra').val()+"/"+this.value,
+					success:function(result) {
+						$('#ss-kode_e2').empty();
+						result = JSON.parse(result);
+						for (k in result) {
+							$('#ss-kode_e2').append(new Option(result[k],k));
+						}
+						$("#ss-kode_e2").select2("val", "0");
+					}
+				});
+			});
+			
+			
+			load_data = function(){
+			//	alert($("#chkKl").is(':checked'));
+				if ($("#ss-chkKl").is(':checked')){
+					//$("#kl-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_kl/"+indikator.val()+"/"+tahun_awal.val()+"/-1/-1");
+					// $("#kl-indikator").mCustomScrollbar({
+								// axis:"x",
+								// theme:"dark-2"
+							// });
+					$('#ss-divKL').removeClass("hide");
+				}else{
+					$('#ss-divKL').addClass("hide");
+				}
+						
+				if ($("#ss-chkE1").is(':checked')){			
+					if ($("#ss-chkE2").is(':checked'))
+						$("#ss-e1-title").html("<b>IKU Eselon I dan IKK Eselon II</b>");
+					else
+						$("#ss-e1-title").html("<b>IKU Eselon I</b>");
+					
+					$("#e1-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_e1/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+($("#chkE2").is(':checked')?"/"+$("#kode_e2").val():""));
+					$("#e1-indikator").mCustomScrollbar({
+								axis:"x",
+								theme:"dark-2"
+							});
+					$('#divE1').removeClass("hide");
+				}else{
+					$('#divE1').addClass("hide");
+				}			
+				
+				if (($("#ss-chkE2").is(':checked'))&&(!$("#ss-chkE1").is(':checked'))){	
+					
+					$("#e2-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_e2/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+"/"+$("#kode_e2").val());
+					$("#e2-indikator").mCustomScrollbar({
+									axis:"x",
+									theme:"dark-2"
+								});
+					$('#divE2').removeClass("hide");
+				}else{
+					$('#divE2').addClass("hide");
+				}			
+				
+				
+							
 			}
 			
-		 }
-		 $('#kl-rentang_awal').select2({minimumResultsForSearch: -1, width:'resolve'});
-			$('#kl-rentang_akhir').select2({minimumResultsForSearch: -1, width:'resolve'});
-	}
-	
-	
-	clickIku = function(id){
-		chk = $("#chk"+id);
-		keterangan = $("#keterangan"+id);		
-		keterangan.prop("readonly",!chk.is(':checked'));
-		
-	}
-	
-	 $("#kl-btnLoad").click(function(){
-		var periode_renstra = $("#kl-periode_renstra");
-		var range_awal = $("#kl-rentang_awal");
-		var range_akhir = $("#kl-rentang_akhir");
-		
-		if (periode_renstra.val()=="0") {
-			alert("Periode Renstra belum ditentukan");
-			$('#kl-periode_renstra').select2('open');
-		}		
-		else if ((range_awal.val()=="0")) {
-			alert("Rentang Tahun Awal belum ditentukan");
-			$('#kl-rentang_awal').select2('open');
-		}
-		else if ((range_akhir.val()=="0")) {
-			alert("Rentang Tahun Akhir belum ditentukan");
-			$('#kl-rentang_akhir').select2('open');
-		}
-		else {
-			load_profile_kl();
-			$('#box-result-kl').removeClass("hide");
-		}
-	}); 
-	
-	$("#kl-periode_renstra").change(function(){
-		set_rentang_kl();
-	}); 
-	
-	$("#matriks_form").submit(function( event ) {
-		
-		var postData = $(this).serializeArray();
-		var formURL = $(this).attr("action");
-		
-		
-			$.ajax({
-				url : formURL,
-				type: "POST",
-				data : postData,
-				success:function(data, textStatus, jqXHR) 
-				{
-					//data: return data from server
-					  
-					$.gritter.add({text: data});
-					//renstra_update();
-					//$('#btn-close').click();
-					//$("#id-btn").click();
-					//alert('kadieu sukses');
-					print_matriks();
-				},
-				error: function(jqXHR, textStatus, errorThrown) 
-				{
-					//if fails
-				//	$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-				//	$('#btn-close').click();
+			 $("#btnLoad").click(function(){
+				if (renstra.val()=="0") {
+					alert("Periode Renstra belum ditentukan");
+					$('#periode_renstra').select2('open');
 				}
+				
+				else if ((tahun_awal.val()=="0")) {
+					alert("Tahun belum ditentukan");
+					$('#rentang_awal').select2('open');
+				}
+				/*else if ((tahun_akhir.val()=="0")) {
+					alert("Rentang Tahun Akhir belum ditentukan");
+					$('#rentang_akhir').select2('open');
+				}*/
+				else if ((indikator.val()=="0")) {
+					alert("Indikator belum ditentukan");
+					$('#kelompok_indikator').select2('open');
+				}
+				else if (!$("#chkE1").is(':checked')&&$("#chkE2").is(':checked')&& $("#kode_e1").val()=="0"){
+					alert("Unit Kerja Eselon I belum ditentukan");
+					$('#kode_e1').select2('open');
+				}
+				else {
+					load_data();
+					$('#box-result').removeClass("hide");
+				}
+			}); 
+			
+			$('#cetakpdf_indikator').click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open('<?=base_url()?>laporan/kelompok_indikator/print_pdf/'+renstra.val()+"/"+tahun_awal.val()+"/"+indikator.val()+"/"+ $("#kode_e1").val()+"/"+ $("#kode_e2").val()+"/"+$("#chkKl").is(':checked')+"/"+$("#chkE1").is(':checked')+"/"+$("#chkE2").is(':checked'),'_blank');			
 			});
-			event.preventDefault();
-	});
-	
-	print_matriks_kl = function(){
-		var tahun = $('#kl-periode_renstra').val();
-		var rentang_awal = $('#kl-rentang_awal').val();
-		var rentang_akhir = $('#kl-rentang_akhir').val();
+			//$("#kl-content").load("<?=base_url()?>laporan/kelompok_indikator_kl/loadindikator");
+			//$("#e1-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/loadindikator");
+			//$("#e2-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon2/loadindikator");
+			
 		
-		window.open("<?=base_url()?>laporan/matriks_pembangunan_kl/get_detail/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/-1");
-	}
 });
 </script>
