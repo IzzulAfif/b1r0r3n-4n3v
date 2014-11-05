@@ -37,7 +37,7 @@
 						 <div class="form-group">										
 							<div class="checkbox">
 								<label class="control-label">
-									<input name="chkKl" id="ss-chkKl" value="ok" type="checkbox" checked="checked"> Tampilkan Sasaran Kementerian
+									<input name="chkKl" id="ss-chkKL" value="ok" type="checkbox" checked="checked"> Tampilkan Sasaran Kementerian
 								</label>
 							</div>
 						</div>
@@ -79,7 +79,7 @@
     </div>
 	
 	
-	<div class="feed-box hide" id="box-result-kl">
+	<div class="feed-box hide" id="box-result-ss">
         <section class="panel tab-bg-form" style="background-color:#F9F9F9">
             <div class="panel-body">
 				 <div class="corner-ribon black-ribon">
@@ -146,76 +146,43 @@ $(document).ready(function() {
 			});
 			
 			
-			load_data = function(){
-			//	alert($("#chkKl").is(':checked'));
-				if ($("#ss-chkKl").is(':checked')){
-					//$("#kl-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_kl/"+indikator.val()+"/"+tahun_awal.val()+"/-1/-1");
-					// $("#kl-indikator").mCustomScrollbar({
-								// axis:"x",
-								// theme:"dark-2"
-							// });
-					$('#ss-divKL').removeClass("hide");
-				}else{
-					$('#ss-divKL').addClass("hide");
-				}
-						
-				if ($("#ss-chkE1").is(':checked')){			
-					if ($("#ss-chkE2").is(':checked'))
-						$("#ss-e1-title").html("<b>IKU Eselon I dan IKK Eselon II</b>");
-					else
-						$("#ss-e1-title").html("<b>IKU Eselon I</b>");
-					
-					$("#e1-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_e1/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+($("#chkE2").is(':checked')?"/"+$("#kode_e2").val():""));
-					$("#e1-indikator").mCustomScrollbar({
+			ss_load_data = function(){
+				var chkKL = $("#ss-chkKL").is(':checked');
+				var chkE1 = $("#ss-chkE1").is(':checked');
+				var chkE2 = $("#ss-chkE2").is(':checked');			
+				
+				$("#ss-reportKonten").load("<?=base_url()?>laporan/relevansi_sastra/get_sasaran/"+ss_renstra.val()+"/"+ss_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#ss-kode_e1").val()+"/"+$("#ss-kode_e2").val());
+					$("#ss-reportKonten").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
-							});
-					$('#divE1').removeClass("hide");
-				}else{
-					$('#divE1').addClass("hide");
-				}			
-				
-				if (($("#ss-chkE2").is(':checked'))&&(!$("#ss-chkE1").is(':checked'))){	
-					
-					$("#e2-indikator").load("<?=base_url()?>laporan/kelompok_indikator/getindikator_e2/"+indikator.val()+"/"+tahun_awal.val()+"/-1/"+$("#kode_e1").val()+"/"+$("#kode_e2").val());
-					$("#e2-indikator").mCustomScrollbar({
-									axis:"x",
-									theme:"dark-2"
-								});
-					$('#divE2').removeClass("hide");
-				}else{
-					$('#divE2').addClass("hide");
-				}			
-				
-				
-							
+							});			
 			}
 			
-			 $("#btnLoad").click(function(){
-				if (renstra.val()=="0") {
+			 $("#ss-btnLoad").click(function(){
+				if (ss_renstra.val()=="0") {
 					alert("Periode Renstra belum ditentukan");
-					$('#periode_renstra').select2('open');
+					$('#ss-periode_renstra').select2('open');
 				}
 				
-				else if ((tahun_awal.val()=="0")) {
+				else if ((ss_tahun_awal.val()=="0")) {
 					alert("Tahun belum ditentukan");
-					$('#rentang_awal').select2('open');
+					$('#ss-rentang_awal').select2('open');
 				}
 				/*else if ((tahun_akhir.val()=="0")) {
 					alert("Rentang Tahun Akhir belum ditentukan");
 					$('#rentang_akhir').select2('open');
-				}*/
+				}
 				else if ((indikator.val()=="0")) {
 					alert("Indikator belum ditentukan");
 					$('#kelompok_indikator').select2('open');
-				}
-				else if (!$("#chkE1").is(':checked')&&$("#chkE2").is(':checked')&& $("#kode_e1").val()=="0"){
+				}*/
+				else if (!$("#ss-chkE1").is(':checked')&&$("#ss-chkE2").is(':checked')&& $("#ss-kode_e1").val()=="0"){
 					alert("Unit Kerja Eselon I belum ditentukan");
-					$('#kode_e1').select2('open');
+					$('#ss-kode_e1').select2('open');
 				}
 				else {
-					load_data();
-					$('#box-result').removeClass("hide");
+					ss_load_data();
+					$('#box-result-ss').removeClass("hide");
 				}
 			}); 
 			
