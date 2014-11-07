@@ -28,6 +28,140 @@ class sasaran_strategis extends CI_Controller {
 	
 	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl) 
 	{
+		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
+	
+		for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
+			$rata2PerTahun[$a] = array('nilai'	=> 0,
+									   'pembagi'=> 0);
+			$dataTemplate[$a] = array('target'		=> "<center>-</center>",
+								   	  'realisasi'	=> "<center>-</center>",
+								   	  'persen'		=> "<center>-</center>");
+		endfor;
+		
+		$dataSStemplate = $dataTemplate;
+		foreach($data as $d):
+			$kode_kl	= $d->kode_kl;
+			$iku		= $d->kode_iku_kl;
+			$kodeSS		= $d->deskripsi;
+			$satuan		= $d->satuan;
+			$indikator	= $d->indikator;
+			
+			$dataSStemplate[$d->tahun]	= array('target'		=> $d->target,
+								   	  			'realisasi'		=> $d->realisasi,
+										  		'persen'		=> $d->persen);
+		endforeach;
+		
+		$capaian[$kode_kl] =  array('iku'		=> $indikator,
+									'satuan'	=> $satuan,
+									'data'		=> $dataSStemplate);
+		
+		$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
+		$kode_e1 = "";
+		foreach($data2 as $d2):
+		
+			$indikator  = $d2->indikator;
+			$satuan		= $d2->satuan;
+			
+			if($kode_e1!=$d2->kode_e1):
+				$ikuDataTemplate = $dataTemplate;
+				
+				$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+								   	  					'realisasi'		=> $d2->realisasi,
+										  				'persen'		=> $d2->persen);
+				
+			else:
+				
+				$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+								   	  					'realisasi'		=> $d2->realisasi,
+										  				'persen'		=> $d2->persen);
+								
+			endif;
+			
+			$capaian[$d2->kode_iku_e1] =  array('iku'		=> $indikator,
+												'satuan'	=> $satuan,
+												'data'		=> $ikuDataTemplate);
+			
+			$kode_e1 = $d2->kode_e1;
+			
+		endforeach;
+		
+		$table = "";
+			$thead = '<thead>
+						<tr>
+							<th rowspan="2">Sasaran Strategis</th>
+							<th rowspan="2">Indikator Kerja Utama (IKU)</th>
+							<th rowspan="2">Satuan</th>';
+			$thead2    = "";
+			for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
+				$thead .= '<th colspan="3">'.$a.'</th>';
+				$thead2 .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
+			endfor;
+					$thead.= '<th rowspan="2">Rata-rata %</th>
+					  	</tr>
+						<tr>'.$thead2.'</tr>
+					  </thead>';
+			$table .= $thead;
+			
+			$table .= '<tbody>';
+					$table .='<tr><td rowspan="'.count($capaian).'">'.$kodeSS.'</td>';
+					
+					foreach($capaian as $cp):
+						$table.='<td>'.$cp['iku'].'</td>';
+						$table.='<td>'.$cp['satuan'].'</td>';
+						
+						$rata2Row 		= 0;
+						$pembagiRata2Row= 0;
+						foreach($cp['data'] as $key => $dt):
+						
+							$table.='<td>'.$this->template->cek_tipe_numerik($dt['target']).'</td>';
+							$table.='<td>'.$this->template->cek_tipe_numerik($dt['realisasi']).'</td>';
+							$table.='<td>'.$this->template->cek_tipe_numerik($dt['persen']).'</td>';
+							
+							if(is_numeric($dt['persen'])):
+								$rata2Row		 	= $rata2Row+$dt['persen'];
+								$pembagiRata2Row	= $pembagiRata2Row+1;
+								
+								$rata2PerTahun[$key]['nilai'] = $rata2PerTahun[$key]['nilai']+$dt['persen'];
+								$rata2PerTahun[$key]['pembagi'] = $rata2PerTahun[$key]['pembagi']+1;
+								
+							endif;
+							
+						endforeach;
+						
+						$nilaiRata2Row = $rata2Row/$pembagiRata2Row;
+						$table.='<td>'.$this->template->cek_tipe_numerik($nilaiRata2Row).'</td></tr>';
+						
+					endforeach;
+					
+					$table .='<tr><td colspan="3"><b>Rata-rata Capaian Kinerja / Tahun</b></td>';
+					
+					$rata2total = 0;
+					$rata2totalPembagi=0;
+					foreach($rata2PerTahun as $key => $rt2):
+						$table .='<td colspan="2"><b>'.$key.'</b></td>';
+						if($rt2['pembagi']!=0):
+							$nilai = $rt2['nilai']/$rt2['pembagi'];
+							$table .='<td><b>'.$this->template->cek_tipe_numerik($nilai).'</b></td>';
+							
+							$rata2total 		= $rata2total+$nilai;
+							$rata2totalPembagi 	= $rata2totalPembagi+1;
+						else:
+							$table .='<td><b>0</b></td>';
+						endif;
+					endforeach;
+					
+					$nilaiRata2Total = $rata2total/$rata2totalPembagi;
+					$table .='<td><b>'.$this->template->cek_tipe_numerik($nilaiRata2Total).'</b></td></tr>';
+					
+			$table .= '</tbody>';
+		
+		#$table.= "<table>";
+		
+		echo $table;
+	}
+	
+	function get_tabel_capaian_kinerja2($tahun_awal, $tahun_akhir, $kode_sasaran_kl) 
+	{
 		
 		$thead = '<thead><th rowspan=2>Sasaran Strategis</th><th rowspan=2>Indikator Kerja Utama (IKU)</th><th rowspan=2>Satuan</th>';
 		$tbody = '<tbody>';
