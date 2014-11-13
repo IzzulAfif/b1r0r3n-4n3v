@@ -54,9 +54,9 @@ class Relevansi_sastra extends CI_Controller {
 		$headSastra = '';	
 		//atur lebar kolom utk pdf		
 		$widthKl = 100;
-		$widthSastra = 100;
-		$widthSasProg = 100;
-		$widthSasKeg = 100;		
+		$widthSastra = 120;
+		$widthSasProg = 140;
+		$widthSasKeg = 180;		
 		
 		if (($chkKL=="true")&&($chkE1=="false")&&($chkE2=="false")){
 			$widthKl = 230;
