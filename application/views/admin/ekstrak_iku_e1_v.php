@@ -14,13 +14,13 @@
         <br />
         
         <div class="adv-table">
-        <table class="display table table-bordered table-striped" id="kegiatan-tbl">
+        <table class="display table table-bordered table-striped" id="iku_e1-tbl">
         <thead>
             <tr>
 				<th>Tahun</th>
 				<th>Kode</th>
-                <th>Nama Kegiatan</th>
-               
+                <th>Deskripsi</th>
+                <th>Satuan</th>
             </tr>
         </thead>
         <tbody>
@@ -36,12 +36,13 @@
 		});
 		$("#eperformance-btn").click(function(){		
 			var columsDef =  [
-					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },			
-					{ "mData": "tahun" , "sWidth": "100px"},		
-					  { "mData": "kode_kegiatan" , "sWidth": "100px"},
-					  { "mData": "nama_kegiatan"  }
+					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
+					  { "mData": "tahun" , "sWidth": "100px"},
+					  { "mData": "kode_iku_e1" , "sWidth": "100px"},
+					  { "mData": "deskripsi"  },
+					  { "mData": "satuan"  }
 					]
-			load_ajax_datatable2("kegiatan-tbl", '<?=base_url()?>admin/ekstrak_kegiatan/getdata_kegiatan/',columsDef,1,"desc");
+			load_ajax_datatable2("iku_e1-tbl", '<?=base_url()?>admin/ekstrak_iku_e1/getdata_iku_e1/',columsDef,1,"desc");
 		});
 	});
 </script>	   

@@ -7,7 +7,7 @@
 */
 	
 
-class Ekstrak_kegiatan_model extends CI_Model
+class Ekstrak_ikk_model extends CI_Model
 { 
 	
 	function __construct()
@@ -19,8 +19,8 @@ class Ekstrak_kegiatan_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kode_kegiatan,nama_kegiatan,tahun');
-		$this->datatables->from('anev_kegiatan_eselon2');
+		$this->datatables->select('tahun,kode_ikk,deskripsi,satuan ');
+		$this->datatables->from('anev_ikk');
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
 		$aOrderDir =isset($_POST['sSortDir_0'])?$_POST['sSortDir_0']:"ASC";
 		$sOrder = "";

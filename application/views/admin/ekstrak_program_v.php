@@ -17,6 +17,7 @@
         <table class="display table table-bordered table-striped" id="program-tbl">
         <thead>
             <tr>
+				<th>Tahun</th>
 				<th>Kode</th>
                 <th>Nama Program</th>
                
@@ -36,7 +37,8 @@
 		$("#eperformance-btn").click(function(){		
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					  { "mData": "kode_program" , "sWidth": "100px"},
+					{ "mData": "tahun" , "sWidth": "100px"},	
+					 { "mData": "kode_program" , "sWidth": "100px"},
 					  { "mData": "nama_program"  }
 					]
 			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/',columsDef,1,"desc");

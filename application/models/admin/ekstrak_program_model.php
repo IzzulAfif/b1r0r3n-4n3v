@@ -19,7 +19,7 @@ class Ekstrak_program_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kode_program,nama_program,pagu,realisasi ');
+		$this->datatables->select('kode_program,nama_program,pagu,realisasi,tahun ');
 		$this->datatables->from('anev_program_eselon1');
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
 		$aOrderDir =isset($_POST['sSortDir_0'])?$_POST['sSortDir_0']:"ASC";
