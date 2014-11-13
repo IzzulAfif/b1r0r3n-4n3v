@@ -196,7 +196,7 @@ $(document).ready(function() {
 		var rentang_awal = $('#e1-rentang_awal').val();
 		var rentang_akhir = $('#e1-rentang_akhir').val();
 		var kodee1 = $('#e1-kodee1').val();
-		window.open("<?=base_url()?>laporan/matriks_pembangunan_e1/get_detail/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/"+kodee1);
+		window.open("<?=base_url()?>laporan/matriks_pembangunan_e1/print_pdf/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/"+kodee1);
 	}
 	
 	$('#cetakpdf_e1').click(function(){

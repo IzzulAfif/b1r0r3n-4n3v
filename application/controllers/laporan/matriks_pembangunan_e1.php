@@ -72,19 +72,23 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 	function get_output($rensta,$rentang_awal,$rentang_akhir,$e1,$ajaxCall=true){
 		$dataAll = array();
 		$data = $this->matriks->get_output(array("rentang_awal"=>$rentang_awal,"rentang_akhir"=>$rentang_akhir,"kode_e1"=>$e1));
-		$rangetahun = $rentang_awal-$rentang_akhir;
+		$rangetahun = $rentang_akhir-$rentang_awal;
 		$rs ='';
+		
+		$widthKegiatan = 150+((4-$rangetahun)*20);
+		$widthOutput =  200+((4-$rangetahun)*50);
+		
 		if ($ajaxCall)
 			$head = '<table class="display table table-bordered table-striped" width="100%">';
 		else
 			$head = '<table  border="1" cellpadding="4" cellspacing="0">';	
 		$head .= '<thead><tr  align="center">
 					<th style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>					
-					<th style="vertical-align:middle;text-align:center;width:30%" width="200" >Kegiatan</th>
+					<th style="vertical-align:middle;text-align:center;width:30%" width="'.$widthKegiatan.'" >Kegiatan</th>
 					<th style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>					
-					<th style="vertical-align:middle;text-align:center;width:30%" width="200">Output/Sub-Kegiatan</th>';
+					<th style="vertical-align:middle;text-align:center;width:30%" width="'.$widthOutput.'">Output/Sub-Kegiatan</th>';
 		for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
-			$head .= 	'<th style="vertical-align:middle;text-align:center;width:10%" width="100">'.$colTahun.'</th>';
+			$head .= 	'<th style="vertical-align:middle;text-align:center;width:10%" width="70">'.$colTahun.'</th>';
 			$rangetahun_arr[] = $colTahun;
 		}	
 		$head .= '</tr></thead><tbody>';
@@ -167,19 +171,19 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 				if ($nama_kegiatan!= $d->nama_kegiatan){
 					$nama_kegiatan = $d->nama_kegiatan;
 					$rs .= '<td width="30" rowspan="'.($d->rowspan-1).'">'.($idx_kegiatan++).'</td>				';
-					$rs .= '<td width="80" rowspan="'.($d->rowspan-1).'">'.$d->nama_kegiatan.'</td>';
+					$rs .= '<td width="'.$widthKegiatan.'" rowspan="'.($d->rowspan-1).'">'.$d->nama_kegiatan.'</td>';
 					$no=1;
 				}
 				// $rs .= '<td width="30" >'.($i++).'</td>';
 				// $rs .= '<td width="80" >'.$d->nama_kegiatan.'-'.$d->rowspan.'</td>';
 				$rs .= '<td width="30">'.($no++).'</td>';				
-				$rs .= '<td width="330">'.$d->nmoutput.'</td>';				
+				$rs .= '<td width="'.$widthOutput.'">'.$d->nmoutput.'</td>';				
 					for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
 						$vol =0;
 						
 						if (isset($d->vol[$colTahun]))
 							$vol = $d->vol[$colTahun];
-						$rs .= '<td width="330" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+						$rs .= '<td width="70" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
 					}					
 					
 				$rs .= '</tr>';
@@ -188,7 +192,8 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		}
 		$rs .= $foot;		
 		
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
 	
@@ -487,7 +492,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 	
 	
 	
-	function print_pdf($renstra,$range_awal,$range_akhir)
+	function print_pdf($renstra,$range_awal,$range_akhir,$e1)
    {
 	    $this->load->library('tcpdf_','pdf');
 		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
@@ -526,12 +531,13 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$pdf->SetFont('helvetica', '', 8);
 
 		
-	   $data['matriks'] =  $this->print_matriks($range_awal,$range_akhir,0,false);
+	   $data['matriks'] =  $this->get_output($renstra,$range_awal,$range_akhir,$e1,false);
+	   //$this->print_matriks($range_awal,$range_akhir,0,false);
 	 
 	  
 		$html = $this->load->view('laporan/print/pdf_matriks',$data,true);
 		//$html = $data['ikuE2'];
-	//	var_dump($html);
+		//var_dump($html);die;
 		$pdf->writeHTML($html, true, false, false, false, '');
 		//var_dump('tes');	
 	
