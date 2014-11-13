@@ -50,22 +50,44 @@ class Relevansi_iku extends CI_Controller {
 		else
 			$head = '<table  border="1" cellpadding="4" cellspacing="0">';
 			
+		//atur lebar kolom utk pdf		
+		$widthKl = 130;
+		$widthE1 = 130;
+		$widthE2 = 180;
+		
 		$headKL = '';	
-		if ($chkKL=="true")	
-			$headKL .= '<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:0.001%" width="30">No.</th><th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="100">IKU Kementerian</th>';	
+		if ($chkKL=="true")	{
+			if (($chkE1=="false")&&($chkE2=="false"))
+				$widthKl = 500;
+			else if ((($chkE1=="true")&&($chkE2=="false"))||(($chkE1=="false")&&($chkE2=="true")))
+				$widthKl = 150;
+			$headKL .= '<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:0.001%" width="30">No.</th><th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="'.$widthKl.'">IKU Kementerian</th>';	
+		}
 			
 		$headE1 = '';
 		$headE2 = '';
-		if ($chkE1=="true")
-			$headE1 = '<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:0.001%" width="30">No.</th><th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="100">IKU Eselon I</th>';	
-		if ($chkE2=="true")
-			$headE2 = '<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:0.001%" width="30">No.</th><th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="100">IKK</th>';	
+			
+		if ($chkE1=="true"){
+			if (($chkKL=="true")&&($chkE2=="false"))
+				$widthE1 = 310;
+			else if (($chkKL=="false")&&($chkE2=="false"))
+				$widthE1 = 500;
+			else if (($chkKL=="false")&&($chkE2=="true"))
+				$widthE1 = 200;	
+			$headE1 = '<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:0.001%" width="30">No.</th><th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="'.$widthE1.'">IKU Eselon I</th>';	
+		}
+		if ($chkE2=="true"){
+			if (($chkKL=="true")&&($chkE1=="false"))
+				$widthE2 = 310;
+			else if (($chkKL=="false")&&($chkE1=="false"))
+				$widthE2 = 500;
+			else if (($chkKL=="false")&&($chkE1=="true"))
+				$widthE2 = 250;
+			$headE2 = '<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:0.001%" width="30">No.</th><th class="col-sm-1" style="vertical-align:middle;text-align:center;width:20%" width="'.$widthE2.'">IKK</th>';	
+		}
 		
 		
-		$head .= '<thead>
-                    	<tr>'.$headKL.$headE1.$headE2.'</tr>
-                    </thead>
-					 <tbody>';	
+		$head .= '<thead><tr>'.$headKL.$headE1.$headE2.'</tr></thead><tbody>';	
 					 
 		$colKL = '';			 
 		$colE1 = '';			 
@@ -113,27 +135,38 @@ class Relevansi_iku extends CI_Controller {
 				}
 				$i++;		
 			}//end foreach
-				$rs .= 	'<tr class="gradeX">';	
+			
 			//	var_dump($data);die;
 			$noKL=1;$noE1=1;$noE2=1;
 			foreach ($data as $d){
+				$rs .= 	'<tr class="gradeX">';	
 				if ($headKL!=""){ //tampilkan kolom IKU KL
 					if (isset($d->rowspan_kl)){
 						$rs .= '<td width="30" '.($d->rowspan_kl>0?'rowspan="'.$d->rowspan_kl.'"':'').'>'.($noKL++).'</td>';
-						$rs .= '<td width="100" '.($d->rowspan_kl>0?'rowspan="'.$d->rowspan_kl.'"':'').'>'.$d->deskripsi_kl.'</td>';
+						$rs .= '<td width="'.$widthKl.'" '.($d->rowspan_kl>0?'rowspan="'.$d->rowspan_kl.'"':'').'>'.$d->deskripsi_kl.'</td>';
 						$noE1=1;
 					}
 				}
 				if ($headE1!=""){ //tampilkan kolom IKU E1
 					if (isset($d->rowspan_e1)){
-						$rs .= '<td width="30" '.($d->rowspan_e1>0?'rowspan="'.$d->rowspan_e1.'"':'').'>'.($noE1++).'</td>';
-						$rs .= '<td width="100" '.($d->rowspan_e1>0?'rowspan="'.$d->rowspan_e1.'"':'').'>'.$d->deskripsi_e1.'</td>';
+						$nomorTampil = $noE1++;
+						if (isset($d->rowspan_kl)){
+							if ($d->rowspan_kl==$d->rowspan_e1)
+								$nomorTampil ='';
+						}
+						$rs .= '<td width="30" '.($d->rowspan_e1>0?'rowspan="'.$d->rowspan_e1.'"':'').'>'.($nomorTampil).'</td>';
+						$rs .= '<td width="'.$widthE1.'" '.($d->rowspan_e1>0?'rowspan="'.$d->rowspan_e1.'"':'').'>'.$d->deskripsi_e1.'</td>';
 						$noE2=1;
 					}
 				}
 				if ($headE2!=""){ //tampilkan kolom IKK
-					$rs .= '<td width="30" >'.($noE2++).'</td>';
-					$rs .= '<td width="100" >'.$d->deskripsi_e2.'</td>';
+					$nomorTampil = $noE2++;
+					if (isset($d->rowspan_e1)){
+						if ($d->rowspan_e1<=1)
+							$nomorTampil ='';
+					}
+					$rs .= '<td width="30" >'.($nomorTampil).'</td>';
+					$rs .= '<td width="'.$widthE2.'" >'.$d->deskripsi_e2.'</td>';
 				}
 				
 				$rs .= '</tr>';
@@ -146,8 +179,59 @@ class Relevansi_iku extends CI_Controller {
 		$foot = '</tbody></table>';			 
 		
 		$rs .= $foot;
+		
+	//	$rs = $head.$foot;
 		if ($ajaxCall)	echo $rs;
 		else return $rs;
 	}
+	
+	
+	function print_pdf($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2)
+   {
+	    $this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Cascading IKU');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// add a page
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'CASCADING IKU/IKK ', '', 0, 'L', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		 $pdf->Write(0, 'Tahun '.$tahun, '', 0, 'L', true, 0, false, false, 0);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);
+
+		
+	
+	   $data['relevansi'] = $this->get_iku($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,false);
+		$html = $this->load->view('laporan/print/pdf_relevansi_iku',$data,true);
+	
+		
+		$pdf->writeHTML($html, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('CascadingIKU_IKK.pdf', 'I');
+   }
 	
 }

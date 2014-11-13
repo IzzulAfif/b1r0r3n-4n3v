@@ -34,7 +34,7 @@ class Relevansi_sastra_model extends CI_Model
 		$sql = "SELECT distinct skl.kode_sasaran_kl,skl.sasaran_kl,ss.kode_ss_kl, ss.deskripsi as sasaran_strategis ".$colE1.$colE2." 
 		FROM anev_sasaran_kl skl 
 		LEFT JOIN anev_sasaran_strategis ss ON ss.tahun BETWEEN LEFT(skl.tahun_renstra,4) AND RIGHT(skl.tahun_renstra,4) AND skl.kode_sasaran_kl = ss.kode_sasaran_kl ".
-		($colE1!=""?"LEFT JOIN anev_sasaran_program sp ON sp.tahun = ss.tahun AND sp.kode_ss_kl = ss.kode_ss_kl ":"").
+		((($colE1!="")||($colE2!=""))?"LEFT JOIN anev_sasaran_program sp ON sp.tahun = ss.tahun AND sp.kode_ss_kl = ss.kode_ss_kl ":"").
 		($colE2!=""?"LEFT JOIN anev_sasaran_kegiatan sk ON sk.tahun = sp.tahun AND sp.kode_sp_e1 = sk.kode_sp_e1 ":"").$where;
 	//var_dump($sql);die;
 		$sql .= " ORDER BY skl.kode_sasaran_kl,ss.kode_ss_kl".($colE1!=""?",sp.kode_sp_e1":"").($colE2!=""?",sk.kode_sk_e2":"");

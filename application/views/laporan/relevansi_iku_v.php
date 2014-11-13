@@ -90,6 +90,10 @@
 				<div id="iku-reportKonten">
 					</div>
 				</form>	
+				<div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_iku"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_iku"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
 			</div>
 		</sectoion>
 	</div>
@@ -187,10 +191,11 @@ $(document).ready(function() {
 		}
 	}); 
 	
-	$('#cetakpdf_indikator').click(function(){
-		var tahun = $('#e1-tahun').val();
-		var kodee1 = $('#e1-kodee1').val();
-		window.open('<?=base_url()?>laporan/kelompok_indikator/print_pdf/'+renstra.val()+"/"+tahun_awal.val()+"/"+indikator.val()+"/"+ $("#kode_e1").val()+"/"+ $("#kode_e2").val()+"/"+$("#chkKl").is(':checked')+"/"+$("#chkE1").is(':checked')+"/"+$("#chkE2").is(':checked'),'_blank');			
+	$('#cetakpdf_iku').click(function(){
+		var chkKL = $("#iku-chkKL").is(':checked');
+		var chkE1 = $("#iku-chkE1").is(':checked');
+		var chkE2 = $("#iku-chkE2").is(':checked');	
+		window.open('<?=base_url()?>laporan/relevansi_iku/print_pdf/'+iku_renstra.val()+"/"+iku_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#iku-kode_e1").val()+"/"+$("#iku-kode_e2").val(),'_blank');			
 	});
 	
 });

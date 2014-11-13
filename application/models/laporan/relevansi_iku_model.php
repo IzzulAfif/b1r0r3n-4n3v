@@ -33,7 +33,7 @@ class Relevansi_iku_model extends CI_Model
 	
 		$sql = "SELECT distinct kl.kode_iku_kl,kl.deskripsi as deskripsi_kl  ".$colE1.$colE2." 
 		FROM anev_iku_kl kl ".
-		($colE1!=""?"LEFT JOIN anev_iku_eselon1 ikue1 ON ikue1.tahun = kl.tahun AND ikue1.kode_iku_kl = kl.kode_iku_kl ":"").
+		((($colE1!="")||($colE2!=""))?"LEFT JOIN anev_iku_eselon1 ikue1 ON ikue1.tahun = kl.tahun AND ikue1.kode_iku_kl = kl.kode_iku_kl ":"").
 		($colE2!=""?"LEFT JOIN anev_ikk ikk ON ikk.tahun = ikue1.tahun AND ikue1.kode_iku_e1 = ikk.kode_iku_e1 ":"").$where;
 	//var_dump($sql);die;
 		$sql .= " ORDER BY kl.kode_iku_kl".($colE1!=""?",ikue1.kode_iku_e1":"").($colE2!=""?",ikk.kode_ikk":"");

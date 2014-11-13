@@ -89,6 +89,10 @@
 				<div id="ss-reportKonten">
 					</div>
 				</form>	
+				<div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_ss"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_ss"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
 			</div>
 		</sectoion>
 	</div>
@@ -186,10 +190,11 @@ $(document).ready(function() {
 				}
 			}); 
 			
-			$('#cetakpdf_indikator').click(function(){
-				var tahun = $('#e1-tahun').val();
-				var kodee1 = $('#e1-kodee1').val();
-				window.open('<?=base_url()?>laporan/kelompok_indikator/print_pdf/'+renstra.val()+"/"+tahun_awal.val()+"/"+indikator.val()+"/"+ $("#kode_e1").val()+"/"+ $("#kode_e2").val()+"/"+$("#chkKl").is(':checked')+"/"+$("#chkE1").is(':checked')+"/"+$("#chkE2").is(':checked'),'_blank');			
+			$('#cetakpdf_ss').click(function(){
+				var chkKL = $("#ss-chkKL").is(':checked');
+				var chkE1 = $("#ss-chkE1").is(':checked');
+				var chkE2 = $("#ss-chkE2").is(':checked');			
+				window.open('<?=base_url()?>laporan/relevansi_sastra/print_pdf/'+ss_renstra.val()+"/"+ss_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#ss-kode_e1").val()+"/"+$("#ss-kode_e2").val(),'_blank');			
 			});
 			//$("#kl-content").load("<?=base_url()?>laporan/kelompok_indikator_kl/loadindikator");
 			//$("#e1-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/loadindikator");
