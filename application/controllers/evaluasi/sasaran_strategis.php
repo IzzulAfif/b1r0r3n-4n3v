@@ -26,7 +26,57 @@ class sasaran_strategis extends CI_Controller {
 		echo json_encode($this->sasaran_strategis_m->get_sasaran_list($tahun_renstra));
 	}
 	
-	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl) 
+	
+	function print_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl)
+	{
+		/*$this->load->library('tcpdf_','pdf');
+		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->SetTitle('Capaian Kinerja');
+		$pdf->SetHeaderMargin(15);
+		$pdf->SetTopMargin(15);
+		$pdf->SetLeftMargin(15);
+		$pdf->SetRightMargin(15);
+		$pdf->setFooterMargin(5);
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(true);	
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		
+		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
+		
+		// set font
+		$pdf->SetFont('helvetica', 'B', 12);
+
+		// add a page
+		$pdf->AddPage();
+		//var_dump($e1);
+		 $pdf->Write(0, 'Analisis dan Evaluasi Capaian Kinerja ', '', 0, 'C', true, 0, false, false, 0);
+		 
+		 $pdf->SetFont('helvetica', 'B', 10);
+		
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', '', 8);*/
+		
+		$tabel = '<page format="A4"><table width="100%">';
+		$tabel .= $this->get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl,"get");
+		$tabel .= '</table></page>';
+		echo htmlentities($tabel);
+		#$tabel = "tes";
+	//	$html = $data['ikuE2'];
+		//var_dump($html);
+		/*$pdf->writeHTML($tabel, true, false, false, false, '');
+		//var_dump('tes');	
+	
+		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->Output('Capaian kinerja.pdf', 'I');*/
+		
+	}
+	
+	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl, $tipe="html") 
 	{
 		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
 	
@@ -157,7 +207,11 @@ class sasaran_strategis extends CI_Controller {
 		
 		#$table.= "<table>";
 		
-		echo $table;
+		if($tipe=="get"):
+			return $table;
+		else:
+			echo $table;
+		endif;
 	}
 	
 	function get_tabel_capaian_kinerja2($tahun_awal, $tahun_akhir, $kode_sasaran_kl) 

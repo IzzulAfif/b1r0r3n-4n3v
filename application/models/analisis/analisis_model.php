@@ -144,7 +144,7 @@ limit 0,50';
 	}
 	
 	function get_detail_capaian_kinerja2($kode_e2,$kode_iku_e1, $tahun_awal, $tahun_akhir, $kode_sp_e1) {
- 		$sql = "select es2.singkatan,s.tahun,k.target, k.realisasi, k.persen,k.kode_sk_e2,k.kode_ikk 
+ 		$sql = "select es2.singkatan,s.tahun,k.target, k.realisasi, k.persen,k.kode_sk_e2,k.kode_ikk ,i.deskripsi as nama_iku
 				from anev_sasaran_kegiatan s 
 				inner join anev_ikk i on s.tahun=i.tahun 
 				inner join anev_kinerja_eselon2 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sk_e2=s.kode_sk_e2 and k.kode_ikk=i.kode_ikk) 

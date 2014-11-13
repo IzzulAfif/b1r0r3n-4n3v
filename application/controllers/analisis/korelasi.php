@@ -134,7 +134,8 @@ class Korelasi extends CI_Controller {
 				$total_es1++;
 				$graf_data[] = array('kode'		=> $e1->kode_e2,
 									 'nama'		=> $e1->singkatan,
-								   	 'rata2'	=> number_format($rata2,2,'.','.'));
+								   	 'detail'	=> $data,
+									 'rata2'	=> number_format($rata2,2,'.','.'));
 			endif;
 		endforeach;
 		
