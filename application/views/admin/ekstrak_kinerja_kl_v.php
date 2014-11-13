@@ -18,9 +18,11 @@
         <thead>
             <tr>
 				<th>Tahun</th>
-				<th>Kode</th>
-                <th>Deskripsi</th>
+				<th>Sasaran</th>
+				<th>IKU</th>               
                 <th>Satuan</th>
+                <th>Target</th>
+                <th>Realisasi</th>
             </tr>
         </thead>
         <tbody>

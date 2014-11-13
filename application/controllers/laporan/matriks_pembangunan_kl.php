@@ -78,8 +78,8 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		else
 			$rs = '<table  border="1" cellpadding="4" cellspacing="0">';
 		
-		$widthSasaran = 100+(400-$rangetahun*100);
-		$widthIndikator = 100;
+		$widthSasaran = 100+((4-$rangetahun)*20);
+		$widthIndikator =  100+((4-$rangetahun)*50);
 		
 		$rs .= '<thead><tr  align="center">
 					<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>
@@ -92,7 +92,7 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		$rangetahun_arr = array();
 		//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)
 		for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
-			$rs .= 	'<th style="vertical-align:middle;text-align:center" width="100">'.$colTahun.'</th>';
+			$rs .= 	'<th style="vertical-align:middle;text-align:center" width="80">'.$colTahun.'</th>';
 			$rangetahun_arr[] = $colTahun;
 		}	
 					
@@ -153,7 +153,7 @@ class Matriks_pembangunan_kl extends CI_Controller {
 						
 						if (isset($iku->total[$colTahun]))
 							$vol = $iku->total[$colTahun];
-						$rs .= '<td width="100" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+						$rs .= '<td width="80" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
 				}
 				$rs .= '</tr>';
 				$j++;
