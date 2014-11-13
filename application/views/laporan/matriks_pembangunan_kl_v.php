@@ -52,6 +52,10 @@
 				<div id="kl-reportKonten">
 					</div>
 				</form>	
+				<div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kl"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kl"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
 			</div>
 		</sectoion>
 	</div>
@@ -161,12 +165,18 @@ $(document).ready(function() {
 			event.preventDefault();
 	});
 	
+	
+	
 	print_matriks_kl = function(){
 		var tahun = $('#kl-periode_renstra').val();
 		var rentang_awal = $('#kl-rentang_awal').val();
 		var rentang_akhir = $('#kl-rentang_akhir').val();
 		
-		window.open("<?=base_url()?>laporan/matriks_pembangunan_kl/get_detail/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/-1");
+		window.open("<?=base_url()?>laporan/matriks_pembangunan_kl/print_pdf/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/-1");
 	}
+	
+	$('#cetakpdf_kl').click(function(){
+		print_matriks_kl();
+	});
 });
 </script>

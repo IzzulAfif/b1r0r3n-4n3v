@@ -68,25 +68,31 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		$this->load->view('template/container_popup',$template);
 	}
 	
-	function get_output($tahun,$kl,$range_awal,$range_akhir){
+	function get_output($tahun,$kl,$range_awal,$range_akhir,$ajaxCall=true){
 		$data = $this->matriks->get_sasaran_kl(array("tahun_renstra"=>$tahun));
 		$arrTahun = explode("-",$tahun);				
 		$rangetahun = $range_akhir-$range_awal;
 		$rs ='';// '<form  method="post" id="matriks_form" name="matriks_form" action="'.base_url().'laporan/matriks_pembangunan/save/" >';//role="form"
-		$rs .= '<table class="display table table-bordered table-striped">';
+		if ($ajaxCall)
+			$rs = '<table class="display table table-bordered table-striped" width="100%">';
+		else
+			$rs = '<table  border="1" cellpadding="4" cellspacing="0">';
+		
+		$widthSasaran = 100+(400-$rangetahun*100);
+		$widthIndikator = 100;
 		
 		$rs .= '<thead><tr  align="center">
-					<th style="vertical-align:middle;text-align:center" width="1%" >No.</th>				
-					<th style="vertical-align:middle;text-align:center" width="20%" >Sasaran Kemenhub</th>				
-					<th style="vertical-align:middle;text-align:center" width="1%" >No.</th>				
-					<th style="vertical-align:middle;text-align:center" width="40%">Indikator</th>
-					<th style="vertical-align:middle;text-align:center" width="10%">Satuan</th>';
+					<th class="col-sm-1" style="vertical-align:middle;text-align:center;width:1%" width="30">No.</th>
+					<th style="vertical-align:middle;text-align:center;width:20%" width="'.$widthSasaran.'">Sasaran Kemenhub</th>				
+					<th style="vertical-align:middle;text-align:center;;width:1%" width="30" > No.</th>				
+					<th style="vertical-align:middle;text-align:center:width:40%"  width="'.$widthIndikator.'">Indikator</th>
+					<th style="vertical-align:middle;text-align:center;width:10%"  width="80">Satuan</th>';
 		
 		$total_row =0;
 		$rangetahun_arr = array();
 		//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)
 		for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
-			$rs .= 	'<th style="vertical-align:middle;text-align:center">'.$colTahun.'</th>';
+			$rs .= 	'<th style="vertical-align:middle;text-align:center" width="100">'.$colTahun.'</th>';
 			$rangetahun_arr[] = $colTahun;
 		}	
 					
@@ -126,9 +132,11 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		 
 		 $i=1;
 		foreach($data as $d){
+			
+			//continue;
 			$rs .= '<tr>';
-			$rs .= '<td    valign="top" rowspan="'.$d->rowspan.'">'.$i++.'</td>';
-			$rs .= '<td    valign="top" rowspan="'.$d->rowspan.'">'.$d->deskripsi.'</td>';
+			$rs .= '<td   width="30"  valign="top" rowspan="'.$d->rowspan.'">'.($i++).'</td>';
+			$rs .= '<td   width="'.$widthSasaran.'" valign="top" rowspan="'.$d->rowspan.'">'.$d->deskripsi.'</td>';
 			$j=0;				
 			foreach ($d->iku as $iku){
 				if ($j==0){					
@@ -137,23 +145,24 @@ class Matriks_pembangunan_kl extends CI_Controller {
 					$rs .= '<tr>';					
 				}
 				
-				$rs .= '<td   valign="top">'.($j+1).'</td>';
-				$rs .= '<td   valign="top">'.$iku->deskripsi.'</td>';
-				$rs .= '<td   valign="top">'.$iku->satuan.'</td>';
+				$rs .= '<td  width="30"  valign="top">'.($j+1).'</td>';
+				$rs .= '<td  width="'.$widthIndikator.'"  valign="top">'.$iku->deskripsi.'</td>';
+				$rs .= '<td   width="80" valign="top">'.$iku->satuan.'</td>';
 				for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
 					$vol =0;
 						
 						if (isset($iku->total[$colTahun]))
 							$vol = $iku->total[$colTahun];
-						$rs .= '<td width="330" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+						$rs .= '<td width="100" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
 				}
+				$rs .= '</tr>';
 				$j++;
 			}
 			
-			$rs .= '</tr>';
 		}
 		$rs .= '</tbody></table>'; 
-		echo $rs;
+		if ($ajaxCall)	echo $rs;
+		else return $rs;
 	}
 	
 	function get_sasaran($tahun,$kl,$range_awal,$range_akhir){
@@ -455,6 +464,7 @@ class Matriks_pembangunan_kl extends CI_Controller {
 	function print_pdf($renstra,$range_awal,$range_akhir)
    {
 	    $this->load->library('tcpdf_','pdf');
+		$this->load->helper('htmlpurifier');
 		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->SetTitle('MATRIKS CAPAIAN PEMBANGUNAN SEKTOR TRANSPORTASI');
@@ -491,12 +501,13 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		$pdf->SetFont('helvetica', '', 8);
 
 		
-	   $data['matriks'] =  $this->print_matriks($range_awal,$range_akhir,0,false);
+	   $data['matriks'] =  $this->get_output($renstra,-1,$range_awal,$range_akhir,false);//$this->print_matriks($range_awal,$range_akhir,0,false);
 	 
 	  
 		$html = $this->load->view('laporan/print/pdf_matriks',$data,true);
+		//$html = html_purify($html);
 		//$html = $data['ikuE2'];
-	//	var_dump($html);
+	    // var_dump($data['matriks']);die;
 		$pdf->writeHTML($html, true, false, false, false, '');
 		//var_dump('tes');	
 	

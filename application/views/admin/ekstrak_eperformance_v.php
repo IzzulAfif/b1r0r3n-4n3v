@@ -57,12 +57,49 @@
 			//alert('tes');
 			tipe = $(this).val();
 			switch (tipe){
-				case "1" :
+				case "1" : $("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kl/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
 				case "2" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_e1/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
 				case "3" :
-					//$('#emon-periode').removeClass("hide");
-					//$('#emon-unit_kerja').removeClass("hide");
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_unitkerja/loadpage/"+tipe);
+					
+					//sementara webservicenya belum jalan $("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_unitkerja/loadpage/"+tipe);
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_e2/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "4" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_program/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "5" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kegiatan/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "6" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_iku_kl/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "7" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_iku_e1/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "8" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_ikk/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "9" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_kl/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "10" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_e1/loadpage/"+tipe);
+					$('#eperformance-detail-content').removeClass("hide");
+				break;
+				case "11" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_e2/loadpage/"+tipe);
 					$('#eperformance-detail-content').removeClass("hide");
 				break;
 			}

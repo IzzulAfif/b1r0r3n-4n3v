@@ -58,8 +58,12 @@
 				<div id="e1-reportKonten">
 					</div>
 				</form>	
+				<div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_e1"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_e1"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
 			</div>
-		</sectoion>
+		</section>
 	</div>
 	
 	
@@ -194,5 +198,9 @@ $(document).ready(function() {
 		var kodee1 = $('#e1-kodee1').val();
 		window.open("<?=base_url()?>laporan/matriks_pembangunan_e1/get_detail/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/"+kodee1);
 	}
+	
+	$('#cetakpdf_e1').click(function(){
+		print_matriks();
+	});
 });
 </script>

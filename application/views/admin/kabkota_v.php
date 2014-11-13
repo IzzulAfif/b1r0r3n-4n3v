@@ -5,7 +5,9 @@
  		<div class="row">
             <div class="col-sm-12">
                 <div class="pull-left">
-                     <a href="#" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                      <button type="button" class="btn btn-info" id="emon-ekstrak-btn" style="margin-left:15px;">
+                            <i class="fa fa-gear"></i> Ekstrak
+                        </button>
                  </div>
             </div>
         </div>
@@ -29,7 +31,9 @@
     <!--main content end-->
  <script>
 	$(document).ready(function(){
-		
+		$("#emon-ekstrak-btn").click(function(){
+			alert("Data telah diekstrak");
+		});
 		$("#emon-btn").click(function(){		
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					

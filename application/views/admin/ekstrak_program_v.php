@@ -5,7 +5,7 @@
  		<div class="row">
             <div class="col-sm-12">
                 <div class="pull-left">
-                      <button type="button" class="btn btn-info" id="emon-ekstrak-btn" style="margin-left:15px;">
+                      <button type="button" class="btn btn-info" id="eperform-ekstrak-btn" style="margin-left:15px;">
                             <i class="fa fa-gear"></i> Ekstrak
                         </button>
                  </div>
@@ -14,11 +14,12 @@
         <br />
         
         <div class="adv-table">
-        <table class="display table table-bordered table-striped" id="lokasi-tbl">
+        <table class="display table table-bordered table-striped" id="program-tbl">
         <thead>
             <tr>
-				<th>Kode Lokasi</th>
-                <th>Lokasi</th>
+				<th>Kode</th>
+                <th>Nama Program</th>
+               
             </tr>
         </thead>
         <tbody>
@@ -29,16 +30,16 @@
     <!--main content end-->
  <script>
 	$(document).ready(function(){
-		$("#emon-ekstrak-btn").click(function(){
+		$("#eperform-ekstrak-btn").click(function(){
 			alert("Data telah diekstrak");
 		});
-		$("#emon-btn").click(function(){		
+		$("#eperformance-btn").click(function(){		
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					  { "mData": "kdlokasi" , "sWidth": "100px"},
-					  { "mData": "lokasi"  }
+					  { "mData": "kode_program" , "sWidth": "100px"},
+					  { "mData": "nama_program"  }
 					]
-			load_ajax_datatable2("lokasi-tbl", '<?=base_url()?>admin/ekstrak_lokasi/getdata_lokasi/',columsDef,1,"desc");
+			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/',columsDef,1,"desc");
 		});
 	});
 </script>	   
