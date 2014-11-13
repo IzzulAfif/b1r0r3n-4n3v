@@ -18,7 +18,7 @@
                                 <i class="fa fa-bar-chart-o"></i> Cascading IKU/IKK
                             </a>
                         </li>  
-						<li class="">
+						<li class="hide">
                             <a data-toggle="tab" href="#ssii-content">
                                 <i class="fa fa-bar-chart-o"></i> Cascading Sasaran dan IKU/IKK
                             </a>
