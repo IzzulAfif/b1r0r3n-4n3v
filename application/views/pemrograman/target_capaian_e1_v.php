@@ -44,7 +44,17 @@
     </div>
                    
 	<div id="target_kl_konten" class="hide">
-
+		
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#capaianes1Modal" data-toggle="modal" onclick="capaianes1_Add();" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        
+        <br />
+        
         <div class="adv-table">
             <table  class="display table table-bordered table-striped" id="target-tbl">
             <thead>
@@ -70,6 +80,27 @@
 	
     </div>
     
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="capaianes1Modal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="capaianes1-form" class="form-horizontal bucket-form" role="form">  
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="capaianes1_title_form"></h5>
+                </div>
+                <div class="modal-body" id="capaianes1_form_konten">
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-right">
+                        <button type="button" id="btncapaian-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                        <button type="submit" id="btn-save" class="btn btn-info">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+        
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
@@ -140,6 +171,41 @@
                         }
                 });
 			}
+		});
+		
+		capaianes1_Add =function(){
+			$("#capaianes1_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Kebutuhan Pendanaan');
+			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/pemrograman_eselon1/save_target_e1');
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/pemrograman_eselon1/add_target_e1_form',
+					success:function(result) {
+						$('#capaianes1_form_konten').html(result);
+					}
+			});
+		}
+		
+		$("#capaianes1-form").submit(function( event ) {
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+				$.ajax({
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$('#btncapaian-close').click();
+						$("#target-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btncapaian-close').click();
+					}
+				});
+			  event.preventDefault();
 		});
 	})
 	</script>	        

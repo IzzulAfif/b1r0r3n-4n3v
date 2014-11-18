@@ -46,4 +46,10 @@ class Keuangan_model extends CI_Model
 		$sql = "SELECT *  FROM anev_kegiatan_eselon2 WHERE tahun >= '".$tahun1."' AND tahun <= '".$tahun2."' AND `kode_kegiatan` LIKE '".$kd_kegiatan."'";
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_program_e1()
+	{
+		$sql = "SELECT DISTINCT(kode_program), nama_program, kode_e1 FROM anev_program_eselon1 WHERE 1";
+		return $this->mgeneral->run_sql($sql);
+	}
 }

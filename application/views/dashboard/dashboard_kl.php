@@ -41,6 +41,7 @@
     
 <script>
 	$(document).ready(function() {
+		
 		var gaugeOptions = {
 		
 			chart: {
@@ -65,7 +66,7 @@
 				startAngle: -90,
 				endAngle: 90,
 				background: {
-					backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+					//backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
 					innerRadius: '60%',
 					outerRadius: '100%',
 					shape: 'arc'
@@ -79,14 +80,20 @@
 			// the value axis
 			yAxis: {
 				stops: [
-					[0.1, '#55BF3B'], // green
-					[0.5, '#DDDF0D'], // yellow
-					[0.9, '#DF5353'] // red
+					[0.01, '#FF0000'],
+					[0.49, '#FF0000'], // red
+					[0.50, '#FFFF00'],
+					[0.79, '#FFFF00'], // yellow
+					[0.80, '#00FF00'], 
+					[0.99, '#00FF00'],// green
+					[1.0, '#0000A0'] // blue
 				],
 				lineWidth: 0,
 				minorTickInterval: null,
 				tickPixelInterval: 400,
 				tickWidth: 0,
+				tickInterval:200,
+        		startOnTick:true,
 				title: {
 					y: -70
 				},

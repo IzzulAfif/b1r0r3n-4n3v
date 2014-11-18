@@ -61,11 +61,11 @@ class sasaran_strategis extends CI_Controller {
 		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);*/
 		
-		$tabel = '<page format="A4"><table width="100%">';
+		$tabel = '<page format="A4"><table border="1" cellpadding="4" cellspacing="0">';
 		$tabel .= $this->get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl,"get");
 		$tabel .= '</table></page>';
-		echo htmlentities($tabel);
-		#$tabel = "tes";
+		#echo htmlentities($tabel);
+		echo $tabel;
 	//	$html = $data['ikuE2'];
 		//var_dump($html);
 		/*$pdf->writeHTML($tabel, true, false, false, false, '');

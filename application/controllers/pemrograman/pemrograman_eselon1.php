@@ -18,6 +18,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$this->load->model('/pemrograman/iku_eselon1_model','iku');
 		$this->load->model('/admin/tahun_renstra_model','setting_th');
 		$this->load->model('/pemrograman/target_capaian_model','target');
+		$this->load->model('analisis/keuangan_model','keuangan',TRUE);
 	/*	$this->load->model('/pemrograman/tujuan_kl_model','tujuan');
 		*/
 	}	
@@ -197,6 +198,55 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}	
+	
+	function add_keuangan_kl_form()
+	{
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['program']	= $this->keuangan->get_program_e1();
+		$this->load->view('pemrograman/keuangan_kl_form',$data); #load konten template file
+	}
+	
+	function save_keuangan_kl()
+	{
+		$renstra	 = $this->input->post("renstra");
+		$program	 = $this->input->post("program");
+		$target1	 = $this->input->post("target1");
+		$target2	 = $this->input->post("target2");
+		$target3	 = $this->input->post("target3");
+		$target4	 = $this->input->post("target4");
+		$target5	 = $this->input->post("target5");
+		$kodee1		 = $this->mgeneral->getValue("kode_e1",array('kode_program'=>$program),"anev_program_eselon1");
+		
+		$varData = array('tahun_renstra'	=> $renstra,
+						 'kode_e1'			=> $kodee1,
+						 'kode_program'		=> $program,
+						 'target_thn1'		=> $target1,
+						 'target_thn2'		=> $target2,
+						 'target_thn3'		=> $target3,
+						 'target_thn4'		=> $target4,
+						 'target_thn5'		=> $target5);
+		
+		#cek kode sudah ada atau belum
+		$cekdata 	= $this->mgeneral->getValue("kode_program",array("kode_program"=>$program,'tahun_renstra'=>$renstra),"anev_pendanaan_program");
+		
+		if($cekdata==""):
+			$this->mgeneral->save($varData,"anev_pendanaan_program");
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data berhasil ditambahkan.</p>';
+		else:
+			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+					<p>Data untuk program ini sudah ada.</p>';
+		endif;
+		
+		echo $msg;
+	}
+	
+	function add_target_e1_form()
+	{
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$this->load->view('pemrograman/target_capaian_form',$data); #load konten template file
+	}
 	
 	function get_unit_kerja($kl){
 		$data = $this->eselon1->get_all(array("kode_kl"=>$kl));

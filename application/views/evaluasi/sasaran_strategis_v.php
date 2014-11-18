@@ -55,6 +55,11 @@
                 <table  class="display table table-bordered table-striped" id="tabel_capaian" width="100%">
     	        </table>
                 
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_sskl"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_sskl"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
+                
             </div>
         </section>
     </div>
@@ -100,6 +105,19 @@
         tahun_akhir.change(function(){
             update_table();
         });*/
+		
+		$('#cetakpdf_sskl').click(function(){
+        	var tahun_awal	= $('#tahun_awal').val();
+        	var tahun_akhir = $('#tahun_akhir').val();
+        	var sasaran 	= $('#sasaran').val();
+			window.open("<?=base_url()?>evaluasi/sasaran_strategis/print_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
+		});
+		
+		$('#cetakexcel_sskl').click(function(){
+			var tahun = $('#program-tahun').val();
+			var kodee1 = $('#program-kode_e1').val();
+			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_program_excel/'+tahun+"/"+kodee1,'_blank');			
+		});
 
         $('#sastralist-btn').click(function(){
             update_table();

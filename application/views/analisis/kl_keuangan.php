@@ -37,7 +37,7 @@
     </div>
                    
 	<div id="keuangan_kl_tabel" class="hide">
-
+		
         <div id="keuangan_kl_konten">
         </div>
         
@@ -95,5 +95,6 @@
         	tahun_akhir = $('#tahun_akhir').val();
 			window.open('<?=base_url()?>analisis/keuangan/print_keuangankl_pdf/'+tahun+'/'+tahun_awal+'/'+tahun_akhir,'_blank');			
 		});
+		
 	})
 	</script>	        
