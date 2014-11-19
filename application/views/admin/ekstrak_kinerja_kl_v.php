@@ -14,7 +14,7 @@
         <br />
         
         <div class="adv-table">
-        <table class="display table table-bordered table-striped" id="iku_kl-tbl">
+        <table class="display table table-bordered table-striped" id="kinerja_kl-tbl">
         <thead>
             <tr>
 				<th>Tahun</th>
@@ -39,12 +39,14 @@
 		$("#eperformance-btn").click(function(){		
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					  { "mData": "tahun" , "sWidth": "100px"},
-					  { "mData": "kode_iku_kl" , "sWidth": "100px"},
-					  { "mData": "deskripsi"  },
-					  { "mData": "satuan"  }
+					  { "mData": "tahun" , "sWidth": "100px"},					  
+					  { "mData": "sasaran", "sWidth": "30%"  },
+					  { "mData": "iku" , "sWidth": "30%" },
+					  { "mData": "satuan"  },
+					  { "mData": "target"  },
+					  { "mData": "realisasi"  }
 					]
-			load_ajax_datatable2("iku_kl-tbl", '<?=base_url()?>admin/ekstrak_iku_kl/getdata_iku_kl/',columsDef,1,"desc");
+			load_ajax_datatable2("kinerja_kl-tbl", '<?=base_url()?>admin/ekstrak_kinerja_kl/getdata_kinerja_kl/',columsDef,1,"desc");
 		});
 	});
 </script>	   

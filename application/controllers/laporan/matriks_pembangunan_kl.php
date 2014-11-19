@@ -464,7 +464,7 @@ class Matriks_pembangunan_kl extends CI_Controller {
 	function print_pdf($renstra,$range_awal,$range_akhir)
    {
 	    $this->load->library('tcpdf_','pdf');
-		$this->load->helper('htmlpurifier');
+	//	$this->load->helper('htmlpurifier');
 		$pdf = new Tcpdf_('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->SetTitle('MATRIKS CAPAIAN PEMBANGUNAN SEKTOR TRANSPORTASI');
