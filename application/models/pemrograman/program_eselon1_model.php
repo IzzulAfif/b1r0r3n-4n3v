@@ -98,6 +98,17 @@ class Program_eselon1_model extends CI_Model
 		}
 		return $list;	
 	}
+	
+	function get_iku_list($sp_e1) {
+		
+		$sql = "select distinct kode_iku_e1, deskripsi from anev_iku_eselon1 where kode_sp_e1 = '".$sp_e1."' ";
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih IKU';
+		foreach ($result as $i) {
+			$list[$i->kode_iku_e1] = $i->deskripsi;
+		}
+		return $list;	
+	}
 
 }
 

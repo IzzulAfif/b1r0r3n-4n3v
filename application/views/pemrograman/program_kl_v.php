@@ -63,11 +63,13 @@
             </table>
         </div>
         
+        <?php if($page=="kl"): ?>
         <div class="pull-right">
             <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_programkl"><i class="fa fa-print"></i> Cetak PDF</button>          
             <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_programkl"><i class="fa fa-download"></i> Ekspor Excel</button>
         </div>
-	
+		<?php endif; ?>
+        
     </div>
     
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="programModal" class="modal fade">

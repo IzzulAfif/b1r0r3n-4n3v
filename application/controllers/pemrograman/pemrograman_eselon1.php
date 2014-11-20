@@ -199,6 +199,50 @@ class Pemrograman_eselon1 extends CI_Controller {
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}	
 	
+	function add_target_e1_form()
+	{
+		$data['renstra']	= $this->setting_th->get_list();
+		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$this->load->view('pemrograman/target_capaian_form',$data); #load konten template file
+	}
+	
+	function save_target_capaian_e1()
+	{
+		$renstra	 = $this->input->post("renstra");
+		$kd_e1		 = $this->input->post("kode_e1");
+		$sasaran	 = $this->input->post("sasaran");
+		$iku		 = $this->input->post("iku");
+		$target1	 = $this->input->post("target1");
+		$target2	 = $this->input->post("target2");
+		$target3	 = $this->input->post("target3");
+		$target4	 = $this->input->post("target4");
+		$target5	 = $this->input->post("target5");
+		
+		$varData = array('tahun_renstra'	=> $renstra,
+						 'kode_e1'			=> $kd_e1,
+						 'kode_sp_e1'		=> $sasaran,
+						 'kode_iku_e1'		=> $iku,
+						 'target_thn1'		=> $target1,
+						 'target_thn2'		=> $target2,
+						 'target_thn3'		=> $target3,
+						 'target_thn4'		=> $target4,
+						 'target_thn5'		=> $target5);
+		
+		#cek kode sudah ada atau belum
+		$cekdata 	= $this->mgeneral->getValue("kode_iku_e1",array("kode_iku_e1"=>$iku,'tahun_renstra'=>$renstra),"anev_target_eselon1");
+		
+		if($cekdata==""):
+			$this->mgeneral->save($varData,"anev_target_eselon1");
+			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
+					<p>Data berhasil ditambahkan.</p>';
+		else:
+			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
+					<p>Data capaian kinerja sudah ada.</p>';
+		endif;
+		
+		echo $msg;
+	}
+	
 	function add_keuangan_kl_form()
 	{
 		$data['renstra']	= $this->setting_th->get_list();
@@ -241,13 +285,6 @@ class Pemrograman_eselon1 extends CI_Controller {
 		echo $msg;
 	}
 	
-	function add_target_e1_form()
-	{
-		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] 	= $this->eselon1->get_list(null);
-		$this->load->view('pemrograman/target_capaian_form',$data); #load konten template file
-	}
-	
 	function get_unit_kerja($kl){
 		$data = $this->eselon1->get_all(array("kode_kl"=>$kl));
 		$rs = '';
@@ -277,6 +314,11 @@ class Pemrograman_eselon1 extends CI_Controller {
 	function get_sasprog($tahun_awal, $tahun_akhir,$e1)
 	{
 		echo json_encode($this->program_e1->get_program_list($tahun_awal, $tahun_akhir,$e1));
+	}
+	
+	function get_iku_e1($sp_e1)
+	{
+		echo json_encode($this->program_e1->get_iku_list($sp_e1));
 	}
 	
 	function get_tugas($tahun,$kl){

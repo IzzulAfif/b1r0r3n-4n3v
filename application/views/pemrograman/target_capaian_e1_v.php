@@ -175,7 +175,7 @@
 		
 		capaianes1_Add =function(){
 			$("#capaianes1_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Kebutuhan Pendanaan');
-			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/pemrograman_eselon1/save_target_e1');
+			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/pemrograman_eselon1/save_target_capaian_e1');
 			$.ajax({
 				url:'<?=base_url()?>pemrograman/pemrograman_eselon1/add_target_e1_form',
 					success:function(result) {
