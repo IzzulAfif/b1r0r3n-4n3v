@@ -17,6 +17,11 @@
                             <a data-toggle="tab" href="#webservice-content">
                                <i class="fa fa-rss"></i> Web Service
                             </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#info-content">
+                               <i class="fa fa-clipboard"></i> Home Info
+                            </a>
                         </li>                        
                         
                     </ul>
@@ -24,7 +29,8 @@
                 <div class="panel-body">
                     <div class="tab-content">
                        <div class="tab-pane fade active in" id="tahun-content"></div>
-						<div class="tab-pane fade" id="webservice-content"></div> 
+					   <div class="tab-pane fade" id="webservice-content"></div>
+                       <div class="tab-pane fade" id="info-content"></div> 
 					</div>	
 								
                 </div>
@@ -43,6 +49,7 @@
 		$(document).ready(function() {
 			$("#tahun-content").load("<?=base_url()?>admin/pengaturan/loadtahunrenstra");
 			$("#webservice-content").load("<?=base_url()?>admin/pengaturan/loadwebservice");
+			$("#info-content").load("<?=base_url()?>admin/pengaturan/loadinfo");
 		});	
 		
 	</script>

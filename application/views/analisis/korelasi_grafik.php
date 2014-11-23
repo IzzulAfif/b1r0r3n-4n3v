@@ -3,7 +3,10 @@
 	$rata2	= $gdata2['rata2'];
 	$grafd1	= $gdata1['gdata'];
 	$grafd2	= $gdata2['gdata'];
-		
+	$dg1    = array();
+	$dg2	= array();
+	$data_graf = array();
+	
 		foreach($grafd1 as $g1):
 			$dg1[$g1['kode']] = array('kode'=>$g1['kode'],'nama'=> $g1['nama'],'nilai'=>$g1['rata2'],'detail'=>$g1['detail']);
 		endforeach;
@@ -163,8 +166,17 @@
 	endif;
 ?>
 
-<div id="chartKontenKorelasi" style="height:400px;">
-</div>
+
+	
+	<?php if(count($data_graf)==0): ?>
+    	<div class="alert alert-danger">
+        	<p>Grafik tidak dapat ditampilkan, data tidak tersedia atau berupa numerik</p>
+        </div>
+    <?php else : ?>
+    	<div id="chartKontenKorelasi" style="height:400px;">
+		</div>
+	<?php endif; ?>
+   
 <br />
 <section class="panel">
     <div class="panel-body">
@@ -173,28 +185,37 @@
         <thead>
         <tr>
             <th>Unit Kerja</th>
-            <th>Indikator 1 (x)</th>
-            <th>Indikator 2 (y)</th>
+            <th>Indikator Independent</th>
+            <th>Indikator Dependent</th>
         </tr>
         </thead>
         <tbody>
-            <?php $no=1; foreach($data_graf as $d): ?>
-            	
-                <tr>
-                    <td><?=$d['nama']?></td>
-                    <td>
-						<?php if($d['nilaix']!=0): ?>
-                        	<a href="#detailKorelasixModal<?=$no?>" data-toggle="modal"><?=$d['nilaix']?></a>
-                        <?php else: echo $d['nilaix']; endif; ?>
-                    </td>
-                    <td>
-                    	<?php if($d['nilaiy']!=0): ?>
-                        	<a href="#detailKorelasiyModal<?=$no?>" data-toggle="modal"><?=$d['nilaiy']?></a>
-                    	<?php else: echo $d['nilaiy']; endif; ?>
-                    </td>
-                </tr>
+        	<?php if(count($data_graf)==0): ?>
+            
+            	<tr><td colspan="3">Tidak ada data</td></tr>
+                
+            <?php else: ?>
+            
+				<?php $no=1; foreach($data_graf as $d): ?>
                     
-            <?php $no++; endforeach; ?>
+                    <tr>
+                        <td><?=$d['nama']?></td>
+                        <td>
+                            <?php if($d['nilaix']!=0): ?>
+                                <a href="#detailKorelasixModal<?=$no?>" data-toggle="modal"><?=$d['nilaix']?></a>
+                            <?php else: echo $d['nilaix']; endif; ?>
+                        </td>
+                        <td>
+                            <?php if($d['nilaiy']!=0): ?>
+                                <a href="#detailKorelasiyModal<?=$no?>" data-toggle="modal"><?=$d['nilaiy']?></a>
+                            <?php else: echo $d['nilaiy']; endif; ?>
+                        </td>
+                    </tr>
+                        
+                <?php $no++; endforeach; ?>
+        
+        	<?php endif; ?>
+        
         </tbody>
         </table>
         
@@ -249,6 +270,9 @@
 
 <script>
 	$(document).ready(function() {
+		
+	<?php if(count($data_graf)!=0): ?>
+	
 		chart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'chartKontenKorelasi',
@@ -269,7 +293,7 @@
 			}
 		},
 		title: {
-			text: 'ANALISIS KORELASI CAPAIAN INDIKATOR DAN SASARAN STRATEGIS',
+			text: 'ANALISIS KORELASI INDIKATOR INDEPENDENT DAN DEPENDENT',
 			style : { "font-size" : "14px" }
 		},
 		subtitle: {
@@ -279,7 +303,7 @@
 		xAxis: {
 			title: {
 				enabled: true,
-				text: '<?=ucwords($title2)?>'
+				text: 'Indikator Dependent<?php #ucwords($title2); ?>'
 			},
 			startOnTick: true,
 			endOnTick: true,
@@ -290,9 +314,10 @@
 				width: 2
 			}]
 		},
+		//<div title="<?=ucwords($title1)?>"><p align="center"><?=substr(ucwords($title1),0,50)?> ...</p></div>
 		yAxis: {
 			title: {
-				text: '<div title="<?=ucwords($title1)?>"><p align="center"><?=substr(ucwords($title1),0,50)?> ...</p></div>',
+				text: 'Indikator Independent',
 				useHTML : true,
 			},
 			gridLineWidth: 0,
@@ -336,5 +361,8 @@
 			<?php endforeach; ?>
 		]
 	});
+	
+	<?php endif; ?>
+	
 	});
 </script>

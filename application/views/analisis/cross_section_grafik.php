@@ -2,6 +2,29 @@
 	$bar 	= "";
 	$nilai 	= "";
 	$tipe	= "";
+	
+	function record_sort($records, $field, $reverse=true)
+	{
+		$hash = array();
+		
+		foreach($records as $record)
+		{
+			$hash[$record[$field]] = $record;
+		}
+		
+		($reverse)? krsort($hash) : ksort($hash);
+		
+		$records = array();
+		
+		foreach($hash as $record)
+		{
+			$records []= $record;
+		}
+		
+		return $records;
+	}
+	
+	$gdata = record_sort($gdata, "rata2");
 	foreach($gdata as $d):
 		$bar	.= "'".$d['nama']."',";
 		if($d['color']=="DB843D"):

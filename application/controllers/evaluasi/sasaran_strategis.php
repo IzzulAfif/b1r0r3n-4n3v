@@ -29,7 +29,7 @@ class sasaran_strategis extends CI_Controller {
 	
 	function print_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl)
 	{
-		/*$this->load->library('tcpdf_','pdf');
+		$this->load->library('tcpdf_','pdf');
 		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->SetTitle('Capaian Kinerja');
@@ -59,33 +59,35 @@ class sasaran_strategis extends CI_Controller {
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
 		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
-		$pdf->SetFont('helvetica', '', 8);*/
+		$pdf->SetFont('helvetica', '', 8);
 		
 		$tabel = '<page format="A4"><table border="1" cellpadding="4" cellspacing="0">';
 		$tabel .= $this->get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl,"get");
 		$tabel .= '</table></page>';
 		#echo htmlentities($tabel);
-		echo $tabel;
-	//	$html = $data['ikuE2'];
+		#echo $tabel;
+		//$html = $data['ikuE2'];
 		//var_dump($html);
-		/*$pdf->writeHTML($tabel, true, false, false, false, '');
+		$pdf->writeHTML($tabel, true, false, false, false, '');
 		//var_dump('tes');	
 	
 		$pdf->SetFont('helvetica', 'B', 10);	
-		$pdf->Output('Capaian kinerja.pdf', 'I');*/
+		$pdf->Output('Capaian kinerja.pdf', 'I');
 		
 	}
 	
 	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl, $tipe="html") 
 	{
 		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
-	
+		
+		$totalThn = 0;
 		for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
 			$rata2PerTahun[$a] = array('nilai'	=> 0,
 									   'pembagi'=> 0);
 			$dataTemplate[$a] = array('target'		=> "<center>-</center>",
 								   	  'realisasi'	=> "<center>-</center>",
 								   	  'persen'		=> "<center>-</center>");
+			$totalThn++;
 		endfor;
 		
 		$dataSStemplate = $dataTemplate;
@@ -101,7 +103,8 @@ class sasaran_strategis extends CI_Controller {
 										  		'persen'		=> $d->persen);
 		endforeach;
 		
-		$capaian[$kode_kl] =  array('iku'		=> $indikator,
+		$capaian[$kode_kl] =  array('nama_e1'	=> "-",
+									'iku'		=> $indikator,
 									'satuan'	=> $satuan,
 									'data'		=> $dataSStemplate);
 		
@@ -111,6 +114,7 @@ class sasaran_strategis extends CI_Controller {
 		
 			$indikator  = $d2->indikator;
 			$satuan		= $d2->satuan;
+			$nama_e1	= $d2->singkatan;
 			
 			if($kode_e1!=$d2->kode_e1):
 				$ikuDataTemplate = $dataTemplate;
@@ -127,7 +131,8 @@ class sasaran_strategis extends CI_Controller {
 								
 			endif;
 			
-			$capaian[$d2->kode_iku_e1] =  array('iku'		=> $indikator,
+			$capaian[$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
+												'iku'		=> $indikator,
 												'satuan'	=> $satuan,
 												'data'		=> $ikuDataTemplate);
 			
@@ -153,9 +158,38 @@ class sasaran_strategis extends CI_Controller {
 			$table .= $thead;
 			
 			$table .= '<tbody>';
-					$table .='<tr><td rowspan="'.count($capaian).'">'.$kodeSS.'</td>';
 					
+					$totUnitKerja	= 0;
+					$curEselon1		= "";
 					foreach($capaian as $cp):
+						if($cp['nama_e1']!="-"):
+							if($curEselon1 != $cp['nama_e1']):
+								$totUnitKerja++;
+							endif;
+							$curEselon1 = $cp['nama_e1'];
+						endif;
+					endforeach;
+					
+					$table .='<tr><td rowspan="'.(count($capaian)+$totUnitKerja).'">'.$kodeSS.'</td>';
+					
+					$curEselon1 = "";
+					foreach($capaian as $cp):
+						 $kode_detail = str_replace(".","",$cp['iku']);
+						if($cp['nama_e1']!="-"):
+							
+							if($curEselon1 != $cp['nama_e1']):
+								/*<a href="#" class="toggler" id="'.
+							$kode_detail.'" num_rowspan='.$rowspan[$dt->kode_sp_e1].' target_rowspan='.str_replace(".", "",$dt->kode_ss_kl).'>'
+							.$ket.'</td></tr><tr class="detail'.$kode_detail.' detail_toggle ">'.$temprow;*/
+							
+								$table.="<tr><td colspan='".(($totalThn*3)+3)."'><a href='#'><b>".$cp['nama_e1']."</b></a></td></tr><tr>";
+							else:
+								$table.="<tr>";
+							endif;
+							$curEselon1 = $cp['nama_e1'];
+						
+						endif;
+						
 						$table.='<td>'.$cp['iku'].'</td>';
 						$table.='<td>'.$cp['satuan'].'</td>';
 						

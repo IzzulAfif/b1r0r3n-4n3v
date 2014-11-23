@@ -47,7 +47,7 @@
                      </div>
                      
                      <div class="col-sm-4">
-                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator I</b></p>
+                     	<p class="text-primary"><b>Sasaran dan Indikator I (Independent)</b></p>
                        <div class="form-group">
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
@@ -73,7 +73,7 @@
                      </div>
                      
                      <div class="col-sm-4">
-                     	<p class="text-primary"><b>Sasaran Strategis dan Indikator II</b></p>
+                     	<p class="text-primary"><b>Sasaran dan Indikator II (Dependent)</b></p>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Sasaran <span class="text-danger">*</span></label>
                             <div class="col-sm-8">

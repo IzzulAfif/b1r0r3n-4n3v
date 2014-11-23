@@ -40,4 +40,25 @@ class Pengaturan extends CI_Controller {
 		echo $this->load->view('admin/webservice_v',$data,true); #load konten template file		
 	}
 	
+	function loadinfo(){
+		$data['info_text']	= $this->mgeneral->getValue("info",array('info_id'=>"1"),"anev_info");
+		echo $this->load->view('admin/info_v',$data,true); #load konten template file		
+	}
+	
+	function save_info()
+	{
+		$info = $this->input->post("info");
+		$cekInfo = $this->mgeneral->getWhere(array('info_id'=>"1"),"anev_info");
+		
+		$varData = array('info_id'	=> "1",
+						 'info'		=> $info);
+		if(count($cekInfo)==0):	
+			$this->mgeneral->save($varData,"anev_info");
+		else:
+			$this->mgeneral->update(array('info_id'=>"1"),$varData,"anev_info");
+		endif;		
+		
+		redirect("admin/pengaturan");
+	}
+	
 }

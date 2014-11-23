@@ -27,7 +27,7 @@ class dsb_kl extends CI_Controller {
 		$tahun				= explode("-",$key);
 		
 		$data['programKerja']	= $this->program_m->get_program_list($tahun[0], $tahun[1]);
-			
+		
 			$no=0;
 			foreach($data['programKerja'] as $key => $value):
 				
@@ -84,6 +84,7 @@ class dsb_kl extends CI_Controller {
 			endfor;
 		endif;
 		$jsonData = array('tahun'=>$dtTahun,'program'=>$dtProgram,'anggaran'=>$dtAnggaran);
+		
 		return $jsonData;
 	}
 }
