@@ -319,12 +319,13 @@ function load_ajax_datatable(idTable,Url,sortColumn,sortType)
 }
 
 // modif fungsi sebelumnya
-function load_ajax_datatable2(idTable,Url,columnsDef,sortColumn,sortType)
+function load_ajax_datatable2(idTable,Url,columnsDef,sortColumn,sortType,dataProp)
 {
 	/* "scrollY": 200,
        */
 	sortColumn = typeof sortColumn !== 'undefined' ? sortColumn : 0;
 	sortType = typeof sortType !== 'undefined' ? sortType : 'desc';
+	dataProp = typeof dataProp !== 'undefined' ? dataProp : 'data';
 	$('#'+idTable).dataTable
 	({
 		"iDisplayStart ": 0,
@@ -334,7 +335,7 @@ function load_ajax_datatable2(idTable,Url,columnsDef,sortColumn,sortType)
 		"bProcessing" : true, //show tulisan dan loading bar
 		'bServerSide' : true, //ajax server side
 		'sAjaxSource' : Url, //url ajax nya
-		"sAjaxDataProp": "data",
+		"sAjaxDataProp": dataProp,
 		"sServerMethod" : "POST",
 		"bDestroy": true,
 		 "aoColumns":columnsDef,

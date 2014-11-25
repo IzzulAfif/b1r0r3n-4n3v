@@ -12,7 +12,7 @@ class Ekstrak_ikk extends CI_Controller {
 		parent::__construct();
 		$this->load->library('datatables');
 		$this->load->model('/admin/ekstrak_ikk_model','ikk');
-		
+		$this->load->model('/admin/webservice_model','webservice');
 	}
 	function index()
 	{
@@ -29,19 +29,23 @@ class Ekstrak_ikk extends CI_Controller {
 	}
 	
 	
-	function loadpage()
+	function loadpage($id,$periode)
 	{
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
 		$data = null;
+		$data_webservice = $this->webservice->get_all(array("id"=>$id));
+		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
+		$data['webservice_url']	= $data_webservice[0]->url;
+		$data['periode_renstra']	= $periode;	
 		echo $this->load->view('admin/ekstrak_ikk_v',$data,true); #load konten template file		
 	}
 	
 	
 	
-	function getdata_ikk(){
-		$params = null;
+	function getdata_ikk($periode){
+		$params['tahun_renstra'] = $periode;
 		//echo $this->satker->get_datatables($params);
 		$data = $this->ikk->get_datatables($params);
 		//var_dump($data);

@@ -21,6 +21,10 @@ class Ekstrak_iku_kl_model extends CI_Model
 	function get_datatables($params){
 		$this->datatables->select('tahun,kode_iku_kl,deskripsi,satuan ');
 		$this->datatables->from('anev_iku_kl');
+		if (isset($params)){
+			if (isset($params['tahun_renstra']))
+			$this->datatables->where("tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)");
+		}
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
 		$aOrderDir =isset($_POST['sSortDir_0'])?$_POST['sSortDir_0']:"ASC";
 		$sOrder = "";

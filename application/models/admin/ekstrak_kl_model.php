@@ -21,6 +21,10 @@ class Ekstrak_kl_model extends CI_Model
 	function get_datatables($params){
 		$this->datatables->select('kode_kl,nama_kl ');
 		$this->datatables->from('anev_kl');
+		if (isset($params)){
+			if (isset($params['tahun_renstra']))
+			$this->datatables->where('tahun_renstra',$params['tahun_renstra']);
+		}
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
 		$aOrderDir =isset($_POST['sSortDir_0'])?$_POST['sSortDir_0']:"ASC";
 		$sOrder = "";

@@ -7,7 +7,7 @@
 */
 	
 
-class Ekstrak_e1_model extends CI_Model
+class Ekstrak_kinerja_e2_model extends CI_Model
 { 
 	
 	function __construct()
@@ -19,11 +19,13 @@ class Ekstrak_e1_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kode_e1,nama_e1 ');
-		$this->datatables->from('anev_eselon1');
-		if (isset($params)){
+		$this->datatables->select('ke2.tahun,ke2.kode_ikk, ke2.target,ke2.realisasi  , iku.deskripsi as iku, iku.satuan  ,ss.deskripsi as sasaran',false);
+		$this->datatables->from('anev_kinerja_eselon2 ke2
+INNER JOIN anev_ikk iku ON ke2.kode_ikk = iku.kode_ikk and  ke2.tahun=iku.tahun
+INNER JOIN anev_sasaran_kegiatan ss ON ss.kode_sk_e2=ke2.kode_sk_e2 and ss.tahun=ke2.tahun',false);
+if (isset($params)){
 			if (isset($params['tahun_renstra']))
-			$this->datatables->where('tahun_renstra',$params['tahun_renstra']);
+			$this->datatables->where("ke2.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)");
 		}
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
 		$aOrderDir =isset($_POST['sSortDir_0'])?$_POST['sSortDir_0']:"ASC";

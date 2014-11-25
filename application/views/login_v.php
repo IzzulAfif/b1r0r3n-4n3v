@@ -36,12 +36,12 @@
 
     <div class="container">
 
-      <form class="form-signin" action="">
+      <form id="frmLogin" class="form-signin" method="POST" action="<?=SSO_SERVER;?>security/login_anev/login_usr">
         <h2 class="form-signin-heading">Login Aplikasi</h2>
         <div class="login-wrap">
             <div class="user-login-info">
-                <input type="text" class="form-control" placeholder="User ID" autofocus>
-                <input type="password" class="form-control" placeholder="Password">
+                <input id="username" name="username" type="text" class="form-control" placeholder="User ID" autofocus>
+                <input name="password" id="password" type="password" class="form-control" placeholder="Password">
             </div>
             <label class="checkbox hide">
                 <input type="checkbox" value="remember-me"> Remember me
@@ -93,8 +93,59 @@
 
     <!--Core js-->
     <script src="<?=base_url("static")?>/js/jquery.js"></script>
+    <script src="<?=base_url("static")?>/js/uri_encode_decode.js"></script>
     <script src="<?=base_url("static")?>/bs3/js/bootstrap.min.js"></script>
-
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#frmLogin").submit(function(e){
+				param1 = jQuery("#username").val();	
+				param2 = jQuery("#password").val();	
+				if(param1.length==0) param1 ="6E756C6C";
+				if(param2.length==0) param2 ="6E756C6C";
+				param1 = DoAsciiHex(param1,"A2H");
+				param2 = DoAsciiHex(param2,"A2H");
+				e.preventDefault();
+				$.ajax({
+					url:$(this).attr('action')+"/"+param1+"/"+param2,
+					//type: 'post',
+					//dataType: 'json',
+					
+					success:function(result) {
+						//alert(result.indexOf('http'));
+						if (result.indexOf('http')>=0){
+							$.ajax({
+								url:"<?=SSO_SERVER;?>security/login_anev/get_session_info"+"/"+param1+"/"+param2,
+								dataType: 'json',
+								async : false,
+								success:function(dataAccess){
+									//alert(data[1]);
+									$.ajax({
+										url:'<?=base_url()?>login/create_session/',
+										dataType:'json',
+										type:'post',
+										async : false,
+										data:dataAccess,
+										success:function(x){
+										//	alert(x);
+											window.location=result;
+										}
+									});
+								}
+							});	
+							
+							//window.location=result;
+						}
+						else
+						  alert(result);
+						//if (result<>'')
+					}
+				});
+				//alert('kadieu '+$(this).attr('action'));
+				
+			});
+		
+		});
+	</script>
   </body>
 
 <!-- Mirrored from bucketadmin.themebucket.net/login.html by HTTrack Website Copier/3.x [XR&CO'2010], Thu, 07 Aug 2014 04:57:49 GMT -->

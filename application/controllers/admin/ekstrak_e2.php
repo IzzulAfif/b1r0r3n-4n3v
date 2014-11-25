@@ -12,7 +12,7 @@ class Ekstrak_e2 extends CI_Controller {
 		parent::__construct();
 		$this->load->library('datatables');
 		$this->load->model('/admin/ekstrak_e2_model','e2');
-		
+		$this->load->model('/admin/webservice_model','webservice');
 	}
 	function index()
 	{
@@ -29,19 +29,23 @@ class Ekstrak_e2 extends CI_Controller {
 	}
 	
 	
-	function loadpage()
+	function loadpage($id,$periode)
 	{
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
 		$data = null;
+		$data_webservice = $this->webservice->get_all(array("id"=>$id));
+		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
+		$data['webservice_url']	= $data_webservice[0]->url;
+		$data['periode_renstra']	= $periode;	
 		echo $this->load->view('admin/ekstrak_e2_v',$data,true); #load konten template file		
 	}
 	
 	
 	
-	function getdata_e2(){
-		$params = null;
+	function getdata_e2($periode){
+		$params['tahun_renstra'] = $periode;
 		//echo $this->satker->get_datatables($params);
 		$data = $this->e2->get_datatables($params);
 		//var_dump($data);

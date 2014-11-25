@@ -43,7 +43,8 @@ class Ekstrak extends CI_Controller {
 	function loadeperformance()
 	{		
 		$data['data'] = null;//$this->fungsi->get_all(null);
-		$data['tipe_data'] = $this->eperformance->get_list();		
+		$data['tipe_data'] = $this->eperformance->get_list();
+		$data['tahun_renstra']	= $this->tahun_renstra->get_list(null);		
 		echo $this->load->view('admin/ekstrak_eperformance_v',$data,true); #load konten template file		
 	}	
 		

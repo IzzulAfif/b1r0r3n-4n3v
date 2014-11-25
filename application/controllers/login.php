@@ -24,4 +24,21 @@ class Login extends CI_Controller {
 		#load container for template view
 		$this->load->view('template/container_popup',$template);
 	}
+	
+	function login(){
+	
+	
+	}
+	
+	public function create_session(){
+		$data = $this->input->post('session');
+		//$data = json_decode($data,true);
+		//var_dump(IS_AJAX);
+	//	var_dump($data);die;
+		$this->my_session->set_userdata($data);
+		//var_dump($this->my_session->all_userdata());DIE;
+		echo true;
+		//redirect(base_url()."home");
+	}
+	
 }

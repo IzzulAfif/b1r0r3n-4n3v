@@ -14,6 +14,8 @@ class Home extends CI_Controller {
 	
 	function index()
 	{
+		
+		//var_dump($this->my_session->all_userdata());
 		$setting['sd_left']	= array('cur_menu'	=> "");
 		$setting['page']	= array('pg_aktif'	=> "");
 		$template			= $this->template->load($setting); #load static template file

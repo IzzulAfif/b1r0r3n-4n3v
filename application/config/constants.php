@@ -50,5 +50,10 @@ define('FILTER_E1_LOCKING',TRUE);// kunci untuk  filter Eselon1 tertentu saja, d
 define('FILTER_E1_LIST',"'022.01'");//kalau lebih dari 1 tinggal tambah pake comma
 
 
+define('SSO_SERVER', 'http://localhost/3p3rf0rm4nc3/');
+// Define Ajax Request
+define('IS_AJAX', isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+//
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

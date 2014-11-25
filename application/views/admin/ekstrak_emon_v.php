@@ -8,13 +8,13 @@
                 <div class="form-horizontal" role="form">
                         
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Jenis Data</label>
+                        <label class="col-md-2 control-label">Jenis Data<span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          		<?=form_dropdown('tipe_data',$tipe_data,'0','id="emon-tipe_data" class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					 <div class="form-group hide" id="emon-periode">
-                        <label class="col-md-2 control-label">Periode Renstra</label>
+                        <label class="col-md-2 control-label">Periode Renstra<span class="text-danger">*</span></label>
                         <div class="col-md-3">
                          		<?=form_dropdown('tahun',$tahun_renstra,'0','id="emon-tahun" class="populate" style="width:100%"')?>
                         </div>
@@ -67,7 +67,7 @@
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		
-		$("#emon-tipe_data").change(function(){
+		$("#emon-btn").click(function(){
 			$('#emon-periode').addClass("hide");
 			$('#emon-unit_kerja').addClass("hide");
 			tipe = $('#emon-tipe_data').val();

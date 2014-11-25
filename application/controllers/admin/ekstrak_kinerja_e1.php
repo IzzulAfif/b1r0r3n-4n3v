@@ -5,13 +5,13 @@
  @revision	 :
 */
 
-class Ekstrak_kegiatan extends CI_Controller {
+class Ekstrak_kinerja_e1 extends CI_Controller {
 	
 	function __construct() 
 	{	
 		parent::__construct();
 		$this->load->library('datatables');
-		$this->load->model('/admin/ekstrak_kegiatan_model','kegiatan');
+		$this->load->model('/admin/ekstrak_kinerja_e1_model','kinerja_e1');
 		$this->load->model('/admin/webservice_model','webservice');
 	}
 	function index()
@@ -39,15 +39,15 @@ class Ekstrak_kegiatan extends CI_Controller {
 		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
 		$data['webservice_url']	= $data_webservice[0]->url;
 		$data['periode_renstra']	= $periode;	
-		echo $this->load->view('admin/ekstrak_kegiatan_v',$data,true); #load konten template file		
+		echo $this->load->view('admin/ekstrak_kinerja_e1_v',$data,true); #load konten template file		
 	}
 	
 	
 	
-	function getdata_kegiatan($periode){
+	function getdata_kinerja_e1($periode){
 		$params['tahun_renstra'] = $periode;
 		//echo $this->satker->get_datatables($params);
-		$data = $this->kegiatan->get_datatables($params);
+		$data = $this->kinerja_e1->get_datatables($params);
 		//var_dump($data);
 		//echo json_encode($data);
 		echo $data;
