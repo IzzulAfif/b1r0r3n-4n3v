@@ -26,6 +26,7 @@
 			 $detailyText .= "<tbody>";
 			 $total_persen = 0;
 			 foreach($dg2[$d1['kode']]['detail'] as $dy):
+			 	#print_r($dy);
 				$detailyText .= "<tr><td>".$dy->nama_iku."</td><td>";
 				$detailyText .= $dy->tahun."</td><td>";
 				$detailyText .= $this->utility->cek_tipe_numerik($dy->target)."</td><td>";

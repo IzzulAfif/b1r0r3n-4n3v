@@ -1,0 +1,2 @@
+INSERT INTO `anev_menu` (`menu_id`, `menu_group`, `menu_name`, `menu_parent`, `app_types`, `url`, `hide`, `icon`, `policy`) VALUES
+(82, 'DASHBOARD', 'Dashboard Eselon 1', 80, 'KL;E1;E2;', 'dashboard/dsb_e1', 0, NULL, '');

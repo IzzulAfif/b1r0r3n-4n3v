@@ -55,6 +55,7 @@
             <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts-more.js"></script>
             <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/solid-gauge.src.js"></script>
             <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/exporting.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/gauge.min.js"></script>
             
         <?php break; ?>
         <?php case "map": ?>

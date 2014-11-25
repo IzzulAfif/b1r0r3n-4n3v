@@ -19,6 +19,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
+                        <div class="col-md-8">
+                       <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="es1-kode" class="populate" style="width:100%"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
                         <button type="button" class="btn btn-info" id="es1keu-btn" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
@@ -29,10 +35,10 @@
              </div>
         </section>
         </div>
-        
+        	
         <section class="panel">
             <div class="panel-body">
-				<h4 align="center">RATA-RATA CAPAIAN KINERJA DAN SERAPAN ANGGARAN<br />KEMENTERIAN PERHUBUNGAN<br />TAHUN <?=$tahun1?> – <?=$tahun2?></h4>
+				<h4 align="center">RATA-RATA CAPAIAN KINERJA DAN SERAPAN ANGGARAN<br />SEKRETARIAT JENDERAL KEMENTERIAN PERHUBUNGAN<br />TAHUN <?=$tahun1?> – <?=$tahun2?></h4>
         		<hr />
                 <div class="row">
                 	<h5 align="left" style="margin-left:20px;"><b>Rata-rata Capaian Kinerja (%)</b></h5>
@@ -101,7 +107,7 @@
 <script>
 	$(document).ready(function() {
 	$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-		
+	
 		<?php for($a=$tahun1; $a<=$tahun2; $a++):?>
 		
 			var gaugeCP<?=$a?> = new Gauge({

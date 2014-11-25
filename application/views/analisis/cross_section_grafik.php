@@ -95,9 +95,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $total_persen=0; foreach($d['detail'] as $dd): ?>
+                    <?php
+						$jsonAR = json_encode($d['detail']);
+						$arrFix = json_decode($jsonAR,true);
+						
+						$counts = array();
+						foreach ($arrFix as $key=>$subarr) {
+						  if(isset($subarr['kode_iku_e1'])){
+							  if (isset($counts[$subarr['kode_iku_e1']])) {
+								$counts[$subarr['kode_iku_e1']]++;
+						  	}
+						  	else $counts[$subarr['kode_iku_e1']] = 1;
+						  	$counts[$subarr['kode_iku_e1']] = isset($counts[$subarr['kode_iku_e1']]) ? $counts[$subarr['kode_iku_e1']]++ : 1;
+						  }else{
+						  	if (isset($counts[$subarr['kode_iku_kl']])) {
+								$counts[$subarr['kode_iku_kl']]++;
+						  	}
+						  	else $counts[$subarr['kode_iku_kl']] = 1;
+						  	$counts[$subarr['kode_iku_kl']] = isset($counts[$subarr['kode_iku_kl']]) ? $counts[$subarr['kode_iku_kl']]++ : 1;
+						  }
+						}
+						
+					$total_persen=0; 
+					$name = "";
+					
+					foreach($d['detail'] as $dd): ?>
                         <tr>
-                            <td><?=$dd->nama_iku?></td>
+                        	<?php 
+								if(isset($dd->kode_iku_e1)):
+									$pembanding = $dd->kode_iku_e1;
+									$rowspan = $counts[$dd->kode_iku_e1];
+								else:
+									$pembanding = $dd->kode_iku_kl;
+									$rowspan = $counts[$dd->kode_iku_kl];
+								endif;
+								
+								if($name!=$pembanding): 
+							?>
+                            	<td rowspan="<?=$rowspan?>"><?=$dd->nama_iku?></td>
+                            <?php endif; ?>
+                            
                             <td><?=$dd->tahun?></td>
                             <td><?=$this->utility->cek_tipe_numerik($dd->target)?></td>
                             <td><?=$this->utility->cek_tipe_numerik($dd->realisasi)?></td>
@@ -107,7 +144,15 @@
                             ?>
                             <td><?=$this->utility->cek_tipe_numerik($persen)?></td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php 
+						if(isset($dd->kode_iku_e1)):
+							$name = $dd->kode_iku_e1;
+						else:
+							$name = $dd->kode_iku_kl;
+						endif;
+						
+						endforeach; 
+					?>
                     <tr>
                         <td colspan="4"> % Rata-rata Capaian</td>
                         <td><b><?=$this->utility->cek_tipe_numerik($total_persen/count($d['detail']))?></b></td>

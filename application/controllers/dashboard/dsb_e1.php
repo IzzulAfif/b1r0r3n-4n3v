@@ -5,7 +5,7 @@
  @revision	 :
 */
 
-class dsb_kl extends CI_Controller {
+class dsb_e1 extends CI_Controller {
 	
 	function __construct() 
 	{	
@@ -20,6 +20,7 @@ class dsb_kl extends CI_Controller {
 		$setting['sd_left']	= array('cur_menu'	=> "DASHBOARD");
 		$setting['page']	= array('pg_aktif'	=> "chart");
 		$data['renstra']	= $this->setting_th->get_list();
+		
 		//$setting = null;
 		$template			= $this->template->load($setting); #load static template file		
 		
@@ -29,8 +30,8 @@ class dsb_kl extends CI_Controller {
 		$tahun				= explode("-",$key);
 		
 		
-		$dRealisasi	= $this->program_m->get_rata2_capain_kinerja("", $tahun[0], $tahun[1]);
-		$dSerapan	= $this->program_m->get_rata2_serapan_anggaran2("", $tahun[0], $tahun[1]);
+		$dRealisasi	= $this->program_m->get_rata2_capain_kinerja("022.01", $tahun[0], $tahun[1]);
+		$dSerapan	= $this->program_m->get_rata2_serapan_anggaran2("022.01.01", $tahun[0], $tahun[1]);
 		
 		$graphRealisasi  = array();
 		foreach($dRealisasi as $dr):
@@ -46,7 +47,7 @@ class dsb_kl extends CI_Controller {
 		$data['serapanKl']		= $graphSerapan;
 		$data['tahun1']			= $tahun[0];
 		$data['tahun2']			= $tahun[1];
-		$template['konten']		= $this->load->view('dashboard/dashboard_kl',$data,true); #load konten template file
+		$template['konten']		= $this->load->view('dashboard/dashboard_e1',$data,true); #load konten template file
 		
 		#load container for template view
 		$this->load->view('template/container',$template);
