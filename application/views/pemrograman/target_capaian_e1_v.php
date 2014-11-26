@@ -64,6 +64,7 @@
                 <th rowspan="2" width="40%">Indikator Kerja Utama</th>
                 <th rowspan="2">Satuan</th>
                 <th colspan="5"><center>Target Capaian</center></th>
+                <th rowspan="2">Action</th>
             </tr>
             <tr>
                 	<th><span id="target-tahun1">-</span></th>
@@ -174,10 +175,21 @@
 		});
 		
 		capaianes1_Add =function(){
-			$("#capaianes1_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Kebutuhan Pendanaan');
-			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/pemrograman_eselon1/save_target_capaian_e1');
+			$("#capaianes1_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Target Capaian Kinerja');
+			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/target_capaian_e1/save');
 			$.ajax({
-				url:'<?=base_url()?>pemrograman/pemrograman_eselon1/add_target_e1_form',
+				url:'<?=base_url()?>pemrograman/target_capaian_e1/add',
+					success:function(result) {
+						$('#capaianes1_form_konten').html(result);
+					}
+			});
+		}
+		
+		capaianes1_edit =function(tahun,kode){
+			$("#capaianes1_title_form").html('<i class="fa fa-pencil"></i> Update Target Capaian Kinerja');
+			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/target_capaian_e1/update');
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/target_capaian_e1/edit/'+tahun+'/'+kode,
 					success:function(result) {
 						$('#capaianes1_form_konten').html(result);
 					}

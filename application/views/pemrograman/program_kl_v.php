@@ -17,7 +17,7 @@
                     <div class="form-group <?php if($page=="kl"): echo "hide"; endif; ?>" id="kode_e1-box1">
                         <label class="col-md-2 control-label">Unit Kerja</label>
                         <div class="col-md-6">
-						 <?=form_dropdown('kode_e1_s',array("Pilih Unit Kerja"),'0','id="program-kode_e1_s"  class="populate" style="width:100%"')?>
+						 <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja"),'0','id="program-kode_e1_s"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group hide" id="kode_e1-box2">

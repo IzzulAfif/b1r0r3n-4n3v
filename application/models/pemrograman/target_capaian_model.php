@@ -50,5 +50,14 @@ class Target_capaian_model extends CI_Model
 		
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_target_e1($renstra,$iku)
+	{
+		$sql = "select * from anev_target_eselon1 where tahun_renstra = '".$renstra."' AND kode_iku_e1 = '".$iku;
+		
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	
 }
 

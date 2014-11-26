@@ -7,8 +7,8 @@
             $('select').select2({minimumResultsForSearch: -1, width:'resolve'});	
 		});
     </script>
-    	
-        <?php if($form_tipe=="add"): ?>
+    
+    	<?php if($form_tipe=="add"): ?>
         <div class="form-group">
             <label class="col-sm-4 control-label">Periode Renstra</label>
             <div class="col-sm-8">
@@ -17,30 +17,23 @@
         </div>
         
         <div class="form-group">
-            <label class="col-sm-4 control-label">Unit Kerja</label>
-            <div class="col-sm-8">
-            	<?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e1_form"  class="populate" style="width:100%"')?>
-            </div>
-        </div>
-        
-        <div class="form-group">
             <label class="col-md-4 control-label">Sasaran Strategis</label>
             <div class="col-md-8">
-                <?=form_dropdown('sasaran',array('0'=>"Pilih Sasaran Strategis"),'','id="target-sasaran-form" class="populate" style="width:100%"')?>
+                <?=form_dropdown('sasaran',$ss,0,'id="target-sasaran-form" class="populate" style="width:100%"')?>
             </div>
         </div>
         
         <div class="form-group">
             <label class="col-md-4 control-label">IKU</label>
             <div class="col-md-8">
-                <?=form_dropdown('iku',array('0'=>"Pilih IKU"),'','id="iku-e1-form" class="populate" style="width:100%"')?>
+                <?=form_dropdown('iku',array('0'=>"Pilih IKU"),'0','id="iku-kl-form" class="populate" style="width:100%"')?>
             </div>
         </div>
         <?php else: ?>
-        	<input type="hidden" name="renstra" value="<?=$data[0]->tahun_renstra?>" />
-            <input type="hidden" name="iku" value="<?=$data[0]->kode_iku_e1?>" />
+        	<input type="hidden" name="sasaran" value="<?=$data[0]->kode_ss_kl?>" />
+            <input type="hidden" name="iku" value="<?=$data[0]->kode_iku_kl?>" />
         <?php endif; ?>
-        
+                    
         <div class="form-group">
             <label class="col-sm-4 control-label">Target Tahun 1</label>
             <div class="col-sm-8">
@@ -82,34 +75,17 @@
         </div>
     
     <script>
-		$('#target-kode_e1_form').change(function(){
-            if (renstra.val()!="") {
-				var arrayrenstra = $('#renstra').val().split('-');
-				var kode_e1		 = $('#target-kode_e1_form').val();
-                $.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_sasprog/"+arrayrenstra[0]+"/"+arrayrenstra[1]+"/"+kode_e1,
-                    success:function(result) {
-                        $('#target-sasaran-form').empty();
-                        result = JSON.parse(result);
-                        for (k in result) {
-                            $('#target-sasaran-form').append(new Option(result[k],k));
-                        }
-                        $('#target-sasaran-form').select2({minimumResultsForSearch: -1, width:'resolve'});
-                    }
-                });
-            }
-        });
 		$('#target-sasaran-form').change(function(){
-			var kode_sp		 = $('#target-sasaran-form').val();
+			var kode_ss		 = $('#target-sasaran-form').val();
 			$.ajax({
-				url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_iku_e1/"+kode_sp,
+				url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_iku_kl/"+kode_ss,
 				success:function(result) {
-					$('#iku-e1-form').empty();
+					$('#iku-kl-form').empty();
 					result = JSON.parse(result);
 					for (k in result) {
-						$('#iku-e1-form').append(new Option(result[k],k));
+						$('#iku-kl-form').append(new Option(result[k],k));
 					}
-					$('#iku-e1-form').select2({minimumResultsForSearch: -1, width:'resolve'});
+					$('#iku-kl-form').select2({minimumResultsForSearch: -1, width:'resolve'});
 				}
 			});
         });

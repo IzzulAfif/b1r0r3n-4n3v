@@ -11,7 +11,7 @@
                 	<i class="fa fa-cog"></i>
                 </div>
                 
-                <form class="form-horizontal" role="form">
+                <form action="<?=base_url()?>dashboard/dsb_kl" class="form-horizontal" role="form" method="post">
                 	<div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-4">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="es1keu-btn" style="margin-left:15px;">
+                        <button type="submit" class="btn btn-info" id="es1keu-btn" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>

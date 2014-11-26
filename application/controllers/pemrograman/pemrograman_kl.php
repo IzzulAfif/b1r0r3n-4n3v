@@ -166,6 +166,9 @@ class Pemrograman_kl extends CI_Controller {
 					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn3).'</td>					
 					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn4).'</td>					
 					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+					<td>
+						<a href="#tcModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="tc_kl_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_iku_kl.'\');"><i class="fa fa-pencil"></i></a>
+					</td>
 				</tr>';
 				$no++;
 				endforeach; 
@@ -218,6 +221,9 @@ class Pemrograman_kl extends CI_Controller {
 					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
 					<td>'.$this->cek_tipe_numerik($total).'</td>
+					<td>
+						<a href="#keuanganklModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="keuangankl_Edit(\''.$d->tahun_renstra.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
+					</td>
 				</tr>';
 				$total1 = $total1+$d->target_thn1;
 				$total2 = $total2+$d->target_thn2;
@@ -237,10 +243,6 @@ class Pemrograman_kl extends CI_Controller {
 						<td><b>'.$this->cek_tipe_numerik($total_all).'</b></td>
 					 </tr>
 				';
-				/*<td>
-						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="program_delete(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-times"></i></a>
-					</td>*/
 		} else {
 			$rs .= '<tr class="gradeX">
 				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
@@ -321,21 +323,17 @@ class Pemrograman_kl extends CI_Controller {
 		return $data;
 	}
 	
+	function get_iku_kl($ss)
+	{
+		echo json_encode($this->iku->get_iku_list($ss));
+	}
+	
 	function add($tipe)
 	{
 		$data['data']		= $this->init_data($tipe);
 		if($tipe=="program"):
 			$data['eselon1'] 	= $this->eselon1->get_all(null);
 			$this->load->view('pemrograman/program_e1_form',$data);
-		elseif($tipe=="misi"):
-			$data['renstra']	= $this->setting_th->get_list();
-			$this->load->view('perencanaan/misi_kl_form',$data);
-		elseif($tipe=="tujuan"):
-			$data['renstra']	= $this->setting_th->get_list();
-			$this->load->view('perencanaan/tujuan_kl_form',$data);
-		else:
-			$data['renstra']	= $this->setting_th->get_list();
-			$this->load->view('perencanaan/sasaran_kl_form',$data);
 		endif;
 	}
 	
@@ -349,21 +347,6 @@ class Pemrograman_kl extends CI_Controller {
 							'pagu'			=> $this->input->post("pagu"),
 							'realisasi'		=> $this->input->post("realisasi"),
 							'persen'		=> $this->input->post("persen"),);
-		elseif($tipe=="misi"):
-			$data	= array('tahun_renstra'	=> $this->input->post("tahun"),
-							'kode_kl'		=> $this->input->post("kl"),
-							'kode_misi_kl'	=> $this->input->post("kode"),
-							'misi_kl'		=> $this->input->post("misi"));
-		elseif($tipe=="tujuan"):
-			$data	= array('tahun_renstra'	=> $this->input->post("tahun"),
-							'kode_kl'		=> $this->input->post("kl"),
-							'kode_tujuan_kl'=> $this->input->post("kode"),
-							'tujuan_kl'		=> $this->input->post("tujuan"));
-		else:
-			$data	= array('tahun_renstra'	=> $this->input->post("tahun"),
-							'kode_kl'		=> $this->input->post("kl"),
-							'kode_sasaran_kl'=> $this->input->post("kode"),
-							'sasaran_kl'	=> $this->input->post("sasaran"));
 		endif;
 		
 		return $data;
@@ -377,15 +360,6 @@ class Pemrograman_kl extends CI_Controller {
 		
 		if($tipe=="program"): 
 			$tabel		= "anev_program_eselon1";	
-			$field_cek	= "kode_program";
-		elseif($tipe=="misi"): 
-			$tabel		= "anev_misi_kl";
-			$field_cek	= "kode_program";
-		elseif($tipe=="tujuan"): 
-			$tabel		= "anev_tujuan_kl";
-			$field_cek	= "kode_program";
-		else:
-			$tabel		= "anev_sasaran_kl";
 			$field_cek	= "kode_program";
 		endif;
 		
@@ -413,24 +387,6 @@ class Pemrograman_kl extends CI_Controller {
 			$params['tahun']			= $tahun; 
 			$data['data']				= $this->program_e1->get_where($params);
 			$this->load->view('pemrograman/program_e1_form',$data);
-		elseif($tipe=="misi"):
-			$data['renstra']			= $this->setting_th->get_list();
-			$params['kode_misi_kl']		= $kode;
-			$params['tahun_renstra']	= $tahun; 
-			$data['data']				= $this->misi->get_where($params);
-			$this->load->view('perencanaan/misi_kl_form',$data);
-		elseif($tipe=="tujuan"):
-			$data['renstra']			= $this->setting_th->get_list();
-			$params['kode_tujuan_kl']	= $kode;
-			$params['tahun_renstra']	= $tahun; 
-			$data['data']				= $this->tujuan->get_where($params);
-			$this->load->view('perencanaan/tujuan_kl_form',$data);
-		else:
-			$data['renstra']			= $this->setting_th->get_list();
-			$params['tahun_renstra']	= $tahun;
-			$params['kode_sasaran_kl']	= $kode;
-			$data['data']				= $this->sasaran->get_where($params); 
-			$this->load->view('perencanaan/sasaran_kl_form',$data);
 		endif;
 	}
 	
@@ -444,19 +400,7 @@ class Pemrograman_kl extends CI_Controller {
 		if($tipe=="program"):
 			$this->mgeneral->update(array('kode_program'=>$id,'tahun'=>$tahun),$varData,"anev_program_eselon1");
 			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Program  berhasil diubah.</p>';
-		elseif($tipe=="misi"):
-			$this->mgeneral->update(array('kode_misi_kl'=>$id,'tahun_renstra'=>$tahun),$varData,"anev_misi_kl");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Misi kementerian  berhasil diubah.</p>';
-		elseif($tipe=="tujuan"):
-			$this->mgeneral->update(array('kode_tujuan_kl'=>$id,'tahun_renstra'=>$tahun),$varData,"anev_tujuan_kl");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Tujuan kementerian  berhasil diubah.</p>';
-		else:
-			$this->mgeneral->update(array('kode_sasaran_kl'=>$id,'tahun_renstra'=>$tahun),$varData,"anev_sasaran_kl");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Sasaran kementerian berhasil diubah.</p>';		
+					<p>Program  berhasil diubah.</p>';		
 		endif;
 		
 		echo $msg;
@@ -468,19 +412,6 @@ class Pemrograman_kl extends CI_Controller {
 			$this->mgeneral->delete(array('kode_program'=>$kode,'tahun'=>$tahun),"anev_program_eselon1");
 			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
 					<p>Program berhasil dihapus.</p>';
-		elseif($tipe=="misi"):
-			$this->mgeneral->delete(array('kode_misi_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_misi_kl");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Misi kementerian berhasil dihapus.</p>';
-		elseif($tipe=="tujuan"):
-			$this->mgeneral->delete(array('kode_tujuan_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_tujuan_kl");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Tujuan kementerian berhasil dihapus.</p>';
-		else:
-			
-			$this->mgeneral->delete(array('kode_sasaran_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_sasaran_kl");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Sasaran kementerian berhasil dihapus.</p>';
 					
 		endif;
 		

@@ -101,6 +101,8 @@ class Pemrograman_eselon2 extends CI_Controller {
 					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn3).'</td>					
 					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn4).'</td>					
 					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+					<td width="10%">
+					<a href="#capaianes2Modal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="capaianes2_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_ikk.'\');"><i class="fa fa-pencil"></i></a>
 				</tr>';
 				$no++;
 				endforeach; 
@@ -294,9 +296,15 @@ class Pemrograman_eselon2 extends CI_Controller {
 		echo $rs;
 	}
 	
+	
 	function get_saskeg($tahun_awal, $tahun_akhir,$e1)
 	{
 		echo json_encode($this->kegiatan->get_kegiatan_list($tahun_awal, $tahun_akhir,$e1));
+	}
+	
+	function get_ikk($e2)
+	{
+		echo json_encode($this->kegiatan->get_ikk($e2));
 	}
 	
 	function cek_tipe_numerik($str)

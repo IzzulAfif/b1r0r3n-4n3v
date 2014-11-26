@@ -91,6 +91,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		if($sasaran!="0")$params['sasaran'] = $sasaran;
 		
 		$data=$this->target->get_e1($params); 
+		
 		$rs = '';
 		if (isset($data)){
 			$no=1;
@@ -100,11 +101,14 @@ class Pemrograman_eselon1 extends CI_Controller {
 					<td>'.$d->kode_iku_e1.'</td>					
 					<td width="20%">'.$d->deskripsi.'</td>
 					<td>'.$d->satuan.'</td>					
-					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn1).'</td>					
-					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn2).'</td>					
-					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn3).'</td>					
-					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn4).'</td>					
-					<td width="10%">'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+					<td width="5%">'.$this->cek_tipe_numerik($d->target_thn1).'</td>					
+					<td width="5%">'.$this->cek_tipe_numerik($d->target_thn2).'</td>					
+					<td width="5%">'.$this->cek_tipe_numerik($d->target_thn3).'</td>					
+					<td width="5%">'.$this->cek_tipe_numerik($d->target_thn4).'</td>					
+					<td width="5%">'.$this->cek_tipe_numerik($d->target_thn5).'</td>
+					<td width="10%">
+					<a href="#capaianes1Modal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="capaianes1_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_iku_e1.'\');"><i class="fa fa-pencil"></i></a>
+					</td>
 				</tr>';
 				$no++;
 				endforeach; 
@@ -198,92 +202,6 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}	
-	
-	function add_target_e1_form()
-	{
-		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] 	= $this->eselon1->get_list(null);
-		$this->load->view('pemrograman/target_capaian_form',$data); #load konten template file
-	}
-	
-	function save_target_capaian_e1()
-	{
-		$renstra	 = $this->input->post("renstra");
-		$kd_e1		 = $this->input->post("kode_e1");
-		$sasaran	 = $this->input->post("sasaran");
-		$iku		 = $this->input->post("iku");
-		$target1	 = $this->input->post("target1");
-		$target2	 = $this->input->post("target2");
-		$target3	 = $this->input->post("target3");
-		$target4	 = $this->input->post("target4");
-		$target5	 = $this->input->post("target5");
-		
-		$varData = array('tahun_renstra'	=> $renstra,
-						 'kode_e1'			=> $kd_e1,
-						 'kode_sp_e1'		=> $sasaran,
-						 'kode_iku_e1'		=> $iku,
-						 'target_thn1'		=> $target1,
-						 'target_thn2'		=> $target2,
-						 'target_thn3'		=> $target3,
-						 'target_thn4'		=> $target4,
-						 'target_thn5'		=> $target5);
-		
-		#cek kode sudah ada atau belum
-		$cekdata 	= $this->mgeneral->getValue("kode_iku_e1",array("kode_iku_e1"=>$iku,'tahun_renstra'=>$renstra),"anev_target_eselon1");
-		
-		if($cekdata==""):
-			$this->mgeneral->save($varData,"anev_target_eselon1");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data berhasil ditambahkan.</p>';
-		else:
-			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
-					<p>Data capaian kinerja sudah ada.</p>';
-		endif;
-		
-		echo $msg;
-	}
-	
-	function add_keuangan_kl_form()
-	{
-		$data['renstra']	= $this->setting_th->get_list();
-		$data['program']	= $this->keuangan->get_program_e1();
-		$this->load->view('pemrograman/keuangan_kl_form',$data); #load konten template file
-	}
-	
-	function save_keuangan_kl()
-	{
-		$renstra	 = $this->input->post("renstra");
-		$program	 = $this->input->post("program");
-		$target1	 = $this->input->post("target1");
-		$target2	 = $this->input->post("target2");
-		$target3	 = $this->input->post("target3");
-		$target4	 = $this->input->post("target4");
-		$target5	 = $this->input->post("target5");
-		$kodee1		 = $this->mgeneral->getValue("kode_e1",array('kode_program'=>$program),"anev_program_eselon1");
-		
-		$varData = array('tahun_renstra'	=> $renstra,
-						 'kode_e1'			=> $kodee1,
-						 'kode_program'		=> $program,
-						 'target_thn1'		=> $target1,
-						 'target_thn2'		=> $target2,
-						 'target_thn3'		=> $target3,
-						 'target_thn4'		=> $target4,
-						 'target_thn5'		=> $target5);
-		
-		#cek kode sudah ada atau belum
-		$cekdata 	= $this->mgeneral->getValue("kode_program",array("kode_program"=>$program,'tahun_renstra'=>$renstra),"anev_pendanaan_program");
-		
-		if($cekdata==""):
-			$this->mgeneral->save($varData,"anev_pendanaan_program");
-			$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Data berhasil ditambahkan.</p>';
-		else:
-			$msg = '<h5><i class="fa fa-warning"></i> <b>Gagal ditambahkan</b></h5>
-					<p>Data untuk program ini sudah ada.</p>';
-		endif;
-		
-		echo $msg;
-	}
 	
 	function get_unit_kerja($kl){
 		$data = $this->eselon1->get_all(array("kode_kl"=>$kl));

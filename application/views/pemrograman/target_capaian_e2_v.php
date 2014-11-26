@@ -44,7 +44,17 @@
     </div>
                    
 	<div id="target_kl_konten" class="hide">
-
+		
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#capaianes2Modal" data-toggle="modal" onclick="capaianes2_Add();" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        
+        <br />
+        
         <div class="adv-table">
             <table  class="display table table-bordered table-striped" id="target-tbl">
             <thead>
@@ -54,6 +64,7 @@
                 <th rowspan="2" width="40%">Indikator Kerja Utama</th>
                 <th rowspan="2">Satuan</th>
                 <th colspan="5"><center>Target Capaian</center></th>
+                <th rowspan="2">Action</th>
             </tr>
             <tr>
                 	<th><span id="target-tahun1">-</span></th>
@@ -68,6 +79,27 @@
             </table>
         </div>
 	
+    </div>
+    
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="capaianes2Modal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="capaianes2-form" class="form-horizontal bucket-form" role="form">  
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="capaianes2_title_form"></h5>
+                </div>
+                <div class="modal-body" id="capaianes2_form_konten">
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-right">
+                        <button type="button" id="btncapaian-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                        <button type="submit" id="btn-save" class="btn btn-info">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
     </div>
     
 	<script type="text/javascript">
@@ -137,6 +169,51 @@
                         }
                 });
 			}
+		});
+		capaianes2_Add =function(){
+			$("#capaianes2_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Target Capaian Kinerja');
+			$("#capaianes2-form").attr("action",'<?=base_url()?>pemrograman/target_capaian_e2/save');
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/target_capaian_e2/add',
+					success:function(result) {
+						$('#capaianes2_form_konten').html(result);
+					}
+			});
+		}
+		
+		capaianes2_edit =function(tahun,kode){
+			$("#capaianes2_title_form").html('<i class="fa fa-pencil"></i> Update Target Capaian Kinerja');
+			$("#capaianes2-form").attr("action",'<?=base_url()?>pemrograman/target_capaian_e2/update');
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/target_capaian_e2/edit/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#capaianes2_form_konten').html(result);
+					}
+			});
+		}
+		
+		$("#capaianes2-form").submit(function( event ) {
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+				$.ajax({
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$('#btncapaian-close').click();
+						$("#target-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btncapaian-close').click();
+					}
+				});
+			  event.preventDefault();
 		});
 	})
 	</script>	        

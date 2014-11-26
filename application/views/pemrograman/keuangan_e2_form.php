@@ -17,28 +17,35 @@
         </div>
         
         <div class="form-group">
-            <label class="col-sm-4 control-label">Unit Kerja</label>
+            <label class="col-sm-4 control-label">Unit Kerja Eselon I</label>
             <div class="col-sm-8">
-            	<?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e1_form"  class="populate" style="width:100%"')?>
+            	<?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e2_form"  class="populate" style="width:100%"')?>
             </div>
         </div>
         
         <div class="form-group">
-            <label class="col-md-4 control-label">Sasaran Strategis</label>
-            <div class="col-md-8">
-                <?=form_dropdown('sasaran',array('0'=>"Pilih Sasaran Strategis"),'','id="target-sasaran-form" class="populate" style="width:100%"')?>
+            <label class="col-sm-4 control-label">Unit Kerja Eselon II</label>
+            <div class="col-sm-8">
+            	<?=form_dropdown('kode_e2',array('0'=>"Pilih Unit Kerja"),'0','id="target-kode_e22_form"  class="populate" style="width:100%"')?>
             </div>
         </div>
         
         <div class="form-group">
-            <label class="col-md-4 control-label">IKU</label>
+            <label class="col-md-4 control-label">Sasaran Kegiatan</label>
             <div class="col-md-8">
-                <?=form_dropdown('iku',array('0'=>"Pilih IKU"),'','id="iku-e1-form" class="populate" style="width:100%"')?>
+                <?=form_dropdown('sasaran',array('0'=>"Pilih Sasaran Kegiatan"),'','id="target-sasaran-form" class="populate" style="width:100%"')?>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-md-4 control-label">IKK</label>
+            <div class="col-md-8">
+                <?=form_dropdown('ikk',array('0'=>"Pilih IKK"),'','id="ikk-e2-form" class="populate" style="width:100%"')?>
             </div>
         </div>
         <?php else: ?>
         	<input type="hidden" name="renstra" value="<?=$data[0]->tahun_renstra?>" />
-            <input type="hidden" name="iku" value="<?=$data[0]->kode_iku_e1?>" />
+            <input type="hidden" name="ikk" value="<?=$data[0]->kode_ikk?>" />
         <?php endif; ?>
         
         <div class="form-group">
@@ -82,12 +89,25 @@
         </div>
     
     <script>
-		$('#target-kode_e1_form').change(function(){
+		$("#target-kode_e2_form").change(function(){
+			$.ajax({
+				url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_list_eselon2/"+this.value,
+				success:function(result) {
+					kode_e2=$("#target-kode_e22_form");
+					kode_e2.empty();
+					result = JSON.parse(result);
+					for (k in result) {
+						kode_e2.append(new Option(result[k],k));
+					}
+				}
+			});
+		});
+		$('#target-kode_e22_form').change(function(){
             if (renstra.val()!="") {
 				var arrayrenstra = $('#renstra').val().split('-');
 				var kode_e1		 = $('#target-kode_e1_form').val();
                 $.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_sasprog/"+arrayrenstra[0]+"/"+arrayrenstra[1]+"/"+kode_e1,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_saskeg/"+arrayrenstra[0]+"/"+arrayrenstra[1]+"/"+kode_e1,
                     success:function(result) {
                         $('#target-sasaran-form').empty();
                         result = JSON.parse(result);
@@ -100,16 +120,18 @@
             }
         });
 		$('#target-sasaran-form').change(function(){
-			var kode_sp		 = $('#target-sasaran-form').val();
+			var kode_sp		= $('#target-sasaran-form').val();
+			var kode_e2		= $("#target-kode_e22_form").val();
+			
 			$.ajax({
-				url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_iku_e1/"+kode_sp,
+				url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_ikk/"+kode_e2,
 				success:function(result) {
-					$('#iku-e1-form').empty();
+					$('#ikk-e2-form').empty();
 					result = JSON.parse(result);
 					for (k in result) {
-						$('#iku-e1-form').append(new Option(result[k],k));
+						$('#ikk-e2-form').append(new Option(result[k],k));
 					}
-					$('#iku-e1-form').select2({minimumResultsForSearch: -1, width:'resolve'});
+					$('#iku-e2-form').select2({minimumResultsForSearch: -1, width:'resolve'});
 				}
 			});
         });

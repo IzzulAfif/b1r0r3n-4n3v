@@ -32,7 +32,16 @@
     </div>
                    
 	<div id="target_kl_konten" class="hide">
-
+		
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                     <a href="#tcModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="tc_kl_add();"><i class="fa fa-plus-circle"></i> Tambah</a>
+                 </div>
+            </div>
+        </div>
+        <br />
+        
         <div class="adv-table">
             <table  class="display table table-bordered table-striped" id="target-tbl">
             <thead>
@@ -42,6 +51,7 @@
                 <th rowspan="2" width="40%">Indikator Kerja Utama</th>
                 <th rowspan="2">Satuan</th>
                 <th colspan="5"><center>Target Capaian</center></th>
+                <th rowspan="2">Action</th>
             </tr>
             <tr>
                 	<th><span id="target-tahun1">-</span></th>
@@ -61,6 +71,28 @@
             <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_targetkl"><i class="fa fa-download"></i> Ekspor Excel</button>
         </div>
 	
+    </div>
+    
+    
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="tcModal" class="modal fade">
+        <div class="modal-dialog">
+        <form method="post" id="tc_kl_form" class="form-horizontal bucket-form" role="form">    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">x</button>
+                    <h5 class="modal-title" id="tc_kl_title"></h5>
+                </div>
+                <div class="modal-body" id="tc_kl_konten">
+                </div>
+                <div class="modal-footer">
+                	<div class="pull-right">
+                		<button type="button" id="btntc-close" class="btn btn-danger" data-dismiss="modal" class="close">Batalkan</button>
+                    	<button type="submit" id="btntc-save" class="btn btn-info">Simpan</button>
+                	</div>
+                </div>
+            </div>
+        </form>
+        </div>
     </div>
     
 	<script type="text/javascript">
@@ -119,6 +151,65 @@
 			tahun = $('#target-tahun').val();
 			sasaran = $('#target-sasaran').val();
 			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_target_excel/'+tahun+"/"+sasaran,'_blank');			
+		});
+		
+		tc_kl_add =function(){
+			$("#tc_kl_title").html('<i class="fa fa-plus-square"></i> Tambah Target Capaian Kinerja');
+			$("#tc_kl_form").attr("action",'<?=base_url()?>pemrograman/target_capaian_kl/save');
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/target_capaian_kl/add',
+					success:function(result) {
+						$('#tc_kl_konten').html(result);
+					}
+			});
+		}
+		tc_kl_edit =function(tahun,kode){
+			$("#tc_kl_title").html('<i class="fa fa-pencil"></i> Update Target Capaian Kinerja');
+			$("#tc_kl_form").attr("action",'<?=base_url()?>pemrograman/target_capaian_kl/update');
+			$('#tc_kl_konten').html("");
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/target_capaian_kl/edit/'+tahun+'/'+kode,
+					success:function(result) {
+						$('#tc_kl_konten').html(result);
+					}
+			});
+		}
+		tc_kl_delete = function(tahun,kode){
+			var confir = confirm("Anda yakin akan menghapus data ini ?");
+			
+			if(confir==true){
+				$.ajax({
+					url:'<?=base_url()?>perencanaan/rencana_kl/hapus/tujuan/'+tahun+'/'+kode,
+						success:function(result) {
+							$.gritter.add({text: result});
+							$("#tc_kl-btn").click();
+						}
+				});
+			}
+		}
+		
+		$("#tc_kl_form").submit(function( event ) {
+			var postData = $(this).serializeArray();
+			var formURL = $(this).attr("action");
+				$.ajax({
+					url : formURL,
+					type: "POST",
+					data : postData,
+					success:function(data, textStatus, jqXHR) 
+					{
+						//data: return data from server
+						$.gritter.add({text: data});
+						$('#btntc-close').click();
+						$("#target-btn").click();
+					},
+					error: function(jqXHR, textStatus, errorThrown) 
+					{
+						//if fails
+						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+						$('#btntc-close').click();
+					}
+				});
+			  event.preventDefault();
 		});
 	})
 	</script>	        

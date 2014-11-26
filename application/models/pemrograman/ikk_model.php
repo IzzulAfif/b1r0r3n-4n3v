@@ -48,7 +48,11 @@ class Ikk_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
-	
+	function getKegiatan()
+	{
+		$sql = "";
+		return $this->mgeneral->run_sql($sql);
+	}
 
 }
 

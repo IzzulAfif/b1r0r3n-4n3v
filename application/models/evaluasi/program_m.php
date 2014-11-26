@@ -82,10 +82,10 @@ class program_m extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
-	function get_rata2_serapan_anggaran2($kode_program, $tahun_awal, $tahun_akhir)
+	function get_rata2_serapan_anggaran2($kode_e1, $tahun_awal, $tahun_akhir)
 	{
-		if($kode_program!=""):
-			$where = "and kode_program=".$this->db->escape($kode_program);
+		if($kode_e1!=""):
+			$where = "and kode_e1=".$this->db->escape($kode_e1);
 		else:
 			$where = "";
 		endif;

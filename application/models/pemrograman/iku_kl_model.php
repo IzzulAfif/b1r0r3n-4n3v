@@ -39,6 +39,27 @@ class Iku_kl_model extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
+	function get_ss_list() {
+		
+		$sql = "select distinct kode_ss_kl, deskripsi from anev_sasaran_strategis";
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih Sasaran Strategis';
+		foreach ($result as $i) {
+			$list[$i->kode_ss_kl] = $i->deskripsi;
+		}
+		return $list;	
+	}
+	
+	function get_iku_list($ss) {
+		
+		$sql = "select distinct kode_iku_kl, deskripsi from anev_iku_kl where kode_ss_kl = '".$ss."' ";
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih IKU';
+		foreach ($result as $i) {
+			$list[$i->kode_iku_kl] = $i->deskripsi;
+		}
+		return $list;	
+	}
 	
 
 }

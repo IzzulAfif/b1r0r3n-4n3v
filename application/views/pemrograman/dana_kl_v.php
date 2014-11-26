@@ -51,6 +51,7 @@
                     <th rowspan="2">Nama Program</th>
                     <th colspan="5"><center>Alokasi Pendanaan</center></th>
                     <th rowspan="2">Total</th>
+                    <th rowspan="2">Action</th>
                 </tr>
                 <tr>
                 	<th><span id="dana-tahun1">-</span></th>
@@ -134,9 +135,20 @@
 		
 		keuangankl_Add =function(){
 			$("#keuangan_title_form").html('<i class="fa fa-plus-square"></i>  Tambah Kebutuhan Pendanaan');
-			$("#keuangankl-form").attr("action",'<?=base_url()?>pemrograman/pemrograman_eselon1/save_keuangan_kl');
+			$("#keuangankl-form").attr("action",'<?=base_url()?>pemrograman/pendanaan_proses/save');
 			$.ajax({
-				url:'<?=base_url()?>pemrograman/pemrograman_eselon1/add_keuangan_kl_form',
+				url:'<?=base_url()?>pemrograman/pendanaan_proses/add',
+					success:function(result) {
+						$('#keuangan_form_konten').html(result);
+					}
+			});
+		}
+		
+		keuangankl_Edit =function(renstra,program){
+			$("#keuangan_title_form").html('<i class="fa fa-plus-square"></i>  Update Kebutuhan Pendanaan');
+			$("#keuangankl-form").attr("action",'<?=base_url()?>pemrograman/pendanaan_proses/update');
+			$.ajax({
+				url:'<?=base_url()?>pemrograman/pendanaan_proses/edit/'+renstra+'/'+program,
 					success:function(result) {
 						$('#keuangan_form_konten').html(result);
 					}

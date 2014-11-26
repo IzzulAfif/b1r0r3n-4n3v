@@ -90,5 +90,16 @@ class Kegiatan_eselon2_model extends CI_Model
 		//echo $sql;
 		return $this->mgeneral->run_sql($sql);
 	}
+	
+	function get_ikk($e2) {
+		
+		$sql = "select distinct kode_ikk, deskripsi from anev_ikk where kode_e2 = '".$e2."'";
+		$result = $this->mgeneral->run_sql($sql);
+		$list[0] = 'Pilih IKK';
+		foreach ($result as $i) {
+			$list[$i->kode_ikk] = $i->deskripsi;
+		}
+		return $list;	
+	}
 }
 
