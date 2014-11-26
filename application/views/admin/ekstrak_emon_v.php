@@ -42,7 +42,7 @@
         <section class="panel tab-bg-form">
             <div class="panel-body">
                
-                  <div class="corner-ribon black-ribon">
+                  <div class="corner-ribon black-ribon hide">
                    <i class="fa fa-file-text"></i>
                 </div>
                 <form class="form-horizontal" role="form">
@@ -67,30 +67,60 @@
 	$(document).ready(function(){
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		
-		$("#emon-btn").click(function(){
+		$("#emon-tipe_data").change(function(){
 			$('#emon-periode').addClass("hide");
 			$('#emon-unit_kerja').addClass("hide");
 			tipe = $('#emon-tipe_data').val();
+			//alert(tipe);
 			switch (tipe){
 				case "item" :
 					$('#emon-periode').removeClass("hide");
-					$('#emon-unit_kerja').removeClass("hide");
-					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_itemsatker/loadpage");
-					$('#emon-detail-content').removeClass("hide");
+					$('#emon-unit_kerja').removeClass("hide");					
 				break;
 				case "lokasi" :
-					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_lokasi/loadpage");
-					$('#emon-detail-content').removeClass("hide");
+					
+				break;
+				case "kota" :
+					
+				break;
+				case "satker" :
+					$('#emon-periode').removeClass("hide");
+					$('#emon-unit_kerja').removeClass("hide");
+					
+				break;
+				default : 
+					$('#emon-detail-content').addClass("hide");
+				break;
+			}
+			
+		});
+		
+		
+		$("#emon-btn").click(function(){
+			tipe = $('#emon-tipe_data').val();
+			//alert(tipe);
+			 var tahun = $('#emon-tahun').val();
+			 var kode = $('#emon-kode_e1').val();
+			
+			switch (tipe){
+				case "item" :
+					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_itemsatker/loadpage/"+tahun+"/"+kode);
+					 $('#emon-detail-content').removeClass("hide");
+				break;
+				case "lokasi" :
+					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_lokasi/loadpage");
+					 $('#emon-detail-content').removeClass("hide");
 				break;
 				case "kota" :
 					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_kabkota/loadpage");
 					$('#emon-detail-content').removeClass("hide");
 				break;
-				case "satker" :
-					$('#emon-periode').removeClass("hide");
-					$('#emon-unit_kerja').removeClass("hide");
-					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_satker/loadpage");
+				case "satker" :					
+					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_satker/loadpage/"+tahun+"/"+kode);
 					$('#emon-detail-content').removeClass("hide");
+				break;
+				default : 
+					//$('#emon-detail-content').addClass("hide");
 				break;
 			}
 			

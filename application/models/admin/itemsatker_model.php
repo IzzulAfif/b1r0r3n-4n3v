@@ -52,7 +52,7 @@ class Itemsatker_model extends CI_Model
 			
 		}
 		
-		$this->datatables->select('tahun, kode_satker, kode_e1, kode_program, kode_kegiatan, kdlokasi, kdkabkota, noitem, nmitem, volkeg, satkeg, kode_status ');
+		$this->datatables->select('tahun, kode_satker, kode_e1, kode_program, kode_kegiatan, kdlokasi, kdkabkota, noitem, nmitem, volkeg, satkeg ');
 		$this->datatables->from('anev_item_satker s');
 		//$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=s.kode_e1 an, 'left');
 	

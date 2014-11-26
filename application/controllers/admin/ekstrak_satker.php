@@ -31,13 +31,13 @@ class Ekstrak_satker extends CI_Controller {
 	}
 	
 	
-	function loadpage()
+	function loadpage($tahun_renstra,$kode)
 	{
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
-		$data['eselon1']	= $this->eselon1->get_list(null);
-		$data['tahun_renstra']	= $this->tahun_renstra->get_list(null);
+		$data['eselon1']	= $kode;//$this->eselon1->get_list(null);
+		$data['tahun_renstra']	= $tahun_renstra;// // $this->tahun_renstra->get_list(null);
 		echo $this->load->view('admin/satker_v',$data,true); #load konten template file		
 	}
 	
