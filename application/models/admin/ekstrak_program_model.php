@@ -39,7 +39,7 @@ class Ekstrak_program_model extends CI_Model
 				{
 					$sOrder .= $aCols[intval($aOrder[$i]['column'])]['data']." ".($aOrder[$i]['dir']=='asc' ? 'ASC' : 'DESC') .", ";
 				}
-			}
+			}	
 			$sOrder = substr_replace( $sOrder, "", -2 );
 			if ( $sOrder == "ORDER BY" )
 			{
@@ -54,6 +54,37 @@ class Ekstrak_program_model extends CI_Model
 	
 	
 	function save_ekstrak($data){
+		$this->db->trans_start();
+		// foreach($data as $d){
+			// $this->db->insert('anev_matriks_pembangunan', $d);
+		// }
+		
+		foreach ($data as $update_item) {
+			//unset($update_item['kddept']);
+			//,realisasi
+				// realisasi=VALUES(realisasi),	
+				//var_dump($update_item);die;		
+			$sql = 'INSERT INTO anev_program_eselon1 (tahun, kode_program, nama_program, pagu,  kode_e1)
+					VALUES (?,?,?,?,?)
+					ON DUPLICATE KEY UPDATE 
+						nama_program=VALUES(nama_program),	
+						pagu=VALUES(pagu),				
+						kode_e1=VALUES(kode_e1)';
+			//,$update_item['pagu']
+			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_program'],$update_item['nama_program'],$update_item['total'],$update_item['kode_e1']));  
+			////$insert_query = $this->db->insert_string('anev_program_eselon1', $update_item);
+			//$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
+			//var_dump($insert_query);
+			//$this->db->query($insert_query);  
+		}
+		
+		$this->db->trans_complete();
+			//print_r($this->db);die;
+	    return $this->db->trans_status();
+	
+	}
+	
+	function save_ekstrak_emon($data){
 		$this->db->trans_start();
 		// foreach($data as $d){
 			// $this->db->insert('anev_matriks_pembangunan', $d);

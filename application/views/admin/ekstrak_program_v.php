@@ -41,7 +41,7 @@
 					<div class="row">
 					<div class="col-sm-12">
 						<div class="pull-left">
-							  <button type="button" class="btn btn-info" id="eperform-ekstrak-btn" style="margin-left:15px;">
+							  <button type="button" class="btn btn-info" id="eperform-program-btn" style="margin-left:15px;">
 									<i class="fa fa-gear"></i> Ekstrak
 								</button>
 						 </div>
@@ -78,7 +78,7 @@
 					 { "mData": "kode_program" , "sWidth": "100px"},
 					  { "mData": "nama_program"  }
 					]
-			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/<?=$periode_renstra?>',columsDef,1,"desc");
+			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 			
 		$('#eperform_program-tbl').dataTable({
 			"bServerSide": true,
@@ -86,6 +86,9 @@
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,
 			"bDestroy": true,
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "tahun", "value": '<?=$tahun?>' });
+			},
 			"fnServerData": function (sSource, aoData, fnCallback) {
 			  $.ajax({
 				"dataType": 'json',
@@ -104,7 +107,7 @@
 					for(var key in json.rows){
 					//	alert(key);
 						delete json.rows[key]['no'];						
-						delete json.rows[key].kode_e1;
+						//delete json.rows[key].kode_e1;
 					}
 					fnCallback(json);
 				  //$("#members").show();
@@ -112,22 +115,30 @@
 			  });
 			},
 			"aoColumns": [
-				{ "mData": "nama_e1" },
+				{ "mData": "nama_e1" },				
 				{ "mData": "kode_program" },
 				{ "mData": "nama_program" }
 			],
 			"sDom": 'rt<"top"lpi>'
 		});	
 			
-		$("#eperformance-btn").click(function(){		
-			var columsDef =  [
-					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					{ "mData": "tahun" , "sWidth": "100px"},	
-					 { "mData": "kode_program" , "sWidth": "100px"},
-					  { "mData": "nama_program"  }
-					]
-			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/',columsDef,1,"desc");
-		});
+		$("#eperform-program-btn").click(function(){
+			//alert("Data telah diekstrak");
+			var oTable = $('#eperform_program-tbl').dataTable();
+			$.ajax({
+				type: 'POST',
+				url: '<?=base_url()?>admin/ekstrak_program/ekstrak_data/<?=$tahun?>',
+				cache: false,
+				dataType: 'json',
+				data:{dataTable: oTable.fnGetData()},
+				success: function(data){
+					if (data=="1") alert("Data telah diekstrak");
+					else alert("Data gagal diekstrak");
+				}
+			});
+			//updateDatabase(oTable.fnGetData());
+		});			
+			
 	});
 </script>	   
    

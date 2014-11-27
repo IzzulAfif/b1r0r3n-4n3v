@@ -109,7 +109,7 @@
 			
 			tahun.empty();
 			tahun.append(new Option("Pilih Tahun","0"));
-			 if (periode_renstra.val()!=0) {
+			 if (periode_renstra.val()!='0') {
 				year = periode_renstra.val().split('-');
 				//alert(year[0]);
 				

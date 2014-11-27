@@ -62,6 +62,24 @@ class Ekstrak_program extends CI_Controller {
 		if(isset($_POST["dataTable"])) {
 			$dataTable = $_POST["dataTable"];
 			foreach($dataTable as $row) {
+				// $row["tahun"] =$tahun;
+				// $row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
+				// $row['kode_program'] = $row['kode_e1'].".".$row['kdprogram'];
+				// $row['nama_program'] = $row['nmprogram'];
+				$ekstrakData[] = $row;
+				
+			}//foreach
+		}
+		
+		echo $this->program->save_ekstrak($ekstrakData);
+		
+	}
+	
+	function ekstrak_data_emon($tahun){
+		$dataTable = null;
+		if(isset($_POST["dataTable"])) {
+			$dataTable = $_POST["dataTable"];
+			foreach($dataTable as $row) {
 				$row["tahun"] =$tahun;
 				$row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
 				$row['kode_program'] = $row['kode_e1'].".".$row['kdprogram'];
@@ -71,7 +89,7 @@ class Ekstrak_program extends CI_Controller {
 			}//foreach
 		}
 		
-		echo $this->program->save_ekstrak($ekstrakData);
+		echo $this->program->save_ekstrak_emon($ekstrakData);
 		
 	}
 	
