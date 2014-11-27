@@ -105,7 +105,7 @@
 				$('#emon-periode').select2('open');
 				return;
 			 }
-			alert('kadie');
+			
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
 					  { "mData": "tahun_renstra", "sWidth": "65px" },

@@ -70,20 +70,22 @@
 		$("#emon-tipe_data").change(function(){
 			$('#emon-periode').addClass("hide");
 			$('#emon-unit_kerja').addClass("hide");
+			$('#emon-detail-content').empty();
+			$('#emon-detail-content').addClass("hide");
 			tipe = $('#emon-tipe_data').val();
 			//alert(tipe);
 			switch (tipe){
-				case "item" :
+				case "23" :
 					$('#emon-periode').removeClass("hide");
 					$('#emon-unit_kerja').removeClass("hide");					
 				break;
-				case "lokasi" :
+				case "20" :
 					
 				break;
-				case "kota" :
+				case "21" :
 					
 				break;
-				case "satker" :
+				case "22" :
 					$('#emon-periode').removeClass("hide");
 					$('#emon-unit_kerja').removeClass("hide");
 					
@@ -103,19 +105,19 @@
 			 var kode = $('#emon-kode_e1').val();
 			
 			switch (tipe){
-				case "item" :
+				case "23" :
 					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_itemsatker/loadpage/"+tahun+"/"+kode);
 					 $('#emon-detail-content').removeClass("hide");
 				break;
-				case "lokasi" :
+				case "20" :
 					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_lokasi/loadpage");
 					 $('#emon-detail-content').removeClass("hide");
 				break;
-				case "kota" :
+				case "21" :
 					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_kabkota/loadpage");
 					$('#emon-detail-content').removeClass("hide");
 				break;
-				case "satker" :					
+				case "22" :					
 					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_satker/loadpage/"+tahun+"/"+kode);
 					$('#emon-detail-content').removeClass("hide");
 				break;

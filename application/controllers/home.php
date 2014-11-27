@@ -22,7 +22,7 @@ class Home extends CI_Controller {
 		
 		$data				= ""; #kirim data ke konten file
 		$template['konten']	= $this->load->view('home',$data,true); #load konten template file
-		
+		//var_dump($this->session->all_userdata());
 		#load container for template view
 		$this->load->view('template/container',$template);
 	}

@@ -12,17 +12,24 @@
                                <i class="fa fa-list-ol"></i> List
                             </a>
                         </li>
+						<li class="">
+                            <a data-toggle="tab" href="#detail-konten">
+                                <i class="fa fa-bars"></i> Detail
+                            </a>
+                        </li>
                         <li class="">
                             <a data-toggle="tab" href="#peta-konten">
                                 <i class="fa fa-camera-retro"></i> Map
                             </a>
-                        </li>
+                        </li> 
+						
                     </ul>
                 </header>
                 <div class="panel-body">
                     <div class="tab-content">
                         <div id="list-konten" class="tab-pane active"></div>
                         <div id="peta-konten" class="tab-pane "></div>
+                        <div id="detail-konten" class="tab-pane "></div>
                     </div>
                 </div>
             </section>
@@ -33,8 +40,8 @@
     
     <script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
-				
-			$("#list-konten").load("<?=base_url()?>analisis/kegiatan/data");
+			//list isinya diganti , yg lama dipindah ke tab detail	
+			$("#detail-konten").load("<?=base_url()?>analisis/kegiatan/data");
 			$("#peta-konten").load("<?=base_url()?>analisis/kegiatan/map");
 			
 		});

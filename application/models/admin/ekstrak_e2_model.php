@@ -49,6 +49,30 @@ class Ekstrak_e2_model extends CI_Model
 		return $this->datatables->generate();
 	
 	}
+	
+	function save_ekstrak($data){
+		$this->db->trans_start();
+		// foreach($data as $d){
+			// $this->db->insert('anev_matriks_pembangunan', $d);
+		// }
+		
+		foreach ($data as $update_item) {
+			unset($update_item['nama_e1']);
+			unset($update_item['nip']);
+			unset($update_item['gol']);
+			unset($update_item['pangkat']);
+			$insert_query = $this->db->insert_string('anev_eselon2', $update_item);
+			$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
+			//var_dump($insert_query);
+			$this->db->query($insert_query);  
+		}
+		
+		$this->db->trans_complete();
+			//print_r($this->db);die;
+	    return $this->db->trans_status();
+	
+	}
+
 
 }
 

@@ -16,11 +16,11 @@ class Ekstrak_eperformance_model extends CI_Model
 	}
 	 
 	function get_list() {
-		$where = ' where 1=1 ';
+		$where = ' where hide=0 ';
 		if (isset($params)){
 			//if (isset($params['kode_e1'])) $where .= " and kode_e1='".$params['kode_e1']."'";
 		}
-		$sql = "select distinct id,jenis_data from anev_webservice where tipe_aplikasi = 'E-Performance' ";
+		$sql = "select distinct id,jenis_data from anev_webservice where tipe_aplikasi = 'E-Performance' and hide=0 ";
 		
 		
 		$result = $this->mgeneral->run_sql($sql);

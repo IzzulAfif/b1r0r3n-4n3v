@@ -54,5 +54,21 @@ class Ekstrak_kl extends CI_Controller {
 		echo $data;
 	}
 	
+	function ekstrak_data($periode){
+		$dataTable = null;
+		if(isset($_POST["dataTable"])) {
+			$dataTable = $_POST["dataTable"];
+			foreach($dataTable as $row) {
+				$row["tahun_renstra"] =$periode;
+				$ekstrakData[] = $row;
+				
+			}//foreach
+		}
+		
+		//var_dump($ekstrakData);
+		echo $this->kl->save_ekstrak($ekstrakData);
+		
+	}
+	
 	
 }

@@ -22,13 +22,13 @@
 	</div>
 
     <div class="top-nav clearfix">
-   
+		
         <ul class="nav pull-right top-menu">
             <!-- user login dropdown start-->
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <img alt="" src="<?=base_url("static")?>/images/user_.png">
-                    <span class="username"><?=$this->my_session->userdata("full_name")?></span>
+                    <span class="username"><?=$this->session->userdata("full_name")?></span>
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu extended logout">

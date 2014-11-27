@@ -40,7 +40,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="pull-left">
-								  <button type="button" class="btn btn-info" id="eperform-ekstrak-btn" style="margin-left:15px;">
+								  <button type="button" class="btn btn-info" id="ekstrak-e2-btn" style="margin-left:15px;">
 										<i class="fa fa-gear"></i> Ekstrak
 									</button>
 							 </div>
@@ -67,9 +67,7 @@
 </section>				
  <script>
 	$(document).ready(function(){
-		$("#eperform-ekstrak-btn").click(function(){
-			alert("Data telah diekstrak");
-		});
+		 
 		var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
 					  { "mData": "kode_e2" , "sWidth": "100px"},
@@ -116,15 +114,22 @@
 			"sDom": 'rt<"top"lpi>'
 		});	
 			
-			
-		$("#eperformance-btn").click(function(){		
-			var columsDef =  [
-					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					  { "mData": "kode_e2" , "sWidth": "100px"},
-					  { "mData": "nama_e2"  }
-					]
-			load_ajax_datatable2("e2-tbl", '<?=base_url()?>admin/ekstrak_e2/getdata_e2/',columsDef,1,"desc");
-		});
+		$("#ekstrak-e2-btn").click(function(){
+			//alert("Data telah diekstrak");
+			var oTable = $('#eperform_e2-tbl').dataTable();
+			$.ajax({
+				type: 'POST',
+				url: '<?=base_url()?>admin/ekstrak_e2/ekstrak_data/<?=$periode_renstra?>',
+				cache: false,
+				dataType: 'json',
+				data:{dataTable: oTable.fnGetData()},
+				success: function(data){
+					if (data=="1") alert("Data telah diekstrak");
+					else alert("Data gagal diekstrak");
+				}
+			});
+			//updateDatabase(oTable.fnGetData());
+		});		
 	});
 </script>	   
    

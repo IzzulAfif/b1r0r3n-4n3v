@@ -13,6 +13,7 @@ class Kegiatan extends CI_Controller {
 		$this->load->model('analisis/analisis_model','',TRUE);
 		$this->load->model('admin/lokasi_model','lokasi',TRUE);
 		$this->load->model('analisis/kegiatan_model','kegiatan',TRUE);
+		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 	}
 	
 	function index()
@@ -32,7 +33,9 @@ class Kegiatan extends CI_Controller {
 	function data()
 	{
 		$data = null;
+		$data['renstra']	= $this->tahun_renstra->get_list(null);
 		$data['lokasi'] = $this->lokasi->get_list(null);
+		$data['output'] = null;//$this->kegiatan->get_output(null);
 		$this->load->view('analisis/data_kegiatan',$data);
 	}
 	
@@ -48,12 +51,19 @@ class Kegiatan extends CI_Controller {
 		echo json_encode($result);
 	}
 	
-	function get_list_rincian($tahun,$kode_program,$kode_kegiatan,$kdlokasi)
+	function get_output($kegiatan)
+	{
+		$result	= $this->kegiatan->get_output(array("kode_kegiatan"=>$kegiatan));
+		echo json_encode($result);
+	}
+	
+	function get_list_rincian($tahun,$kode_program,$kode_kegiatan,$kdouput)
 	{
 		$params['tahun'] = $tahun;
 		$params['kode_program'] = $kode_program;
 		$params['kode_kegiatan'] = $kode_kegiatan;
-		$params['kdlokasi'] = $kdlokasi;
+		//diganti ku output $params['kdlokasi'] = $kdlokasi;
+		$params['kdouput'] = $kdouput;
 		
 		$data	= $this->kegiatan->get_rincian_paket_pekerjaan($params);
 	
@@ -64,21 +74,21 @@ class Kegiatan extends CI_Controller {
 					<td>'.($i++).'</td>
 					<td>'.$d->nmitem.'</td>
 					<td align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
-					<td>'.$d->satkeg.'</td>					
-					<td>'.$d->nama_kabkota.'</td>					
-					<td>'.$d->nama_status.'</td>					
+					<td>'.$d->satkeg.'</td>'					
+					//<td>'.$d->nama_kabkota.'</td>					
+					//<td>'.$d->nama_status.'</td>					
 					
-				</tr>';
+				.'</tr>';
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				
 				<td>&nbsp;</td>
 			</tr>';
+			//<td>&nbsp;</td>				<td>&nbsp;</td>
 		}
 		echo $rs;
 	}
