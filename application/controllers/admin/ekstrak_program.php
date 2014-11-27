@@ -30,8 +30,9 @@ class Ekstrak_program extends CI_Controller {
 	}
 	
 	
-	function loadpage($id,$periode)
+	function loadpage($id,$periode,$tahun)
 	{
+		
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
@@ -40,13 +41,15 @@ class Ekstrak_program extends CI_Controller {
 		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
 		$data['webservice_url']	= $data_webservice[0]->url;
 		$data['periode_renstra']	= $periode;	
+		$data['tahun']	= $tahun;	
 		echo $this->load->view('admin/ekstrak_program_v',$data,true); #load konten template file		
 	}
 	
 	
 	
-	function getdata_program($periode){
+	function getdata_program($periode,$tahun){
 		$params['tahun_renstra'] = $periode;
+		$params['tahun'] = $tahun;
 		//echo $this->satker->get_datatables($params);
 		$data = $this->program->get_datatables($params);
 		//var_dump($data);
@@ -54,5 +57,22 @@ class Ekstrak_program extends CI_Controller {
 		echo $data;
 	}
 	
+	function ekstrak_data($tahun){
+		$dataTable = null;
+		if(isset($_POST["dataTable"])) {
+			$dataTable = $_POST["dataTable"];
+			foreach($dataTable as $row) {
+				$row["tahun"] =$tahun;
+				$row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
+				$row['kode_program'] = $row['kode_e1'].".".$row['kdprogram'];
+				$row['nama_program'] = $row['nmprogram'];
+				$ekstrakData[] = $row;
+				
+			}//foreach
+		}
+		
+		echo $this->program->save_ekstrak($ekstrakData);
+		
+	}
 	
 }

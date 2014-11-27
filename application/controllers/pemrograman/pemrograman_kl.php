@@ -221,7 +221,7 @@ class Pemrograman_kl extends CI_Controller {
 					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
 					<td>'.$this->cek_tipe_numerik($total).'</td>
-					<td>
+					<td class="hide">
 						<a href="#keuanganklModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="keuangankl_Edit(\''.$d->tahun_renstra.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
 					</td>
 				</tr>';
@@ -493,6 +493,7 @@ class Pemrograman_kl extends CI_Controller {
 		$posisiRow++;
 		
 		$params['tahun_renstra'] = 	$tahun;
+	
 		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$dataExcel = $this->program_e1->get_all($params);
 		

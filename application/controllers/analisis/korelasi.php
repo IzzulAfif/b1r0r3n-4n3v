@@ -72,6 +72,14 @@ class Korelasi extends CI_Controller {
 		
 		$dataKL	= $this->analisis_model->get_capaian_kinerja_kl($indikator,$tahun1,$tahun2);
 		$total_persen = 0;
+		
+		
+		if (count($dataKL)==0) {
+			echo "<script>alert('Data tidak ada');</script>";
+			return;
+		}
+		
+		
 		foreach($dataKL as $kl):
 			if($d->target!="0" && $kl->target!=""):
 				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;

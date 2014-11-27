@@ -74,7 +74,7 @@ class Anev_kl extends CI_Controller {
 		$template			= $this->template->load_popup($setting); #load static template file	
 			
 		$data['renstra']	= $this->setting_th->get_list();
-		$data['kl']			= $this->mgeneral->getAll("anev_kl");
+		$data['kl']			= array();// tutup by yusup, biar muncul tombol tambah  $this->mgeneral->getAll("anev_kl");
 		echo $this->load->view('unit_kerja/fungsi_kl_v',$data,true); #load konten template file		
 	}
 	

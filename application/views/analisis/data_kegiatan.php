@@ -81,8 +81,8 @@
                             <th>Paket Pekerjaan</th>
                             <th>Volume</th>
                             <th>Satuan</th>
-                     <!--       <th>Kabupaten/Kota</th>
-                            <th>Status</th> -->
+                           <th>Kabupaten/Kota</th>
+                     <!--        <th>Status</th> -->
                         </tr>
                     </thead>
 					 <tbody>

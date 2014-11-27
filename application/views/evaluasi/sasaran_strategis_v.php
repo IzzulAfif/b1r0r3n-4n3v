@@ -56,8 +56,8 @@
     	        </table>
                 
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_sskl"><i class="fa fa-print"></i> Cetak PDF</button>          
-                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_sskl"><i class="fa fa-download"></i> Ekspor Excel</button>
+                    <button type="button" class="btn btn-primary btn-sm hide" id="cetakpdf_sskl"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm hide" id="cetakexcel_sskl"><i class="fa fa-download"></i> Ekspor Excel</button>
                 </div>
                 
             </div>
@@ -114,9 +114,9 @@
 		});
 		
 		$('#cetakexcel_sskl').click(function(){
-			var tahun = $('#program-tahun').val();
+			var tahun = $('#renstra').val();
 			var kodee1 = $('#program-kode_e1').val();
-			window.open('<?=base_url()?>pemrograman/pemrograman_kl/print_program_excel/'+tahun+"/"+kodee1,'_blank');			
+			window.open("<?=base_url()?>evaluasi/sasaran_strategis/print_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
 		});
 
         $('#sastralist-btn').click(function(){

@@ -33,7 +33,7 @@
                    
 	<div id="dana_kl_konten" class="hide">
         
-        <div class="row">
+        <div class="row hide">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#keuanganklModal" data-toggle="modal" onclick="keuangankl_Add();" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
@@ -51,7 +51,7 @@
                     <th rowspan="2">Nama Program</th>
                     <th colspan="5"><center>Alokasi Pendanaan</center></th>
                     <th rowspan="2">Total</th>
-                    <th rowspan="2">Action</th>
+                  <!--  <th rowspan="2">Action</th> -->
                 </tr>
                 <tr>
                 	<th><span id="dana-tahun1">-</span></th>

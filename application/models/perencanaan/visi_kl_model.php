@@ -21,7 +21,7 @@ class Visi_kl_model extends CI_Model
 			if (isset($params['kode_kl'])) $where .= " and f.kode_kl='".$params['kode_kl']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
 		}
-		$sql = "select f.*, kl.nama_kl from anev_visi_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl ".$where;
+		$sql = "select f.*, kl.nama_kl from anev_visi_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl and f.tahun_renstra= kl.tahun_renstra ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -31,7 +31,7 @@ class Visi_kl_model extends CI_Model
 			if (isset($params['kode_visi_kl'])) $where .= " and f.kode_visi_kl='".$params['kode_visi_kl']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
 		}
-		$sql = "select f.*, kl.nama_kl from anev_visi_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl ".$where;
+		$sql = "select f.*, kl.nama_kl from anev_visi_kl f inner join anev_kl kl on f.kode_kl=kl.kode_kl and f.tahun_renstra= kl.tahun_renstra ".$where;
 		return $this->mgeneral->run_sql($sql);
 	}
 	

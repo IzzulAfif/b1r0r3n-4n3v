@@ -89,56 +89,59 @@ class sasaran_strategis extends CI_Controller {
 								   	  'persen'		=> "<center>-</center>");
 			$totalThn++;
 		endfor;
-		
+		$dataAda = (count($data)>0);
 		$dataSStemplate = $dataTemplate;
-		foreach($data as $d):
-			$kode_kl	= $d->kode_kl;
-			$iku		= $d->kode_iku_kl;
-			$kodeSS		= $d->deskripsi;
-			$satuan		= $d->satuan;
-			$indikator	= $d->indikator;
-			
-			$dataSStemplate[$d->tahun]	= array('target'		=> $d->target,
-								   	  			'realisasi'		=> $d->realisasi,
-										  		'persen'		=> $d->persen);
-		endforeach;
 		
-		$capaian[$kode_kl] =  array('nama_e1'	=> "-",
+		if ($dataAda){
+			foreach($data as $d):
+				$kode_kl	= $d->kode_kl;
+				$iku		= $d->kode_iku_kl;
+				$kodeSS		= $d->deskripsi;
+				$satuan		= $d->satuan;
+				$indikator	= $d->indikator;
+				
+				$dataSStemplate[$d->tahun]	= array('target'		=> $d->target,
+													'realisasi'		=> $d->realisasi,
+													'persen'		=> $d->persen);
+			endforeach;
+		
+			$capaian[$kode_kl] =  array('nama_e1'	=> "-",
 									'iku'		=> $indikator,
 									'satuan'	=> $satuan,
 									'data'		=> $dataSStemplate);
 		
-		$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
-		$kode_e1 = "";
-		foreach($data2 as $d2):
-		
-			$indikator  = $d2->indikator;
-			$satuan		= $d2->satuan;
-			$nama_e1	= $d2->singkatan;
+			$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
+			$kode_e1 = "";
+			foreach($data2 as $d2):
 			
-			if($kode_e1!=$d2->kode_e1):
-				$ikuDataTemplate = $dataTemplate;
+				$indikator  = $d2->indikator;
+				$satuan		= $d2->satuan;
+				$nama_e1	= $d2->singkatan;
 				
-				$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
-								   	  					'realisasi'		=> $d2->realisasi,
-										  				'persen'		=> $d2->persen);
+				if($kode_e1!=$d2->kode_e1):
+					$ikuDataTemplate = $dataTemplate;
+					
+					$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+															'realisasi'		=> $d2->realisasi,
+															'persen'		=> $d2->persen);
+					
+				else:
+					
+					$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+															'realisasi'		=> $d2->realisasi,
+															'persen'		=> $d2->persen);
+									
+				endif;
 				
-			else:
+				$capaian[$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
+													'iku'		=> $indikator,
+													'satuan'	=> $satuan,
+													'data'		=> $ikuDataTemplate);
 				
-				$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
-								   	  					'realisasi'		=> $d2->realisasi,
-										  				'persen'		=> $d2->persen);
-								
-			endif;
-			
-			$capaian[$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
-												'iku'		=> $indikator,
-												'satuan'	=> $satuan,
-												'data'		=> $ikuDataTemplate);
-			
-			$kode_e1 = $d2->kode_e1;
-			
-		endforeach;
+				$kode_e1 = $d2->kode_e1;
+				
+			endforeach;
+		}//end jika data ada
 		
 		$table = "";
 			$thead = '<thead>
@@ -158,7 +161,7 @@ class sasaran_strategis extends CI_Controller {
 			$table .= $thead;
 			
 			$table .= '<tbody>';
-					
+			if ($dataAda){		
 					$totUnitKerja	= 0;
 					$curEselon1		= "";
 					foreach($capaian as $cp):
@@ -236,7 +239,11 @@ class sasaran_strategis extends CI_Controller {
 					
 					$nilaiRata2Total = $rata2total/$rata2totalPembagi;
 					$table .='<td><b>'.$this->template->cek_tipe_numerik($nilaiRata2Total).'</b></td></tr>';
-					
+			} // end if jika data ada
+			else {
+				$table .='<td colspan="'.(4+ (3*($tahun_akhir-$tahun_awal+1))).'">Data tidak ada</td>';
+				
+			}
 			$table .= '</tbody>';
 		
 		#$table.= "<table>";

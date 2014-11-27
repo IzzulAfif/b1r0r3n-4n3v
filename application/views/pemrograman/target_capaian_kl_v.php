@@ -33,7 +33,7 @@
                    
 	<div id="target_kl_konten" class="hide">
 		
-        <div class="row">
+        <div class="row hide">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#tcModal" data-toggle="modal" class="btn btn-primary btn-sm" style="margin-top:-5px;" onclick="tc_kl_add();"><i class="fa fa-plus-circle"></i> Tambah</a>

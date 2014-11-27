@@ -37,7 +37,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="pull-left">
-								  <button type="button" class="btn btn-info" id="emon-ekstrak-btn" style="margin-left:15px;">
+								  <button type="button" class="btn btn-info" id="ekstrak-lokasi-btn" style="margin-left:15px;">
 										<i class="fa fa-gear"></i> Ekstrak
 									</button>
 							 </div>
@@ -64,23 +64,70 @@
 </section>	
  <script>
 	$(document).ready(function(){
-		$("#emon-ekstrak-btn").click(function(){
-			alert("Data telah diekstrak");
-		});
+	 
 			var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
 					  { "mData": "kdlokasi" , "sWidth": "100px"},
 					  { "mData": "lokasi"  }
 					]
 			load_ajax_datatable2("lokasi-tbl", '<?=base_url()?>admin/ekstrak_lokasi/getdata_lokasi/',columsDef,1,"desc");
-		$("#emon-btn").click(function(){		
-			var columsDef =  [
-					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					  { "mData": "kdlokasi" , "sWidth": "100px"},
-					  { "mData": "lokasi"  }
-					]
-			load_ajax_datatable2("lokasi-tbl", '<?=base_url()?>admin/ekstrak_lokasi/getdata_lokasi/',columsDef,1,"desc");
-		});
+		
+		$('#emon_lokasi-tbl').dataTable({
+			"bServerSide": true,
+			"sAjaxSource": '<?=$webservice_url?>',
+			"sAjaxDataProp": "rows",
+			"bProcessing": true,
+			"bDestroy": true,
+			
+			"fnServerData": function (sSource, aoData, fnCallback) {
+			  $.ajax({
+				"dataType": 'json',
+			//	"contentType": "application/json; charset=utf-8",
+				"type": "GET",
+				"url": sSource,
+				"data": aoData,
+				"success": function (msg) {
+					var jsonString = JSON.stringify(msg, null, 4);		
+					//lert(jsonString);
+					jsonString = jsonString.replace("\"total\":", "\"iTotalRecords\":"); 	
+					var json =  jQuery.parseJSON(jsonString);
+					json.draw = 1;
+					json.iTotalDisplayRecords = json.iTotalRecords;
+					delete json.lastNo;
+					// for(var key in json.rows){
+						//alert(key);
+						// delete json.rows[key]['no'];
+						// delete json.rows[key]['singkatan'];
+						// delete json.rows[key].nama_direktur;
+					// }
+					fnCallback(json);
+				  //$("#members").show();
+				}
+			  });
+			},
+			"aoColumns": [
+				{ "mData": "kdlokasi" },
+				{ "mData": "nmlokasi" }
+			],
+			"sDom": 'rt<"top"lpi>'
+		});	
+
+
+		$("#ekstrak-lokasi-btn").click(function(){
+			//alert("Data telah diekstrak");
+			var oTable = $('#emon_lokasi-tbl').dataTable();
+			$.ajax({
+				type: 'POST',
+				url: '<?=base_url()?>admin/ekstrak_lokasi/ekstrak_data/',
+				cache: false,
+				dataType: 'json',
+				data:{dataTable: oTable.fnGetData()},
+				success: function(data){
+					if (data=="1") alert("Data telah diekstrak");
+					else alert("Data gagal diekstrak");
+				}
+			});
+		});		
 	});
 </script>	   
    

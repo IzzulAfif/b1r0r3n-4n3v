@@ -74,8 +74,8 @@ class Kegiatan extends CI_Controller {
 					<td>'.($i++).'</td>
 					<td>'.$d->nmitem.'</td>
 					<td align="right">'.$this->utility->cekNumericFmt($d->volkeg).'</td>					
-					<td>'.$d->satkeg.'</td>'					
-					//<td>'.$d->nama_kabkota.'</td>					
+					<td>'.$d->satkeg.'</td>					
+					<td>'.$d->nama_kabkota.'</td>'					
 					//<td>'.$d->nama_status.'</td>					
 					
 				.'</tr>';
@@ -85,7 +85,7 @@ class Kegiatan extends CI_Controller {
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				
+				<td>&nbsp;</td>				
 				<td>&nbsp;</td>
 			</tr>';
 			//<td>&nbsp;</td>				<td>&nbsp;</td>

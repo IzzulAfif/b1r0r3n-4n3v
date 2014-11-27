@@ -1,14 +1,14 @@
 <section class="panel">
 	<header class="panel-heading tab-bg-light tab-right ">
-		<p class="pull-left"><b>Data Kabupaten/Kota</b></p>
+		<p class="pull-left"><b>Data Program</b></p>
 		<ul class="nav nav-tabs pull-right">
 			<li class="active">
-				<a data-toggle="tab" href="#anev_kabkota-content">
+				<a data-toggle="tab" href="#anev_program-content">
 				   <i class="fa fa-cogs"></i> Data di Anev
 				</a>
 			</li>
 			<li class="">
-				<a data-toggle="tab" href="#emon_kabkota-content">
+				<a data-toggle="tab" href="#emon_program-content">
 					<i class="fa fa-bar-chart-o"></i> Data di E-Monitoring
 				</a>
 			</li>
@@ -17,40 +17,32 @@
 	</header>
 	<div class="panel-body">
 		<div class="tab-content">
-		   <div class="tab-pane fade active in" id="anev_kabkota-content">
-<!--main content start-->
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="pull-left">
-						  <button type="button" class="btn btn-info" id="emon-kabkota-btn" style="margin-left:15px;">
-								<i class="fa fa-gear"></i> Ekstrak
-							</button>
-					 </div>
-				</div>
+		   <div class="tab-pane fade active in" id="anev_program-content">
+		<!--main content start-->    
+				
+				<div class="adv-table">
+				<table class="display table table-bordered table-striped" id="program-tbl">
+				<thead>
+					<tr>
+						<th>Tahun</th>
+						<th>Kode</th>
+						<th>Nama Program</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+					
+				
+				</tbody>
+				</table>
+				</div>  
+			<!--main content end-->
 			</div>
-			<br />
-			
-			<div class="adv-table">
-			<table class="display table table-bordered table-striped" id="kabkota-tbl">
-			<thead>
-				<tr>
-					<th>Kode Kab/Kota</th>
-					<th>Kabupaten/Kota</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-			</table>
-			</div>      
-    <!--main content end-->
-	</div>
-				<div class="tab-pane fade" id="emon_kabkota-content">
+				<div class="tab-pane fade" id="emon_program-content">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="pull-left">
-								  <button type="button" class="btn btn-info" id="emon-ekstrak-btn" style="margin-left:15px;">
+								  <button type="button" class="btn btn-info" id="ekstrak-program-btn" style="margin-left:15px;">
 										<i class="fa fa-gear"></i> Ekstrak
 									</button>
 							 </div>
@@ -58,13 +50,14 @@
 					</div>
 					<br />
 					<div class="adv-table">
-					<table class="display table table-bordered table-striped" id="emon_kabkota-tbl">
+					<table class="display table table-bordered table-striped" id="emon_program-tbl">
 					 <thead>
 						<tr>
-							<th>Kode Kab/Kota</th>
-							<th>Kabupaten/Kota</th>
-							<th>Latitude</th>
-							<th>Longitude</th>
+							<th>Tahun</th>
+							<th>Kode Dept</th>
+							<th>Kode Unit</th>
+							<th>Kode </th>
+							<th>Nama Program</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -76,27 +69,33 @@
 					
 	</div>
 	
-</section>	
+</section>		
  <script>
+ 
+ 
 	$(document).ready(function(){
+		 
+		$("#emon-ekstrak-btn").click(function(){
+			alert("Data telah diekstrak");
+		});
 		
 		var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
-					  { "mData": "kdkabkota" , "sWidth": "100px"},
-					  { "mData": "nama_kabkota"  },
-					  { "mData": "latitude" , "sWidth": "150px"},
-					  { "mData": "longitude" , "sWidth": "150px"}
+					{ "mData": "tahun" , "sWidth": "100px"},	
+					 { "mData": "kode_program" , "sWidth": "100px"},
+					  { "mData": "nama_program"  }
 					]
-			load_ajax_datatable2("kabkota-tbl", '<?=base_url()?>admin/ekstrak_kabkota/getdata_kabkota/',columsDef,1,"desc");
-		
-		
-		$('#emon_kabkota-tbl').dataTable({
+			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
+			
+		$('#emon_program-tbl').dataTable({
 			"bServerSide": true,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,
 			"bDestroy": true,
-			
+			"fnServerParams": function (aoData) {
+				aoData.push({ "name": "tahun", "value": '<?=$tahun?>' });
+			},
 			"fnServerData": function (sSource, aoData, fnCallback) {
 			  $.ajax({
 				"dataType": 'json',
@@ -112,32 +111,34 @@
 					json.draw = 1;
 					json.iTotalDisplayRecords = json.iTotalRecords;
 					delete json.lastNo;
-					// for(var key in json.rows){
-						//alert(key);
-						// delete json.rows[key]['no'];
-						// delete json.rows[key]['singkatan'];
-						// delete json.rows[key].nama_direktur;
-					// }
+					for(var key in json.rows){
+					//	alert(key);
+						delete json.rows[key]['no'];
+						delete json.rows[key]['singkatan'];
+						delete json.rows[key].nama_direktur;
+					}
 					fnCallback(json);
 				  //$("#members").show();
 				}
 			  });
 			},
 			"aoColumns": [
-				{ "mData": "kdlokasi" },
-				{ "mData": "kdkabkot" },
-				{ "mData": "nmkabkota" }
+				{ "mData": "thang" },
+				{ "mData": "kddept" },
+				{ "mData": "kdunit" },
+				{ "mData": "kdprogram" },
+				{ "mData": "nmprogram" }
 			],
 			"sDom": 'rt<"top"lpi>'
 		});	
 
 
-		$("#emon-kabkota-btn").click(function(){
+		$("#ekstrak-program-btn").click(function(){
 			//alert("Data telah diekstrak");
-			var oTable = $('#emon_kabkota-tbl').dataTable();
+			var oTable = $('#emon_program-tbl').dataTable();
 			$.ajax({
 				type: 'POST',
-				url: '<?=base_url()?>admin/ekstrak_kabkota/ekstrak_data/',
+				url: '<?=base_url()?>admin/ekstrak_program/ekstrak_data/<?=$tahun?>',
 				cache: false,
 				dataType: 'json',
 				data:{dataTable: oTable.fnGetData()},
@@ -146,7 +147,10 @@
 					else alert("Data gagal diekstrak");
 				}
 			});
-		});		
+			//updateDatabase(oTable.fnGetData());
+		});			
+			
+		   
 		
 	});
 </script>	   

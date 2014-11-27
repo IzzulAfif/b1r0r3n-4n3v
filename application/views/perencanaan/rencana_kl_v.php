@@ -25,7 +25,7 @@
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#sasaran-content">
-                                <i class="fa fa-clipboard"></i> Sasaran Kementerian
+                                <i class="fa fa-clipboard"></i> Sasaran 
                             </a>
                         </li>
                         <li class="">
@@ -35,7 +35,7 @@
                         </li>
                         <li class="">
                             <a data-toggle="tab" href="#iku-content">
-                                <i class="fa fa-align-center"></i> IKU Kementerian
+                                <i class="fa fa-align-center"></i> IKU 
                             </a>
                         </li>
                     </ul>

@@ -52,6 +52,29 @@ class Kabkota_model extends CI_Model
 		return $this->datatables->generate();
 	
 	}
+	
+	
+	function save_ekstrak($data){
+		$this->db->trans_start();
+		
+		foreach ($data as $update_item) {
+		//	unset($update_item['status']);
+			$sql = 'INSERT INTO anev_kabkota (kdlokasi,kdkabkota,nama_kabkota)
+					VALUES (?,?, ?)
+					ON DUPLICATE KEY UPDATE 
+						nama_kabkota=VALUES(nama_kabkota)';
+
+			$query = $this->db->query($sql, array( $update_item['kdlokasi'], 
+												  $update_item['nama_kabkota']
+												  )); 
+		}
+		
+		$this->db->trans_complete();
+			//print_r($this->db);die;
+	    return $this->db->trans_status();
+	
+	}
+
 
 }
 

@@ -33,7 +33,7 @@
                     <input type="text" class="form-control input-sm" name="nama" value="<?=$data[0]->nama_kl?>">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group hide">
                 <label class="col-sm-4 control-label">Singkatan</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control input-sm" name="singkatan" value="<?=$data[0]->singkatan?>">

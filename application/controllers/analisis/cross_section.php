@@ -58,6 +58,15 @@ class Cross_section extends CI_Controller {
 		
 		$dataKL	= $this->analisis_model->get_capaian_kinerja_kl($this->input->post("indikator"),$this->input->post("tahun1"), $this->input->post("tahun2"));
 		$total_persen = 0;
+		
+		
+		if (count($dataKL)==0) {
+			echo "<script>alert('Data tidak ada');</script>";
+			return;
+		}
+		
+		
+		
 		foreach($dataKL as $kl):
 			if($d->target!="0" && $kl->target!=""):
 				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;
@@ -78,7 +87,7 @@ class Cross_section extends CI_Controller {
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$this->input->post("sasaran"),'kode_iku_kl'=>$this->input->post("indikator")),"anev_iku_kl");
 		$data['gdata'] 		= $graf_data;
 		$data['rata2']		= $rata2total;
-		$data['subtitle']	= "dari Tahun ".$this->input->post("tahun1")." s.d. ".$this->input->post("tahun1");
+		$data['subtitle']	= "dari Tahun ".$this->input->post("tahun1")." s.d. ".$this->input->post("tahun2");
 		$this->load->view('analisis/cross_section_grafik',$data);
 	}
 	
@@ -120,6 +129,11 @@ class Cross_section extends CI_Controller {
 		$dataKL	= $this->analisis_model->get_capaian_kinerja_eselon1($this->input->post("indikator"),$this->input->post("tahun1"), $this->input->post("tahun2"));
 		
 		$total_persen = 0;
+		if (count($dataKL)==0) {
+			echo "<script>alert('Data tidak ada');</script>";
+			return;
+		}
+		
 		foreach($dataKL as $kl):
 			if($kl->target!="0" && $kl->target!="" && is_numeric($kl->target)):
 				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;
@@ -142,7 +156,7 @@ class Cross_section extends CI_Controller {
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$this->input->post("sasaran"),'kode_iku_e1'=>$this->input->post("indikator")),"anev_iku_eselon1");
 		$data['gdata'] 		= $graf_data;
 		$data['rata2']		= $rata2total;
-		$data['subtitle']	= "dari Tahun ".$this->input->post("tahun1")." s.d. ".$this->input->post("tahun1");
+		$data['subtitle']	= "dari Tahun ".$this->input->post("tahun1")." s.d. ".$this->input->post("tahun2");
 		$this->load->view('analisis/cross_section_grafik',$data);
 	}
 }

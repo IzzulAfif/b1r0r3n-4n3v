@@ -45,7 +45,7 @@
                    
 	<div id="target_kl_konten" class="hide">
 		
-        <div class="row">
+        <div class="row hide">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#capaianes2Modal" data-toggle="modal" onclick="capaianes2_Add();" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>

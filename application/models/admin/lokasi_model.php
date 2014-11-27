@@ -45,7 +45,7 @@ class Lokasi_model extends CI_Model
 	}
 	
 	
-	function get_datatables($params){
+	function get_datatables($params=null){
 		$this->datatables->select('kdlokasi, lokasi ');
 		$this->datatables->from('anev_lokasi');
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
@@ -70,6 +70,34 @@ class Lokasi_model extends CI_Model
 		//$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'left');
 		//$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		return $this->datatables->generate();
+	
+	}
+	
+	
+	function save_ekstrak($data){
+		$this->db->trans_start();
+		// foreach($data as $d){
+			// $this->db->insert('anev_matriks_pembangunan', $d);
+		// }
+		
+		foreach ($data as $update_item) {
+			unset($update_item['status']);
+			// $insert_query = $this->db->insert_string('anev_lokasi', $update_item);
+			// $insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);			
+			// $this->db->query($insert_query);  
+			$sql = 'INSERT INTO anev_lokasi (kdlokasi,lokasi)
+					VALUES (?, ?)
+					ON DUPLICATE KEY UPDATE 
+						lokasi=VALUES(lokasi)';
+
+			$query = $this->db->query($sql, array( $update_item['kdlokasi'], 
+												  $update_item['nmlokasi']
+												  )); 
+		}
+		
+		$this->db->trans_complete();
+			//print_r($this->db);die;
+	    return $this->db->trans_status();
 	
 	}
 
