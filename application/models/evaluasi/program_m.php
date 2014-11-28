@@ -54,10 +54,34 @@ class program_m extends CI_Model
 		}
 		return $list;	
 	}
-
+	
+	function get_pelaksana_kegiatan($kode_kegiatan)
+	{
+		$sql = "select k.kode_e2, nama_e2 from anev_kegiatan_eselon2 k inner join anev_eselon2
+			e on k.kode_e2=e.kode_e2 where k.kode_kegiatan=".$this->db->escape($kode_kegiatan);
+		$result = $this->mgeneral->run_sql($sql);
+		return $result[0];
+	}
+	
+	function get_output_kegiatan($kode_kegiatan)
+	{
+		$sql = "select * from anev_output where kode_kegiatan=".$this->db->escape($kode_kegiatan);
+		$result = $this->mgeneral->run_sql($sql);
+		foreach ($result as $i) {
+			$list[$i->kdoutput] = $i->nmoutput;
+		}
+		return $list;
+	}
+	
 	function get_realisasi_program($kode_program, $tahun_awal, $tahun_akhir) {
 		$sql = "select * from anev_program_eselon1 where tahun<=".$this->db->escape($tahun_akhir)." and tahun>=".$this->db->escape($tahun_awal)
 			." and kode_program=".$this->db->escape($kode_program)." order by tahun asc";
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_realisasi_kegiatan($kode_kegiatan, $tahun_awal, $tahun_akhir) {
+		$sql = "select * from anev_kegiatan_eselon2 where tahun<=".$this->db->escape($tahun_akhir)." and tahun>=".$this->db->escape($tahun_awal)
+			." and kode_kegiatan=".$this->db->escape($kode_kegiatan)." order by tahun asc";
 		return $this->mgeneral->run_sql($sql);
 	}
 
@@ -66,6 +90,14 @@ class program_m extends CI_Model
 			from anev_sasaran_program s inner join anev_iku_eselon1 i on s.tahun=i.tahun  inner join anev_kinerja_eselon1 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sp_e1=s.kode_sp_e1 and k.kode_iku_e1=i.kode_iku_e1)
  			where k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
  			." and k.kode_e1=".$this->db->escape($kode_e1)." order by s.kode_e1 asc, i.kode_iku_e1 asc, k.tahun asc";
+ 		return $this->mgeneral->run_sql($sql);	
+	}
+	
+	function get_capaian_kinerja2($kode_e2, $tahun_awal, $tahun_akhir) {
+		$sql = "select s.kode_e2, s.tahun, s.kode_sk_e2, i.kode_ikk, s.deskripsi, i.deskripsi indikator, i.satuan, k.target, k.realisasi, k.persen
+			from anev_sasaran_kegiatan s inner join anev_ikk i on s.tahun=i.tahun  inner join anev_kinerja_eselon2 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sk_e2=s.kode_sk_e2 and k.kode_ikk=i.kode_ikk)
+ 			where k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
+ 			." and k.kode_e2=".$this->db->escape($kode_e2)." order by s.kode_e2 asc, i.kode_ikk asc, k.tahun asc";
  		return $this->mgeneral->run_sql($sql);	
 	}
 	
@@ -108,5 +140,30 @@ class program_m extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
+	function get_rata2_capain_kinerja_e2($kode_e2, $tahun_awal, $tahun_akhir)
+	{
+		if($kode_e2!=""):
+			$where = " and k.kode_e2='$kode_e2'";
+		else:
+			$where = "";
+		endif;
+		
+		$sql = "select s.tahun, avg(k.persen) as persen from anev_sasaran_kegiatan s inner join anev_ikk i on s.tahun=i.tahun  inner join anev_kinerja_eselon2 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sk_e2=s.kode_sk_e2 and k.kode_ikk=i.kode_ikk) where k.tahun <='$tahun_akhir' and k.tahun>='$tahun_awal' ".$where." group by s.tahun asc";
+		
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_rata2_serapan_anggaran_e2($kode_kegiatan, $tahun_awal, $tahun_akhir)
+	{
+		if($kode_kegiatan!=""):
+			$where = "and kode_kegiatan=".$this->db->escape($kode_kegiatan);
+		else:
+			$where = "";
+		endif;
+		
+		$sql = "select tahun,((realisasi/pagu)*100) as persen from anev_kegiatan_eselon2 where tahun<=".$this->db->escape($tahun_akhir)." and tahun>=".$this->db->escape($tahun_awal)
+			." ".$where." order by tahun asc";
+		return $this->mgeneral->run_sql($sql);
+	}
 }
 

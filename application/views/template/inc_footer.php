@@ -62,6 +62,10 @@
         
         	<script src="http://maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.7"></script>
 			<script src="<?=base_url("static")?>/js/google-map/maplace.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts-3d.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/highcharts-more.js"></script>
+            <script type="text/javascript" src="<?=base_url("static")?>/js/highchart/exporting.js"></script>
             
 		<?php break; ?>
         

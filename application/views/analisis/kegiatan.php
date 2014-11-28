@@ -41,6 +41,7 @@
     <script  type="text/javascript" language="javascript">
 		$(document).ready(function() {
 			//list isinya diganti , yg lama dipindah ke tab detail	
+			$("#list-konten").load("<?=base_url()?>evaluasi/kegiatan");
 			$("#detail-konten").load("<?=base_url()?>analisis/kegiatan/data");
 			$("#peta-konten").load("<?=base_url()?>analisis/kegiatan/map");
 			
