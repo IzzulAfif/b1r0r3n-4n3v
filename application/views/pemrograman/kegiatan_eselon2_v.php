@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
-                         		<?=form_dropdown('tahun',array("0"=>"Pilih Periode Renstra","2010-2014"=>"2010-2014"),'0','id="kegiatan-tahun" class="populate"')?>
+                         		<?=form_dropdown('tahun',$renstra,'0','id="kegiatan-tahun" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group" id="kode_e1-box1">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I <span class="text-danger">*</span></label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e1_s',array("Pilih Unit Kerja Eselon I"),'0','id="kegiatan-kode_e1_S" class="populate"')?>
+                       <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja Eselon I"),'0','id="kegiatan-kode_e1_S" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group hide" id="kode_e1-box2">
@@ -28,7 +28,7 @@
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e2',array("Pilih Unit Kerja Eselon II"),'','id="kegiatan-kode_e2" class="populate"')?>
+                       <?=form_dropdown('kode_e2',array("Semua Unit Kerja Eselon II"),'','id="kegiatan-kode_e2" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">

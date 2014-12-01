@@ -23,7 +23,7 @@
 					  <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
                         <div class="col-md-6">
-                       <?=form_dropdown('kode_e2',array("Pilih Unit Kerja Eselon II"),'','id="dana-kode_e2" class="populate"')?>
+                       <?=form_dropdown('kode_e2',array("Semua Unit Kerja Eselon II"),'','id="dana-kode_e2" class="populate"')?>
                         </div>
                     </div>
 					<div class="form-group">

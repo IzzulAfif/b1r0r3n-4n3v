@@ -17,7 +17,7 @@
                     <div class="form-group <?php if($page=="kl"): echo "hide"; endif; ?>" id="kodep_e1-box1">
                         <label class="col-md-2 control-label">Unit Kerja</label>
                         <div class="col-md-6">
-						 <?=form_dropdown('kode_e1_s',array("Pilih Unit Kerja"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
+						 <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group hide" id="kodep_e1-box2">
@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Sasaran Strategis</label>
                         <div class="col-md-8">
-                            <?=form_dropdown('sasaran',array('0'=>"Pilih Sasaran Strategis"),'','id="target-sasaran" class="populate" style="width:100%"')?>
+                            <?=form_dropdown('sasaran',array('0'=>"Semua Sasaran Strategis"),'','id="target-sasaran" class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">

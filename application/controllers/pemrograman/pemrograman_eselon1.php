@@ -42,7 +42,8 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] = $this->eselon1->get_list(null);
+		$params['isNotMandatory'] = "yes";
+		$data['eselon1'] = $this->eselon1->get_list($params);
 		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/program_kl_v',$data,true); #load konten template file		
 	}
@@ -81,7 +82,8 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$params['isNotMandatory'] = "yes";
+		$data['eselon1'] 	= $this->eselon1->get_list($params);
 		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/target_capaian_e1_v',$data,true); #load konten template file		
 	}
@@ -126,7 +128,8 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$params['isNotMandatory'] = "yes";
+		$data['eselon1'] 	= $this->eselon1->get_list($params);
 		echo $this->load->view('pemrograman/sasaran_program_v',$data,true); #load konten template file		
 	}
 	
@@ -198,7 +201,8 @@ class Pemrograman_eselon1 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$params['isNotMandatory'] = "yes";
+		$data['eselon1'] 	= $this->eselon1->get_list($params);
 		$data['page']		= "e1";
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}	
@@ -231,7 +235,8 @@ class Pemrograman_eselon1 extends CI_Controller {
 	
 	function get_sasprog($tahun_awal, $tahun_akhir,$e1)
 	{
-		echo json_encode($this->program_e1->get_program_list($tahun_awal, $tahun_akhir,$e1));
+		$mandatatory = "no";
+		echo json_encode($this->program_e1->get_program_list($tahun_awal, $tahun_akhir,$e1,$mandatatory));
 	}
 	
 	function get_iku_e1($sp_e1)

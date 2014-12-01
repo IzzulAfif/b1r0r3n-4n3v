@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Sasaran Strategis</label>
                         <div class="col-md-6">
-                            <?=form_dropdown('sasaran',array('0'=>"Pilih Sasaran Strategis"),'','id="target-sasaran" class="populate" style="width:100%"')?>
+                            <?=form_dropdown('sasaran',array('0'=>"Semua Sasaran Strategis"),'','id="target-sasaran" class="populate" style="width:100%"')?>
                         </div>
                     </div>
 					<div class="form-group">

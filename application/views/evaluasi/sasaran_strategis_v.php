@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Sasaran Strategis</label>
                         <div class="col-md-9">
-                            <?=form_dropdown('sasaran',array(),'','id="sasaran"')?>
+                            <?=form_dropdown('sasaran',array('0'=>"Semua Sasaran Strategis"),'','id="sasaran"')?>
                         </div>
                     </div>
                     
@@ -56,8 +56,8 @@
     	        </table>
                 
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary btn-sm hide" id="cetakpdf_sskl"><i class="fa fa-print"></i> Cetak PDF</button>          
-                    <button type="button" class="btn btn-primary btn-sm hide" id="cetakexcel_sskl"><i class="fa fa-download"></i> Ekspor Excel</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_sskl"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_sskl"><i class="fa fa-download"></i> Ekspor Excel</button>
                 </div>
                 
             </div>
@@ -113,11 +113,11 @@
 			window.open("<?=base_url()?>evaluasi/sasaran_strategis/print_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
 		});
 		
-		$('#cetakexcel_sskl').click(function(){
+		/*$('#cetakexcel_sskl').click(function(){
 			var tahun = $('#renstra').val();
 			var kodee1 = $('#program-kode_e1').val();
 			window.open("<?=base_url()?>evaluasi/sasaran_strategis/print_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
-		});
+		});*/
 
         $('#sastralist-btn').click(function(){
             update_table();

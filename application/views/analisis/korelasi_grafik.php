@@ -7,13 +7,17 @@
 	$dg2	= array();
 	$data_graf = array();
 	
+	if(count($grafd1)!=0):
 		foreach($grafd1 as $g1):
 			$dg1[$g1['kode']] = array('kode'=>$g1['kode'],'nama'=> $g1['nama'],'nilai'=>$g1['rata2'],'detail'=>$g1['detail']);
 		endforeach;
-		
+	endif;
+	
+	if(count($grafd2)!=0):
 		foreach($grafd2 as $g2):
 			$dg2[$g2['kode']] = array('kode'=>$g2['kode'],'nama'=> $g2['nama'],'nilai'=>$g2['rata2'],'detail'=>$g2['detail']);
 		endforeach;
+	endif;
 		
 	$tipe = "";
 	if(count($dg1)>=count($dg2)):
@@ -176,9 +180,8 @@
     <?php else : ?>
     	<div id="chartKontenKorelasi" style="height:400px;">
 		</div>
-	<?php endif; ?>
-   
-<br />
+		
+        <br />
 <section class="panel">
     <div class="panel-body">
             
@@ -268,6 +271,7 @@
     <?php endif; ?>
     
 <?php $no++; endforeach; ?>
+	<?php endif; ?>
 
 <script>
 	$(document).ready(function() {

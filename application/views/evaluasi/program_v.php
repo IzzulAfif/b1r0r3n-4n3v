@@ -72,6 +72,12 @@
                     </div>
                     
                 </form>
+                
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_program"><i class="fa fa-print"></i> Cetak PDF</button>          
+                    <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_program"><i class="fa fa-download"></i> Ekspor Excel</button>
+                </div>
+                
              </div>
         </section>
     </div>
@@ -152,6 +158,13 @@
 					});
 				} 
 			}
+		});
+		
+		$('#cetakpdf_program').click(function(){
+        	kode_program = nama_program.val();
+			val_awal = tahun_awal.val();
+			val_akhir = tahun_akhir.val();
+			window.open("<?=base_url()?>evaluasi/program/print_tabel_program/"+val_awal+"/"+val_akhir+"/"+kode_program,'_blank');			
 		});
 
         function update_table(kd_program, thn_awal, thn_akhir, kd_pelaksana) {

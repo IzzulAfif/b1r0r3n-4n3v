@@ -75,7 +75,7 @@ class Korelasi extends CI_Controller {
 		
 		
 		if (count($dataKL)==0) {
-			echo "<script>alert('Data tidak ada');</script>";
+			/*echo "<script>alert('Data tidak ada');</script>";*/
 			return;
 		}
 		

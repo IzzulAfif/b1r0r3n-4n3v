@@ -25,10 +25,13 @@ class sasaran_strategis_m extends CI_Model
 		return $list;
 	}
 
-	function get_sasaran_list($tahun_renstra) {
+	function get_sasaran_list($tahun_renstra,$params){
 		$sql = "select distinct kode_ss_kl, deskripsi from anev_sasaran_strategis where 1=1";
 		$result = $this->mgeneral->run_sql($sql);
-		$list[0] = 'Pilih sasaran strategis';
+		$list[0] = 'Pilih Sasaran Strategis';
+		
+		if (isset($params['isNotMandatory'])) $list[0] = 'Semua Sasaran Strategis';
+		
 		foreach ($result as $i) {
 			$list[$i->kode_ss_kl] = $i->deskripsi;
 		}

@@ -59,13 +59,8 @@ class Cross_section extends CI_Controller {
 		$dataKL	= $this->analisis_model->get_capaian_kinerja_kl($this->input->post("indikator"),$this->input->post("tahun1"), $this->input->post("tahun2"));
 		$total_persen = 0;
 		
-		
-		if (count($dataKL)==0) {
-			echo "<script>alert('Data tidak ada');</script>";
-			return;
-		}
-		
-		
+		$rata2total = 0;
+		if (count($dataKL)!=0) {
 		
 		foreach($dataKL as $kl):
 			if($d->target!="0" && $kl->target!=""):
@@ -83,6 +78,8 @@ class Cross_section extends CI_Controller {
 							 'color'	=> "DB843D");
 		
 		$rata2total = number_format($total_persen_es1/$total_es1,2,'.','.');
+		
+		}
 		$data['post']		= $this->input->post();
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$this->input->post("sasaran"),'kode_iku_kl'=>$this->input->post("indikator")),"anev_iku_kl");
 		$data['gdata'] 		= $graf_data;

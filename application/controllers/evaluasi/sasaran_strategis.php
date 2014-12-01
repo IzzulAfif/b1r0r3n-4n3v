@@ -23,14 +23,15 @@ class sasaran_strategis extends CI_Controller {
 	
 	function get_sasaran($tahun_renstra)
 	{
-		echo json_encode($this->sasaran_strategis_m->get_sasaran_list($tahun_renstra));
+		$params['isNotMandatory'] = "yes";
+		echo json_encode($this->sasaran_strategis_m->get_sasaran_list($tahun_renstra,$params));
 	}
 	
 	
 	function print_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl)
 	{
 		$this->load->library('tcpdf_','pdf');
-		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
+		$pdf = new Tcpdf_('L', 'mm', 'A4', FALSE, 'UTF-8', false);
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->SetTitle('Capaian Kinerja');
 		$pdf->SetHeaderMargin(15);
@@ -52,7 +53,7 @@ class sasaran_strategis extends CI_Controller {
 		$pdf->SetFont('helvetica', 'B', 12);
 
 		// add a page
-		$pdf->AddPage();
+		$pdf->AddPage('L');
 		//var_dump($e1);
 		 $pdf->Write(0, 'Analisis dan Evaluasi Capaian Kinerja ', '', 0, 'C', true, 0, false, false, 0);
 		 
@@ -156,8 +157,7 @@ class sasaran_strategis extends CI_Controller {
 			endfor;
 					$thead.= '<th rowspan="2">Rata-rata %</th>
 					  	</tr>
-						<tr>'.$thead2.'</tr>
-					  </thead>';
+						<tr>'.$thead2.'</tr></thead>';
 			$table .= $thead;
 			
 			$table .= '<tbody>';
@@ -185,7 +185,7 @@ class sasaran_strategis extends CI_Controller {
 							$kode_detail.'" num_rowspan='.$rowspan[$dt->kode_sp_e1].' target_rowspan='.str_replace(".", "",$dt->kode_ss_kl).'>'
 							.$ket.'</td></tr><tr class="detail'.$kode_detail.' detail_toggle ">'.$temprow;*/
 							
-								$table.="<tr><td colspan='".(($totalThn*3)+3)."'><a href='#'><b>".$cp['nama_e1']."</b></a></td></tr><tr>";
+								$table.='<tr><td colspan="'.(($totalThn*3)+3).'"><b>'.$cp['nama_e1'].'</b></td></tr><tr>';
 							else:
 								$table.="<tr>";
 							endif;

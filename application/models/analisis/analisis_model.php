@@ -17,7 +17,7 @@ class analisis_model extends CI_Model
 	
 	function get_renstra_sasaran_strategis($kode){
 		
-		$sql = "SELECT distinct(tahun_renstra) as tahun FROM anev_kl WHERE 1 = 1";
+		$sql = "SELECT tahun_renstra as tahun FROM anev_tahun_renstra WHERE 1 = 1";
 		$data= $this->mgeneral->run_sql($sql);
 		$list[] = 'Pilih Periode Renstra';
 		foreach ($data as $d) {
@@ -28,7 +28,7 @@ class analisis_model extends CI_Model
 	
 	function get_renstra_sasaran_program($kode){
 		
-		$sql = "SELECT distinct(tahun_renstra) as tahun FROM anev_eselon1 WHERE 1 = 1";
+		$sql = "SELECT tahun_renstra as tahun FROM anev_tahun_renstra WHERE 1 = 1";
 		$data= $this->mgeneral->run_sql($sql);
 		$list[] = 'Pilih Periode Renstra';
 		foreach ($data as $d) {

@@ -78,7 +78,8 @@ class Pemrograman_eselon2 extends CI_Controller {
 		$setting['page']	= array('pg_aktif'	=> "datatables");
 		$template			= $this->template->load_popup($setting); #load static template file		
 		$data['renstra']	= $this->setting_th->get_list();
-		$data['eselon1'] 	= $this->eselon1->get_list(null);
+		$params['isNotMandatory'] = "yes";
+		$data['eselon1'] 	= $this->eselon1->get_list($params);
 		echo $this->load->view('pemrograman/target_capaian_e2_v',$data,true); #load konten template file		
 	}
 	
@@ -253,7 +254,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 	
 	function get_list_eselon2($kode_e1)
 	{
-		$params = array("kode_e1"=>$kode_e1);
+		$params = array("kode_e1"=>$kode_e1,"isNotMandatory"=>"yes");
 		echo json_encode($this->eselon2->get_list($params));
 	}
 	
@@ -299,7 +300,8 @@ class Pemrograman_eselon2 extends CI_Controller {
 	
 	function get_saskeg($tahun_awal, $tahun_akhir,$e1)
 	{
-		echo json_encode($this->kegiatan->get_kegiatan_list($tahun_awal, $tahun_akhir,$e1));
+		$mandatory = "no";
+		echo json_encode($this->kegiatan->get_kegiatan_list($tahun_awal, $tahun_akhir,$e1,$mandatory));
 	}
 	
 	function get_ikk($e2)

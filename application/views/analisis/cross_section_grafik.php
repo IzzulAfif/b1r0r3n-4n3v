@@ -47,6 +47,7 @@
 	<?php endif; ?>
 </div>
 
+<?php if($tipe=="numeric"): ?>
 <br />
 <section class="panel">
     <div class="panel-body">
@@ -73,6 +74,7 @@
         
     </div>
 </section>
+<?php endif; ?>
 
 <?php $no=1; foreach($gdata as $d): ?>
 <div aria-hidden="true" role="dialog" tabindex="-1" id="detailCrossModal<?=$no?>" class="modal fade">
