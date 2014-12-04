@@ -11,11 +11,12 @@ class program extends CI_Controller {
 	{	
 		parent::__construct();
 		$this->load->model('evaluasi/program_m','',TRUE);
+		$this->load->model('/admin/tahun_renstra_model','setting_th');
 	}
 
 	function index()
 	{
-		$data['renstra']	= $this->program_m->get_renstra_list();
+		$data['renstra']	= $this->setting_th->get_list();
 		$this->load->view('evaluasi/program_v',$data);
 	}
 	

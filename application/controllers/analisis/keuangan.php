@@ -140,7 +140,7 @@ class Keuangan extends CI_Controller {
 		$pdf->SetFont('helvetica', 'B', 12);
 
 		// add a page
-		$pdf->AddPage();
+		$pdf->AddPage("L");
 		//var_dump($e1);
 		 $pdf->Write(0, 'Analisis dan Evaluasi Keuangan Kementerian Perhubungan', '', 0, 'C', true, 0, false, false, 0);
 		 
@@ -332,7 +332,7 @@ class Keuangan extends CI_Controller {
 		$pdf->SetFont('helvetica', 'B', 12);
 
 		// add a page
-		$pdf->AddPage();
+		$pdf->AddPage("L");
 		//var_dump($e1);
 		 $pdf->Write(0, 'Analisis dan Evaluasi Keuangan Eselon I', '', 0, 'C', true, 0, false, false, 0);
 		 
