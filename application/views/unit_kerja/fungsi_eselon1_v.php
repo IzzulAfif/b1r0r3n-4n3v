@@ -112,7 +112,7 @@
 		}
 		
 		fungsiEdit = function(tahun,kode){
-			$("#fungsi_title_form").html('<i class="fa fa-pencil"></i>  Update Fungsi Eselon I');
+			$("#fungsi_title_form").html('<i class="fa fa-pencil"></i>  Edit Fungsi Eselon I');
 			$("#fungsi-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/update');
 			$.ajax({
 				url:'<?=base_url()?>unit_kerja/eselon1/edit/fungsi/'+tahun+'/'+kode,
@@ -137,6 +137,25 @@
 		}
 		
 		$( "#fungsi-form" ).submit(function( event ) {
+			var tahun 	= $('#form-tahun').val();
+			var kl		= $('#form-es1').val();
+			var kdf		= $('#form-kode').val();
+			var fungsi	= $('#form-fungsi').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(kl==""){
+				alert("Nama Unit Kerja belum ditentukan");
+				return false;
+			}else if(kdf==""){
+				alert("Kode Fungsi belum ditentukan");
+				return false;
+			}else if(fungsi==""){
+				alert("Fungsi belum ditentukan");
+				return false;
+			}else{
+				
 			 var postData = $(this).serializeArray();
 				var formURL = $(this).attr("action");
 				$.ajax(
@@ -160,6 +179,8 @@
 				});
 			
 			  event.preventDefault();
+			
+			}
 		});
 		
 	});

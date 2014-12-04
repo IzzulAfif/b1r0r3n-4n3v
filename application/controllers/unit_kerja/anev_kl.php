@@ -55,9 +55,9 @@ class Anev_kl extends CI_Controller {
 					<td>'.$d->tugas_kl.'</td>
 					<td>
 						<a href="#fModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="kl_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_kl.'\');"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="kl_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_kl.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				/*<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="kl_delete(\''.$d->tahun_renstra.'\',\''.$d->kode_kl.'\');"><i class="fa fa-times"></i></a>*/
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
@@ -126,6 +126,7 @@ class Anev_kl extends CI_Controller {
 	{
 		$data['data']		= $this->init_data($tipe);
 		if($tipe=="id"):
+			$data['renstra']	= $this->setting_th->get_list();
 			$this->load->view('unit_kerja/anev_kl_form',$data);
 		else:
 			$data['renstra']	= $this->kl->get_renstra();
@@ -136,9 +137,9 @@ class Anev_kl extends CI_Controller {
 	function get_from_post($tipe)
 	{
 		if($tipe=="id"):
-			$renstra1	= $this->input->post("renstra1");
-			$renstra2	= $this->input->post("renstra2");
-			$tahun		= $renstra1."-".$renstra2;
+			#$renstra1	= $this->input->post("renstra1");
+			#$renstra2	= $this->input->post("renstra2");
+			$tahun		= $this->input->post("tahun");
 			
 			$data	= array('tahun_renstra'	=> $tahun,
 							'kode_kl'		=> $this->input->post("kode"),
@@ -193,6 +194,7 @@ class Anev_kl extends CI_Controller {
 	{
 		if($tipe=="id"):
 			$data['data']		= $this->mgeneral->getWhere(array('kode_kl'=>$kode,'tahun_renstra'=>$tahun),"anev_kl");
+			$data['renstra']	= $this->setting_th->get_list();
 			$this->load->view('unit_kerja/anev_kl_form',$data);
 		else:
 			$data['renstra']			= $this->kl->get_renstra();

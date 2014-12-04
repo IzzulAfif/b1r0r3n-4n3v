@@ -121,7 +121,7 @@
 		});
 	}
 	kl_edit =function(tahun,kode){
-		$("#kl_title").html('<i class="fa fa-pencil"></i> Update Kementerian');
+		$("#kl_title").html('<i class="fa fa-pencil"></i> Edit Tugas Kementerian');
 		$("#kl_form").attr("action",'<?=base_url()?>unit_kerja/anev_kl/update');
 		$('#kl_konten').html("");
 		$.ajax({

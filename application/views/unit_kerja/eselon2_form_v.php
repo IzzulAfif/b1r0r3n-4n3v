@@ -25,7 +25,7 @@
 			<input type="hidden" name="kode_e2_old" value="<?=$data[0]->kode_e2?>"/>
 			<input type="hidden" name="tahun_renstra_old" value="<?=$data[0]->tahun_renstra?>"/>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Tahun Renstra</label>
+                <label class="col-sm-4 control-label">Periode Renstra <span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                 	<select name="tahun" class="populate" id="ide1-tahun">
                     	<?php $no=0; foreach($renstra as $r): ?>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Unit Kerja Eselon 1</label>
+                <label class="col-sm-4 control-label">Unit Kerja Eselon I <span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <select name="es1" class="populate" id="ide1-es1">
                     	<option value="<?=$data[0]->kode_e1?>"><?=$data[0]->nama_e1?></option>
@@ -47,23 +47,23 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">Kode Unit Kerja</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control input-sm" name="kode" value="<?=$data[0]->kode_e2?>">
+                    <input type="text" class="form-control input-sm" name="kode" value="<?=$data[0]->kode_e2?>" readonly="readonly">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">Nama Unit Kerja</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control input-sm" name="nama" value="<?=$data[0]->nama_e2?>">
+                    <input type="text" class="form-control input-sm" name="nama" value="<?=$data[0]->nama_e2?>" readonly="readonly">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">Singkatan</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control input-sm" name="singkatan" value="<?=$data[0]->singkatan?>">
+                    <input type="text" class="form-control input-sm" name="singkatan" value="<?=$data[0]->singkatan?>" readonly="readonly">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Tugas Pokok</label>
+                <label class="col-sm-4 control-label">Tugas <span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <textarea name="tugas" class="form-control"><?=$data[0]->tugas_e2?></textarea>
                 </div>

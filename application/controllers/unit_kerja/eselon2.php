@@ -78,11 +78,11 @@ class Eselon2 extends CI_Controller {
 					<td>'.$d->tugas_e2.'</td>					
 					<td>
 						<a href="#identitasModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="identitasEdit(\''.$d->tahun_renstra.'\',\''.$d->kode_e2.'\');"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="identitasDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_e2.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
 				$no++;
 				endforeach; 
+				/*<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="identitasDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_e2.'\');"><i class="fa fa-times"></i></a>*/
 		} else {
 			$rs .= '<tr class="gradeX">
 				<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
@@ -174,6 +174,12 @@ class Eselon2 extends CI_Controller {
 	function get_list_eselon2($tahun_renstra,$kode_e1)
 	{
 		$params = array("tahun_renstra"=>$tahun_renstra,"kode_e1"=>$kode_e1,"isNotMandatory"=>true);
+		echo json_encode($this->eselon2->get_list($params));
+	}
+	
+	function get_list_eselon2_new($kode_e1)
+	{
+		$params = array("kode_e1"=>$kode_e1);
 		echo json_encode($this->eselon2->get_list($params));
 	}
 	

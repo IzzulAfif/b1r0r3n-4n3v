@@ -80,9 +80,9 @@ class Eselon1 extends CI_Controller {
 					<td>'.$d->tugas_e1.'</td>					
 					<td>
 						<a href="#identitasModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="identitasEdit(\''.$d->tahun_renstra.'\',\''.$d->kode_e1.'\');"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="identitasDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_e1.'\');"><i class="fa fa-times"></i></a>
 					</td>
 				</tr>';
+				/*<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="identitasDelete(\''.$d->tahun_renstra.'\',\''.$d->kode_e1.'\');"><i class="fa fa-times"></i></a>*/
 				$no++;
 				endforeach; 
 		} else {

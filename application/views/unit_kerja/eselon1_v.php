@@ -36,7 +36,7 @@
  	
     <div id="konten_es1" class="hide">
     
-        <div class="row">
+        <!--<div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
                      <a href="#identitasModal" data-toggle="modal" onclick="identitasAdd()" class="btn btn-primary btn-sm" style="margin-top:-5px;"><i class="fa fa-plus-circle"></i> Tambah</a>
@@ -44,7 +44,7 @@
             </div>
         </div>
         
-	    <br />
+	    <br />-->
         <div class="adv-table" id="div-id-e1">
         
         </div>
@@ -121,7 +121,7 @@
 		}
 		
 		 identitasEdit = function(tahun,kode){
-			$("#identitas_title_form").html('<i class="fa fa-pencil"></i>  Update Identitas dan Tugas Eselon I');
+			$("#identitas_title_form").html('<i class="fa fa-pencil"></i>  Edit Tugas Eselon I');
 			$("#identitas-form").attr("action",'<?=base_url()?>unit_kerja/eselon1/update');
 			$.ajax({
 				url:'<?=base_url()?>unit_kerja/eselon1/edit/id/'+tahun+'/'+kode,

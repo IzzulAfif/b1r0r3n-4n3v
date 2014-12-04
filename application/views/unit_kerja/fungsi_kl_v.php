@@ -120,7 +120,7 @@
 			});
 		}
 		fungsi_edit =function(tahun,kode){
-			$("#fungsi_title").html('<i class="fa fa-pencil"></i> Update Fungsi Kementerian');
+			$("#fungsi_title").html('<i class="fa fa-pencil"></i> Edit Fungsi Kementerian');
 			$("#fungsi_form").attr("action",'<?=base_url()?>unit_kerja/anev_kl/update');
 			$('#fungsi_konten').html("");
 			$.ajax({
@@ -144,6 +144,25 @@
 			}
 		}
 		$("#fungsi_form").submit(function( event ) {
+			var tahun 	= $('#form-tahun').val();
+			var kl		= $('#form-kl').val();
+			var kdf		= $('#form-kode-fungsi').val();
+			var fungsi	= $('#form-fungsi').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(kl==""){
+				alert("Nama Kementerian belum ditentukan");
+				return false;
+			}else if(kdf==""){
+				alert("Kode Fungsi belum ditentukan");
+				return false;
+			}else if(fungsi==""){
+				alert("Fungsi belum ditentukan");
+				return false;
+			}else{
+			
 			var postData = $(this).serializeArray();
 			var formURL = $(this).attr("action");
 				$.ajax({
@@ -165,6 +184,8 @@
 					}
 				});
 			  event.preventDefault();
+			
+			}
 		});
 		$('#fungsi-tahun').change(function(){
 			tahun	= $('#fungsi-tahun').val();
