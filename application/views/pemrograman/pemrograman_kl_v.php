@@ -6,7 +6,7 @@
        <!--tab nav start-->
             <section class="panel">
                 <header class="panel-heading tab-bg-light tab-right ">
-                	<p class="pull-left"><b>Program Kementerian</b></p>
+                	<p class="pull-left"><b>Pemrograman Kementerian</b></p>
                     <ul class="nav nav-tabs pull-right">
                         <li class="active">
                             <a data-toggle="tab" href="#program-content">

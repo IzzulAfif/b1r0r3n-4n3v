@@ -220,6 +220,9 @@ class Pemrograman_eselon2 extends CI_Controller {
 					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
 					<td>'.$this->cek_tipe_numerik($total).'</td>
+					<td>
+						<a href="#keuanganE2Modal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="keuangane2_Edit(\''.$d->tahun_renstra.'\',\''.$d->kode_kegiatan.'\');"><i class="fa fa-pencil"></i></a>
+					</td>
 				</tr>';
 				$total1 = $total1+$d->target_thn1;
 				$total2 = $total2+$d->target_thn2;
@@ -229,6 +232,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 				$total_all = $total_all+$total;
 				$no++;
 				endforeach; 
+				
 				$rs .= '<tr class="gradeX">
 						<td colspan="2"><center><b>Total</b><center></td>
 						<td><b>'.$this->cek_tipe_numerik($total1).'</b></td>
@@ -237,12 +241,9 @@ class Pemrograman_eselon2 extends CI_Controller {
 						<td><b>'.$this->cek_tipe_numerik($total4).'</b></td>
 						<td><b>'.$this->cek_tipe_numerik($total5).'</b></td>
 						<td><b>'.$this->cek_tipe_numerik($total_all).'</b></td>
+					 	<td></td>
 					 </tr>
 				';
-				/*<td>
-						<a href="#programModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="program_edit(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
-						<a href="#" class="btn btn-danger btn-xs" title="Hapus" onclick="program_delete(\''.$d->tahun.'\',\''.$d->kode_program.'\');"><i class="fa fa-times"></i></a>
-					</td>*/
 		} else {
 			$rs .= '<tr class="gradeX">
 				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>

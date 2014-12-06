@@ -153,10 +153,10 @@
 		}
 		
 		keuangane2_Edit =function(renstra,program){
-			$("#keuangan_title_form").html('<i class="fa fa-plus-square"></i>  Update Kebutuhan Pendanaan');
+			$("#keuangan_title_form").html('<i class="fa fa-plus-square"></i>  Edit Kebutuhan Pendanaan');
 			$("#keuangankl-form").attr("action",'<?=base_url()?>pemrograman/pendanaan_e2/update');
 			$.ajax({
-				url:'<?=base_url()?>pemrograman/pendanaan_e2edit/'+renstra+'/'+program,
+				url:'<?=base_url()?>pemrograman/pendanaan_e2/edit/'+renstra+'/'+program,
 					success:function(result) {
 						$('#keuangan_form_konten').html(result);
 					}

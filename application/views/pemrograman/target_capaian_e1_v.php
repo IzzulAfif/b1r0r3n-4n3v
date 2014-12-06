@@ -1,9 +1,9 @@
             
 <div class="feed-box">
-        <section class="panel tab-bg-form">
+        <section class="panel tab-bg-form" style="z-index:auto">
             <div class="panel-body">
 				
-   <div class="corner-ribon blue-ribon">
+   		<div class="corner-ribon blue-ribon">
                    <i class="fa fa-cog"></i>
                 </div>
                 <form class="form-horizontal" role="form">
@@ -15,13 +15,13 @@
                         </div>
                     </div>
                     <div class="form-group <?php if($page=="kl"): echo "hide"; endif; ?>" id="kodep_e1-box1">
-                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
                         <div class="col-md-6">
 						 <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group hide" id="kodep_e1-box2">
-                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
                         <div class="col-md-6">
 						 <?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e1"  class="populate" style="width:100%"')?>
                         </div>
@@ -151,9 +151,15 @@
 		$("#target-btn").click(function(){
 			tahun = $('#target-tahun').val();
 			sasaran = $('#target-sasaran').val();
+			es1		= $('#target-kode_e1').val();
+			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
 				$('#target-tahun').select2('open');
+			}
+			else if (es1=="0") {
+				alert("Nama unit kerja belum ditentukan");
+				$('#target-kode_e1').select2('open');
 			}
 			else {
 				var arrayrenstra = tahun.split('-');
@@ -186,7 +192,7 @@
 		}
 		
 		capaianes1_edit =function(tahun,kode){
-			$("#capaianes1_title_form").html('<i class="fa fa-pencil"></i> Update Target Capaian Kinerja');
+			$("#capaianes1_title_form").html('<i class="fa fa-pencil"></i> Edit Target Capaian Kinerja');
 			$("#capaianes1-form").attr("action",'<?=base_url()?>pemrograman/target_capaian_e1/update');
 			$.ajax({
 				url:'<?=base_url()?>pemrograman/target_capaian_e1/edit/'+tahun+'/'+kode,

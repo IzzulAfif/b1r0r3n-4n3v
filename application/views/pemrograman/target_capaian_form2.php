@@ -45,7 +45,19 @@
         </div>
         <?php else: ?>
         	<input type="hidden" name="renstra" value="<?=$data[0]->tahun_renstra?>" />
-            <input type="hidden" name="ikk" value="<?=$data[0]->kode_ikk?>" />
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Kode IKK</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" name="kdikk" value="<?=$data[0]->kode_ikk?>" readonly="readonly">
+            		<input type="hidden" name="ikk" value="<?=$data[0]->kode_ikk?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Deskripsi</label>
+                <div class="col-sm-8">
+                	<textarea name="deskripsi" readonly="readonly" rows="2" class="form-control input-sm"><?=$data[0]->deskripsi?></textarea>
+                </div>
+            </div>
         <?php endif; ?>
         
         <div class="form-group">

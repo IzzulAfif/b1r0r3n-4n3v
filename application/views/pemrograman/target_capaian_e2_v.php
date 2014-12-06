@@ -15,13 +15,13 @@
                         </div>
                     </div>
                     <div class="form-group" id="kodep_e1-box1">
-                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
                         <div class="col-md-6">
 						 <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group hide" id="kodep_e1-box2">
-                        <label class="col-md-2 control-label">Unit Kerja</label>
+                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
                         <div class="col-md-6">
 						 <?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e1"  class="populate" style="width:100%"')?>
                         </div>
@@ -148,9 +148,15 @@
 		$("#target-btn").click(function(){
 			tahun = $('#target-tahun').val();
 			sasaran = $('#target-sasaran').val();
+			unit_kerja= $('#target-kode_e1').val();
+			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
 				$('#target-tahun').select2('open');
+			}
+			else if (unit_kerja=="0") {
+				alert("Unit kerja belum ditentukan");
+				$('#target-kode_e1').select2('open');
 			}
 			else {
 				var arrayrenstra = tahun.split('-');
@@ -182,7 +188,7 @@
 		}
 		
 		capaianes2_edit =function(tahun,kode){
-			$("#capaianes2_title_form").html('<i class="fa fa-pencil"></i> Update Target Capaian Kinerja');
+			$("#capaianes2_title_form").html('<i class="fa fa-pencil"></i> Edit Target Capaian Kinerja');
 			$("#capaianes2-form").attr("action",'<?=base_url()?>pemrograman/target_capaian_e2/update');
 			$.ajax({
 				url:'<?=base_url()?>pemrograman/target_capaian_e2/edit/'+tahun+'/'+kode,

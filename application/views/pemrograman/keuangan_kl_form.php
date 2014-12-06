@@ -30,7 +30,13 @@
         <?php else: ?>
         	<input type="hidden" name="renstra" value="<?=$data[0]->tahun_renstra?>" />
             <input type="hidden" name="program" value="<?=$data[0]->kode_program?>" />
-        <?php endif; ?>
+        	<div class="form-group">
+                <label class="col-sm-4 control-label">Nama Program</label>
+                <div class="col-sm-8">
+                	<textarea name="deskripsi" readonly="readonly" rows="3" class="form-control input-sm"><?=$data[0]->nama_program?></textarea>
+                </div>
+            </div>
+		<?php endif; ?>
         
         <div class="form-group">
         	<?php if(isset($data[0]->target_thn1)): $n1 = $data[0]->target_thn1; else: $n1 = 0; endif;?>

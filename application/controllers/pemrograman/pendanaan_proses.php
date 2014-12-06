@@ -16,6 +16,7 @@ class Pendanaan_proses extends CI_Controller {
 		$this->load->model('/pemrograman/program_eselon1_model','program_e1');
 		$this->load->model('/pemrograman/sasaran_program_model','sasaran');
 		$this->load->model('/pemrograman/iku_eselon1_model','iku');
+		$this->load->model('/pemrograman/pendanaan_program_model','dana_program');
 		$this->load->model('/admin/tahun_renstra_model','setting_th');
 		$this->load->model('/pemrograman/target_capaian_model','target');
 		$this->load->model('analisis/keuangan_model','keuangan',TRUE);
@@ -66,7 +67,10 @@ class Pendanaan_proses extends CI_Controller {
 	
 	function edit($renstra,$program)
 	{
-		$data['data']		= $this->mgeneral->getWhere(array('kode_program'=>$program,"tahun_renstra"=>$renstra),"anev_pendanaan_program");
+		#$data['data']		= $this->mgeneral->getWhere(array('kode_program'=>$program,"tahun_renstra"=>$renstra),"anev_pendanaan_program");
+		$params['tahun_renstra']	= $renstra;
+		$params['kode_program']		= $program;
+		$data['data']		= $this->dana_program->get_all($params);
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['program']	= $this->keuangan->get_program_e1();
 		$data['form_tipe']	= "edit";

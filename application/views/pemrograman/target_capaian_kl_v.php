@@ -66,7 +66,7 @@
             </table>
         </div>
         
-        <div class="pull-right">
+        <div class="pull-right hide">
             <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_targetkl"><i class="fa fa-print"></i> Cetak PDF</button>          
             <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_targetkl"><i class="fa fa-download"></i> Ekspor Excel</button>
         </div>
@@ -164,7 +164,7 @@
 			});
 		}
 		tc_kl_edit =function(tahun,kode){
-			$("#tc_kl_title").html('<i class="fa fa-pencil"></i> Update Target Capaian Kinerja');
+			$("#tc_kl_title").html('<i class="fa fa-pencil"></i> Edit Target Capaian Kinerja');
 			$("#tc_kl_form").attr("action",'<?=base_url()?>pemrograman/target_capaian_kl/update');
 			$('#tc_kl_konten').html("");
 			$.ajax({

@@ -71,7 +71,10 @@ class Target_capaian_e2 extends CI_Controller {
 	
 	function edit($renstra,$ikk)
 	{
-		$data['data']		= $this->mgeneral->getWhere(array('tahun_renstra'=>$renstra,"kode_ikk"=>$ikk),"anev_target_eselon2");
+		#$data['data']		= $this->mgeneral->getWhere(array('tahun_renstra'=>$renstra,"kode_ikk"=>$ikk),"anev_target_eselon2");
+		$params['tahun_renstra']	= $renstra;
+		$params['ikk']				= $ikk;
+		$data['data']		= $this->target->get_e2($params);
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] 	= $this->eselon1->get_list(null);
 		$data['form_tipe']	= "edit";

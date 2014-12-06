@@ -15,6 +15,28 @@ class Pendanaan_program_model extends CI_Model
 		parent::__construct();
 	}
 	
+	function get_all($params)
+	{
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['tahun_renstra'])) $where .= " and p.tahun_renstra='".$params['tahun_renstra']."'";
+			if (isset($params['kode_program'])) $where .= " and p.kode_program='".$params['kode_program']."'";
+		}
+		$sql = "select * from anev_pendanaan_program p LEFT JOIN anev_program_eselon1 p1 on p.kode_program = p1.kode_program".$where;
+		return $this->mgeneral->run_sql($sql);
+	}
+	
+	function get_kegiatan($params)
+	{
+		$where = ' where 1=1 ';
+		if (isset($params)){
+			if (isset($params['tahun_renstra'])) $where .= " and p.tahun_renstra='".$params['tahun_renstra']."'";
+			if (isset($params['kode_kegiatan'])) $where .= " and p.kode_kegiatan='".$params['kode_kegiatan']."'";
+		}
+		$sql = "select * from anev_pendanaan_kegiatan p LEFT JOIN anev_kegiatan_eselon2 p1 on p.kode_kegiatan = p1.kode_kegiatan".$where;
+		return $this->mgeneral->run_sql($sql);
+	}
+	
 	//utk laporan renstra
 	function get_renstra($params){
 		$where = ' where 1=1 ';

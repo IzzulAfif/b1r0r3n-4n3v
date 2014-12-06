@@ -15,6 +15,7 @@ class Pendanaan_e2 extends CI_Controller {
 		$this->load->model('/unit_kerja/kl_model','kl');
 		
 		$this->load->model('/pemrograman/kegiatan_eselon2_model','kegiatan');
+		$this->load->model('/pemrograman/pendanaan_program_model','dana_program');
 		$this->load->model('/pemrograman/sasaran_kegiatan_model','sasaran');
 		$this->load->model('/pemrograman/ikk_model','iku');
 		$this->load->model('/admin/tahun_renstra_model','setting_th');
@@ -69,9 +70,11 @@ class Pendanaan_e2 extends CI_Controller {
 		echo $msg;
 	}
 	
-	function edit($renstra,$ikk)
+	function edit($renstra,$kegiatan)
 	{
-		$data['data']		= $this->mgeneral->getWhere(array('tahun_renstra'=>$renstra,"kode_ikk"=>$ikk),"anev_target_eselon2");
+		$params['tahun_renstra']	= $renstra;
+		$params['kode_kegiatan']	= $kegiatan;
+		$data['data']		= $this->dana_program->get_kegiatan($params);
 		$data['renstra']	= $this->setting_th->get_list();
 		$data['eselon1'] 	= $this->eselon1->get_list(null);
 		$data['form_tipe']	= "edit";
@@ -81,7 +84,7 @@ class Pendanaan_e2 extends CI_Controller {
 	function update()
 	{
 		$renstra	= $this->input->post("renstra"); 
-		$ikk		= $this->input->post("ikk");
+		$kegiatan	= $this->input->post("kegiatan");
 		
 		$t1			= $this->input->post("target1");
 		$t2			= $this->input->post("target2");
@@ -90,16 +93,16 @@ class Pendanaan_e2 extends CI_Controller {
 		$t5			= $this->input->post("target5");
 		
 		$where	 = array('tahun_renstra'	=> $renstra,
-						 'kode_ikk'			=> $ikk);
+						 'kode_kegiatan'	=> $kegiatan);
 		$varData = array('target_thn1'		=> $t1,
 						 'target_thn2'		=> $t2,
 						 'target_thn3'		=> $t3,
 						 'target_thn4'		=> $t4,
 						 'target_thn5'		=> $t5);
-		$this->mgeneral->update($where,$varData,"anev_target_eselon2");
+		$this->mgeneral->update($where,$varData,"anev_pendanaan_kegiatan");
 		
 		$msg = '<h5><i class="fa fa-check-square-o"></i> <b>Sukses</b></h5>
-					<p>Target capaian kinerja berhasil diupdate.</p>';
+					<p>Alokasi pendanaan kegiatan berhasil diupdate.</p>';
 					
 		echo $msg;
 	}

@@ -7,7 +7,7 @@
                    <i class="fa fa-cog"></i>
                 </div>
                 <form class="form-horizontal" role="form">
-                        
+                   <input type="hidden" name="page" value="<?=$page?>" />
                    <div class="form-group">
                         <label class="col-md-2 control-label">Periode Renstra <span class="text-danger">*</span></label>
                         <div class="col-md-3">
@@ -44,6 +44,7 @@
         <br />
         
         <div class="adv-table">
+        	
             <table  class="display table table-bordered table-striped" id="dana-tbl">
                 <thead>
                 <tr>
@@ -51,7 +52,7 @@
                     <th rowspan="2">Nama Program</th>
                     <th colspan="5"><center>Alokasi Pendanaan</center></th>
                     <th rowspan="2">Total</th>
-                  <!--  <th rowspan="2">Action</th> -->
+                  	<?php if($page=="e1"): ?> <th rowspan="2">Action</th> <?php endif; ?>
                 </tr>
                 <tr>
                 	<th><span id="dana-tahun1">-</span></th>
@@ -113,7 +114,7 @@
 					no++;
 				}
 			$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_pendanaan/"+tahun+"/"+kode,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_pendanaan/"+tahun+"/"+kode+"/<?=$page?>",
                         success:function(result) {
                             table_body = $('#dana-tbl tbody');
                             table_body.empty().html(result);        
@@ -145,7 +146,7 @@
 		}
 		
 		keuangankl_Edit =function(renstra,program){
-			$("#keuangan_title_form").html('<i class="fa fa-plus-square"></i>  Update Kebutuhan Pendanaan');
+			$("#keuangan_title_form").html('<i class="fa fa-plus-square"></i>  Edit Kebutuhan Pendanaan');
 			$("#keuangankl-form").attr("action",'<?=base_url()?>pemrograman/pendanaan_proses/update');
 			$.ajax({
 				url:'<?=base_url()?>pemrograman/pendanaan_proses/edit/'+renstra+'/'+program,

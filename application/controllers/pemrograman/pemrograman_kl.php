@@ -203,7 +203,7 @@ class Pemrograman_kl extends CI_Controller {
 		echo $this->load->view('pemrograman/dana_kl_v',$data,true); #load konten template file		
 	}
 	
-	function get_body_pendanaan($tahun,$kode){
+	function get_body_pendanaan($tahun,$kode,$page){
 		$params['tahun_renstra'] = 	$tahun;
 		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->program_e1->get_pendanaan2($params); 
@@ -220,11 +220,16 @@ class Pemrograman_kl extends CI_Controller {
 					<td>'.$this->cek_tipe_numerik($d->target_thn3).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn4).'</td>
 					<td>'.$this->cek_tipe_numerik($d->target_thn5).'</td>
-					<td>'.$this->cek_tipe_numerik($total).'</td>
-					<td class="hide">
-						<a href="#keuanganklModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="keuangankl_Edit(\''.$d->tahun_renstra.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
-					</td>
-				</tr>';
+					<td>'.$this->cek_tipe_numerik($total).'</td>';
+				if($page=="e1"):
+					$rs .='<td>
+								<a href="#keuanganklModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="keuangankl_Edit(\''.$d->tahun_renstra.'\',\''.$d->kode_program.'\');"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>';
+				else:
+					$rs .='</tr>';
+				endif;
+				
 				$total1 = $total1+$d->target_thn1;
 				$total2 = $total2+$d->target_thn2;
 				$total3 = $total3+$d->target_thn3;
@@ -241,8 +246,13 @@ class Pemrograman_kl extends CI_Controller {
 						<td><b>'.$this->cek_tipe_numerik($total4).'</b></td>
 						<td><b>'.$this->cek_tipe_numerik($total5).'</b></td>
 						<td><b>'.$this->cek_tipe_numerik($total_all).'</b></td>
-					 </tr>
 				';
+				if($page=="e1"):
+					$rs .='<td></td>
+						</tr>';
+				else:
+					$rs .='</tr>';
+				endif;
 		} else {
 			$rs .= '<tr class="gradeX">
 				<td colspan="6" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>

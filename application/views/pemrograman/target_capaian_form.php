@@ -38,7 +38,19 @@
         </div>
         <?php else: ?>
         	<input type="hidden" name="renstra" value="<?=$data[0]->tahun_renstra?>" />
-            <input type="hidden" name="iku" value="<?=$data[0]->kode_iku_e1?>" />
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Kode IKU</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-sm" name="kdiku" value="<?=$data[0]->kode_iku_e1?>" readonly="readonly">
+            		<input type="hidden" name="iku" value="<?=$data[0]->kode_iku_e1?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Deskripsi</label>
+                <div class="col-sm-8">
+                	<textarea name="deskripsi" readonly="readonly" rows="3" class="form-control input-sm"><?=$data[0]->deskripsi?></textarea>
+                </div>
+            </div>
         <?php endif; ?>
         
         <div class="form-group">

@@ -67,10 +67,13 @@ class Target_capaian_kl extends CI_Controller {
 	
 	function edit($tahun,$iku)
 	{
-		$data['data']		= $this->mgeneral->getWhere(array('kode_iku_kl'=>$iku,"tahun_renstra"=>$tahun),"anev_target_kl");
-		$data['ss']			= $this->iku->get_ss_list();
-		$data['renstra']	= $this->setting_th->get_list();
-		$data['form_tipe']	= "edit";
+		#$data['data']		= $this->mgeneral->getJoin(array('kode_iku_kl'=>$iku,"tahun_renstra"=>$tahun),"anev_target_kl");
+		$params['tahun_renstra']	= $tahun;
+		$params['iku']				= $iku;
+		$data['data']				= $this->target->get_all($params);
+		$data['ss']					= $this->iku->get_ss_list();
+		$data['renstra']			= $this->setting_th->get_list();
+		$data['form_tipe']			= "edit";
 		$this->load->view('pemrograman/target_capaian_kl_form',$data);
 	}
 	
