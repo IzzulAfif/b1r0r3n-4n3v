@@ -58,14 +58,22 @@ class Ekstrak_e1_model extends CI_Model
 		// }
 		
 		foreach ($data as $update_item) {
-			unset($update_item['nama_kl']);
-			unset($update_item['nip']);
-			unset($update_item['gol']);
-			unset($update_item['pangkat']);
-			$insert_query = $this->db->insert_string('anev_eselon1', $update_item);
-			$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
-			//var_dump($insert_query);
-			$this->db->query($insert_query);  
+			// unset($update_item['nama_kl']);
+			// unset($update_item['nip']);
+			// unset($update_item['gol']);
+			// unset($update_item['pangkat']);
+			// $insert_query = $this->db->insert_string('anev_eselon1', $update_item);
+			// $insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
+			// var_dump($insert_query);
+			// $this->db->query($insert_query);  
+			$sql = 'INSERT INTO anev_eselon1 (tahun_renstra,kode_e1,kode_kl,nama_e1,singkatan)
+					VALUES (?, ?,?,?,?)
+					ON DUPLICATE KEY UPDATE 
+						kode_kl,=VALUES(kode_kl), nama_e1=VALUES(nama_e1),singkatan=VALUES(singkatan)';
+
+			$query = $this->db->query($sql, array( $update_item['tahun_renstra'], 
+												  $update_item['kode_e1'],$update_item['kode_kl'],$update_item['nama_e1'],$update_item['singkatan']
+												  )); 
 		}
 		
 		$this->db->trans_complete();

@@ -57,10 +57,18 @@ class Ekstrak_kl_model extends CI_Model
 		// }
 		
 		foreach ($data as $update_item) {
-			$insert_query = $this->db->insert_string('anev_kl', $update_item);
-			$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
+			// $insert_query = $this->db->insert_string('anev_kl', $update_item);
+			// $insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
 			//var_dump($insert_query);
-			$this->db->query($insert_query);  
+			// $this->db->query($insert_query);  
+			$sql = 'INSERT INTO anev_kl (tahun_renstra,kode_kl,nama_kl,singkatan)
+					VALUES (?, ?,?,?)
+					ON DUPLICATE KEY UPDATE 
+						nama_kl=VALUES(nama_kl),singkatan=VALUES(singkatan)';
+
+			$query = $this->db->query($sql, array( $update_item['tahun_renstra'], 
+												  $update_item['kode_kl'],$update_item['nama_kl'],$update_item['singkatan']
+												  )); 
 		}
 		
 		$this->db->trans_complete();

@@ -99,7 +99,7 @@
 					for(var key in json.rows){
 					//	alert(key);
 						delete json.rows[key]['no'];
-						delete json.rows[key]['singkatan'];
+					//	delete json.rows[key]['singkatan'];
 						delete json.rows[key].nama_direktur;
 					}
 					fnCallback(json);

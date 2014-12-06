@@ -38,9 +38,16 @@ class Ekstrak_kl extends CI_Controller {
 		$data = null;
 		$data_webservice = $this->webservice->get_all(array("id"=>$id));
 		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
-		$data['webservice_url']	= $data_webservice[0]->url;	
+	//$data['webservice_url']	= base_url().'admin/ekstrak_kl/coba/'.$id;//nyoba file_get_content dulu 
+	$data['webservice_url']	= $data_webservice[0]->url;	
 		$data['periode_renstra']	= $periode;	
 		echo $this->load->view('admin/ekstrak_kl_v',$data,true); #load konten template file		
+	}
+	
+	function coba($id){
+		$data_webservice = $this->webservice->get_all(array("id"=>$id));		
+		$homepage = file_get_contents("'".substr($data_webservice[0]->url,7)."'");
+		echo $homepage;	
 	}
 	
 	

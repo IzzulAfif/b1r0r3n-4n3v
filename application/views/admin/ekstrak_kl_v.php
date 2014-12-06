@@ -69,7 +69,7 @@
  <script>
 
 	$(document).ready(function(){
-		
+		jQuery.support.cors = true;
 		var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
 					  { "mData": "kode_kl" , "sWidth": "100px"},
@@ -103,7 +103,7 @@
 								for(var key in json.rows){
 								//	alert(key);
 									delete json.rows[key]['no'];
-									delete json.rows[key]['singkatan'];
+									//delete json.rows[key]['singkatan'];
 									delete json.rows[key].nama_menteri;
 								}
 								fnCallback(json);
@@ -121,7 +121,7 @@
 					
 					
 					//load webservice e-performance KL
-					$.ajax({			
+				/*	$.ajax({			
 						url: '<?=$webservice_url?>',
 						crossDomain: true,
 						// Success function. the 'data' parameter is an array of objects that can be looped over
@@ -217,7 +217,7 @@
 							alert(jqXHR+' Oh no! A problem with the AJAX request!');
 						}
 					});
-				
+				*/
 				
 		$('#eperform_kl-tbl tbody').on( 'click', 'tr', function () {
 			//ss	alert('tes');
@@ -226,6 +226,7 @@
 		
 		$("#ekstrak-kl-btn").click(function(){
 			//alert("Data telah diekstrak");
+			//jQuery.support.cors = true;
 			var oTable = $('#eperform_kl-tbl').dataTable();
 			$.ajax({
 				type: 'POST',
