@@ -20,7 +20,7 @@ class Webservice_model extends CI_Model
 		if (isset($params)){
 			if (isset($params['id'])) $where .= " and id='".$params['id']."'";
 		}
-		$sql = "select * from anev_webservice ".$where;
+		$sql = "select * from anev_webservice ".$where." order by urutan ";
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -29,7 +29,7 @@ class Webservice_model extends CI_Model
 		if (isset($params)){
 			//if (isset($params['kode_e1'])) $where .= " and kode_e1='".$params['kode_e1']."'";
 		}
-		$sql = "select distinct tahun_renstra from anev_tahun_renstra ";
+		$sql = "select distinct tahun_renstra from anev_tahun_renstra "." order by urutan ";
 		
 		
 		$result = $this->mgeneral->run_sql($sql);
@@ -57,8 +57,10 @@ class Webservice_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('id,tipe_aplikasi,jenis_data,url');
+		$this->datatables->select('id,tipe_aplikasi,jenis_data,url,urutan');
 		$this->datatables->from('anev_webservice');
+		$this->datatables->where("hide = 0");
+	///	$this->datatables->order('urutan');
 		//$this->datatables->join('anev_tahun_renstra e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'left');
 		$this->datatables->add_column('aksi', '$1',"general_modal_action_edit('webservice',id,\"\",'#webservice-modal')");
 		$this->datatables->unset_column('id');

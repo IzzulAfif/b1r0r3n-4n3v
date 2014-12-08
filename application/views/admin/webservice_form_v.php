@@ -16,7 +16,7 @@
 			<div class="form-group">
                 <label class="col-sm-4 control-label">URL</label>
                 <div class="col-sm-7">
-                   <input type="text" class="form-control input-sm" name="url" value="<?=$data[0]->url?>"> 
+                   <textarea class="form-control input-sm" name="url"><?=$data[0]->url?></textarea>
                 </div>
             </div>
             

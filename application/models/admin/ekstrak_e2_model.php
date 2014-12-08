@@ -68,7 +68,7 @@ class Ekstrak_e2_model extends CI_Model
 			$sql = 'INSERT INTO anev_eselon2 (tahun_renstra,kode_e2,kode_e1,nama_e2,singkatan)
 					VALUES (?, ?,?,?,?)
 					ON DUPLICATE KEY UPDATE 
-						kode_e1,=VALUES(kode_e1), nama_e2=VALUES(nama_e2),singkatan=VALUES(singkatan)';
+						kode_e1=VALUES(kode_e1), nama_e2=VALUES(nama_e2),singkatan=VALUES(singkatan)';
 
 			$query = $this->db->query($sql, array( $update_item['tahun_renstra'], 
 												  $update_item['kode_e2'],$update_item['kode_e1'],$update_item['nama_e2'],$update_item['singkatan']
