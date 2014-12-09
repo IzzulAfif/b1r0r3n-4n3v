@@ -7,7 +7,7 @@
 */
 	
 
-class Ekstrak_iku_kl_model extends CI_Model
+class Ekstrak_sasaran_e1_model extends CI_Model
 { 
 	
 	function __construct()
@@ -19,8 +19,8 @@ class Ekstrak_iku_kl_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kode_kl, tahun, kode_iku_kl, deskripsi, satuan, kode_ss_kl ');
-		$this->datatables->from('anev_iku_kl');
+		$this->datatables->select('kode_sp_e1,kode_e1,deskripsi,kode_ss_kl, tahun ');
+		$this->datatables->from('anev_sasaran_program');
 		if (isset($params)){
 			if (isset($params['tahun_renstra']))
 			$this->datatables->where("tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)");
@@ -39,7 +39,7 @@ class Ekstrak_iku_kl_model extends CI_Model
 				{
 					$sOrder .= $aCols[intval($aOrder[$i]['column'])]['data']." ".($aOrder[$i]['dir']=='asc' ? 'ASC' : 'DESC') .", ";
 				}
-			}
+			}	
 			$sOrder = substr_replace( $sOrder, "", -2 );
 			if ( $sOrder == "ORDER BY" )
 			{
@@ -52,6 +52,7 @@ class Ekstrak_iku_kl_model extends CI_Model
 	
 	}
 	
+	
 	function save_ekstrak($data){
 		$this->db->trans_start();
 		// foreach($data as $d){
@@ -63,15 +64,14 @@ class Ekstrak_iku_kl_model extends CI_Model
 			//,realisasi
 				// realisasi=VALUES(realisasi),	
 				//var_dump($update_item);die;		
-			$sql = 'INSERT INTO anev_iku_kl (  tahun, kode_iku_kl,kode_kl, deskripsi, satuan, kode_ss_kl  )
-					VALUES (?,?,?,?,?,?)
+			$sql = 'INSERT INTO anev_sasaran_program (tahun, kode_sp_e1, deskripsi, kode_ss_kl, kode_e1 )
+					VALUES (?,?,?,?,?)
 					ON DUPLICATE KEY UPDATE 
 						deskripsi=VALUES(deskripsi),	
-						satuan=VALUES(satuan),	
-						kode_kl=VALUES(kode_kl),	
-						kode_ss_kl=VALUES(kode_ss_kl)';
+						kode_ss_kl=VALUES(kode_ss_kl),	
+						kode_e1=VALUES(kode_e1)';
 			//,$update_item['pagu']
-			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_iku_kl'],$update_item['kode_kl'],$update_item['deskripsi'],$update_item['satuan'],$update_item['kode_sasaran_kl']));  
+			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_sasaran_e1'],$update_item['deskripsi'],$update_item['kode_sasaran_kl'],$update_item['kode_e1']));  
 			
 		}
 		
@@ -80,6 +80,8 @@ class Ekstrak_iku_kl_model extends CI_Model
 	    return $this->db->trans_status();
 	
 	}
+	
+	
 
 }
 

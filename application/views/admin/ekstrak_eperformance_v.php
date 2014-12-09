@@ -94,11 +94,38 @@
 			tipe = $('#eperformance-tipe_data').val();
 			//alert(tipe);
 			switch (tipe){
-				
-				case "4" ://program
-					
-					$('#div-eperform-tahun').removeClass("hide");
-					
+				case "4" ://sasaran					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "5" ://sasaran					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "6" ://sasaran					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "7" ://iku					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "8" ://iku					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "9" ://iku					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "10" ://kinerja					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "11" ://kinerja					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "12" ://kinerja					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "13" ://program					
+					$('#div-eperform-tahun').removeClass("hide");					
+				break;
+				case "14" ://kegiatan	
+					$('#div-eperform-tahun').removeClass("hide");					
 				break;
 				default : 
 					$('#eperformance-detail-content').addClass("hide");
@@ -120,6 +147,12 @@
 				alert("Periode Renstra belum ditentukan");
 				$('#eperform-tahun_renstra').select2('open');
 				return;
+			}else if ((tipe=="4")||(tipe=="5")||(tipe=="6")||(tipe=="7")||(tipe=="8")||(tipe=="9")||(tipe=="10")||(tipe=="11")||(tipe=="12")||(tipe=="13")||(tipe=="14")){
+				if (tahun=="0") {
+					alert("Tahun belum ditentukan");
+					$('#eperform-tahun').select2('open');
+					return;
+				}
 			}
 			 //= $(this).val();
 			 $("#eperformance-detail-content").html("");
@@ -136,58 +169,73 @@
 						});	
 					
 				break;
-				case "3" :
-					
+				case "3" :				
 					
 					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_e2/loadpage/"+tipe+"/"+periode,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					
 					});
 				break;
-				case "4" : ///program
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_program/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
+				case "4" : ///sasarankl
+					
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_sasaran_kl/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					});
 				break;
 				case "5" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kegiatan/loadpage/"+tipe+"/"+periode,function(){
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_sasaran_e1/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");					
 					});
 				break;
 				case "6" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_iku_kl/loadpage/"+tipe+"/"+periode,function(){
-						$('#eperformance-detail-content').removeClass("hide");
-					
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_sasaran_e2/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
+						$('#eperformance-detail-content').removeClass("hide");					
 					});
 				break;
 				case "7" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_iku_e1/loadpage/"+tipe+"/"+periode,function(){
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_iku_kl/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					
 					});
 				break;
 				case "8" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_ikk/loadpage/"+tipe+"/"+periode,function(){
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_iku_e1/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					
 					});
 				break;
 				case "9" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_kl/loadpage/"+tipe+"/"+periode,function(){
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_ikk/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					
 					});
 				break;
 				case "10" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_e1/loadpage/"+tipe+"/"+periode,function(){
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_kl/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					
 					});
 				break;
 				case "11" :
-					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_e2/loadpage/"+tipe+"/"+periode,function(){
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_e1/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
 						$('#eperformance-detail-content').removeClass("hide");
 					
+					});
+				break;
+				case "12" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kinerja_e2/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
+						$('#eperformance-detail-content').removeClass("hide");
+					
+					});
+				break;
+				case "13" : ///program
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_program/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
+						$('#eperformance-detail-content').removeClass("hide");
+					});
+				break;
+				case "14" :
+					$("#eperformance-detail-content").load("<?=base_url()?>admin/ekstrak_kegiatan/loadpage/"+tipe+"/"+periode+"/"+tahun,function(){
+						$('#eperformance-detail-content').removeClass("hide");					
 					});
 				break;
 			}

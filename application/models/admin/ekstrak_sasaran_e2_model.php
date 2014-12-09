@@ -7,7 +7,7 @@
 */
 	
 
-class Ekstrak_iku_kl_model extends CI_Model
+class Ekstrak_sasaran_e2_model extends CI_Model
 { 
 	
 	function __construct()
@@ -19,8 +19,8 @@ class Ekstrak_iku_kl_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kode_kl, tahun, kode_iku_kl, deskripsi, satuan, kode_ss_kl ');
-		$this->datatables->from('anev_iku_kl');
+		$this->datatables->select('kode_sk_e2,kode_e2,deskripsi,kode_sp_e1, tahun ');
+		$this->datatables->from('anev_sasaran_kegiatan');
 		if (isset($params)){
 			if (isset($params['tahun_renstra']))
 			$this->datatables->where("tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)");
@@ -39,18 +39,19 @@ class Ekstrak_iku_kl_model extends CI_Model
 				{
 					$sOrder .= $aCols[intval($aOrder[$i]['column'])]['data']." ".($aOrder[$i]['dir']=='asc' ? 'ASC' : 'DESC') .", ";
 				}
-			}
+			}	
 			$sOrder = substr_replace( $sOrder, "", -2 );
 			if ( $sOrder == "ORDER BY" )
 			{
 				$sOrder = "";
 			}
 		}*/
-		//$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=e2.kode_e1 and e1.tahun_renstra=e2.tahun_renstra', 'left');
+		//$this->datatables->join('anev_eselon1 e2', 'e2.kode_e2=e2.kode_e2 and e2.tahun_renstra=e2.tahun_renstra', 'left');
 		//$this->datatables->add_column('aksi', '$1','e2_action(e2.kode_e2)');
 		return $this->datatables->generate();
 	
 	}
+	
 	
 	function save_ekstrak($data){
 		$this->db->trans_start();
@@ -63,15 +64,14 @@ class Ekstrak_iku_kl_model extends CI_Model
 			//,realisasi
 				// realisasi=VALUES(realisasi),	
 				//var_dump($update_item);die;		
-			$sql = 'INSERT INTO anev_iku_kl (  tahun, kode_iku_kl,kode_kl, deskripsi, satuan, kode_ss_kl  )
-					VALUES (?,?,?,?,?,?)
+			$sql = 'INSERT INTO anev_sasaran_kegiatan (tahun, kode_sk_e2, deskripsi, kode_sp_e1, kode_e2 )
+					VALUES (?,?,?,?,?)
 					ON DUPLICATE KEY UPDATE 
 						deskripsi=VALUES(deskripsi),	
-						satuan=VALUES(satuan),	
-						kode_kl=VALUES(kode_kl),	
-						kode_ss_kl=VALUES(kode_ss_kl)';
+						kode_sp_e1=VALUES(kode_sp_e1),	
+						kode_e2=VALUES(kode_e2)';
 			//,$update_item['pagu']
-			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_iku_kl'],$update_item['kode_kl'],$update_item['deskripsi'],$update_item['satuan'],$update_item['kode_sasaran_kl']));  
+			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_sasaran_e2'],$update_item['deskripsi'],$update_item['kode_sasaran_e1'],$update_item['kode_e2']));  
 			
 		}
 		
@@ -80,6 +80,8 @@ class Ekstrak_iku_kl_model extends CI_Model
 	    return $this->db->trans_status();
 	
 	}
+	
+	
 
 }
 

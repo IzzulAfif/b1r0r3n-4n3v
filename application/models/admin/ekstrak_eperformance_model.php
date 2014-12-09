@@ -20,7 +20,7 @@ class Ekstrak_eperformance_model extends CI_Model
 		if (isset($params)){
 			//if (isset($params['kode_e1'])) $where .= " and kode_e1='".$params['kode_e1']."'";
 		}
-		$sql = "select distinct id,jenis_data from anev_webservice where tipe_aplikasi = 'E-Performance' and hide=0 ";
+		$sql = "select distinct id,jenis_data from anev_webservice where tipe_aplikasi = 'E-Performance' and hide=0 order by urutan asc";
 		
 		
 		$result = $this->mgeneral->run_sql($sql);
@@ -33,19 +33,7 @@ class Ekstrak_eperformance_model extends CI_Model
 		return $list;
 	}
 	
-	function get_list_old() {
-	//pilihan data" yg akan diekstrak dari eperformance
-		$list['0'] = 'Pilih Jenis Data';
-		$list['unit_kerja'] = 'Unit Kerja';
-		$list['program'] = 'Program';
-		$list['kegiatan'] = 'Kegiatan';
-		$list['iku'] = 'IKU/IKK';
-		$list['kinerja'] = 'Kinerja';
-		
-		
-		
-		return $list;
-	}
+	
 
 }
 

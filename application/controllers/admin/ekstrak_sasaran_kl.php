@@ -5,15 +5,14 @@
  @revision	 :
 */
 
-class Ekstrak_iku_kl extends CI_Controller {
+class Ekstrak_sasaran_kl extends CI_Controller {
 	
 	function __construct() 
 	{	
 		parent::__construct();
 		$this->load->library('datatables');
-		$this->load->model('/admin/ekstrak_iku_kl_model','iku_kl');
+		$this->load->model('/admin/ekstrak_sasaran_kl_model','sasaran');
 		$this->load->model('/admin/webservice_model','webservice');
-		
 	}
 	function index()
 	{
@@ -23,6 +22,7 @@ class Ekstrak_iku_kl extends CI_Controller {
 		$template			= $this->template->load($setting); #load static template file
 		
 		$data['data']		= null;//
+		
 		$template['konten']	= $this->load->view('admin/ekstrak_v',$data,true); #load konten template file
 		
 		#load container for template view
@@ -33,6 +33,7 @@ class Ekstrak_iku_kl extends CI_Controller {
 	function loadpage($id,$periode,$tahun)
 	{
 		
+		
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
 		$data = null;
@@ -40,17 +41,17 @@ class Ekstrak_iku_kl extends CI_Controller {
 		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
 		$data['webservice_url']	= $data_webservice[0]->url;
 		$data['periode_renstra']	= $periode;	
-		$data['tahun'] = $tahun;
-		echo $this->load->view('admin/ekstrak_iku_kl_v',$data,true); #load konten template file		
+		$data['tahun']	= $tahun;	
+		echo $this->load->view('admin/ekstrak_sasaran_kl_v',$data,true); #load konten template file		
 	}
 	
 	
 	
-	function getdata_iku_kl($periode,$tahun){
+	function getdata_sasaran($periode,$tahun){
 		$params['tahun_renstra'] = $periode;
 		$params['tahun'] = $tahun;
 		//echo $this->satker->get_datatables($params);
-		$data = $this->iku_kl->get_datatables($params);
+		$data = $this->sasaran->get_datatables($params);
 		//var_dump($data);
 		//echo json_encode($data);
 		echo $data;
@@ -62,17 +63,16 @@ class Ekstrak_iku_kl extends CI_Controller {
 			$dataTable = $_POST["dataTable"];
 			foreach($dataTable as $row) {
 				// $row["tahun"] =$tahun;
-				// $row['kode_e2'] = $row['kddept'].".".$row['kdunit'];
-				// $row['kode_sasaran'] = $row['kode_e2'].".".$row['kdsasaran'];
+				// $row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
+				// $row['kode_sasaran'] = $row['kode_e1'].".".$row['kdsasaran'];
 				// $row['nama_sasaran'] = $row['nmsasaran'];
 				$ekstrakData[] = $row;
 				
 			}//foreach
 		}
 		
-		echo $this->iku_kl->save_ekstrak($ekstrakData);
+		echo $this->sasaran->save_ekstrak($ekstrakData);
 		
 	}
-	
 	
 }

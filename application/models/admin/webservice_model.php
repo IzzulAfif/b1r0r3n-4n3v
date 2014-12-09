@@ -20,7 +20,7 @@ class Webservice_model extends CI_Model
 		if (isset($params)){
 			if (isset($params['id'])) $where .= " and id='".$params['id']."'";
 		}
-		$sql = "select * from anev_webservice ".$where." order by urutan ";
+		$sql = "select * from anev_webservice ".$where." order by urutan asc ";
 		return $this->mgeneral->run_sql($sql);
 	}
 	
@@ -29,7 +29,7 @@ class Webservice_model extends CI_Model
 		if (isset($params)){
 			//if (isset($params['kode_e1'])) $where .= " and kode_e1='".$params['kode_e1']."'";
 		}
-		$sql = "select distinct tahun_renstra from anev_tahun_renstra "." order by urutan ";
+		$sql = "select distinct tahun_renstra from anev_tahun_renstra "." order by urutan asc ";
 		
 		
 		$result = $this->mgeneral->run_sql($sql);

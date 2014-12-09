@@ -29,7 +29,7 @@ class Ekstrak_iku_e1 extends CI_Controller {
 	}
 	
 	
-	function loadpage($id,$periode)
+	function loadpage($id,$periode,$tahun)
 	{
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
@@ -39,18 +39,38 @@ class Ekstrak_iku_e1 extends CI_Controller {
 		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
 		$data['webservice_url']	= $data_webservice[0]->url;
 		$data['periode_renstra']	= $periode;	
+		$data['tahun']	= $tahun;
 		echo $this->load->view('admin/ekstrak_iku_e1_v',$data,true); #load konten template file		
 	}
 	
 	
 	
-	function getdata_iku_e1($periode){
+	function getdata_iku_e1($periode,$tahun){
 		$params['tahun_renstra'] = $periode;
+		$params['tahun'] = $tahun;
 		//echo $this->satker->get_datatables($params);
 		$data = $this->iku_e1->get_datatables($params);
 		//var_dump($data);
 		//echo json_encode($data);
 		echo $data;
+	}
+	
+	function ekstrak_data($tahun){
+		$dataTable = null;
+		if(isset($_POST["dataTable"])) {
+			$dataTable = $_POST["dataTable"];
+			foreach($dataTable as $row) {
+				// $row["tahun"] =$tahun;
+				// $row['kode_e2'] = $row['kddept'].".".$row['kdunit'];
+				// $row['kode_sasaran'] = $row['kode_e2'].".".$row['kdsasaran'];
+				// $row['nama_sasaran'] = $row['nmsasaran'];
+				$ekstrakData[] = $row;
+				
+			}//foreach
+		}
+		
+		echo $this->iku_e1->save_ekstrak($ekstrakData);
+		
 	}
 	
 	
