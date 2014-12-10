@@ -136,7 +136,7 @@
 			var oTable = $('#eperform_ikukl-tbl').dataTable();
 			$.ajax({
 				type: 'POST',
-				url: '<?=base_url()?>admin/ekstrak_iku_kl/ekstrak_data/<?=$tahun?>',
+				url: '<?=base_url()?>admin/ekstrak_iku_kl/ekstrak_data/<?=$periode_renstra?>/<?=$tahun?>',
 				cache: false,
 				dataType: 'json',
 				data:{dataTable: oTable.fnGetData()},

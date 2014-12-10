@@ -57,12 +57,12 @@ class Ekstrak_program extends CI_Controller {
 		echo $data;
 	}
 	
-	function ekstrak_data($tahun){
+	function ekstrak_data($periode,$tahun){
 		$dataTable = null;
 		if(isset($_POST["dataTable"])) {
 			$dataTable = $_POST["dataTable"];
 			foreach($dataTable as $row) {
-				// $row["tahun"] =$tahun;
+				  $row["tahun_renstra"] =$periode;
 				// $row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
 				// $row['kode_program'] = $row['kode_e1'].".".$row['kdprogram'];
 				// $row['nama_program'] = $row['nmprogram'];

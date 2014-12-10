@@ -140,7 +140,7 @@
 			var oTable = $('#eperform_ikk-tbl').dataTable();
 			$.ajax({
 				type: 'POST',
-				url: '<?=base_url()?>admin/ekstrak_ikk/ekstrak_data/<?=$tahun?>',
+				url: '<?=base_url()?>admin/ekstrak_ikk/ekstrak_data/<?=$periode_renstra?>/<?=$tahun?>',
 				cache: false,
 				dataType: 'json',
 				data:{dataTable: oTable.fnGetData()},

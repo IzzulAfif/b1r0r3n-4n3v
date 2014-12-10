@@ -74,6 +74,11 @@ class Ekstrak_ikk_model extends CI_Model
 			//,$update_item['pagu']
 			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_ikk'],$update_item['deskripsi'],$update_item['satuan'],$update_item['kode_e2'],$update_item['kode_iku_e1'],$update_item['kode_sasaran_e2']));  
 			
+			
+			$sql = 'INSERT IGNORE INTO anev_target_eselon2 (tahun_renstra,kode_e2,kode_sk_e2,kode_ikk )
+					VALUES (?,?,?,?) ';
+			//,$update_item['pagu']
+			$query = $this->db->query($sql, array( $update_item['tahun_renstra'],$update_item['kode_e2'], $update_item['kode_sasaran_e2'], $update_item['kode_ikk'])); 
 		}
 		
 		$this->db->trans_complete();

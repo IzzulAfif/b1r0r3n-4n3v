@@ -127,7 +127,7 @@
 			var oTable = $('#eperform_program-tbl').dataTable();
 			$.ajax({
 				type: 'POST',
-				url: '<?=base_url()?>admin/ekstrak_program/ekstrak_data/<?=$tahun?>',
+				url: '<?=base_url()?>admin/ekstrak_program/ekstrak_data/<?=$periode_renstra?>/<?=$tahun?>',
 				cache: false,
 				dataType: 'json',
 				data:{dataTable: oTable.fnGetData()},

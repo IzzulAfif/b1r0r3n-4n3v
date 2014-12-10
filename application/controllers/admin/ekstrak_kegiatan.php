@@ -40,7 +40,7 @@ class Ekstrak_kegiatan extends CI_Controller {
 		$data['webservice_url']	= $data_webservice[0]->url;
 		$data['periode_renstra']	= $periode;	
 		$data['tahun']	= $tahun;	
-		echo $this->load->view('admin/kegiatan_v',$data,true); #load konten template file		
+		echo $this->load->view('admin/ekstrak_kegiatan_v',$data,true); #load konten template file		
 	}
 	
 	
@@ -55,21 +55,21 @@ class Ekstrak_kegiatan extends CI_Controller {
 		echo $data;
 	}
 	
-	function ekstrak_data($tahun){
+	function ekstrak_data($periode,$tahun){
 		$dataTable = null;
 		if(isset($_POST["dataTable"])) {
 			$dataTable = $_POST["dataTable"];
 			foreach($dataTable as $row) {
-				$row["tahun"] =$tahun;
-				$row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
-				$row['kode_program'] = $row['kode_e1'].".".$row['kdprogram'];
-				$row['nama_program'] = $row['nmprogram'];
+				  $row["tahun_renstra"] =$periode;
+				// $row['kode_e1'] = $row['kddept'].".".$row['kdunit'];
+				// $row['kode_program'] = $row['kode_e1'].".".$row['kdprogram'];
+				// $row['nama_program'] = $row['nmprogram'];
 				$ekstrakData[] = $row;
 				
 			}//foreach
 		}
 		
-		echo $this->program->save_ekstrak($ekstrakData);
+		echo $this->kegiatan->save_ekstrak($ekstrakData);
 		
 	}
 	

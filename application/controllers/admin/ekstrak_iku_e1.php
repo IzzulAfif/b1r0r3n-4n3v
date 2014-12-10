@@ -55,12 +55,12 @@ class Ekstrak_iku_e1 extends CI_Controller {
 		echo $data;
 	}
 	
-	function ekstrak_data($tahun){
+	function ekstrak_data($periode,$tahun){
 		$dataTable = null;
 		if(isset($_POST["dataTable"])) {
 			$dataTable = $_POST["dataTable"];
 			foreach($dataTable as $row) {
-				// $row["tahun"] =$tahun;
+				  $row["tahun_renstra"] =$periode;
 				// $row['kode_e2'] = $row['kddept'].".".$row['kdunit'];
 				// $row['kode_sasaran'] = $row['kode_e2'].".".$row['kdsasaran'];
 				// $row['nama_sasaran'] = $row['nmsasaran'];

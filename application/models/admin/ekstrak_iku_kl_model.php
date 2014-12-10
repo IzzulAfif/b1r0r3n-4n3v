@@ -73,6 +73,10 @@ class Ekstrak_iku_kl_model extends CI_Model
 			//,$update_item['pagu']
 			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_iku_kl'],$update_item['kode_kl'],$update_item['deskripsi'],$update_item['satuan'],$update_item['kode_sasaran_kl']));  
 			
+			$sql = 'INSERT IGNORE INTO anev_target_kl (tahun_renstra,kode_kl,kode_ss_kl,kode_iku_kl )
+					VALUES (?,?,?,?) ';
+			//,$update_item['pagu']
+			$query = $this->db->query($sql, array( $update_item['tahun_renstra'],$update_item['kode_kl'], $update_item['kode_sasaran_kl'], $update_item['kode_iku_kl'])); 
 		}
 		
 		$this->db->trans_complete();

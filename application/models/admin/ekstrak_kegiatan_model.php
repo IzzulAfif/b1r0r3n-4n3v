@@ -19,11 +19,13 @@ class Ekstrak_kegiatan_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kode_kegiatan,nama_kegiatan,tahun');
+		$this->datatables->select('tahun, kode_kegiatan, nama_kegiatan, kode_program, pagu, realisasi, kode_e2 ');
 		$this->datatables->from('anev_kegiatan_eselon2');
 		if (isset($params)){
 			if (isset($params['tahun_renstra']))
 			$this->datatables->where("tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4)");
+			if (isset($params['tahun']))
+				$this->datatables->where("tahun",$params['tahun']);
 		}
 		$aOrder =isset($_POST['iSortCol_0'])?$_POST['iSortCol_0']:0;
 		$aOrderDir =isset($_POST['sSortDir_0'])?$_POST['sSortDir_0']:"ASC";
@@ -53,23 +55,21 @@ class Ekstrak_kegiatan_model extends CI_Model
 	
 	function save_ekstrak($data){
 		$this->db->trans_start();
-		// foreach($data as $d){
-			// $this->db->insert('anev_matriks_pembangunan', $d);
-		// }
-		
+	 
 		foreach ($data as $update_item) {
-			unset($update_item['kddept']);
-			unset($update_item['kdunit']);
-			unset($update_item['kdprogram']);
-			unset($update_item['kdsatker']);
-			unset($update_item['kdfungsi']);
-			unset($update_item['kdsfung']);
-			unset($update_item['thang']);
-			unset($update_item['nmprogram']);
-			$insert_query = $this->db->insert_string('anev_kegiatan_eselon2', $update_item);
-			$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
-			//var_dump($insert_query);
-			$this->db->query($insert_query);  
+			$sql = 'INSERT INTO anev_kegiatan_eselon2 (  tahun, kode_kegiatan, nama_kegiatan, kode_program,  kode_e2  )
+					VALUES (?,?,?,?,?)
+					ON DUPLICATE KEY UPDATE 
+						nama_kegiatan=VALUES(nama_kegiatan),	
+						kode_program=VALUES(kode_program),	
+						kode_e2=VALUES(kode_e2)';
+			//,$update_item['pagu']
+			$query = $this->db->query($sql, array( $update_item['tahun'],$update_item['kode_kegiatan'],$update_item['nama_kegiatan'],$update_item['kode_program'],$update_item['kode_e2']));   
+			
+			$sql = 'INSERT IGNORE INTO anev_pendanaan_kegiatan (  tahun_renstra, kode_e2,kode_program,kode_kegiatan  )
+					VALUES (?,?,?,?) ';
+			//,$update_item['pagu']
+			$query = $this->db->query($sql, array( $update_item['tahun_renstra'],$update_item['kode_e2'], $update_item['kode_program'],$update_item['kode_kegiatan']));   
 		}
 		
 		$this->db->trans_complete();
