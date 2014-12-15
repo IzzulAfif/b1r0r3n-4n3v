@@ -14,6 +14,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <?=form_dropdown('form-tahun',array("Pilih Tahun"),'','id="form-tahun-ikk"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I <span class="text-danger">*</span></label>
                         <div class="col-md-6">
                        <?=form_dropdown('kode_e1',array("0"=>"Pilih Unit Kerja Eselon I"),'0','id="ikk-kode_e1" class="populate"')?>
@@ -73,6 +79,20 @@
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		
+		renstra_ikk = $('#ikk-tahun');
+		form_tahun_ikk	= $('#form-tahun-ikk');
+		
+		renstra_ikk.change(function(){
+            form_tahun_ikk.empty();
+            if (renstra_ikk.val()!=0) {
+                year = renstra_ikk.val().split('-');
+                for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+                    form_tahun_ikk.append(new Option(i,i));
+                }
+                form_tahun_ikk.select2({minimumResultsForSearch: -1, width:'resolve'});
+            }
+        });
+		
 		 $("#ikk-tahun").change(function(){
 				$.ajax({
 					url:"<?php echo site_url(); ?>laporan/renstra_eselon2/get_list_eselon1/"+this.value,
@@ -108,6 +128,8 @@
 			tahun = $('#ikk-tahun').val();
 			kode_e1 = $('#ikk-kode_e1').val();
 			kode_e2 = $('#ikk-kode_e2').val();
+			tahun2 = $('#form-tahun-ikk').val();
+			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
 				$('#ikk-tahun').select2('open');
@@ -118,7 +140,7 @@
 			}
 			else {
 				$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_ikk/"+tahun+"/"+kode_e1+"/"+kode_e2,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_ikk/"+tahun2+"/"+kode_e1+"/"+kode_e2,
                         success:function(result) {
                             table_body = $('#ikk-tbl tbody');
                             table_body.empty().html(result);        

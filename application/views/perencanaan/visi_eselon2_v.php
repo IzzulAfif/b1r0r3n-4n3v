@@ -145,7 +145,7 @@
 			}
 		});
 		visi_add =function(){
-			$("#visi_title").html('<i class="fa fa-plus-square"></i> Tambah Visi Eselon 2');
+			$("#visi_title").html('<i class="fa fa-plus-square"></i> Tambah Visi Eselon II');
 			$("#visi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon2/save/visi');
 			$.ajax({
 				url:'<?=base_url()?>perencanaan/rencana_eselon2/add/visi',
@@ -155,7 +155,7 @@
 			});
 		}
 		visi_edit =function(tahun,kode){
-			$("#visi_title").html('<i class="fa fa-pencil"></i> Update Visi Eselon 2');
+			$("#visi_title").html('<i class="fa fa-pencil"></i> Edit Visi Eselon II');
 			$("#visi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon2/update');
 			$('#visi_konten').html("");
 			$.ajax({
@@ -179,27 +179,52 @@
 			}
 		}
 		$("#visi_form").submit(function( event ) {
-			var postData = $(this).serializeArray();
-			var formURL = $(this).attr("action");
-				$.ajax({
-					url : formURL,
-					type: "POST",
-					data : postData,
-					success:function(data, textStatus, jqXHR) 
-					{
-						//data: return data from server
-						$.gritter.add({text: data});
-						$('#btnvisi-close').click();
-						$("#visi-btn").click();
-					},
-					error: function(jqXHR, textStatus, errorThrown) 
-					{
-						//if fails
-						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-						$('#btnvisi-close').click();
-					}
-				});
-			  event.preventDefault();
+			
+			var tahun 	= $('#form-e2-tahun-visi').val();
+			var e1		= $('#form-e1-visi').val();
+			var e2		= $('#form-e2-visi').val();
+			var kdv		= $('#form-e2-kode-visi').val();
+			var visi	= $('#form-e2-data-visi').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(e1==""){
+				alert("Nama unit kerja eselon I belum ditentukan");
+				return false;
+			}else if(e2=="0"){
+				alert("Nama unit kerja eselon II belum ditentukan");
+				return false;
+			}else if(kdv==""){
+				alert("Kode Visi belum ditentukan");
+				return false;
+			}else if(visi==""){
+				alert("Visi belum ditentukan");
+				return false;
+			}else{
+				
+				var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+					$.ajax({
+						url : formURL,
+						type: "POST",
+						data : postData,
+						success:function(data, textStatus, jqXHR) 
+						{
+							//data: return data from server
+							$.gritter.add({text: data});
+							$('#btnvisi-close').click();
+							$("#visi-btn").click();
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails
+							$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+							$('#btnvisi-close').click();
+						}
+					});
+				  event.preventDefault();
+			}
 		});
 	})
 </script>	                                                            

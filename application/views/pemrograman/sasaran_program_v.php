@@ -14,6 +14,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <?=form_dropdown('form-tahun',array("Pilih Tahun"),'','id="form-tahun-sasprog"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Nama Unit Kerja</label>
                         <div class="col-md-6">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="sasaran-kode_e1" class="populate"')?>
@@ -64,16 +70,33 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		
+		renstra = $('#sasaran-tahun');
+		form_tahun2	= $('#form-tahun-sasprog');
+		
+		renstra.change(function(){
+            form_tahun2.empty();
+            if (renstra.val()!=0) {
+                year = renstra.val().split('-');
+                for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+                    form_tahun2.append(new Option(i,i));
+                }
+                form_tahun2.select2({minimumResultsForSearch: -1, width:'resolve'});
+            }
+        });
+		
 		$("#sasaran-btn").click(function(){
 			tahun = $('#sasaran-tahun').val();
 			kode = $('#sasaran-kode_e1').val();
+			tahun2 = $('#form-tahun-sasprog').val();
+			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
 				$('#sasaran-tahun').select2('open');
 			}
 			else {
 			$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_body_sasaran/"+tahun+"/"+kode,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_body_sasaran/"+tahun2+"/"+kode,
                         success:function(result) {
                             table_body = $('#sasaran-tbl tbody');
                             table_body.empty().html(result);        

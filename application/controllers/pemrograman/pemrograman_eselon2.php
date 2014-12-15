@@ -47,7 +47,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 	}
 	
 	function get_body_kegiatan($tahun,$kode_e1,$kode_e2){
-		$params['tahun_renstra'] = 	$tahun;
+		$params['tahun'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
 		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->kegiatan->get_all($params); 
@@ -164,7 +164,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 	}
 	
 	function get_body_ikk($tahun,$kode_e1,$kode_e2){
-		$params['tahun_renstra'] = 	$tahun;
+		$params['tahun'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
 		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->iku->get_all($params); 

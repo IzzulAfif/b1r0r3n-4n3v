@@ -113,7 +113,7 @@
 			});
 		}
 		misi_edit =function(tahun,kode){
-			$("#misi_title").html('<i class="fa fa-pencil"></i> Update Misi Kementerian');
+			$("#misi_title").html('<i class="fa fa-pencil"></i> Edit Misi Kementerian');
 			$("#misi_form").attr("action",'<?=base_url()?>perencanaan/rencana_kl/update');
 			$('#misi_konten').html("");
 			$.ajax({
@@ -137,27 +137,49 @@
 			}
 		}
 		$("#misi_form").submit(function( event ) {
-			var postData = $(this).serializeArray();
-			var formURL = $(this).attr("action");
-				$.ajax({
-					url : formURL,
-					type: "POST",
-					data : postData,
-					success:function(data, textStatus, jqXHR) 
-					{
-						//data: return data from server
-						$.gritter.add({text: data});
-						$('#btnmisi-close').click();
-						$("#misi-btn").click();
-					},
-					error: function(jqXHR, textStatus, errorThrown) 
-					{
-						//if fails
-						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-						$('#btnmisi-close').click();
-					}
-				});
-			  event.preventDefault();
+			
+			var tahun 	= $('#form-tahun-misi').val();
+			var kl		= $('#form-kl-misi').val();
+			var kdm		= $('#form-kode-misi').val();
+			var misi	= $('#form-misi').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(kl==""){
+				alert("Nama kementerian belum ditentukan");
+				return false;
+			}else if(kdm==""){
+				alert("Kode misi belum ditentukan");
+				return false;
+			}else if(misi==""){
+				alert("Misi belum ditentukan");
+				return false;
+			}else{
+				
+				var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+					$.ajax({
+						url : formURL,
+						type: "POST",
+						data : postData,
+						success:function(data, textStatus, jqXHR) 
+						{
+							//data: return data from server
+							$.gritter.add({text: data});
+							$('#btnmisi-close').click();
+							$("#misi-btn").click();
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails
+							$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+							$('#btnmisi-close').click();
+						}
+					});
+				  event.preventDefault();
+			
+			}
 		});
     })
     </script>	

@@ -112,7 +112,7 @@
 			});
 		}
 		tujuan_edit =function(tahun,kode){
-			$("#tujuan_title").html('<i class="fa fa-pencil"></i> Update Tujuan Kementerian');
+			$("#tujuan_title").html('<i class="fa fa-pencil"></i> Edit Tujuan Kementerian');
 			$("#tujuan_form").attr("action",'<?=base_url()?>perencanaan/rencana_kl/update');
 			$('#tujuan_konten').html("");
 			$.ajax({
@@ -136,27 +136,49 @@
 			}
 		}
 		$("#tujuan_form").submit(function( event ) {
-			var postData = $(this).serializeArray();
-			var formURL = $(this).attr("action");
-				$.ajax({
-					url : formURL,
-					type: "POST",
-					data : postData,
-					success:function(data, textStatus, jqXHR) 
-					{
-						//data: return data from server
-						$.gritter.add({text: data});
-						$('#btntujuan-close').click();
-						$("#tujuan-btn").click();
-					},
-					error: function(jqXHR, textStatus, errorThrown) 
-					{
-						//if fails
-						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-						$('#btntujuan-close').click();
-					}
-				});
-			  event.preventDefault();
+			
+			var tahun 	= $('#form-tahun-tujuan').val();
+			var kl		= $('#form-kl-tujuan').val();
+			var kdt		= $('#form-kode-tujuan').val();
+			var tujuan	= $('#form-tujuan').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(kl==""){
+				alert("Nama Kementerian belum ditentukan");
+				return false;
+			}else if(kdt==""){
+				alert("Kode Tujuan belum ditentukan");
+				return false;
+			}else if(tujuan==""){
+				alert("Tujuan belum ditentukan");
+				return false;
+			}else{
+				
+				var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+					$.ajax({
+						url : formURL,
+						type: "POST",
+						data : postData,
+						success:function(data, textStatus, jqXHR) 
+						{
+							//data: return data from server
+							$.gritter.add({text: data});
+							$('#btntujuan-close').click();
+							$("#tujuan-btn").click();
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails
+							$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+							$('#btntujuan-close').click();
+						}
+					});
+				  event.preventDefault();
+			
+			}
 		});
 	})
 </script>	               

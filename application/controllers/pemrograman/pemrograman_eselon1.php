@@ -49,7 +49,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 	}
 	
 	function get_body_program($tahun,$kode){
-		$params['tahun_renstra'] = 	$tahun;
+		$params['tahun'] 	= 	$tahun;
 		$params['kode_e1'] = 	$kode;
 		$data=$this->program_e1->get_all($params); 
 		$rs = '';
@@ -169,7 +169,7 @@ class Pemrograman_eselon1 extends CI_Controller {
 		echo $this->load->view('pemrograman/iku_eselon1_v',$data,true); #load konten template file		
 	}
 	function get_body_iku($tahun,$kode){
-		$params['tahun_renstra'] = 	$tahun;
+		$params['tahun'] = 	$tahun;
 		if($kode!=0)$params['kode_e1'] = 	$kode;
 		$data=$this->iku->get_all($params); 
 		$rs = '';

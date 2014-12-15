@@ -148,7 +148,7 @@
 			}
 		});
 		misi_add =function(){
-			$("#misi_title").html('<i class="fa fa-plus-square"></i> Tambah Misi Eselon 2');
+			$("#misi_title").html('<i class="fa fa-plus-square"></i> Tambah Misi Eselon II');
 			$("#misi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon2/save/misi');
 			$.ajax({
 				url:'<?=base_url()?>perencanaan/rencana_eselon2/add/misi',
@@ -158,7 +158,7 @@
 			});
 		}
 		misi_edit =function(tahun,kode){
-			$("#misi_title").html('<i class="fa fa-pencil"></i> Update Misi Eselon 2');
+			$("#misi_title").html('<i class="fa fa-pencil"></i> Edit Misi Eselon II');
 			$("#misi_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon2/update');
 			$('#misi_konten').html("");
 			$.ajax({
@@ -182,27 +182,52 @@
 			}
 		}
 		$("#misi_form").submit(function( event ) {
-			var postData = $(this).serializeArray();
-			var formURL = $(this).attr("action");
-				$.ajax({
-					url : formURL,
-					type: "POST",
-					data : postData,
-					success:function(data, textStatus, jqXHR) 
-					{
-						//data: return data from server
-						$.gritter.add({text: data});
-						$('#btnmisi-close').click();
-						$("#misi-btn").click();
-					},
-					error: function(jqXHR, textStatus, errorThrown) 
-					{
-						//if fails
-						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-						$('#btnmisi-close').click();
-					}
-				});
-			  event.preventDefault();
+			
+			var tahun 	= $('#form-e2-tahun-misi').val();
+			var e1		= $('#form-e1-misi').val();
+			var e2		= $('#form-e2-misi').val();
+			var kdm		= $('#form-e2-kode-misi').val();
+			var misi	= $('#form-e2-data-misi').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(e1==""){
+				alert("Nama unit kerja eselon I belum ditentukan");
+				return false;
+			}else if(e2=="0"){
+				alert("Nama unit kerja eselon II belum ditentukan");
+				return false;
+			}else if(kdm==""){
+				alert("Kode Misi belum ditentukan");
+				return false;
+			}else if(misi==""){
+				alert("Misi belum ditentukan");
+				return false;
+			}else{
+				
+				var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+					$.ajax({
+						url : formURL,
+						type: "POST",
+						data : postData,
+						success:function(data, textStatus, jqXHR) 
+						{
+							//data: return data from server
+							$.gritter.add({text: data});
+							$('#btnmisi-close').click();
+							$("#misi-btn").click();
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails
+							$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+							$('#btnmisi-close').click();
+						}
+					});
+				  event.preventDefault();
+			}
 		});
 	})
 </script>	                                                            

@@ -14,6 +14,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <?=form_dropdown('form-tahun',array("Pilih Tahun"),'','id="form-tahun-saskeg"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I <span class="text-danger">*</span></label>
                         <div class="col-md-6">
                        <?=form_dropdown('kode_e1',$eselon1,'0','id="sasaran-kode_e1" class="populate"')?>
@@ -67,6 +73,21 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		
+		renstra = $('#sasaran-tahun');
+		form_tahun2	= $('#form-tahun-saskeg');
+		
+		renstra.change(function(){
+            form_tahun2.empty();
+            if (renstra.val()!=0) {
+                year = renstra.val().split('-');
+                for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+                    form_tahun2.append(new Option(i,i));
+                }
+                form_tahun2.select2({minimumResultsForSearch: -1, width:'resolve'});
+            }
+        });
+		
 		$("#sasaran-kode_e1").change(function(){
 			$.ajax({
 				url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_list_eselon2/"+this.value,
@@ -84,8 +105,10 @@
 			tahun = $('#sasaran-tahun').val();
 			kode_e1 = $('#sasaran-kode_e1').val();
 			kode_e2 = $('#sasaran-kode_e2').val();
+			tahun2 = $('#form-tahun-saskeg').val();
+			 
 			$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_sasaran/"+tahun+"/"+kode_e1+"/"+kode_e2,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_sasaran/"+tahun2+"/"+kode_e1+"/"+kode_e2,
                         success:function(result) {
                             table_body = $('#sasaran-tbl tbody');
                             table_body.empty().html(result);        

@@ -14,6 +14,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <?=form_dropdown('form-tahun',array("Pilih Tahun"),'','id="form-tahun-iku"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-2 control-label">Unit Kerja Eselon I</label>
                         <div class="col-md-6">
                        <?=form_dropdown('kode_e1',array("0"=>"Semua Unit Kerja Eselon I"),'0','id="iku-kode_e1" class="populate"')?>
@@ -65,16 +71,33 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
+		
+		renstra_iku = $('#iku-tahun');
+		form_tahun_iku	= $('#form-tahun-iku');
+		
+		renstra_iku.change(function(){
+            form_tahun_iku.empty();
+            if (renstra_iku.val()!=0) {
+                year = renstra_iku.val().split('-');
+                for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+                    form_tahun_iku.append(new Option(i,i));
+                }
+                form_tahun_iku.select2({minimumResultsForSearch: -1, width:'resolve'});
+            }
+        });
+		
 		$("#iku-btn").click(function(){
 			tahun = $('#iku-tahun').val();
 			kode = $('#iku-kode_e1').val();
+			tahun2	= $('#form-tahun-iku').val();
+			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
 				$('#iku-tahun').select2('open');
 			}
 			else {
 				$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_body_iku/"+tahun+"/"+kode,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon1/get_body_iku/"+tahun2+"/"+kode,
                         success:function(result) {
                             table_body = $('#iku-tbl tbody');
                             table_body.empty().html(result);        

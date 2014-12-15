@@ -83,7 +83,7 @@ class Pemrograman_kl extends CI_Controller {
 		echo $this->load->view('pemrograman/sasaran_strategis_v',$data,true); #load konten template file		
 	}
 	function get_body_sastra($tahun,$kl){
-		$params['tahun_renstra'] = 	$tahun;
+		$params['tahun']	 = 	$tahun;
 		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->sasaran->get_all($params); 
 		$rs = '';
@@ -114,7 +114,7 @@ class Pemrograman_kl extends CI_Controller {
 		echo $this->load->view('pemrograman/iku_kl_v',$data,true); #load konten template file		
 	}
 	function get_body_iku($tahun,$kl){
-		$params['tahun_renstra'] = 	$tahun;
+		$params['tahun'] = 	$tahun;
 		if($kl!="-1")$params['kode_kl'] = 	$kl;
 		$data=$this->iku->get_all($params); 
 		$rs = '';
@@ -131,7 +131,7 @@ class Pemrograman_kl extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td colspan="3" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
+				<td colspan="4" align="center">&nbsp;<i class="fa fa-exclamation-triangle"></i> data tidak ditemukan</td>
 			</tr>';
 		}
 		echo $rs;

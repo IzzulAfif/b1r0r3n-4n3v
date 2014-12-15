@@ -21,7 +21,7 @@ class Misi_eselon1_model extends CI_Model
 			if (isset($params['kode_e1'])) $where .= " and f.kode_e1='".$params['kode_e1']."'";
 			if (isset($params['tahun_renstra'])) $where .= " and f.tahun_renstra='".$params['tahun_renstra']."'";
 		}
-		$sql = "select f.*, e1.nama_e1 from anev_misi_eselon1 f inner join anev_eselon1 e1 on e1.kode_e1=f.kode_e1  and e1.tahun_renstra = f.tahun_renstra ".$where;
+		$sql = "select f.*, e1.nama_e1 from anev_misi_eselon1 f inner join anev_eselon1 e1 on e1.kode_e1=f.kode_e1  and e1.tahun_renstra = f.tahun_renstra ".$where." ORDER BY f.kode_e1,f.kode_misi_e1 ASC";
 		
 		return $this->mgeneral->run_sql($sql);
 	}

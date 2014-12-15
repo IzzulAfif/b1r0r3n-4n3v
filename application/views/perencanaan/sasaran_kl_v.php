@@ -113,7 +113,7 @@
 			});
 		}
 		sasaran_edit =function(tahun,kode){
-			$("#sasaran_title").html('<i class="fa fa-pencil"></i> Update Sasaran Kementerian');
+			$("#sasaran_title").html('<i class="fa fa-pencil"></i> Edit Sasaran Kementerian');
 			$("#sasaran_form").attr("action",'<?=base_url()?>perencanaan/rencana_kl/update');
 			$('#sasaran_konten').html("");
 			$.ajax({
@@ -137,27 +137,49 @@
 			}
 		}
 		$("#sasaran_form").submit(function( event ) {
-			var postData = $(this).serializeArray();
-			var formURL = $(this).attr("action");
-				$.ajax({
-					url : formURL,
-					type: "POST",
-					data : postData,
-					success:function(data, textStatus, jqXHR) 
-					{
-						//data: return data from server
-						$.gritter.add({text: data});
-						$('#btnsasaran-close').click();
-						$("#sasaran-btn").click();
-					},
-					error: function(jqXHR, textStatus, errorThrown) 
-					{
-						//if fails
-						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-						$('#btnsasaran-close').click();
-					}
-				});
-			  event.preventDefault();
+			
+			var tahun 	= $('#form-tahun-sasaran').val();
+			var kl		= $('#form-kl-sasaran').val();
+			var kds		= $('#form-kode-sasaran').val();
+			var sasaran	= $('#form-sasaran').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(kl==""){
+				alert("Nama Kementerian belum ditentukan");
+				return false;
+			}else if(kds==""){
+				alert("Kode sasaran belum ditentukan");
+				return false;
+			}else if(sasaran==""){
+				alert("Sasaran belum ditentukan");
+				return false;
+			}else{
+				
+				var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+					$.ajax({
+						url : formURL,
+						type: "POST",
+						data : postData,
+						success:function(data, textStatus, jqXHR) 
+						{
+							//data: return data from server
+							$.gritter.add({text: data});
+							$('#btnsasaran-close').click();
+							$("#sasaran-btn").click();
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails
+							$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+							$('#btnsasaran-close').click();
+						}
+					});
+				  event.preventDefault();
+			
+			}
 		});
 	})
 </script>	

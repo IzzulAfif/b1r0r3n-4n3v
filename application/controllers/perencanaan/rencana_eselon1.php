@@ -54,9 +54,11 @@ class Rencana_eselon1 extends CI_Controller {
 			foreach($data as $d): 
 				if($prevUK!=$d->nama_e1): $namaUK = $d->nama_e1; $no=1; else: $namaUK = ""; endif;
 				$prevUK = $d->nama_e1; 
-				$rs .= '<tr class="gradeX">
-					<td width="15%">'.$namaUK.'</td>
-					<td width="10%">'.$d->kode_visi_e1.'</td>
+				$rs .= '<tr class="gradeX">';
+				
+				$rs .= '<td width="15%">'.$namaUK.'</td>';
+				
+				$rs .= '<td width="10%">'.$d->kode_visi_e1.'</td>
 					<td>'.$d->visi_e1.'</td>					
 					<td>
 						<a href="#visiModal" data-toggle="modal"  class="btn btn-info btn-xs" title="Edit" onclick="visi_edit(\''.$d->tahun_renstra.'\',\''.$d->kode_visi_e1.'\');"><i class="fa fa-pencil"></i></a>

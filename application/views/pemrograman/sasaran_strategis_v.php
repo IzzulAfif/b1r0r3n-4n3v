@@ -15,6 +15,14 @@
                          	<?=form_dropdown('tahun',$renstra,'0','id="sastra-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <?=form_dropdown('form-tahun',array("Pilih Tahun"),'','id="form-tahun-sastra"')?>
+                        </div>
+                    </div>
+                    
                     <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-6">
@@ -63,17 +71,32 @@
 	$(document).ready(function() {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		
+		renstra = $('#sastra-tahun');
+		form_tahun2	= $('#form-tahun-sastra');
+		
+		renstra.change(function(){
+            form_tahun2.empty();
+            if (renstra.val()!=0) {
+                year = renstra.val().split('-');
+                for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+                    form_tahun2.append(new Option(i,i));
+                }
+                form_tahun2.select2({minimumResultsForSearch: -1, width:'resolve'});
+            }
+        });
 		
 		$("#sastra-btn").click(function(){
 			tahun = $('#sastra-tahun').val();
 			kode = $('#sastra-kodekl').val();
+			form_tahun = $('#form-tahun-sastra').val();
+			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
 				$('#sastra-tahun').select2('open');
 			}
 			else {
 			$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_sastra/"+tahun+"/"+kode,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_kl/get_body_sastra/"+form_tahun+"/"+kode,
                         success:function(result) {
                             table_body = $('#sastra-tbl tbody');
                             table_body.empty().html(result);        

@@ -14,6 +14,12 @@
                          	<?=form_dropdown('tahun',$renstra,'0','id="iku-tahun" class="populate" style="width:100%"')?>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Tahun <span class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <?=form_dropdown('form-tahun',array("Pilih Tahun"),'','id="form-tahun-iku"')?>
+                        </div>
+                    </div>
                     <div class="form-group hide">
                         <label class="col-md-2 control-label">Nama Kementerian</label>
                         <div class="col-md-6">
@@ -61,10 +67,24 @@
     
 <script type="text/javascript">
 	$(document).ready(function() {
-	
+		
+		renstra_iku 	= $('#iku-tahun');
+		form_tahun_iku	= $('#form-tahun-iku');
+		
+		renstra_iku.change(function(){
+            form_tahun_iku.empty();
+            if (renstra_iku.val()!=0) {
+                year = renstra_iku.val().split('-');
+                for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
+                    form_tahun_iku.append(new Option(i,i));
+                }
+                form_tahun_iku.select2({minimumResultsForSearch: -1, width:'resolve'});
+            }
+        });
+		
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
 		$("#iku-btn").click(function(){
-			tahun = $('#iku-tahun').val();
+			tahun = $('#form-tahun-iku').val();
 			kode = $('#iku-kodekl').val();
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");

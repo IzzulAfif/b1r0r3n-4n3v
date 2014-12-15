@@ -121,7 +121,7 @@
 			});
 		
 		tujuan_add =function(){
-			$("#tujuan_title").html('<i class="fa fa-plus-square"></i> Tambah Tujuan Eselon 1');
+			$("#tujuan_title").html('<i class="fa fa-plus-square"></i> Tambah Tujuan Eselon I');
 			$("#tujuan_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon1/save/tujuan');
 			$.ajax({
 				url:'<?=base_url()?>perencanaan/rencana_eselon1/add/tujuan',
@@ -131,7 +131,7 @@
 			});
 		}
 		tujuan_edit =function(tahun,kode){
-			$("#tujuan_title").html('<i class="fa fa-pencil"></i> Update Tujuan Eselon 1');
+			$("#tujuan_title").html('<i class="fa fa-pencil"></i> Edit Tujuan Eselon I');
 			$("#tujuan_form").attr("action",'<?=base_url()?>perencanaan/rencana_eselon1/update');
 			$('#tujuan_konten').html("");
 			$.ajax({
@@ -155,27 +155,47 @@
 			}
 		}
 		$("#tujuan_form").submit(function( event ) {
-			var postData = $(this).serializeArray();
-			var formURL = $(this).attr("action");
-				$.ajax({
-					url : formURL,
-					type: "POST",
-					data : postData,
-					success:function(data, textStatus, jqXHR) 
-					{
-						//data: return data from server
-						$.gritter.add({text: data});
-						$('#btntujuan-close').click();
-						$("#tujuan-btn").click();
-					},
-					error: function(jqXHR, textStatus, errorThrown) 
-					{
-						//if fails
-						$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
-						$('#btntujuan-close').click();
-					}
-				});
-			  event.preventDefault();
+			var tahun 	= $('#form-e1-tahun-tujuan').val();
+			var kl		= $('#form-e1-tujuan').val();
+			var kdt		= $('#form-e1-kode-tujuan').val();
+			var tujuan	= $('#form-e1-data-tujuan').val();
+			
+			if(tahun==""){
+				alert("Periode Renstra belum ditentukan");
+				return false;
+			}else if(kl==""){
+				alert("Nama unit kerja belum ditentukan");
+				return false;
+			}else if(kdt==""){
+				alert("Kode Tujuan belum ditentukan");
+				return false;
+			}else if(tujuan==""){
+				alert("Tujuan belum ditentukan");
+				return false;
+			}else{
+				
+				var postData = $(this).serializeArray();
+				var formURL = $(this).attr("action");
+					$.ajax({
+						url : formURL,
+						type: "POST",
+						data : postData,
+						success:function(data, textStatus, jqXHR) 
+						{
+							//data: return data from server
+							$.gritter.add({text: data});
+							$('#btntujuan-close').click();
+							$("#tujuan-btn").click();
+						},
+						error: function(jqXHR, textStatus, errorThrown) 
+						{
+							//if fails
+							$.gritter.add({text: '<h5><i class="fa fa-exclamation-triangle"></i> <b>Eror !!</b></h5> <p>'+errorThrown+'</p>'});
+							$('#btntujuan-close').click();
+						}
+					});
+				  event.preventDefault();
+			}
 		});
 	})
 </script>	

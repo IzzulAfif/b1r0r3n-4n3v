@@ -34,7 +34,7 @@ class Tahun_renstra_model extends CI_Model
 		
 		$result = $this->mgeneral->run_sql($sql);
 		
-		$list[0] = 'Pilih Tahun Renstra';
+		$list[0] = 'Pilih Periode Renstra';
 		if (isset($result))
 			foreach ($result as $i) {
 				$list[$i->tahun_renstra] = $i->tahun_renstra;
