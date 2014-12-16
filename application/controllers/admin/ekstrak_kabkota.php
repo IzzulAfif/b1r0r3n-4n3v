@@ -12,6 +12,7 @@ class Ekstrak_kabkota extends CI_Controller {
 		parent::__construct();
 		$this->load->library('datatables');
 		$this->load->model('/admin/kabkota_model','kabkota');
+		$this->load->model('/admin/webservice_model','webservice');
 		
 	}
 	function index()
@@ -35,6 +36,9 @@ class Ekstrak_kabkota extends CI_Controller {
 		$data['data'] = null;//$this->fungsi->get_all(null);
 		//$data['tipe_data'] = $this->eperformance->get_list();
 		$data = null;
+		$data_webservice = $this->webservice->get_all(array("id"=>$id));
+		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
+		$data['webservice_url']	= $data_webservice[0]->url;
 		echo $this->load->view('admin/kabkota_v',$data,true); #load konten template file		
 	}
 	
@@ -49,5 +53,21 @@ class Ekstrak_kabkota extends CI_Controller {
 		echo $data;
 	}
 	
+	
+	function ekstrak_data(){
+		$dataTable = null;
+		if(isset($_POST["dataTable"])) {
+			$dataTable = $_POST["dataTable"];
+			foreach($dataTable as $row) {
+				
+				
+				$ekstrakData[] = $row;
+				
+			}//foreach
+		}
+		
+		echo $this->kabkota->save_ekstrak($ekstrakData);
+		
+	}
 	
 }

@@ -19,25 +19,14 @@
 		<div class="tab-content">
 		   <div class="tab-pane fade active in" id="anev_kabkota-content">
 <!--main content start-->
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="pull-left">
-						  <button type="button" class="btn btn-info" id="emon-kabkota-btn" style="margin-left:15px;">
-								<i class="fa fa-gear"></i> Ekstrak
-							</button>
-					 </div>
-				</div>
-			</div>
-			<br />
 			
 			<div class="adv-table">
 			<table class="display table table-bordered table-striped" id="kabkota-tbl">
 			<thead>
 				<tr>
+					<th>Kode Lokasi</th>
 					<th>Kode Kab/Kota</th>
-					<th>Kabupaten/Kota</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
+					<th>Nama Kab/Kota</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,7 +39,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="pull-left">
-								  <button type="button" class="btn btn-info" id="emon-ekstrak-btn" style="margin-left:15px;">
+								  <button type="button" class="btn btn-info" id="emon-kabkota-btn" style="margin-left:15px;">
 										<i class="fa fa-gear"></i> Ekstrak
 									</button>
 							 </div>
@@ -61,10 +50,9 @@
 					<table class="display table table-bordered table-striped" id="emon_kabkota-tbl">
 					 <thead>
 						<tr>
+							<th>Kode Lokasi</th>
 							<th>Kode Kab/Kota</th>
-							<th>Kabupaten/Kota</th>
-							<th>Latitude</th>
-							<th>Longitude</th>
+							<th>Nama Kab/Kota</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -82,16 +70,15 @@
 		
 		var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },					
+					  { "mData": "kdlokasi" , "sWidth": "100px"},
 					  { "mData": "kdkabkota" , "sWidth": "100px"},
-					  { "mData": "nama_kabkota"  },
-					  { "mData": "latitude" , "sWidth": "150px"},
-					  { "mData": "longitude" , "sWidth": "150px"}
+					  { "mData": "nama_kabkota"  } 
 					]
 			load_ajax_datatable2("kabkota-tbl", '<?=base_url()?>admin/ekstrak_kabkota/getdata_kabkota/',columsDef,1,"desc");
 		
 		
 		$('#emon_kabkota-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,

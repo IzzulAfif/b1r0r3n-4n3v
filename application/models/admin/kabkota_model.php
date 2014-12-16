@@ -46,7 +46,7 @@ class Kabkota_model extends CI_Model
 	
 	
 	function get_datatables($params){
-		$this->datatables->select('kdkabkota, nama_kabkota,latitude,longitude ');
+		$this->datatables->select('kdlokasi,kdkabkota, nama_kabkota,latitude,longitude ');
 		$this->datatables->from('anev_kabkota');
 	
 		return $this->datatables->generate();
@@ -64,8 +64,8 @@ class Kabkota_model extends CI_Model
 					ON DUPLICATE KEY UPDATE 
 						nama_kabkota=VALUES(nama_kabkota)';
 
-			$query = $this->db->query($sql, array( $update_item['kdlokasi'], 
-												  $update_item['nama_kabkota']
+			$query = $this->db->query($sql, array( $update_item['kdlokasi'],  $update_item['kdkabkot'], 
+												  $update_item['nmkabkota']
 												  )); 
 		}
 		
