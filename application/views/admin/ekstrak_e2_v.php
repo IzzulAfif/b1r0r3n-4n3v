@@ -76,7 +76,7 @@
 			load_ajax_datatable2("e2-tbl", '<?=base_url()?>admin/ekstrak_e2/getdata_e2/<?=$periode_renstra?>',columsDef,1,"desc");
 			
 		$('#eperform_e2-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": fals,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,

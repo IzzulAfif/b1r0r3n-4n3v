@@ -87,7 +87,7 @@
 			load_ajax_datatable2("sasarane1-tbl", '<?=base_url()?>admin/ekstrak_sasaran_e1/getdata_sasaran/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 			
 		$('#eperform_sasarane1-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,

@@ -91,7 +91,7 @@
 			load_ajax_datatable2("iku_e1-tbl", '<?=base_url()?>admin/ekstrak_iku_e1/getdata_iku_e1/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 			
 		$('#eperform_ikue1-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,

@@ -81,7 +81,7 @@
 			load_ajax_datatable2("program-tbl", '<?=base_url()?>admin/ekstrak_program/getdata_program/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 			
 		$('#eperform_program-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,

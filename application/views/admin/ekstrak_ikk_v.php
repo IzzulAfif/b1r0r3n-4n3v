@@ -91,7 +91,7 @@
 			load_ajax_datatable2("ikk-tbl", '<?=base_url()?>admin/ekstrak_ikk/getdata_ikk/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 			
 		$('#eperform_ikk-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,

@@ -84,7 +84,7 @@
 			load_ajax_datatable2("kegiatan-tbl", '<?=base_url()?>admin/ekstrak_kegiatan/getdata_kegiatan/<?=$periode_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 		
 		$('#eperform_kegiatan-tbl').dataTable({
-			"bServerSide": true,
+			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,
