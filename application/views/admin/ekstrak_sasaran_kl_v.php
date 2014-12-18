@@ -25,10 +25,11 @@
 				<table class="display table table-bordered table-striped" id="sasarankl-tbl">
 				<thead>
 					<tr>
-						<th>Tahun</th>
-						<th>Kode Kementerian</th>
-						<th>Kode Sasaran</th>
-						<th>Deskripsi</th>
+						  <th><div class="th_wrapp">No</div></th>
+						  <th><div class="th_wrapp">Judul Diklat</div></th>
+						  <th><div class="th_wrapp">Tahun</div></th>
+						  <th><div>Angkatan</div></th>
+						  <th><div class="th_wrapp">Aksi</div></th>
 					   
 					</tr>
 				</thead>

@@ -1,14 +1,14 @@
 <section class="panel">
 	<header class="panel-heading tab-bg-light tab-right ">
-		<p class="pull-left"><b>Data Satker</b></p>
+		<p class="pull-left"><b>Data Output</b></p>
 		<ul class="nav nav-tabs pull-right">
 			<li class="active">
-				<a data-toggle="tab" href="#anev_satker-content">
+				<a data-toggle="tab" href="#anev_output-content">
 				   <i class="fa fa-cogs"></i> Data di Anev
 				</a>
 			</li>
 			<li class="">
-				<a data-toggle="tab" href="#emon_satker-content">
+				<a data-toggle="tab" href="#emon_output-content">
 					<i class="fa fa-bar-chart-o"></i> Data di E-Monitoring
 				</a>
 			</li>
@@ -17,19 +17,17 @@
 	</header>
 	<div class="panel-body">
 		<div class="tab-content">
-		   <div class="tab-pane fade active in" id="anev_satker-content">
+		   <div class="tab-pane fade active in" id="anev_output-content">
 		<!--main content start-->    
 				
 				<div class="adv-table">
-				<table class="display table table-bordered table-striped" id="satker-tbl">
+				<table class="display table table-bordered table-striped" id="output-tbl">
 				<thead>
-					<tr>
-				
-						<th>Tahun Renstra</th>
-						<th>Kode Satker</th>
-						<th>Nama Satker</th>
-						<th>Lokasi</th>
-						<th>Unit Kerja</th>
+					<tr>				
+						<th>Kode Kegiatan</th>
+						<th>Kode Output</th>
+						<th>Nama Output</th>
+						<th>Satuan</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -41,11 +39,11 @@
 				</div>  
 			<!--main content end-->
 			</div>
-				<div class="tab-pane fade" id="emon_satker-content">
+				<div class="tab-pane fade" id="emon_output-content">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="pull-left">
-								  <button type="button" class="btn btn-info" id="emon-satker-btn" style="margin-left:15px;">
+								  <button type="button" class="btn btn-info" id="emon-output-btn" style="margin-left:15px;">
 										<i class="fa fa-gear"></i> Ekstrak
 									</button>
 							 </div>
@@ -53,13 +51,13 @@
 					</div>
 					<br />
 					<div class="adv-table">
-					<table class="display table table-bordered table-striped" id="emon_satker-tbl">
+					<table class="display table table-bordered table-striped" id="emon_output-tbl">
 					 <thead>
 						<tr> 
-						<th>Kode Satker</th>
-						<th>Nama Satker</th>
-						<th>Unit Kerja</th>
-						<th>Lokasi</th>
+							<th>Kode Kegiatan</th>
+							<th>Kode Output</th>
+							<th>Nama Output</th>
+							<th>Satuan</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -78,23 +76,22 @@
 		
 		var columsDef =  [
 					 // { "mData": "row_number", "sWidth": "5px", "bSearchable": false, "bSortable": false  },
-					  { "mData": "tahun_renstra", "sWidth": "65px" },
-					  { "mData": "kode_satker" , "sWidth": "70px"},
-					  { "mData": "nama_satker"  },
-					  { "mData": "lokasi_satker", "sWidth": "100px" },
-					  { "mData": "kode_e1", "sWidth": "60px" }
+					  { "mData": "kode_kegiatan", "sWidth": "65px" },
+					  { "mData": "kdoutput" , "sWidth": "70px"},
+					  { "mData": "nmoutput"  },
+					  { "mData": "satuan", "sWidth": "60px" }
 					]
-			load_ajax_datatable2("satker-tbl", '<?=base_url()?>admin/ekstrak_satker/getdata_satker/<?=$tahun_renstra?>/<?=$tahun?>',columsDef,1,"desc");
+			load_ajax_datatable2("output-tbl", '<?=base_url()?>admin/ekstrak_output/getdata_output',columsDef,1,"desc");
 			
 		
-		$('#emon_satker-tbl').dataTable({
+		$('#emon_output-tbl').dataTable({
 			"bServerSide": false,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
 			"bProcessing": true,
 			"bDestroy": true,
 			"fnServerParams": function (aoData) {
-				aoData.push({ "name": "tahun", "value": '<?=$tahun?>' });
+				
 			},
 			"fnServerData": function (sSource, aoData, fnCallback) {
 			  $.ajax({
@@ -128,20 +125,20 @@
 			  });
 			},
 			"aoColumns": [
-				{ "mData": "kode_satker" },
-				{ "mData": "uraian_satker" },
-				{ "mData": "unit_satker" },
-				{ "mData": "lokasi_satker" }
+				{ "mData": "KDGIAT" },
+				{ "mData": "KDOUTPUT" },
+				{ "mData": "NMOUTPUT" },
+				{ "mData": "SAT" }
 			],
 			"sDom": 'rt<"top"lpi>'
 		});	
 		
 		
-		$("#emon-satker-btn").click(function(){
-			var oTable = $('#emon_satker-tbl').dataTable();
+		$("#emon-output-btn").click(function(){
+			var oTable = $('#emon_output-tbl').dataTable();
 			$.ajax({
 				type: 'POST',
-				url: '<?=base_url()?>admin/ekstrak_satker/ekstrak_data/<?=$tahun_renstra?>',
+				url: '<?=base_url()?>admin/ekstrak_output/ekstrak_data/',
 				cache: false,
 				dataType: 'json',
 				data:{dataTable: oTable.fnGetData()},

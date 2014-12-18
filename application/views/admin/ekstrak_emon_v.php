@@ -117,11 +117,16 @@
 				break;
 				case "22" ://satker
 					$('#div-emon-periode').removeClass("hide");
-					$('#div-emon-unit_kerja').removeClass("hide");					
+					$('#div-emon-tahun').removeClass("hide");					
 				break;
 				case "24" ://program
 					$('#div-emon-periode').removeClass("hide");
 					$('#div-emon-tahun').removeClass("hide");
+					//$('#emon-unit_kerja').removeClass("hide");					
+				break;
+				case "27" ://output
+					//$('#div-emon-periode').removeClass("hide");
+					//$('#div-emon-tahun').removeClass("hide");
 					//$('#emon-unit_kerja').removeClass("hide");					
 				break;
 				default : 
@@ -139,6 +144,22 @@
 			 var tahun = $('#emon-tahun').val();
 			 var kode = $('#emon-kode_e1').val();
 			
+			if (tipe=="0") {
+				alert("Jenis Data belum ditentukan");
+				$('#emon-tipe_data').select2('open');
+				return;
+			} else if ((tahun_renstra=="0")&&(tipe!="27")) {
+				alert("Periode Renstra belum ditentukan");
+				$('#emon-tahun_renstra').select2('open');
+				return;
+			}else if ((tipe=="22")){
+				if (tahun=="0") {
+					alert("Tahun belum ditentukan");
+					$('#emon-tahun').select2('open');
+					return;
+				}
+			}
+			
 			switch (tipe){
 				case "23" ://item_satker
 					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_itemsatker/loadpage/"+tipe+"/"+tahun+"/"+kode);
@@ -153,11 +174,15 @@
 					$('#emon-detail-content').removeClass("hide");
 				break;
 				case "22" :	//satker				
-					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_satker/loadpage/"+tipe+"/"+tahun+"/"+kode);
+					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_satker/loadpage/"+tipe+"/"+tahun_renstra+"/"+tahun);
 					$('#emon-detail-content').removeClass("hide");
 				break;
 				case "24" :	//program
 					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_program/loadpage/"+tipe+"/"+tahun_renstra+"/"+tahun);
+					$('#emon-detail-content').removeClass("hide");
+				break;
+				case "27" :	//output
+					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_output/loadpage/"+tipe);
 					$('#emon-detail-content').removeClass("hide");
 				break;
 				default : 

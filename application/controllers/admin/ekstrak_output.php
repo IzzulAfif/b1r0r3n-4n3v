@@ -5,13 +5,13 @@
  @revision	 :
 */
 
-class Ekstrak_satker extends CI_Controller {
+class Ekstrak_output extends CI_Controller {
 	
 	function __construct() 
 	{	
 		parent::__construct();
 		$this->load->library('datatables');
-		$this->load->model('/admin/satker_model','satker');
+		$this->load->model('/admin/output_model','output_model');
 		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
 		$this->load->model('/unit_kerja/eselon1_model','eselon1');
 		$this->load->model('/admin/webservice_model','webservice');
@@ -31,43 +31,45 @@ class Ekstrak_satker extends CI_Controller {
 	}
 	
 	
-	function loadpage($id,$tahun_renstra,$tahun)
+	function loadpage($id)
 	{
 		
 		$data['data'] = null;//$this->fungsi->get_all(null);
-		//$data['tipe_data'] = $this->eperformance->get_list();
-		//$data['eselon1']	= $kode;//$this->eselon1->get_list(null);
-		$data['tahun']	= $tahun;//$this->eselon1->get_list(null);
-		$data['tahun_renstra']	= $tahun_renstra;// // $this->tahun_renstra->get_list(null);
 		$data_webservice = $this->webservice->get_all(array("id"=>$id));
 		$data['webservice_jenis']	= $data_webservice[0]->jenis_data;
 		$data['webservice_url']	= $data_webservice[0]->url;
-		echo $this->load->view('admin/satker_v',$data,true); #load konten template file		
+		echo $this->load->view('admin/output_v',$data,true); #load konten template file		
 	}
 	
 	
 	 
-	function getdata_satker($tahun_renstra){
+	function getdata_output(){
 		$params = null;
-		//echo $this->satker->get_datatables($params);
-		$params['tahun_renstra']=$tahun_renstra;
-		$data = $this->satker->get_datatables($params);
+		//echo $this->output->get_datatables($params);
+	//	$params['tahun_renstra']=$tahun_renstra;
+		$data = $this->output_model->get_datatables($params);
 		echo $data;
 	}
 	
-	function ekstrak_data($periode){
+	function ekstrak_data(){
 		$dataTable = null;
 		if(isset($_POST["dataTable"])) {
 			$dataTable = $_POST["dataTable"];
+			$old_kdgiat = '';
+			$kdgiat = '';
 			foreach($dataTable as $row) {
-				$row["tahun_renstra"] =$periode;
-				
+			    if ($old_kdgiat!=$row['KDGIAT']){
+					$kdgiat = $this->mgeneral->getValue('kode_kegiatan', "right(kode_kegiatan,4)='".$row['KDGIAT']."'", "anev_kegiatan_eselon2"); 
+					$old_kdgiat=$row['KDGIAT'];
+				}
+				if ($kdgiat!="")
+					$row['KDGIAT']=$kdgiat;
 				$ekstrakData[] = $row;
 				
 			}//foreach
 		}
 		
-		echo $this->satker->save_ekstrak($ekstrakData);
+		echo $this->output_model->save_ekstrak($ekstrakData);
 		
 	}
 	
