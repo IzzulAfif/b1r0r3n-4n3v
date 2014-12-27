@@ -54,6 +54,7 @@ class dsb_kl extends CI_Controller {
 		endif;
 		
 		$data['capaianKl']		= $graphRealisasi;
+		$data['dCapaianKl']		= $this->program_m->get_detail_capain_kinerja("", $tahun[0], $tahun[1]);
 		$data['serapanKl']		= $graphSerapan;
 		$data['tahun1']			= $tahun[0];
 		$data['tahun2']			= $tahun[1];

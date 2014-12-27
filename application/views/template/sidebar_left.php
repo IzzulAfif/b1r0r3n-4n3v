@@ -6,6 +6,7 @@
     
     <?php
 		$menu	= $this->mgeneral->getWhere(array('hide'=>"0"),"anev_menu","menu_id","ASC");
+		$menuUtama = array();
 		foreach($menu as $m):
 			if($m->menu_parent==""):
 				$menuUtama[] = $m;
@@ -21,7 +22,7 @@
             <div class="leftside-navigation">
                 <ul class="sidebar-menu" id="nav-accordion">
                 	
-					<?php foreach($menuUtama as $mu): 
+					<?php if(count($menuUtama)!=0): foreach($menuUtama as $mu): 
 						if(count($subMenu[$mu->menu_id])!=0): 
 							$clsMenu = "sub-menu"; 
 							$link	 = "javascript:;";
@@ -47,7 +48,7 @@
 							?>
 								
                         </li>	
-					<?php endforeach;?>
+					<?php endforeach; endif;?>
                 </ul>            
             </div>
             

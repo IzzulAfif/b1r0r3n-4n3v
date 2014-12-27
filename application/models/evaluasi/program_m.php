@@ -114,6 +114,18 @@ class program_m extends CI_Model
 		return $this->mgeneral->run_sql($sql);
 	}
 	
+	function get_detail_capain_kinerja($kode_e1, $tahun_awal, $tahun_akhir)
+	{
+		if($kode_e1!=""):
+			$where = " and k.kode_e1='$kode_e1'";
+		else:
+			$where = "";
+		endif;
+		
+		$sql = "select * from anev_sasaran_program s inner join anev_iku_eselon1 i on s.tahun=i.tahun  inner join anev_kinerja_eselon1 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sp_e1=s.kode_sp_e1 and k.kode_iku_e1=i.kode_iku_e1) where k.tahun <='$tahun_akhir' and k.tahun>='$tahun_awal' ".$where." order by s.kode_e1,s.kode_sp_e1";
+		return $this->mgeneral->run_sql($sql);
+	}
+	
 	function get_rata2_serapan_anggaran2($kode_e1, $tahun_awal, $tahun_akhir)
 	{
 		if($kode_e1!=""):

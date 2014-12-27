@@ -15,15 +15,21 @@
                         </div>
                     </div>
                     <div class="form-group" id="kodep_e1-box1">
-                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-6">
-						 <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
+						 <?=form_dropdown('kode_e1_s',array("Semua Unit Kerja Eselon I"),'0','id="target-kode_e1_s"  class="populate" style="width:100%"')?>
                         </div>
                     </div>
                     <div class="form-group hide" id="kodep_e1-box2">
-                        <label class="col-md-2 control-label">Nama Unit Kerja <span class="text-danger">*</span></label>
+                        <label class="col-md-2 control-label">Unit Kerja Eselon I<span class="text-danger">*</span></label>
                         <div class="col-md-6">
 						 <?=form_dropdown('kode_e1',$eselon1,'0','id="target-kode_e1"  class="populate" style="width:100%"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Unit Kerja Eselon II</label>
+                        <div class="col-md-6">
+                       <?=form_dropdown('kode_e2',array("Semua Unit Kerja Eselon II"),'','id="target-kode_e2" class="populate"')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -109,6 +115,19 @@
 			$("#kodep_e1-box1").addClass("hide");
 			$("#kodep_e1-box2").removeClass("hide");
 		});
+		$("#target-kode_e1").change(function(){
+			$.ajax({
+				url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_list_eselon2/"+this.value,
+				success:function(result) {
+					kode_e2=$("#target-kode_e2");
+					kode_e2.empty();
+					result = JSON.parse(result);
+					for (k in result) {
+						kode_e2.append(new Option(result[k],k));
+					}
+				}
+			});
+		});
 		renstra = $('#target-tahun');
 		sasaran = $('#target-sasaran');
 		target  = $('#target-kode_e1');
@@ -149,6 +168,7 @@
 			tahun = $('#target-tahun').val();
 			sasaran = $('#target-sasaran').val();
 			unit_kerja= $('#target-kode_e1').val();
+			unit_kerja2= $('#target-kode_e2').val();
 			
 			if (tahun=="0") {
 				alert("Periode Renstra belum ditentukan");
@@ -167,7 +187,7 @@
 					no++;
 				}
 			$.ajax({
-                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_target/"+tahun+'/'+sasaran,
+                    url:"<?php echo site_url(); ?>pemrograman/pemrograman_eselon2/get_body_target/"+tahun+'/'+sasaran+'/'+unit_kerja2,
                         success:function(result) {
                             table_body = $('#target-tbl tbody');
                             table_body.empty().html(result);        

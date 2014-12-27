@@ -47,7 +47,7 @@ class Pemrograman_eselon2 extends CI_Controller {
 	}
 	
 	function get_body_kegiatan($tahun,$kode_e1,$kode_e2){
-		$params['tahun'] = 	$tahun;
+		#$params['tahun'] = 	$tahun;
 		$params['kode_e1'] = 	$kode_e1;
 		if($kode_e2!=0)$params['kode_e2'] = 	$kode_e2;
 		$data=$this->kegiatan->get_all($params); 
@@ -83,9 +83,10 @@ class Pemrograman_eselon2 extends CI_Controller {
 		echo $this->load->view('pemrograman/target_capaian_e2_v',$data,true); #load konten template file		
 	}
 	
-	function get_body_target($tahun,$sasaran){
+	function get_body_target($tahun,$sasaran,$e2){
 		$params['tahun_renstra'] = 	$tahun;
 		if($sasaran!="0")$params['sasaran'] = $sasaran;
+		if($e2!="0" && $e2!="")$params['kode_e2'] = $e2;
 		
 		$data=$this->target->get_e2($params); 
 		$rs = '';

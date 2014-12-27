@@ -1,4 +1,5 @@
 <!--main content start-->
+	
     <section id="main-content">
         <section class="wrapper">
         <!-- page start-->
@@ -32,6 +33,19 @@
         
         <section class="panel">
             <div class="panel-body">
+            	<!--<table width="100%" class="table">
+            	<?php #foreach($dCapaianKl as $dkl): ?>
+                	<tr>
+                    	<td><?=$dkl->tahun?></td>
+                        <td><?=$dkl->deskripsi?></td>
+                        <td><?=$dkl->satuan?></td>
+                        <td><?=$dkl->target?></td>
+                        <td><?=$dkl->realisasi?></td>
+                        <td><?=$dkl->persen?></td>
+                    </tr>
+				<?php #endforeach; ?>
+                </table>-->
+                
 				<h4 align="center">RATA-RATA CAPAIAN KINERJA DAN SERAPAN ANGGARAN<br />KEMENTERIAN PERHUBUNGAN<br />TAHUN <?=$tahun1?> – <?=$tahun2?></h4>
         		<hr />
                 <div class="row">
