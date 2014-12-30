@@ -66,6 +66,7 @@ class Trendline extends CI_Controller {
 		$target		= $this->input->post("target");
 		$trendline	= $this->input->post("trendline");
 		$targetline	= $this->input->post("targetline");
+		$simulasi	= $this->input->post("simulasi");
 		
 		$dataSearch = $this->trendline_model->eselon1($unit_kerja,$sasaran,$indikator,$tahun1,$tahun2);
 		$dataKonten = $this->trendline_model->convert_data($dataSearch,$tahun1,$tahun2,$tahun,$target);
@@ -74,7 +75,8 @@ class Trendline extends CI_Controller {
 		$data['gdata'] 		= $dataKonten;
 		$data['satuan']		= $this->get_satuan($unit_kerja,$indikator,"get");
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$sasaran,'kode_iku_e1'=>$indikator),"anev_iku_eselon1");
-		$data['subtitle']	= "dari Tahun $tahun1 s.d. $tahun2"; 
+		$data['subtitle']	= "dari Tahun $tahun1 s.d. $tahun2";
+		$data['simulasi']	= $simulasi;  
 		$this->load->view('analisis/trendline_grafik',$data);
 	}
 	
