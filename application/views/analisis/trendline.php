@@ -112,14 +112,21 @@
                     <div class="col-sm-2">
                     	<div class="checkbox">
                             <label class="control-label">
-                                <input name="trendline" value="ok" type="checkbox" checked="checked"> Tampilkan trendline
+                                <input name="trendline" value="ok" type="checkbox" checked="checked"> Tampilkan Trendline
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-2">
                         <div class="checkbox">
                             <label>
-                                <input name="targetline" value="ok" type="checkbox" checked="checked"> Tampilkan targetline
+                                <input name="targetline" value="ok" type="checkbox" checked="checked"> Tampilkan Targetline
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="checkbox">
+                            <label>
+                                <input name="simulasi" value="ok" type="checkbox" checked="checked"> Tampilkan Simulasi Pencapaian
                             </label>
                         </div>
                     </div>

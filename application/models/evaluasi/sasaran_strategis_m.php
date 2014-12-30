@@ -49,7 +49,7 @@ class sasaran_strategis_m extends CI_Model
 			from anev_sasaran_strategis s inner join anev_iku_kl i on s.tahun=i.tahun inner join anev_kinerja_kl k 
 			on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_ss_kl=s.kode_ss_kl and k.kode_iku_kl=i.kode_iku_kl) 
  			where k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
- 			." ".$where."order by i.kode_iku_kl asc, k.tahun asc";
+ 			." ".$where."group by s.deskripsi order by i.kode_iku_kl asc, k.tahun asc";
  		return $this->mgeneral->run_sql($sql);	
 	}
 

@@ -52,8 +52,11 @@
                 </div>
                 
                 <p class="text-primary">Capaian Kinerja</p><br />
-                <table  class="display table table-bordered table-striped" id="tabel_capaian" width="100%">
-    	        </table>
+                
+                <div class="adv-table" id="data-capaian" style="width:100%; overflow: auto; padding:10px 5px 10px 5px;">
+                	<table  class="display table table-bordered table-striped" id="tabel_capaian" width="100%">
+    	        	</table>
+                </div>
                 
                 <div class="pull-right">
                     <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_sskl"><i class="fa fa-print"></i> Cetak PDF</button>          
@@ -145,16 +148,18 @@
 								tabel_capaian = $('#tabel_capaian');
 								tabel_capaian.empty().html(result);        
 								$('#box-result').removeClass("hide");
-								$('.toggler').click(function(e){
+								$(".toggler").click(function(e){
 									e.preventDefault();
-									$('.detail'+$(this).attr('id')).toggle();
-									target = $('#'+$(this).attr('target_rowspan'));
-									if (e.target.id==$(this).attr('id')) {
-										num_rowspan = parseInt($(this).attr('num_rowspan'));
-										target.attr('rowspan',(num_rowspan+parseInt(target.attr('rowspan'))));
-										$(this).attr('num_rowspan',num_rowspan*-1);
+									$('.detail'+$(this).attr('data-cat')).toggle();
+									cRowspan = $('#target_rowspan'+$(this).attr('data-row')).attr('rowspan').valueOf();
+									tRowspan = $(this).attr('data-rowspan');
+									if(tRowspan.indexOf("-") > -1){
+										$(this).attr('data-rowspan',tRowspan.replace("-", ""));
+									}else{
+										$(this).attr('data-rowspan',"-"+tRowspan);
 									}
-									//console.log('.detail'+$(this).attr('detail_num'));
+									nRowspan = parseInt(cRowspan)+parseInt(tRowspan);
+									$('#target_rowspan'+$(this).attr('data-row')).attr('rowspan',nRowspan);
 								});
 							}
 					});    

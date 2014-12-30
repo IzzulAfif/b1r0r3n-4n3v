@@ -50,14 +50,14 @@ class sasaran_strategis extends CI_Controller {
 		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
 		
 		// set font
-		$pdf->SetFont('helvetica', 'B', 12);
+		$pdf->SetFont('helvetica', 'B', 8);
 
 		// add a page
 		$pdf->AddPage('L');
 		//var_dump($e1);
 		 $pdf->Write(0, 'Analisis dan Evaluasi Capaian Kinerja ', '', 0, 'C', true, 0, false, false, 0);
 		 
-		 $pdf->SetFont('helvetica', 'B', 10);
+		 $pdf->SetFont('helvetica', 'B', 8);
 		
 		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
@@ -72,7 +72,7 @@ class sasaran_strategis extends CI_Controller {
 		$pdf->writeHTML($tabel, true, false, false, false, '');
 		//var_dump('tes');	
 	
-		$pdf->SetFont('helvetica', 'B', 10);	
+		$pdf->SetFont('helvetica', 'B', 8);	
 		$pdf->Output('Capaian kinerja.pdf', 'I');
 		
 	}
@@ -94,7 +94,9 @@ class sasaran_strategis extends CI_Controller {
 		$dataSStemplate = $dataTemplate;
 		
 		if ($dataAda){
+			$noCapaian = 0;
 			foreach($data as $d):
+			
 				$kode_kl	= $d->kode_kl;
 				$iku		= $d->kode_iku_kl;
 				$kodeSS		= $d->deskripsi;
@@ -104,149 +106,154 @@ class sasaran_strategis extends CI_Controller {
 				$dataSStemplate[$d->tahun]	= array('target'		=> $d->target,
 													'realisasi'		=> $d->realisasi,
 													'persen'		=> $d->persen);
+				
+				$capaian[$noCapaian][$kode_kl] =  array('nama_e1'	=> "-",
+														'kodeSS' 	=> $kodeSS,
+														'iku'		=> $indikator,
+														'satuan'	=> $satuan,
+														'data'		=> $dataSStemplate);
+				
+				$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
+				$kode_e1 = "";
+				foreach($data2 as $d2):
+				
+					$indikator  = $d2->indikator;
+					$satuan		= $d2->satuan;
+					$nama_e1	= $d2->singkatan;
+					
+					if($kode_e1!=$d2->kode_e1):
+						$ikuDataTemplate = $dataTemplate;
+						
+						$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																'realisasi'		=> $d2->realisasi,
+																'persen'		=> $d2->persen);
+						
+					else:
+						
+						$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																'realisasi'		=> $d2->realisasi,
+																'persen'		=> $d2->persen);
+										
+					endif;
+					
+					$capaian[$noCapaian][$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
+															 'iku'		=> $indikator,
+															'satuan'	=> $satuan,
+															'data'		=> $ikuDataTemplate);
+					
+					$kode_e1 = $d2->kode_e1;
+					
+				endforeach;
+				
+				$noCapaian++;
 			endforeach;
-		
-			$capaian[$kode_kl] =  array('nama_e1'	=> "-",
-									'iku'		=> $indikator,
-									'satuan'	=> $satuan,
-									'data'		=> $dataSStemplate);
-		
-			$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
-			$kode_e1 = "";
-			foreach($data2 as $d2):
 			
-				$indikator  = $d2->indikator;
-				$satuan		= $d2->satuan;
-				$nama_e1	= $d2->singkatan;
-				
-				if($kode_e1!=$d2->kode_e1):
-					$ikuDataTemplate = $dataTemplate;
-					
-					$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
-															'realisasi'		=> $d2->realisasi,
-															'persen'		=> $d2->persen);
-					
-				else:
-					
-					$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
-															'realisasi'		=> $d2->realisasi,
-															'persen'		=> $d2->persen);
-									
-				endif;
-				
-				$capaian[$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
-													'iku'		=> $indikator,
-													'satuan'	=> $satuan,
-													'data'		=> $ikuDataTemplate);
-				
-				$kode_e1 = $d2->kode_e1;
-				
-			endforeach;
 		}//end jika data ada
 		
-		$table = "";
-			$thead = '<thead>
-						<tr>
-							<th rowspan="2">Sasaran Strategis</th>
-							<th rowspan="2">Indikator Kerja Utama (IKU)</th>
-							<th rowspan="2">Satuan</th>';
-			$thead2    = "";
-			for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
-				$thead .= '<th colspan="3">'.$a.'</th>';
-				$thead2 .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
-			endfor;
-					$thead.= '<th rowspan="2">Rata-rata %</th>
-					  	</tr>
-						<tr>'.$thead2.'</tr></thead>';
-			$table .= $thead;
-			
-			$table .= '<tbody>';
-			if ($dataAda){		
-					$totUnitKerja	= 0;
-					$curEselon1		= "";
-					foreach($capaian as $cp):
-						if($cp['nama_e1']!="-"):
-							if($curEselon1 != $cp['nama_e1']):
-								$totUnitKerja++;
-							endif;
-							$curEselon1 = $cp['nama_e1'];
-						endif;
-					endforeach;
-					
-					$table .='<tr><td rowspan="'.(count($capaian)+$totUnitKerja).'">'.$kodeSS.'</td>';
-					
-					$curEselon1 = "";
-					foreach($capaian as $cp):
-						 $kode_detail = str_replace(".","",$cp['iku']);
-						if($cp['nama_e1']!="-"):
-							
-							if($curEselon1 != $cp['nama_e1']):
-								/*<a href="#" class="toggler" id="'.
-							$kode_detail.'" num_rowspan='.$rowspan[$dt->kode_sp_e1].' target_rowspan='.str_replace(".", "",$dt->kode_ss_kl).'>'
-							.$ket.'</td></tr><tr class="detail'.$kode_detail.' detail_toggle ">'.$temprow;*/
-							
-								$table.='<tr><td colspan="'.(($totalThn*3)+3).'"><b>'.$cp['nama_e1'].'</b></td></tr><tr>';
-							else:
-								$table.="<tr>";
-							endif;
-							$curEselon1 = $cp['nama_e1'];
-						
-						endif;
-						
-						$table.='<td>'.$cp['iku'].'</td>';
-						$table.='<td>'.$cp['satuan'].'</td>';
-						
-						$rata2Row 		= 0;
-						$pembagiRata2Row= 0;
-						foreach($cp['data'] as $key => $dt):
-						
-							$table.='<td>'.$this->template->cek_tipe_numerik($dt['target']).'</td>';
-							$table.='<td>'.$this->template->cek_tipe_numerik($dt['realisasi']).'</td>';
-							$table.='<td>'.$this->template->cek_tipe_numerik($dt['persen']).'</td>';
-							
-							if(is_numeric($dt['persen'])):
-								$rata2Row		 	= $rata2Row+$dt['persen'];
-								$pembagiRata2Row	= $pembagiRata2Row+1;
-								
-								$rata2PerTahun[$key]['nilai'] = $rata2PerTahun[$key]['nilai']+$dt['persen'];
-								$rata2PerTahun[$key]['pembagi'] = $rata2PerTahun[$key]['pembagi']+1;
-								
-							endif;
-							
-						endforeach;
-						
-						$nilaiRata2Row = $rata2Row/$pembagiRata2Row;
-						$table.='<td>'.$this->template->cek_tipe_numerik($nilaiRata2Row).'</td></tr>';
-						
-					endforeach;
-					
-					$table .='<tr><td colspan="3"><b>Rata-rata Capaian Kinerja / Tahun</b></td>';
-					
-					$rata2total = 0;
-					$rata2totalPembagi=0;
-					foreach($rata2PerTahun as $key => $rt2):
-						$table .='<td colspan="2"><b>'.$key.'</b></td>';
-						if($rt2['pembagi']!=0):
-							$nilai = $rt2['nilai']/$rt2['pembagi'];
-							$table .='<td><b>'.$this->template->cek_tipe_numerik($nilai).'</b></td>';
-							
-							$rata2total 		= $rata2total+$nilai;
-							$rata2totalPembagi 	= $rata2totalPembagi+1;
-						else:
-							$table .='<td><b>0</b></td>';
-						endif;
-					endforeach;
-					
-					$nilaiRata2Total = $rata2total/$rata2totalPembagi;
-					$table .='<td><b>'.$this->template->cek_tipe_numerik($nilaiRata2Total).'</b></td></tr>';
-			} // end if jika data ada
-			else {
-				$table .='<td colspan="'.(4+ (3*($tahun_akhir-$tahun_awal+1))).'">Data tidak ada</td>';
-				
-			}
-			$table .= '</tbody>';
+		/*echo "<pre>";
+			$realtest2 = array_search("Ditjen Hubdat",$capaian[0]);
+			echo "r:".count($realtest2)."<br>";
+			print_r($capaian);
+		exit;*/
 		
-		#$table.= "<table>";
+		$table = '<table border="1" cellpadding="0" cellspacing="0">';
+		$thead = '<thead>
+					<tr>
+						<th rowspan="2" style="width:80px;">Sasaran Strategis</th>
+						<th rowspan="2" style="width:110px;">Indikator Kerja Utama (IKU)</th>
+						<th rowspan="2">Satuan</th>';
+		$thead2    = "";
+		for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
+			$thead .= '<th colspan="3" style="text-align:center"><center>'.$a.'</center></th>';
+			$thead2 .= '<th style="text-align:center">Target</th><th style="text-align:center">Realisasi</th><th style="text-align:center">Persen</th>';
+		endfor;
+				$thead.= '<th rowspan="2">Rata-rata %</th>
+					</tr>
+					<tr>'.$thead2.'</tr></thead>';
+		$table .= $thead;
+		
+		$table .= '<tbody>';
+		
+		if ($dataAda){
+			
+			for($dcp=0;$dcp<count($capaian);$dcp++):
+				$totUnitKerja	= 0;
+				$curEselon1		= "";
+				$dtcapaian 		= $capaian[$dcp];
+				
+				$esArray = array();
+				foreach($dtcapaian as $cp):
+					if($cp['nama_e1']!="-"):
+						if($curEselon1 != $cp['nama_e1']):
+							$totUnitKerja++;
+							$esArray[$dcp][str_replace(" ","",$cp['nama_e1'])] = 1;
+						else:
+							$esArray[$dcp][str_replace(" ","",$cp['nama_e1'])]++;
+						endif;
+						$curEselon1 = $cp['nama_e1'];
+					endif;
+					if(isset($cp['kodeSS'])): $namaSS = $cp['kodeSS']; endif;
+				endforeach;
+				
+				if($tipe=="html"): $jRow = 1+$totUnitKerja; else: $jRow = count($dtcapaian)+$totUnitKerja; endif;
+				$table .='<tr><td rowspan="'.$jRow.'" style="width:80px;" id="target_rowspan'.$dcp.'">'.$namaSS.'</td>';
+				
+				$curEselon1 = "";
+				foreach($dtcapaian as $cp):
+				
+					if($cp['nama_e1']!="-"):
+							
+						if($curEselon1 != $cp['nama_e1']):
+						
+							if($tipe=="html"):
+								$table.='<tr><td colspan="'.(($totalThn*3)+3).'"><a href="#" class="toggler" data-row="'.$dcp.'" data-cat="'.str_replace(" ","",$cp['nama_e1']).$dcp.'" data-rowspan="'.$esArray[$dcp][str_replace(" ","",$cp['nama_e1'])].'"><b>'.$cp['nama_e1'].'</b></a></td></tr><tr class="detail'.str_replace(" ","",$cp['nama_e1']).$dcp.'" style="display:none">';
+							else:
+								$table.='<tr><td colspan="'.(($totalThn*3)+3).'"><b>'.$cp['nama_e1'].'</b></td></tr><tr>';
+							endif;
+						else:
+							if($tipe=="html"):
+								$table.='<tr class="detail'.str_replace(" ","",$cp['nama_e1']).$dcp.'" style="display:none">';
+							else:
+								$table.='<tr>';
+							endif;
+						endif;
+						$curEselon1 = $cp['nama_e1'];
+					
+					endif;
+					
+					$table.='<td style="width:110px;">'.$cp['iku'].'</td>';
+					$table.='<td>'.$cp['satuan'].'</td>';
+					
+					$rata2Row 		= 0;
+					$pembagiRata2Row= 0;
+						
+					foreach($cp['data'] as $key => $dt):
+						
+						$table.='<td>'.$this->template->cek_tipe_numerik($dt['target']).'</td>';
+						$table.='<td>'.$this->template->cek_tipe_numerik($dt['realisasi']).'</td>';
+						$table.='<td>'.$this->template->cek_tipe_numerik($dt['persen']).'</td>';
+						
+						if(is_numeric($dt['persen'])):
+							$rata2Row		 	= $rata2Row+$dt['persen'];
+							$pembagiRata2Row	= $pembagiRata2Row+1;
+							
+							$rata2PerTahun[$key]['nilai'] = $rata2PerTahun[$key]['nilai']+$dt['persen'];
+							$rata2PerTahun[$key]['pembagi'] = $rata2PerTahun[$key]['pembagi']+1;
+							
+						endif;
+						
+					endforeach;
+					
+					$nilaiRata2Row = $rata2Row/$pembagiRata2Row;
+					$table.='<td>'.$this->template->cek_tipe_numerik($nilaiRata2Row).'</td></tr>';
+						
+				endforeach;
+					
+			endfor;
+			
+		}
+		
+		$table.= '</table>';
 		
 		if($tipe=="get"):
 			return $table;

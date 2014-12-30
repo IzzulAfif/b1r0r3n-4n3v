@@ -7,6 +7,7 @@
 	$dTargetline= "";
 	$dSimTarget	= "";
 	$dCapaian	= "";
+	$vSimulasi	= $simulasi;
 	#print_r($target);
 	
 	$tahun_renstra = explode("-",$target[0]->tahun_renstra);
@@ -25,17 +26,17 @@
 	foreach($gdata as $d):
 		if(count($d)!=0):
 			$dTahun		.= $d['tahun'].",";
-			$dTarget	.= $d['target'].",";
-			$dRealisasi	.= $d['realisasi'].",";
 			$dSimulasi	.= $d['simulasi'].",";
 			$dTrendline	.= $d['trendline'].",";
 			$dTargetline.= $d['targetline'].",";
-			$dCapaian	.= $arrTahun[$d['tahun']].",";
 			
 			if($d['tahun']==$post['tahun']):
 				$dSimTarget .= $post['target'].",";
 			else:
 				$dSimTarget .= "0,";
+				$dTarget	.= $d['target'].",";
+				$dRealisasi	.= $d['realisasi'].",";
+				$dCapaian	.= $arrTahun[$d['tahun']].",";
 			endif;
 			
 			if($tipe!="not numeric"):
@@ -65,23 +66,26 @@
         <thead>
         <tr>
             <th>Tahun</th>
-            <th>Target (<?=$satuan?>)</th>
+            <th>Target Renstra(<?=$satuan?>)</th>
+            <th>PK(<?=$satuan?>)</th>
             <th>Realisasi (<?=$satuan?>)</th>
         </tr>
         </thead>
         <tbody>
             <?php foreach($gdata as $d): ?>
             	
-				<?php if($d['tahun']==$post['tahun']): ?>
-					<tr><td colspan="3">Simulasi Target dan Realisasi</td></tr>
+				<?php if($d['tahun']==$post['tahun'] && $vSimulasi=="ok"): ?>
+					<tr><td colspan="4">Simulasi Target dan Realisasi</td></tr>
                     <tr>
                     	<td><?=$d['tahun']?></td>
                         <td><?=$this->template->cek_tipe_numerik($post['target'])?></td>
+                        <td>0</td>
                         <td><?=$this->template->cek_tipe_numerik($d['simulasi'])?></td>
                     </tr>
 				<?php else: ?>
                 	<tr>
                         <td><?=$d['tahun']?></td>
+                        <td><?=$this->template->cek_tipe_numerik($arrTahun[$d['tahun']])?></td>
                         <td><?=$this->template->cek_tipe_numerik($d['target'])?></td>
                         <td><?=$this->template->cek_tipe_numerik($d['realisasi'])?></td>
                     </tr>
@@ -124,7 +128,7 @@
 				style : { "font-size" : "13px" }
 			},
 			xAxis: {
-				categories: [<?=$dTahun?>]
+				categories: [<?=$dTahun?>],
 			},
 			tooltip: {
 				formatter: function() {
@@ -148,14 +152,6 @@
 			series: [
 			{
 				type: 'column',
-				name: 'Target Simulasi',
-				data: [<?=rtrim($dSimTarget,",")?>],
-			},{
-				type: 'column',
-				name: 'Realisasi Simulasi',
-				data: [<?=rtrim($dSimulasi,",")?>],
-			},{
-				type: 'column',
 				name: 'Target Renstra',
 				data: [<?=rtrim($dCapaian,",")?>],
 			},{
@@ -166,6 +162,16 @@
 				type: 'column',
 				name: 'Realisasi',
 				data: [<?=rtrim($dRealisasi,",")?>],
+			<?php if($vSimulasi=="ok"): ?>
+			},{
+				type: 'column',
+				name: 'Target Simulasi',
+				data: [<?=rtrim($dSimTarget,",")?>],
+			},{
+				type: 'column',
+				name: 'Realisasi Simulasi',
+				data: [<?=rtrim($dSimulasi,",")?>],
+			<?php endif; ?>
 			}
 			<?php if($post['trendline']=="ok"):?>
 			,{
