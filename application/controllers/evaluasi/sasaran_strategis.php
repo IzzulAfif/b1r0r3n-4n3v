@@ -203,52 +203,52 @@ class sasaran_strategis extends CI_Controller {
 				
 				$kode_iku_kl = $d->kode_iku_kl;
 			endforeach;
-		}
 		
-		if($kode_sasaran_kl!="" || $kode_sasaran_kl!=0):
-			
-			$capaian[$noCapaian][$kode_kl] =  array('nama_e1'	=> "-",
-															'kodeSS' 	=> $kodeSS,
-															'iku'		=> $indikator,
-															'satuan'	=> $satuan,
-															'data'		=> $dataSStemplate);
-															
-					$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
-					$kode_e1 = "";
-					
-					if(count($data2)!=0):
-					foreach($data2 as $d2):
-						
-						$indikator  = $d2->indikator;
-						$satuan		= $d2->satuan;
-						$nama_e1	= $d2->singkatan;
-						
-						if($kode_e1!=$d2->kode_e1):
-							$ikuDataTemplate = $dataTemplate;
-							
-							$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
-																	'realisasi'		=> $d2->realisasi,
-																	'persen'		=> $d2->persen);
-							
-						else:
-							
-							$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
-																	'realisasi'		=> $d2->realisasi,
-																	'persen'		=> $d2->persen);
-											
-						endif;
-						
-						$capaian[$noCapaian][$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
-																 'iku'		=> $indikator,
+		
+			if($kode_sasaran_kl!="" || $kode_sasaran_kl!=0):
+				
+				$capaian[$noCapaian][$kode_kl] =  array('nama_e1'	=> "-",
+																'kodeSS' 	=> $kodeSS,
+																'iku'		=> $indikator,
 																'satuan'	=> $satuan,
-																'data'		=> $ikuDataTemplate);
+																'data'		=> $dataSStemplate);
+																
+						$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
+						$kode_e1 = "";
 						
-						$kode_e1 = $d2->kode_e1;
-						
-					endforeach;
-					endif;
-		endif;
-		
+						if(count($data2)!=0):
+						foreach($data2 as $d2):
+							
+							$indikator  = $d2->indikator;
+							$satuan		= $d2->satuan;
+							$nama_e1	= $d2->singkatan;
+							
+							if($kode_e1!=$d2->kode_e1):
+								$ikuDataTemplate = $dataTemplate;
+								
+								$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																		'realisasi'		=> $d2->realisasi,
+																		'persen'		=> $d2->persen);
+								
+							else:
+								
+								$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																		'realisasi'		=> $d2->realisasi,
+																		'persen'		=> $d2->persen);
+												
+							endif;
+							
+							$capaian[$noCapaian][$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
+																	 'iku'		=> $indikator,
+																	'satuan'	=> $satuan,
+																	'data'		=> $ikuDataTemplate);
+							
+							$kode_e1 = $d2->kode_e1;
+							
+						endforeach;
+						endif;
+			endif;
+		}
 		#$table = '<table border="1" cellpadding="0" cellspacing="0">';
 		$table = '';
 		
@@ -526,4 +526,340 @@ class sasaran_strategis extends CI_Controller {
 		//die(var_dump(array($countrow, $tablerow)));
 		return array($countrow, $tablerow);
 	}
+	
+	
+	function excel($tahun_awal, $tahun_akhir, $kode_sasaran_kl){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('ANEV CAPAIAN KINERJA');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:D1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'ANALISIS DAN EVALUASI CAPAIAN KINERJA');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode  ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun_awal." s.d ".$tahun_akhir);
+		$this->excel->getActiveSheet()->mergeCells('B2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_awal"=>$tahun_awal,"tahun_akhir"=>$tahun_akhir);
+		$posisiRow = 4;
+		
+		$data = $this->sasaran_strategis_m->get_capaian_kinerja($kode_sasaran_kl, $tahun_awal, $tahun_akhir);
+		
+		$totalThn = 0;
+		for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
+			$rata2PerTahun[$a] = array('nilai'	=> 0,
+									   'pembagi'=> 0);
+			$dataTemplate[$a] = array('target'		=> "-",
+								   	  'realisasi'	=> "-",
+								   	  'persen'		=> "-");
+			$totalThn++;
+		endfor;
+		
+		 
+	 
+		$dataAda = (count($data)>0);
+		$dataSStemplate = $dataTemplate;
+		#echo "<pre>";
+		if ($dataAda){
+			
+			$noCapaian		= 0;
+			$kode_iku_kl	= "";
+			
+			foreach($data as $d):
+				#print_r($d);									
+				if($kode_iku_kl != $d->kode_iku_kl && $kode_iku_kl!=""):
+								
+					$capaian[$noCapaian][$kode_kl] =  array('nama_e1'	=> "-",
+															'kodeSS' 	=> $kodeSS,
+															'iku'		=> $indikator,
+															'satuan'	=> $satuan,
+															'data'		=> $dataSStemplate);
+															
+					$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
+					$kode_e1 = "";
+					if(count($data2)!=0):
+					foreach($data2 as $d2):
+						
+						$indikator  = $d2->indikator;
+						$satuan		= $d2->satuan;
+						$nama_e1	= $d2->singkatan;
+						
+						if($kode_e1!=$d2->kode_e1):
+							$ikuDataTemplate = $dataTemplate;
+							
+							$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																	'realisasi'		=> $d2->realisasi,
+																	'persen'		=> $d2->persen);
+							
+						else:
+							
+							$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																	'realisasi'		=> $d2->realisasi,
+																	'persen'		=> $d2->persen);
+											
+						endif;
+						
+						$capaian[$noCapaian][$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
+																 'iku'		=> $indikator,
+																'satuan'	=> $satuan,
+																'data'		=> $ikuDataTemplate);
+						
+						$kode_e1 = $d2->kode_e1;
+						
+					endforeach;
+					endif;
+					$noCapaian++;
+				
+				endif;
+				
+				$kode_kl	= $d->kode_kl;
+				$iku		= $d->kode_iku_kl;
+				$kodeSS		= $d->deskripsi;
+				$satuan		= $d->satuan;
+				$indikator	= $d->indikator;
+				
+				$dataSStemplate[$d->tahun]	= array('target'		=> $d->target,
+													'realisasi'		=> $d->realisasi,
+													'persen'		=> $d->persen);
+				
+				$kode_iku_kl = $d->kode_iku_kl;
+			endforeach;
+		
+		
+			if($kode_sasaran_kl!="" || $kode_sasaran_kl!=0):
+			
+			$capaian[$noCapaian][$kode_kl] =  array('nama_e1'	=> "-",
+															'kodeSS' 	=> $kodeSS,
+															'iku'		=> $indikator,
+															'satuan'	=> $satuan,
+															'data'		=> $dataSStemplate);
+															
+					$data2=$this->sasaran_strategis_m->get_detail_capaian_kinerja($iku, $tahun_awal, $tahun_akhir, $kode_sasaran_kl);
+					$kode_e1 = "";
+					
+					if(count($data2)!=0):
+					foreach($data2 as $d2):
+						
+						$indikator  = $d2->indikator;
+						$satuan		= $d2->satuan;
+						$nama_e1	= $d2->singkatan;
+						
+						if($kode_e1!=$d2->kode_e1):
+							$ikuDataTemplate = $dataTemplate;
+							
+							$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																	'realisasi'		=> $d2->realisasi,
+																	'persen'		=> $d2->persen);
+							
+						else:
+							
+							$ikuDataTemplate[$d2->tahun]	= array('target'		=> $d2->target,
+																	'realisasi'		=> $d2->realisasi,
+																	'persen'		=> $d2->persen);
+											
+						endif;
+						
+						$capaian[$noCapaian][$d2->kode_iku_e1] =  array('nama_e1'	=> $nama_e1,
+																 'iku'		=> $indikator,
+																'satuan'	=> $satuan,
+																'data'		=> $ikuDataTemplate);
+						
+						$kode_e1 = $d2->kode_e1;
+						
+					endforeach;
+					endif;
+			endif;
+		}
+		$posisiRow++;
+		 $table='';
+				
+		//$sasaran =  $this->get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_sasaran_kl,"get");
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':'.chr((ord('B')+(($totalThn*3)+2))).($posisiRow+1))->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN),'bottom'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+		
+		
+		 $this->excel->getActiveSheet()->mergeCells("A".$posisiRow.":A".($posisiRow+1));
+		 $this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Sasaran Strategis');
+		 $this->excel->getActiveSheet()->mergeCells("B".$posisiRow.":B".($posisiRow+1));
+		 $this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, 'Indikator Kerja Utama (IKU)');
+		
+		 $this->excel->getActiveSheet()->mergeCells("C".$posisiRow.":C".($posisiRow+1));
+		 $this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, 'Satuan');
+		
+		$startColTahun = ord("D");
+		for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
+			
+			$this->excel->getActiveSheet()->mergeCells(chr($startColTahun).$posisiRow.":".chr($startColTahun+2).($posisiRow));
+			$this->excel->getActiveSheet()->setCellValue( chr($startColTahun).$posisiRow, $a);
+			$this->excel->getActiveSheet()->setCellValue(chr($startColTahun).($posisiRow+1), 'Target');
+			$this->excel->getActiveSheet()->setCellValue(chr($startColTahun+1).($posisiRow+1), 'Realisasi');
+			$this->excel->getActiveSheet()->setCellValue(chr($startColTahun+2).($posisiRow+1), 'Persen');
+			$startColTahun+=3;
+			
+		endfor;
+		 $this->excel->getActiveSheet()->mergeCells(chr($startColTahun).$posisiRow.":".chr($startColTahun).($posisiRow+1));
+		 $this->excel->getActiveSheet()->setCellValue(chr($startColTahun).$posisiRow, 'Rata-rata %');
+				
+		$endColTahun = $startColTahun + ($tahun_akhir-$tahun_awal);
+		
+		$posisiRow+=2;
+		
+		
+		if ($dataAda){
+			
+			for($dcp=0;$dcp<count($capaian);$dcp++):
+				$totUnitKerja	= 0;
+				$curEselon1		= "";
+				$dtcapaian 		= $capaian[$dcp];
+				
+				$esArray = array();
+				foreach($dtcapaian as $cp):
+					if($cp['nama_e1']!="-"):
+						if($curEselon1 != $cp['nama_e1']):
+							$totUnitKerja++;
+							$esArray[$dcp][str_replace(" ","",$cp['nama_e1'])] = 1;
+						else:
+							$esArray[$dcp][str_replace(" ","",$cp['nama_e1'])]++;
+						endif;
+						$curEselon1 = $cp['nama_e1'];
+					endif;
+					if(isset($cp['kodeSS'])): $namaSS = $cp['kodeSS']; endif;
+				endforeach;
+				
+				 $jRow = count($dtcapaian)+$totUnitKerja;
+				
+				 $this->excel->getActiveSheet()->mergeCells("A".$posisiRow.":A".($posisiRow+$jRow-1));
+				 $this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $namaSS);
+		 
+				$curEselon1 = "";
+				foreach($dtcapaian as $cp):
+				
+					if($cp['nama_e1']!="-"):
+							
+						if($curEselon1 != $cp['nama_e1']):							
+							$this->excel->getActiveSheet()->mergeCells("B".$posisiRow.":".chr((ord('B')+(($totalThn*3)+2))).$posisiRow);
+							$this->excel->getActiveSheet()->getStyle('B'.$posisiRow)->getFont()->setBold(true);
+							$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $cp['nama_e1']);
+							$posisiRow++;
+						else:
+							  
+						endif;
+						$curEselon1 = $cp['nama_e1'];
+					
+					endif;
+					
+					$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $cp['iku']);
+					$this->excel->getActiveSheet()->getStyle('C'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+					$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $cp['satuan']);
+					
+					$rata2Row 		= 0;
+					$pembagiRata2Row= 0;
+					$startColTahun = ord("D");	
+					foreach($cp['data'] as $key => $dt):
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun).$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun+1).$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun+2).$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun+1).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun+2).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+						$this->excel->getActiveSheet()->setCellValue(chr($startColTahun).$posisiRow,  $dt['target']);
+						$this->excel->getActiveSheet()->setCellValue(chr($startColTahun+1).$posisiRow, $dt['realisasi']);
+						$this->excel->getActiveSheet()->setCellValue(chr($startColTahun+2).$posisiRow, $dt['persen']);
+						$startColTahun+=3;
+						if(is_numeric($dt['persen'])):
+							$rata2Row		 	= $rata2Row+$dt['persen'];
+							$pembagiRata2Row	= $pembagiRata2Row+1;
+							
+							$rata2PerTahun[$key]['nilai'] = $rata2PerTahun[$key]['nilai']+$dt['persen'];
+							$rata2PerTahun[$key]['pembagi'] = $rata2PerTahun[$key]['pembagi']+1;
+						 
+						endif;
+						
+					endforeach;
+					
+					$nilaiRata2Row = $rata2Row/$pembagiRata2Row;
+					$this->excel->getActiveSheet()->getStyle(chr($startColTahun).$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+					$this->excel->getActiveSheet()->getStyle(chr($startColTahun).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+					$this->excel->getActiveSheet()->setCellValue(chr($startColTahun).$posisiRow, $nilaiRata2Row);	
+					$posisiRow++;		
+				endforeach;
+				$posisiRow++;	
+			endfor;
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':'.chr((ord('B')+(($totalThn*3)+2))).($posisiRow))->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN),'bottom'=> array('style' => PHPExcel_Style_Border::BORDER_THIN),'left'=> array('style' => PHPExcel_Style_Border::BORDER_THIN),'right'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+				
+				$this->excel->getActiveSheet()->mergeCells("A".$posisiRow.":C".$posisiRow);
+				//$this->excel->getActiveSheet()->getStyle('B'.$posisiRow)->getFont()->setBold(true);
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Rata-rata Capaian Kinerja / Tahun');
+					
+				$rata2total = 0;
+				$rata2totalPembagi=0;
+				$startColTahun = ord("D");	
+				foreach($rata2PerTahun as $key => $rt2):
+					$this->excel->getActiveSheet()->mergeCells(chr($startColTahun).$posisiRow.":".(chr($startColTahun+1)).$posisiRow);
+					$this->excel->getActiveSheet()->setCellValue(chr($startColTahun).$posisiRow, $key);
+					if($rt2['pembagi']!=0):
+						$nilai = $rt2['nilai']/$rt2['pembagi'];
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun+2).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+						$this->excel->getActiveSheet()->setCellValue(chr($startColTahun+2).$posisiRow, $nilai);
+						$rata2total 		= $rata2total+$nilai;
+						$rata2totalPembagi 	= $rata2totalPembagi+1;
+					else:
+						$this->excel->getActiveSheet()->getStyle(chr($startColTahun+2).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+						$this->excel->getActiveSheet()->setCellValue(chr($startColTahun+2).$posisiRow,0);
+						
+					endif;
+					$startColTahun +=3;
+				endforeach;
+				
+				$nilaiRata2Total = $rata2total/$rata2totalPembagi;
+				$this->excel->getActiveSheet()->getStyle(chr($startColTahun).$posisiRow)->getNumberFormat()->setFormatCode('#,##0.00');
+					$this->excel->getActiveSheet()->setCellValue(chr($startColTahun).$posisiRow, $nilaiRata2Total);
+				
+		}else {
+				$this->excel->getActiveSheet()->mergeCells("A".$posisiRow.":".chr((ord('A')+(($totalThn*3)+3))).$posisiRow);
+				$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Data tidak ada');
+				 
+		}
+		
+		
+	
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+		//$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(100);
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
+		
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		
+		
+		
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='CapaianKinerja'.$tahun_awal.'_'.$tahun_akhir.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');		
+   }
 }

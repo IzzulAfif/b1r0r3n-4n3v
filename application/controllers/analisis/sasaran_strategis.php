@@ -25,4 +25,6 @@ class Sasaran_strategis extends CI_Controller {
 		#load container for template view
 		$this->load->view('template/container',$template);
 	}
+	
+	
 }

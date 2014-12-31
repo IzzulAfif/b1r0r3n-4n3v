@@ -47,12 +47,13 @@ class Itemsatker_model extends CI_Model
 	
 	function get_datatables($params){
 		if (isset($params)){
-			if ((isset($params['kode_e1']))&&($params['kode_e1']!="0"))$this->datatables->where("s.kode_e1",$params['kode_e1']);
-			if ((isset($params['tahun_renstra']))&&($params['tahun_renstra']!="0"))$this->datatables->where("s.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4) ");
+			//if ((isset($params['kode_e1']))&&($params['kode_e1']!="0"))$this->datatables->where("s.kode_e1",$params['kode_e1']);
+			//if ((isset($params['tahun_renstra']))&&($params['tahun_renstra']!="0"))$this->datatables->where("s.tahun between left('".$params['tahun_renstra']."',4) and right('".$params['tahun_renstra']."',4) ");
+			if (isset($params['tahun']))$this->datatables->where("s.tahun",$params['tahun']);
 			
 		}
 		
-		$this->datatables->select('tahun, kode_satker, kode_e1, kode_program, kode_kegiatan, kdlokasi, kdkabkota, noitem, nmitem, volkeg, satkeg ');
+		$this->datatables->select('tahun, kode_satker, kode_e1, kode_program, kode_kegiatan, kdoutput, kdsoutput, kdkmpnen, kdskmpnen, kdlokasi, kdkabkota, noitem, nmitem, volkeg, satkeg, hargasat, jumlah');
 		$this->datatables->from('anev_item_satker s');
 		//$this->datatables->join('anev_eselon1 e1', 'e1.kode_e1=s.kode_e1 an, 'left');
 	

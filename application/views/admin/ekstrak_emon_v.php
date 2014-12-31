@@ -104,11 +104,7 @@
 			$('#emon-detail-content').addClass("hide");
 			tipe = $('#emon-tipe_data').val();
 			//alert(tipe);
-			switch (tipe){
-				case "23" : //item_satker
-					$('#div-emon-periode').removeClass("hide");
-					$('#div-emon-unit_kerja').removeClass("hide");					
-				break;
+			switch (tipe){				
 				case "20" ://lokasi
 					
 				break;
@@ -116,6 +112,10 @@
 					
 				break;
 				case "22" ://satker
+					$('#div-emon-periode').removeClass("hide");
+					$('#div-emon-tahun').removeClass("hide");					
+				break;
+				case "23" ://Item satker
 					$('#div-emon-periode').removeClass("hide");
 					$('#div-emon-tahun').removeClass("hide");					
 				break;
@@ -152,7 +152,7 @@
 				alert("Periode Renstra belum ditentukan");
 				$('#emon-tahun_renstra').select2('open');
 				return;
-			}else if ((tipe=="22")){
+			}else if ((tipe=="22")||(tipe=="23")){ 
 				if (tahun=="0") {
 					alert("Tahun belum ditentukan");
 					$('#emon-tahun').select2('open');
@@ -160,11 +160,7 @@
 				}
 			}
 			
-			switch (tipe){
-				case "23" ://item_satker
-					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_itemsatker/loadpage/"+tipe+"/"+tahun+"/"+kode);
-					 $('#emon-detail-content').removeClass("hide");
-				break;
+			switch (tipe){				
 				case "20" ://lokasi
 					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_lokasi/loadpage/"+tipe);
 					 $('#emon-detail-content').removeClass("hide");
@@ -176,6 +172,10 @@
 				case "22" :	//satker				
 					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_satker/loadpage/"+tipe+"/"+tahun_renstra+"/"+tahun);
 					$('#emon-detail-content').removeClass("hide");
+				break;
+				case "23" ://item_satker
+					 $("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_itemsatker/loadpage/"+tipe+"/"+tahun_renstra+"/"+tahun);
+					 $('#emon-detail-content').removeClass("hide");
 				break;
 				case "24" :	//program
 					$("#emon-detail-content").load("<?=base_url()?>admin/ekstrak_program/loadpage/"+tipe+"/"+tahun_renstra+"/"+tahun);

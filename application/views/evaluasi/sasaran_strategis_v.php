@@ -116,11 +116,12 @@
 			window.open("<?=base_url()?>evaluasi/sasaran_strategis/print_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
 		});
 		
-		/*$('#cetakexcel_sskl').click(function(){
-			var tahun = $('#renstra').val();
-			var kodee1 = $('#program-kode_e1').val();
-			window.open("<?=base_url()?>evaluasi/sasaran_strategis/print_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
-		});*/
+		$('#cetakexcel_sskl').click(function(){
+			var tahun_awal	= $('#tahun_awal').val();
+        	var tahun_akhir = $('#tahun_akhir').val();
+        	var sasaran 	= $('#sasaran').val();
+			window.open("<?=base_url()?>evaluasi/sasaran_strategis/excel/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,'_blank');			
+		});
 
         $('#sastralist-btn').click(function(){
             update_table();

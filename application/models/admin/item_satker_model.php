@@ -3,7 +3,7 @@
  @author     :  Yusup JS
  @date       : 2014-08-30
  @fungsi	 : 
- @revision	 :
+ @revision	 : GA KEPAKAI
 */
 	
 
