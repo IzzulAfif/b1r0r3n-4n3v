@@ -25,7 +25,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="col-sm-5 control-label">Periode renstra  <span class="text-danger">*</span></label>
+                            <label class="col-sm-5 control-label">Periode Renstra  <span class="text-danger">*</span></label>
                             <div class="col-sm-7">
                                 <select name="renstra" id="renstra_g2" class="populate" style="width:100%">
                                 	<option value="0">Pilih Periode Renstra</option>

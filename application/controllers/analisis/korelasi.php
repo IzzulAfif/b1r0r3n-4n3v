@@ -27,8 +27,8 @@ class Korelasi extends CI_Controller {
 	
 	function proses_kl()
 	{
-		$gdata1				= $this->get_data_kl($this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator"),$this->input->post("sasaran"));
-		$gdata2				= $this->get_data_kl($this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator2"),$this->input->post("sasaran2"));
+		$gdata1				= $this->get_data_kl($this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator"),$this->input->post("sasaran"),"1");
+		$gdata2				= $this->get_data_kl($this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator2"),$this->input->post("sasaran2"),"2");
 		
 		$data['post']		= $this->input->post();
 		$data['title1']		= $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$this->input->post("sasaran"),'kode_iku_kl'=>$this->input->post("indikator")),"anev_iku_kl");
@@ -40,7 +40,7 @@ class Korelasi extends CI_Controller {
 		$this->load->view('analisis/korelasi_grafik',$data);
 	}
 	
-	function get_data_kl($tahun1,$tahun2,$indikator,$sasaran)
+	function get_data_kl($tahun1,$tahun2,$indikator,$sasaran,$tipe)
 	{
 		$eselon1 = $this->mgeneral->getAll("anev_eselon1");
 		$graf_data		  = array();
@@ -53,7 +53,11 @@ class Korelasi extends CI_Controller {
 			if(count($data)!=0):
 				foreach($data as $d):
 					if($d->target!="0" && $d->target!=""):
-						$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						if($tipe==2):
+							$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						else:
+							$persen = ($d->realisasi/$d->target)*100;
+						endif;
 						$total_persen = $total_persen+$persen;
 					else:
 						$persen = 100;
@@ -82,7 +86,11 @@ class Korelasi extends CI_Controller {
 		
 		foreach($dataKL as $kl):
 			if($d->target!="0" && $kl->target!=""):
-				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;
+				if($tipe==2):
+					$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;
+				else:
+					$persen = ($kl->realisasi/$kl->target)*100;
+				endif;
 				$total_persen = $total_persen+$persen;
 			else:
 				$persen = 100;
@@ -104,8 +112,8 @@ class Korelasi extends CI_Controller {
 	function proses_e1()
 	{
 		$e1 = $this->input->post("unit_kerja");
-		$gdata1				= $this->get_data_e1($e1,$this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator"),$this->input->post("sasaran"));
-		$gdata2				= $this->get_data_e1($e1,$this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator2"),$this->input->post("sasaran2"));
+		$gdata1				= $this->get_data_e1($e1,$this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator"),$this->input->post("sasaran"),"1");
+		$gdata2				= $this->get_data_e1($e1,$this->input->post("tahun1"), $this->input->post("tahun2"),$this->input->post("indikator2"),$this->input->post("sasaran2"),"2");
 		
 		$data['post']		= $this->input->post();
 		$data['title1']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$this->input->post("sasaran"),'kode_iku_e1'=>$this->input->post("indikator")),"anev_iku_eselon1");
@@ -130,7 +138,11 @@ class Korelasi extends CI_Controller {
 			if(count($data)!=0):
 				foreach($data as $d):
 					if($d->target!="0" && $d->target!=""):
-						$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						if($tipe==2):
+							$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+						else:
+							$persen = ($d->realisasi/$d->target)*100;
+						endif;
 						$total_persen = $total_persen+$persen;
 					else:
 						$persen = 100;

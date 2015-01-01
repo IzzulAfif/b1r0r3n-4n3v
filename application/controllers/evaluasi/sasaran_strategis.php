@@ -98,6 +98,7 @@ class sasaran_strategis extends CI_Controller {
 		$widthRowDt2= "";
 		$widthRowRt	= "";
 		
+		if($tipe=="get"):
 		switch($totalThn):
 			case "1";
 				$widhtRowSS = 'style="width:145px;"';
@@ -135,6 +136,7 @@ class sasaran_strategis extends CI_Controller {
 				$widthRowRt	= "width:41px;";
 			break;
 		endswitch;
+		endif;
 		
 		$dataAda = (count($data)>0);
 		$dataSStemplate = $dataTemplate;

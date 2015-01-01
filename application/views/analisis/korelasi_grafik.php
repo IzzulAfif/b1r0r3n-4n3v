@@ -18,31 +18,52 @@
 			$dg2[$g2['kode']] = array('kode'=>$g2['kode'],'nama'=> $g2['nama'],'nilai'=>$g2['rata2'],'detail'=>$g2['detail']);
 		endforeach;
 	endif;
-		
+	
 	$tipe = "";
 	if(count($dg1)>=count($dg2)):
 		foreach($dg1 as $d1):
 		if(isset($dg2[$d1['kode']]['nilai'])):
 			 $nilaiy = $dg2[$d1['kode']]['nilai'];
 			 
-			 $detailyText  = "<table class='display table table-bordered table-striped'>";
+			 $detailyText  = "<table class='display table table-bordered'>";
 			 $detailyText .= "<thead><tr><th>Indikator Kerja Utama</th><th>Tahun</th><th>Target</th><th>Realisasi</th><th>Persen</th></tr>";
 			 $detailyText .= "<tbody>";
 			 $total_persen = 0;
+			
+			  #menghitung jumlah value dalam array
+			  $TotalArray = array();				 
+				 foreach ($dg2[$d1['kode']]['detail'] as $array)
+				 {
+					 foreach ($array as $key => $string)
+					 {
+						 if(!isset($TotalArray[$string])): $TotalArray[$string] = 0; endif;
+						 $TotalArray[$string] = $TotalArray[$string] + 1;
+					 }
+				}
+			 
+			 $namaRow1 = "";			 
 			 foreach($dg2[$d1['kode']]['detail'] as $dy):
-			 	#print_r($dy);
-				$detailyText .= "<tr><td>".$dy->nama_iku."</td><td>";
+				
+				if($namaRow1!=$dy->nama_iku):
+					$detailyText .= "<tr><td rowspan='".$TotalArray[$dy->nama_iku]."'>".$dy->nama_iku."</td><td>";
+				else:
+					$detailyText .= "<tr><td>";
+				endif;
+				
 				$detailyText .= $dy->tahun."</td><td>";
 				$detailyText .= $this->utility->cek_tipe_numerik($dy->target)."</td><td>";
 				$detailyText .= $this->utility->cek_tipe_numerik($dy->realisasi)."</td><td>";
 					if($dy->target!="0" && $dy->target!=""):
 						$persen = ((2*$dy->target-$dy->realisasi)/$dy->target)*100;
+						#$persen = ($dy->realisasi/$dy->target)*100;
 						$total_persen = $total_persen+$persen;
 					else:
 						$persen = 100;
 						$total_persen = $total_persen+$persen;
 					endif;
-				$detailyText .= $this->utility->cek_tipe_numerik($persen)."</td><tr>";
+				$detailyText .= $this->utility->cek_tipe_numerik($persen)."</td></tr>";
+				$namaRow1 = $dy->nama_iku;
+				
 			 endforeach;
 			 $rata2y = $total_persen/count($dg2[$d1['kode']]['detail']);
 			 $detailyText .= "<tr><td colspan='4'>% Rata-rata Capaian</td><td><b>".$this->utility->cek_tipe_numerik($rata2y)."</b></td></tr>"; 
@@ -55,23 +76,44 @@
 			$detaily = "";
 		endif;
 			
-			 $detailxText = "<table  class='display table table-bordered table-striped'>";
+			 $detailxText = "<table  class='display table table-bordered'>";
 			 $detailxText .= "<thead><tr><th>Indikator Kerja Utama</th><th>Tahun</th><th>Target</th><th>Realisasi</th><th>Persen</th></tr>";
 			 $detailxText .= "<tbody>";
 			 $total_persen = 0;
+			 
+			 #menghitung jumlah value dalam array
+			  $TotalArray2 = array();				 
+				 foreach ($d1['detail'] as $array)
+				 {
+					 foreach ($array as $key => $string)
+					 {
+						 if(!isset($TotalArray2[$string])): $TotalArray2[$string] = 0; endif;
+						 $TotalArray2[$string] = $TotalArray2[$string] + 1;
+					 }
+				}
+			 
+			 $namaRow2 = "";
 			 foreach($d1['detail'] as $dx):
-				$detailxText .= "<tr><td>".$dx->nama_iku."</td><td>";
+			 
+			 	if($namaRow2!=$dx->nama_iku):
+					$detailxText .= "<tr><td rowspan='".$TotalArray2[$dx->nama_iku]."'>".$dx->nama_iku."</td><td>";
+				else:
+					$detailxText .= "<tr><td>";
+				endif;
+				
 				$detailxText .= $dx->tahun."</td><td>";
 				$detailxText .= $this->utility->cek_tipe_numerik($dx->target)."</td><td>";
 				$detailxText .= $this->utility->cek_tipe_numerik($dx->realisasi)."</td><td>";
 					if($dx->target!="0" && $dx->target!=""):
-						$persen = ((2*$dx->target-$dx->realisasi)/$dx->target)*100;
+						#$persen = ((2*$dx->target-$dx->realisasi)/$dx->target)*100;
+						$persen = ($dx->realisasi/$dx->target)*100;
 						$total_persen = $total_persen+$persen;
 					else:
 						$persen = 100;
 						$total_persen = $total_persen+$persen;
 					endif;
 			 	$detailxText .= $this->utility->cek_tipe_numerik($persen)."</td></tr>"; 
+				$namaRow2 = $dx->nama_iku;
 			 endforeach;
 			 $rata2x = $total_persen/count($d1['detail']);
 			 $detailxText .= "<tr><td colspan='4'>% Rata-rata Capaian</td><td><b>".$this->utility->cek_tipe_numerik($rata2x)."</b></td></tr>";
@@ -100,23 +142,44 @@
 			if(isset($dg1[$d2['kode']]['nilai'])):
 				 $nilaix = $dg1[$d2['kode']]['nilai'];
 				 
-				 $detailxText  = "<table class='display table table-bordered table-striped'>";
+				 $detailxText  = "<table class='display table table-bordered'>";
 			 	 $detailxText .= "<thead><tr><th>Indikator Kerja Utama</th><th>Tahun</th><th>Target</th><th>Realisasi</th><th>Persen</th></tr>";
 			 	 $detailxText .= "<tbody>";
 				 $total_persen = 0;
+
+				 #menghitung jumlah value dalam array
+				  $TotalArray3 = array();				 
+					 foreach ($dg1[$d2['kode']]['detail'] as $array)
+					 {
+						 foreach ($array as $key => $string)
+						 {
+							 if(!isset($TotalArray3[$string])): $TotalArray3[$string] = 0; endif;
+							 $TotalArray3[$string] = $TotalArray3[$string] + 1;
+						 }
+					}
+				
+				 $namaRow3 = "";	
 				 foreach($dg1[$d2['kode']]['detail'] as $dx):
-				 	$detailxText .= "<tr><td>".$dx->nama_iku."</td><td>";
-				 	$detailxText .= $dx->tahun."</td><td>";
+				 	
+					if($namaRow3!=$dx->nama_iku):
+				 		$detailxText .= "<tr><td rowspan='".$TotalArray3[$dx->nama_iku]."'>".$dx->nama_iku."</td><td>";
+				 	else:
+						$detailxText .= "<tr><td>";
+					endif;
+					
+					$detailxText .= $dx->tahun."</td><td>";
 					$detailxText .= $this->utility->cek_tipe_numerik($dx->target)."</td><td>";
 					$detailxText .= $this->utility->cek_tipe_numerik($dx->realisasi)."</td><td>";
 						if($dx->target!="0" && $dx->target!=""):
-							$persen = ((2*$dx->target-$dx->realisasi)/$dx->target)*100;
+							#$persen = ((2*$dx->target-$dx->realisasi)/$dx->target)*100;
+							$persen = ($dx->realisasi/$dx->target)*100;
 							$total_persen = $total_persen+$persen;
 						else:
 							$persen = 100;
 							$total_persen = $total_persen+$persen;
 						endif;
 					$detailxText .= $this->utility->cek_tipe_numerik($persen)."</td></tr>";
+					$namaRow3 = $dx->nama_iku;
 				 endforeach;
 				$rata2x = $total_persen/count($dg1[$d2['kode']]['nilai']);
 			 	$detailxText .= "<tr><td colspan='4'>% Rata-rata Capaian</td><td><b>".$this->utility->cek_tipe_numerik($rata2x)."</b></td></tr>";
@@ -129,24 +192,46 @@
 				$detailx = "";
 			endif;
 			
-			 $detailyText  = "<table class='display table table-bordered table-striped'>";
+			 $detailyText  = "<table class='display table table-bordered'>";
 			 $detailyText .= "<thead><tr><th>Indikator Kerja Utama</th><th>Tahun</th><th>Target</th><th>Realisasi</th><th>Persen</th></tr>";
 			 $detailyText .= "<tbody>";
 			 $total_persen = 0;
+			 	
+				#menghitung jumlah value dalam array
+				  $TotalArray4 = array();				 
+					 foreach ($d2['detail'] as $array)
+					 {
+						 foreach ($array as $key => $string)
+						 {
+							 if(!isset($TotalArray4[$string])): $TotalArray4[$string] = 0; endif;
+							 $TotalArray4[$string] = $TotalArray4[$string] + 1;
+						 }
+					}
+			
+			 $namaRow4 = "";
 			 foreach($d2['detail'] as $dy):
-				$detailyText .= "<tr><td>".$dy->nama_iku."</td><td>";
+			 	
+				if($namaRow4!=$dy->nama_iku):
+					$detailyText .= "<tr><td rowspan='".$TotalArray4[$dy->nama_iku]."'>".$dy->nama_iku."</td><td>";
+				else:
+					$detailyText .= "<tr><td>";
+				endif;
+				
 				$detailyText .= $dy->tahun."</td><td>";
 				$detailyText .= $this->utility->cek_tipe_numerik($dy->target)."</td><td>";
 				$detailyText .= $this->utility->cek_tipe_numerik($dy->realisasi)."</td><td>";
 					if($dy->target!="0" && $dy->target!=""):
-						$persen = ((2*$dy->target-$dy->realisasi)/$dy->target)*100;
+						#$persen = ((2*$dy->target-$dy->realisasi)/$dy->target)*100;
+						$persen = ($dy->realisasi/$dy->target)*100;
 						$total_persen = $total_persen+$persen;
 					else:
 						$persen = 100;
 						$total_persen = $total_persen+$persen;
 					endif;
 				$detailyText .= $this->utility->cek_tipe_numerik($persen)."</td></tr>";
+			 $namaRow4 = $dy->nama_iku;
 			 endforeach;
+			 
 			 $rata2y = $total_persen/count($d2['detail']);
 			 $detailyText .= "<tr><td colspan='4'>% Rata-rata Capaian</td><td><b>".$this->utility->cek_tipe_numerik($rata2y)."</b></td></tr>";
 			 $detailyText .= "</tbody>";
@@ -217,9 +302,16 @@
                     </tr>
                         
                 <?php $no++; endforeach; ?>
-        
+        		
+                <tr>
+                	<td>Rata - rata</td>
+                    <td><?=$rata1?></td>
+                    <td><?=$rata2?></td>
+                    <td></td>
+                </tr>
+                
         	<?php endif; ?>
-        
+        	
         </tbody>
         </table>
         
@@ -292,7 +384,7 @@
 					enabled:false
 				},
 				printButton: {
-					enabled:true
+					enabled:false
 				}
 		
 			}
@@ -308,7 +400,7 @@
 		xAxis: {
 			title: {
 				enabled: true,
-				text: 'Indikator Dependent<?php #ucwords($title2); ?>'
+				text: 'Indikator Independent<?php #ucwords($title2); ?>'
 			},
 			startOnTick: true,
 			endOnTick: true,
@@ -322,7 +414,7 @@
 		//<div title="<?=ucwords($title1)?>"><p align="center"><?=substr(ucwords($title1),0,50)?> ...</p></div>
 		yAxis: {
 			title: {
-				text: 'Indikator Independent',
+				text: 'Indikator Dependent',
 				useHTML : true,
 			},
 			gridLineWidth: 0,

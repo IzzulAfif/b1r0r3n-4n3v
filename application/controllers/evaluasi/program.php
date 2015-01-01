@@ -96,7 +96,63 @@ class program extends CI_Controller {
 
 	function get_tabel_capaian_kinerja($tahun_awal, $tahun_akhir, $kode_e1,$tipe="html") 
 	{
-		$thead = '<thead><tr><th rowspan="2">Sasaran Program</th><th rowspan="2">Indikator</th><th rowspan="2">Satuan</th>';
+		$totalThn = 0;
+		for($a=$tahun_awal; $a<=$tahun_akhir;$a++):
+			$totalThn++;
+		endfor;
+		
+		$widhtRowSS = '';
+		$widthRowIKU= '';
+		$widthRowDt	= "";
+		$widthRowDt2= "";
+		$widthRowRt	= "";
+		
+		if($tipe=="get"):
+		switch($totalThn):
+			case "1";
+				$widhtRowSS = 'style="width:145px;"';
+				$widthRowIKU= 'style="width:230px;"';
+				$widthRowDt	= "width:210px;";
+				$widthRowDt2= "width:70px;";
+				$widthRowRt	= "width:80px;";
+			break;
+			case "2";
+				$widhtRowSS = 'style="width:115px;"';
+				$widthRowIKU= 'style="width:160px;"';
+				$widthRowDt	= "width:180px;";
+				$widthRowDt2= "width:60px;";
+				$widthRowRt	= "width:70px;";
+			break;
+			case "3";
+				$widhtRowSS = 'style="width:90px;"';
+				$widthRowIKU= 'style="width:120px;"';
+				$widthRowDt	= "width:150px;";
+				$widthRowDt2= "width:50px;";
+				$widthRowRt	= "width:60px;";
+			break;
+			case "4";
+				$widhtRowSS = 'style="width:75px;"';
+				$widthRowIKU= 'style="width:100px;"';
+				$widthRowDt	= "width:129px;";
+				$widthRowDt2= "width:43px;";
+				$widthRowRt	= "width:53px;";
+			break;
+			case "5";
+				$widhtRowSS = 'style="width:45px;"';
+				$widthRowIKU= 'style="width:60px;"';
+				$widthRowDt	= "width:123px;";
+				$widthRowDt2= "width:41px;";
+				$widthRowRt	= "width:41px;";
+			break;
+		endswitch;
+		endif;
+		
+		/*$data = $this->program_m->get_capaian_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
+		echo "<pre>";
+		print_r($data);
+		exit;*/
+		
+		$thead = '<thead><tr><th rowspan="2" '.$widhtRowSS.'>Sasaran Program</th><th rowspan="2" '.$widthRowIKU.'>Indikator</th><th rowspan="2">Satuan</th>';
 		$tbody = '<tbody>';
 		$j = 0; $thn = 0; $firstrow = 1; $countrow = 0; $temprow = ''; $sum_program = 0;
 		$data = $this->program_m->get_capaian_kinerja($kode_e1, $tahun_awal, $tahun_akhir);
@@ -109,8 +165,8 @@ class program extends CI_Controller {
 				$kd_iku_e1 = $dt->kode_iku_e1;
 			}
 			foreach ($data as $dt) {
-				$temprow .= "<td>".(is_numeric($dt->target)?$dt->target:$dt->target)."</td><td>"
-					.(is_numeric($dt->realisasi)?$dt->realisasi:$dt->realisasi)."</td><td>"
+				$temprow .= "<td>".(is_numeric($dt->target)?$this->template->cek_tipe_numerik($dt->target):$this->template->cek_tipe_numerik($dt->target))."</td><td>"
+					.(is_numeric($dt->realisasi)?$this->template->cek_tipe_numerik($dt->realisasi):$this->template->cek_tipe_numerik($dt->realisasi))."</td><td>"
 					.number_format($dt->persen,2,',','.')."</td>"; 
 				$sum_program += $dt->persen; $thn++;
 				$sum_tahun[$dt->tahun][] = $dt->persen;			
@@ -143,7 +199,7 @@ class program extends CI_Controller {
 		
 		$totalRata2 = 0;
 		foreach ($datasum as $k => $val) {
-			$thead .= '<th colspan="3">'.$k.'</th>';
+			$thead .= '<th colspan="3" style="text-align:center;'.$widthRowDt.'">'.$k.'</th>';
 		 	$temp_thead .= '<th>Target</th><th>Realisasi</th><th>Persen</th>';
 		 	$tbody .= '<td></td><td></td><td>'.$this->template->cek_tipe_numerik(($val/$countrow)).'</td>'; 
 			$totalRata2 = $totalRata2+($val/$countrow);
@@ -197,8 +253,8 @@ class program extends CI_Controller {
 		$pdf->SetTitle('Capaian Program');
 		$pdf->SetHeaderMargin(15);
 		$pdf->SetTopMargin(15);
-		$pdf->SetLeftMargin(15);
-		$pdf->SetRightMargin(15);
+		$pdf->SetLeftMargin(10);
+		$pdf->SetRightMargin(10);
 		$pdf->setFooterMargin(5);
 		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 		$pdf->setPrintHeader(false);

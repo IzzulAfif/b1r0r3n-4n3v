@@ -52,14 +52,14 @@
                     <div class="form-group">
                     	<p class="text-primary col-md-12"><b>Capaian Kinerja</b></p>
                         <div class="adv-table" id="data-capaian" style="width:100%; overflow: auto; padding:10px 5px 10px 5px;">
-                            <table  class="display table table-bordered table-striped" id="tabel_capaian">
+                            <table  class="table table-bordered table-striped" id="tabel_capaian" width="100%">
                             </table>
                         </div>
                     </div>
                     <div class="form-group">
                     	<p class="text-primary col-md-12" ><b>Serapan Anggaran</b></p>
                         <div class="adv-table" style="padding:10px 5px 10px 5px">
-                            <table class="display table table-bordered table-striped" id="tabel_serapan">
+                            <table class="table table-bordered table-striped" id="tabel_serapan">
                 			</table>
                         </div>
                     </div>
@@ -175,11 +175,11 @@
                         success:function(result) {
                             tabel_capaian = $('#tabel_capaian');
                             tabel_capaian.empty().html(result);
-							$("#data-capaian").mCustomScrollbar({
+							/*$("#data-capaian").mCustomScrollbar({
 								axis:"x",
 								theme:"dark-2"
 							});
-							/*tabel_capaian.dataTable( {
+							tabel_capaian.dataTable( {
                                 "bDestroy": true
                         });*/
                     }
