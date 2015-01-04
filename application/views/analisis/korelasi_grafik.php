@@ -104,7 +104,7 @@
 				$detailxText .= $dx->tahun."</td><td>";
 				$detailxText .= $this->utility->cek_tipe_numerik($dx->target)."</td><td>";
 				$detailxText .= $this->utility->cek_tipe_numerik($dx->realisasi)."</td><td>";
-					if($dx->target!="0" && $dx->target!=""):
+					if($dx->target!="0" && $dx->target!="" && is_numeric($dx->target)):
 						#$persen = ((2*$dx->target-$dx->realisasi)/$dx->target)*100;
 						$persen = ($dx->realisasi/$dx->target)*100;
 						$total_persen = $total_persen+$persen;
@@ -263,9 +263,12 @@
         	<p>Grafik tidak dapat ditampilkan, data tidak tersedia atau berupa numerik</p>
         </div>
     <?php else : ?>
-    	<div id="chartKontenKorelasi" style="height:400px;">
+    	<div style="margin-bottom:5px;" align="right">
+    		<button type="button" class="btn btn-warning btn-sm" onclick="chart.print();"><i class="fa fa-print"></i> Cetak Grafik</button>
+        </div>
+        <div id="chartKontenKorelasi" style="height:400px;">
 		</div>
-		
+        
         <br />
 <section class="panel">
     <div class="panel-body">
@@ -307,7 +310,6 @@
                 	<td>Rata - rata</td>
                     <td><?=$rata1?></td>
                     <td><?=$rata2?></td>
-                    <td></td>
                 </tr>
                 
         	<?php endif; ?>
@@ -384,7 +386,7 @@
 					enabled:false
 				},
 				printButton: {
-					enabled:false
+					enabled:false,
 				}
 		
 			}

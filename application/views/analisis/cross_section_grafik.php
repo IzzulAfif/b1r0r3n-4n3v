@@ -41,11 +41,18 @@
 		
 	endforeach;
 ?>
-<div id="chartKontenSection" style=" <?php if($tipe=="numeric"): ?>height:400px; <?php endif; ?>">
-	<?php if($tipe!="numeric"): ?>
-    	<div class="alert alert-danger">Grafik tidak dapat ditampilkan, data tidak tersedia atau bukan numeric.</div>
-	<?php endif; ?>
-</div>
+	
+    <?php if($tipe!="numeric"): ?>
+        <div class="alert alert-danger">Grafik tidak dapat ditampilkan, data tidak tersedia atau bukan numeric.</div>
+    <?php endif; ?>
+    
+    <?php if($tipe=="numeric"): ?>
+        <div style="margin-bottom:5px;" align="right">
+            <button type="button" class="btn btn-warning btn-sm" onclick="chart2.print();"><i class="fa fa-print"></i> Cetak Grafik</button>
+        </div>
+        <div id="chartKontenSection" style="height:400px;">
+        </div>
+    <?php endif; ?>
 
 <?php if($tipe=="numeric"): ?>
 <br />
@@ -109,12 +116,18 @@
 						  	}
 						  	else $counts[$subarr['kode_iku_e1']] = 1;
 						  	$counts[$subarr['kode_iku_e1']] = isset($counts[$subarr['kode_iku_e1']]) ? $counts[$subarr['kode_iku_e1']]++ : 1;
-						  }else{
+						  }elseif(isset($subarr['kode_iku_kl'])){
 						  	if (isset($counts[$subarr['kode_iku_kl']])) {
 								$counts[$subarr['kode_iku_kl']]++;
 						  	}
 						  	else $counts[$subarr['kode_iku_kl']] = 1;
 						  	$counts[$subarr['kode_iku_kl']] = isset($counts[$subarr['kode_iku_kl']]) ? $counts[$subarr['kode_iku_kl']]++ : 1;
+						  }else{
+							 if (isset($counts[$subarr['kode_ikk']])) {
+								$counts[$subarr['kode_ikk']]++;
+						  	}
+						  	else $counts[$subarr['kode_ikk']] = 1;
+						  	$counts[$subarr['kode_ikk']] = isset($counts[$subarr['kode_ikk']]) ? $counts[$subarr['kode_ikk']]++ : 1;
 						  }
 						}
 						
@@ -127,9 +140,12 @@
 								if(isset($dd->kode_iku_e1)):
 									$pembanding = $dd->kode_iku_e1;
 									$rowspan = $counts[$dd->kode_iku_e1];
-								else:
+								elseif(isset($dd->kode_iku_kl)):
 									$pembanding = $dd->kode_iku_kl;
 									$rowspan = $counts[$dd->kode_iku_kl];
+								else:
+									$pembanding = $dd->kode_ikk;
+									$rowspan = $counts[$dd->kode_ikk];
 								endif;
 								
 								if($name!=$pembanding): 
@@ -149,8 +165,10 @@
                     <?php 
 						if(isset($dd->kode_iku_e1)):
 							$name = $dd->kode_iku_e1;
-						else:
+						elseif(isset($dd->kode_iku_e1)):
 							$name = $dd->kode_iku_kl;
+						else:
+							$name = $dd->kode_ikk;
 						endif;
 						
 						endforeach; 
@@ -176,8 +194,8 @@
 <script>
 	$(document).ready(function() {
 	<?php if($tipe=="numeric"): ?>
-		var chart;
-		chart = new Highcharts.Chart({
+		
+		chart2 = new Highcharts.Chart({
 			chart: {
 				renderTo: 'chartKontenSection',
 				options3d: {

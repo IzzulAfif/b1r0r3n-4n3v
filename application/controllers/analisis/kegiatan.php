@@ -63,7 +63,7 @@ class Kegiatan extends CI_Controller {
 		$params['kode_program'] = $kode_program;
 		$params['kode_kegiatan'] = $kode_kegiatan;
 		//diganti ku output $params['kdlokasi'] = $kdlokasi;
-		$params['kdouput'] = $kdouput;
+		$params['kdoutput'] = $kdouput;
 		
 		$data	= $this->kegiatan->get_rincian_paket_pekerjaan($params);
 	
@@ -82,11 +82,7 @@ class Kegiatan extends CI_Controller {
 				endforeach; 
 		} else {
 			$rs .= '<tr class="gradeX">
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>				
-				<td>&nbsp;</td>
+				<td colspan="5">Data tidak ditemukan</td>
 			</tr>';
 			//<td>&nbsp;</td>				<td>&nbsp;</td>
 		}

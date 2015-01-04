@@ -46,12 +46,16 @@
         <div id="keuangan_es1_konten">
         </div>
         
-        <div id="grafik_es1" style="padding:10px 5px 10px 5px">                    
+        <div style="margin-bottom:5px;" align="right">
+            <button type="button" class="btn btn-warning btn-sm" onclick="chart.print();"><i class="fa fa-print"></i> Cetak Grafik</button>
+        </div>
+            
+        <div id="grafik_es1" style="padding:10px 5px 10px 5px; width:100%;">                    
         </div>
                         
         <div class="pull-right">
             <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_keuanganes1"><i class="fa fa-print"></i> Cetak PDF</button>          
-            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_targetes1"><i class="fa fa-download"></i> Ekspor Excel</button>
+            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_keuanganes1"><i class="fa fa-download"></i> Ekspor Excel</button>
         </div>
 	
     </div>
@@ -127,6 +131,13 @@
         	tahun_akhir = $('#es1-tahun_akhir').val();
 			es1			= $('#es1-kode').val();
 			window.open('<?=base_url()?>analisis/keuangan/print_keuanganes1_pdf/'+tahun+'/'+tahun_awal+'/'+tahun_akhir+'/'+es1,'_blank');			
+		});
+		$('#cetakexcel_keuanganes1').click(function(){
+			tahun 		= $('#es1-renstra').val();
+			tahun_awal 	= $('#es1-tahun_awal').val();
+        	tahun_akhir = $('#es1-tahun_akhir').val();
+			es1			= $('#es1-kode').val();
+			window.open('<?=base_url()?>analisis/keuangan/print_keuanganes1_excel/'+tahun+'/'+tahun_awal+'/'+tahun_akhir+'/'+es1,'_blank');			
 		});
 	})
 	</script>	        

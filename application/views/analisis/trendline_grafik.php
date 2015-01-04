@@ -30,14 +30,17 @@
 			$dTrendline	.= $d['trendline'].",";
 			$dTargetline.= $d['targetline'].",";
 			
-			#if($d['tahun']==$post['tahun']):
+			if($d['tahun']==$post['tahun']):
 				$dSimTarget .= $post['target'].",";
-			#else:
-				#$dSimTarget .= "0,";
+			else:
+				$dSimTarget .= "0,";
+			endif;
+			
+			if($d['target']!=-1):
 				$dTarget	.= $d['target'].",";
 				$dRealisasi	.= $d['realisasi'].",";
 				$dCapaian	.= $arrTahun[$d['tahun']].",";
-			#endif;
+			endif;
 			
 			if($tipe!="not numeric"):
 				if(!is_numeric($d['tahun']) || !is_numeric($d['target']) || !is_numeric($d['realisasi']) || !is_numeric($d['simulasi']) || !is_numeric($d['trendline']) || !is_numeric($d['targetline'])):
@@ -50,13 +53,20 @@
 		endif;
 	endforeach;
 ?>
-
-<div id="chartKonten" style=" <?php if($tipe=="numeric"): ?>height:400px; <?php endif; ?>">
-	<?php if($tipe!="numeric"): ?>
-    	<div class="alert alert-danger">Grafik tidak dapat ditampilkan, data tidak tersedia atau bukan numeric.</div>
-	<?php endif; ?>
-</div>
-<br />
+		<?php if($tipe!="numeric"): ?>
+            <div class="alert alert-danger">Grafik tidak dapat ditampilkan, data tidak tersedia atau bukan numeric.</div>
+        <?php endif; ?>
+                
+		<?php if($tipe=="numeric"): ?>
+            <div style="margin-bottom:5px;" align="right">
+                <button type="button" class="btn btn-warning btn-sm" onclick="chart1.print();"><i class="fa fa-print"></i> Cetak Grafik</button>
+            </div>
+            
+            <div id="chartKonten" style="height:400px;">  
+            </div>
+        <?php endif; ?>
+        
+        <br />
 
 <?php if(count($gdata)!=0): ?>
 <section class="panel">
@@ -73,14 +83,14 @@
         </thead>
         <tbody>
             <?php foreach($gdata as $d): ?>
-            	
+            	<?php if($d['target']!=-1): ?>
                 	<tr>
                         <td><?=$d['tahun']?></td>
                         <td><?=$this->template->cek_tipe_numerik($arrTahun[$d['tahun']])?></td>
                         <td><?=$this->template->cek_tipe_numerik($d['target'])?></td>
                         <td><?=$this->template->cek_tipe_numerik($d['realisasi'])?></td>
                     </tr>
-				
+				<?php endif; ?>
             <?php endforeach; ?>
             <?php if($vSimulasi=="ok"):?>
             <tr><td colspan="4">Simulasi Target dan Realisasi</td></tr>
@@ -100,8 +110,7 @@
 <script>
 	$(document).ready(function() {
 	<?php if($tipe=="numeric"): ?>
-		var chart;
-		chart = new Highcharts.Chart({
+		chart1 = new Highcharts.Chart({
 			chart: {
 				renderTo: 'chartKonten',
 				marginTop: 120,
@@ -113,7 +122,7 @@
 						enabled:false
 					},
 					printButton: {
-						enabled:true
+						enabled:false
 					}
 			
 				}

@@ -66,6 +66,9 @@
                     
                     <div class="form-group">
                     	<p class="text-primary col-md-12" ><b>Grafik Perbandingan Capaian Kinerja dan Daya Serap Anggaran</b></p>
+                        <div style="margin:0 5px 5px 0;" align="right">
+                            <button type="button" class="btn btn-warning btn-sm" onclick="chart4.print();"><i class="fa fa-print"></i> Cetak Grafik</button>
+                        </div>
                         <div id="grafik_program" style="padding:10px 5px 10px 5px">
                             
                         </div>
@@ -166,6 +169,13 @@
 			val_akhir = tahun_akhir.val();
 			window.open("<?=base_url()?>evaluasi/program/print_tabel_program/"+val_awal+"/"+val_akhir+"/"+kode_program,'_blank');			
 		});
+		$('#cetakexcel_program').click(function(){
+        	kode_program = nama_program.val();
+			val_awal = tahun_awal.val();
+			val_akhir = tahun_akhir.val();
+			window.open("<?=base_url()?>evaluasi/program/print_tabel_program_excel/"+val_awal+"/"+val_akhir+"/"+kode_program,'_blank');			
+		});
+		
 
         function update_table(kd_program, thn_awal, thn_akhir, kd_pelaksana) {
             //req capaian
@@ -215,7 +225,7 @@
 								enabled:false
 							},
 							printButton: {
-								enabled:true
+								enabled:false
 							}
 					
 						}
@@ -249,7 +259,7 @@
 					options.xAxis.categories = data.tahun;
 					options.series[0].data = data.program;
 					options.series[1].data = data.anggaran;
-					var chart = new Highcharts.Chart(options);			
+					chart4 = new Highcharts.Chart(options);			
 				}
 			});
 		}

@@ -12,7 +12,7 @@
                     	<div class="col-sm-3"><?=form_dropdown('renstra',$renstra,'0','id="renstra"')?></div>
                     </div>
                     <div class="form-group">
-                    	<label class="col-sm-2">Tahun <span class="text-danger">*</span></label>
+                    	<label class="col-sm-2">Rentang Tahun <span class="text-danger">*</span></label>
                     	<div class="col-sm-2"><?=form_dropdown('tahun_awal',array("Pilih Tahun"),'','id="tahun_awal"')?></div>
                     	<div class="col-sm-2"><?=form_dropdown('tahun_akhir',array("Pilih Tahun"),'','id="tahun_akhir"')?></div>
                     </div>
@@ -70,6 +70,9 @@
                     
                     <div class="form-group">
                     	<p class="text-primary col-md-12" ><b>Grafik Perbandingan Capaian Kinerja dan Daya Serap Anggaran</b></p>
+                        <div style="margin-bottom:5px; margin-right:5px;" align="right">
+                            <button type="button" class="btn btn-warning btn-sm" onclick="chart.print();"><i class="fa fa-print"></i> Cetak Grafik</button>
+                        </div>
                         <div id="grafik_program" style="padding:10px 5px 10px 5px">
                             
                         </div>
@@ -77,7 +80,7 @@
                     
                 </form>
                 
-                <div class="pull-right">
+                <div class="pull-right hide">
                     <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatan"><i class="fa fa-print"></i> Cetak PDF</button>          
                     <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatan"><i class="fa fa-download"></i> Ekspor Excel</button>
                 </div>
@@ -236,7 +239,7 @@
 								enabled:false
 							},
 							printButton: {
-								enabled:true
+								enabled:false
 							}
 					
 						}
@@ -270,7 +273,7 @@
 					options.xAxis.categories = data.tahun;
 					options.series[0].data = data.program;
 					options.series[1].data = data.anggaran;
-					var chart = new Highcharts.Chart(options);			
+					chart = new Highcharts.Chart(options);			
 				}
 			});
 		}

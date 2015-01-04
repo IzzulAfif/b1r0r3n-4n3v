@@ -4,7 +4,7 @@
  @date       : 2014-08-15 00:00
  @revision	 :
 */
-
+error_reporting(E_ERROR);
 class Kegiatan extends CI_Controller {
 	
 	function __construct() 

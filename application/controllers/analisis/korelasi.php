@@ -125,7 +125,7 @@ class Korelasi extends CI_Controller {
 		$this->load->view('analisis/korelasi_grafik',$data);
 	}
 	
-	function get_data_e1($e1,$tahun1,$tahun2,$indikator,$sasaran)
+	function get_data_e1($e1,$tahun1,$tahun2,$indikator,$sasaran,$tipe)
 	{
 		$eselon1 = $this->mgeneral->getWhere(array("kode_e1"=>$e1),"anev_eselon2");
 		$graf_data		  = array();
@@ -137,10 +137,11 @@ class Korelasi extends CI_Controller {
 			$total_persen = 0;
 			if(count($data)!=0):
 				foreach($data as $d):
-					if($d->target!="0" && $d->target!=""):
+					if($d->target!="0" && $d->target!="" && is_numeric($d->target)):
 						if($tipe==2):
 							$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
 						else:
+							#echo $d->target."<Br>";
 							$persen = ($d->realisasi/$d->target)*100;
 						endif;
 						$total_persen = $total_persen+$persen;

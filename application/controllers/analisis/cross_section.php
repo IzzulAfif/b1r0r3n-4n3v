@@ -122,7 +122,8 @@ class Cross_section extends CI_Controller {
 				endif;
 			
 		endforeach;
-		
+		#echo "<pre>";
+		#print_r($graf_data);
 		$dataKL	= $this->analisis_model->get_capaian_kinerja_eselon1($this->input->post("indikator"),$this->input->post("tahun1"), $this->input->post("tahun2"));
 		
 		$total_persen = 0;
@@ -131,6 +132,7 @@ class Cross_section extends CI_Controller {
 			return;
 		}
 		
+		#print_r($dataKL);
 		foreach($dataKL as $kl):
 			if($kl->target!="0" && $kl->target!="" && is_numeric($kl->target)):
 				$persen = ((2*$kl->target-$kl->realisasi)/$kl->target)*100;

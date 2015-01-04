@@ -35,7 +35,7 @@ class Trendline extends CI_Controller {
 		$simulasi	= $this->input->post("simulasi");
 		
 		$dataSearch = $this->trendline_model->kl($unit_kerja,$sasaran,$indikator,$tahun1,$tahun2);
-		$dataKonten = $this->trendline_model->convert_data($dataSearch,$tahun1,$tahun2,$tahun,$target);
+		$dataKonten = $this->trendline_model->convert_data($dataSearch,$tahun1,$tahun2,$tahun,$target,$simulasi);
 		$dataTarget = $this->analisis_model->get_target_capaian_kl($indikator,$renstra);
 		
 		$data['post']	= $this->input->post();
@@ -69,11 +69,13 @@ class Trendline extends CI_Controller {
 		$simulasi	= $this->input->post("simulasi");
 		
 		$dataSearch = $this->trendline_model->eselon1($unit_kerja,$sasaran,$indikator,$tahun1,$tahun2);
-		$dataKonten = $this->trendline_model->convert_data($dataSearch,$tahun1,$tahun2,$tahun,$target);
+		$dataKonten = $this->trendline_model->convert_data($dataSearch,$tahun1,$tahun2,$tahun,$target,$simulasi);
+		$dataTarget = $this->analisis_model->get_target_capaian_e1($indikator,$renstra);
 		
 		$data['post']		= $this->input->post();
 		$data['gdata'] 		= $dataKonten;
 		$data['satuan']		= $this->get_satuan($unit_kerja,$indikator,"get");
+		$data['target']		= $dataTarget;
 		$data['title']		= $this->mgeneral->getValue("deskripsi",array('kode_sp_e1'=>$sasaran,'kode_iku_e1'=>$indikator),"anev_iku_eselon1");
 		$data['subtitle']	= "dari Tahun $tahun1 s.d. $tahun2";
 		$data['simulasi']	= $simulasi;  

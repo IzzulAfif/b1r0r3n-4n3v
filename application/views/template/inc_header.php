@@ -5,7 +5,7 @@
     <meta name="author" content="e-Anev">
     
     <link rel="shortcut icon" href="<?=base_url()?>/favicon.ico">
-    <title>.:: ANEV - Kementerian Perhubungan ::.</title>
+    <title>ANEV Kementerian Perhubungan</title>
     <link href="<?=base_url("static")?>/bs3/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/js/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet">
     <link href="<?=base_url("static")?>/js/select2/select2.css" rel="stylesheet">

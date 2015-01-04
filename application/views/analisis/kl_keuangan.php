@@ -43,7 +43,7 @@
         
         <div class="pull-right">
             <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_keuangankl"><i class="fa fa-print"></i> Cetak PDF</button>          
-            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_targetkl"><i class="fa fa-download"></i> Ekspor Excel</button>
+            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_keuangankl"><i class="fa fa-download"></i> Ekspor Excel</button>
         </div>
 	
     </div>
@@ -94,6 +94,13 @@
 			tahun_awal = $('#tahun_awal').val();
         	tahun_akhir = $('#tahun_akhir').val();
 			window.open('<?=base_url()?>analisis/keuangan/print_keuangankl_pdf/'+tahun+'/'+tahun_awal+'/'+tahun_akhir,'_blank');			
+		});
+		
+		$('#cetakexcel_keuangankl').click(function(){
+			tahun = $('#renstra-kl').val();
+			tahun_awal = $('#tahun_awal').val();
+        	tahun_akhir = $('#tahun_akhir').val();
+			window.open('<?=base_url()?>analisis/keuangan/print_keuangankl_excel/'+tahun+'/'+tahun_awal+'/'+tahun_akhir,'_blank');			
 		});
 		
 	})

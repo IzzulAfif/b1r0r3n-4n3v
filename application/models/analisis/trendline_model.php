@@ -107,9 +107,9 @@ class trendline_model extends CI_Model
 		return $dataGrafik;
 	}
 	
-	function convert_data($dataKonten,$tahun1,$tahun2,$thn_target,$target_nilai)
+	function convert_data($dataKonten,$tahun1,$tahun2,$thn_target,$target_nilai,$simulasi)
 	{	
-		if($thn_target > $tahun2):
+		if($thn_target > $tahun2 && $simulasi=="ok"):
 			$thn_end = $thn_target;
 		else:
 			$thn_end = $tahun2;
@@ -119,8 +119,8 @@ class trendline_model extends CI_Model
 		for($a=$tahun1;$a<=$thn_end;$a++):
 			
 			if($a==$thn_target): $simulasi = $this->rumus(json_encode($dataKonten),$thn_target,"realisasi"); else: $simulasi = 0; endif;
-			if($dataKonten[$urut]['target']==""): $target = "0"; else: $target=$dataKonten[$urut]['target']; endif;
-			if($dataKonten[$urut]['realisasi']==""): $realisasi = "0"; else: $realisasi=$dataKonten[$urut]['realisasi']; endif;
+			if($dataKonten[$urut]['target']==""): $target = "-1"; else: $target=$dataKonten[$urut]['target']; endif;
+			if($dataKonten[$urut]['realisasi']==""): $realisasi = "-1"; else: $realisasi=$dataKonten[$urut]['realisasi']; endif;
 			if($a==$thn_target): 
 				$targetline = $simulasi;
 				$trendline	= $simulasi;

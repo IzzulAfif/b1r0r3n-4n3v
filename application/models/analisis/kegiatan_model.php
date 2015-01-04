@@ -63,7 +63,7 @@ class Kegiatan_model extends CI_Model
 			if (isset($params['tahun'])) $where .= " and i.tahun='".$params['tahun']."'";
 		}
 	$sqlOld = 'select i.nmitem, i.volkeg, i.satkeg, kk.nama_kabkota, s.nama_status from anev_item_satker i left join anev_kabkota kk on i.kdkabkota = kk.kdkabkota left join anev_status_kegiatan s on s.kode_status = i.kode_status '.$where;
-	$sql = 'select i.nmitem, i.volkeg, i.satkeg, kk.nama_kabkota, \'\' as nama_status from anev_item_satker i left join anev_kabkota kk on i.kdkabkota = kk.kdkabkota '.$where;
+	$sql = 'select i.nmitem, i.volkeg, i.satkeg, kk.nama_kabkota, \'\' as nama_status from anev_item_satker i left join anev_kabkota kk on CONCAT(i.kdlokasi, i.kdkabkota) = kk.kdkabkota '.$where;
 	$sql .= " limit 0,100";
 		return $this->mgeneral->run_sql($sql);
 	

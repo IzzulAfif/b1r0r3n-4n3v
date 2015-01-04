@@ -55,7 +55,7 @@
                     </div>
 					<div class="form-group">
                         <label class="col-md-2 control-label">&nbsp;</label>
-                        <button type="button" class="btn btn-info" id="detail-btn" style="margin-left:15px;">
+                        <button type="button" class="btn btn-info" id="detail-btn-kegiatan" style="margin-left:15px;">
                             <i class="fa fa-check-square-o"></i> Tampilkan Data
                         </button>
                     </div>		
@@ -65,7 +65,7 @@
         </section>
     </div>
     
-    <div class="feed-box hide" id="box-result">
+    <div class="feed-box hide" id="box-result2">
         <section class="panel tab-bg-form" style="background-color:#F9F9F9">
             <div class="panel-body">
                
@@ -74,7 +74,7 @@
                 </div>
                 
                 <p class="text-primary">Rincian Paket Pekerjaan</p><br />
-                <table  class="display table table-bordered table-striped" id="detail-tbl">
+                <table  class="display table table-bordered table-striped" id="detail-tbl-list-kegiatan">
                 	<thead>
                     	<tr>
                     		<th width="1%">No</th>
@@ -183,12 +183,12 @@
 		});
 		
 		$('#detail-lokasi').change(function(){
-			$('#box-result').removeClass("hide");
+			$('#box-result2').removeClass("hide");
 		});
 		
 	
 		
-		$("#detail-btn").click(function(){
+		$("#detail-btn-kegiatan").click(function(){
 			renstra = $('#detail-tahun_renstra').val();
 			tahun = $('#detail-tahun').val();
 			program = $('#detail-program').val();
@@ -219,9 +219,9 @@
 				$.ajax({
                     url:"<?php echo site_url(); ?>analisis/kegiatan/get_list_rincian/"+tahun+"/"+program+"/"+kegiatan+"/"+output,
                         success:function(result) {
-                            table_body = $('#detail-tbl tbody');
+                            table_body = $('#detail-tbl-list-kegiatan tbody');
                             table_body.empty().html(result);        
-                            $('#box-result').removeClass("hide");
+                            $('#box-result2').removeClass("hide");
                         }
                 });  
 			}
