@@ -96,64 +96,63 @@
     $(document).ready(function () {
 		
         $('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-        renstra = $('#renstra');
-        tahun_awal = $('#tahun_awal');
-        tahun_akhir = $('#tahun_akhir');
-        nama_program = $('#nama_program');
-		nama_kegiatan = $('#nama_kegiatan');
+       
         pelaksana = '';
-        renstra.change(function(){
-            tahun_awal.empty(); tahun_akhir.empty(); nama_program.empty();
-            if (renstra.val()!=0) {
-                year = renstra.val().split('-');
+        $('#renstra').change(function(){
+            $('#tahun_awal').empty(); $('#tahun_akhir').empty(); $('#nama_program').empty();
+			$('#tahun_awal').append(new Option("Pilih Tahun","0"));
+			$('#tahun_akhir').append(new Option("Pilih Tahun","0"));
+            if ($('#renstra').val()!=0) {
+                year = $('#renstra').val().split('-');
                 for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
-                    tahun_awal.append(new Option(i,i));
-                    tahun_akhir.append(new Option(i,i));
+                    $('#tahun_awal').append(new Option(i,i));
+                    $('#tahun_akhir').append(new Option(i,i));
                 }
             }
-            tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); tahun_akhir.select2({minimumResultsForSearch: -1, width:'resolve'});
+            $('#tahun_awal').select2({minimumResultsForSearch: -1, width:'resolve'});  
+			$('#tahun_akhir').select2({minimumResultsForSearch: -1, width:'resolve'});
         });
-        tahun_awal.change(function(){
+        $('#tahun_awal').change(function(){
             
         });
-        tahun_akhir.change(function(){
-            val_awal = tahun_awal.val();
-            val_akhir = tahun_akhir.val();
+         $('#tahun_akhir').change(function(){
+            val_awal = $('#tahun_awal').val();
+            val_akhir =  $('#tahun_akhir').val();
             $.ajax({
                 url:"<?php echo site_url(); ?>evaluasi/program/get_program/"+val_awal+"/"+val_akhir,
                 success:function(result) {
-                    nama_program.empty();
+                    $('#nama_program').empty();
                     result = JSON.parse(result);
                     for (k in result) {
-                        nama_program.append(new Option(result[k],k));
+                        $('#nama_program').append(new Option(result[k],k));
                     }
-                    nama_program.select2({minimumResultsForSearch: -1, width:'resolve'});
+                    $('#nama_program').select2({minimumResultsForSearch: -1, width:'resolve'});
                 }
             });
         });
-		nama_program.change(function(){
-            val_awal	= tahun_awal.val();
-            val_akhir	= tahun_akhir.val();
-			program		= nama_program.val();
+		$('#nama_program').change(function(){
+            val_awal	= $('#tahun_awal').val();
+            val_akhir	=  $('#tahun_akhir').val();
+			program		= $('#nama_program').val();
 			
             $.ajax({
                 url:"<?php echo site_url(); ?>evaluasi/kegiatan/get_kegiatan/"+program,
                 success:function(result) {
-                    nama_kegiatan.empty();
+                    $('#nama_kegiatan').empty();
                     result = JSON.parse(result);
                     for (k in result) {
-                        nama_kegiatan.append(new Option(result[k],k));
+                        $('#nama_kegiatan').append(new Option(result[k],k));
                     }
-                    nama_kegiatan.select2({minimumResultsForSearch: -1, width:'resolve'});
+                    $('#nama_kegiatan').select2({minimumResultsForSearch: -1, width:'resolve'});
                 }
             });
         });
 		
 		$('#cetakpdf_kegiatan').click(function(){
-        	val_awal	= tahun_awal.val();
-            val_akhir	= tahun_akhir.val();
-			kd_program  = nama_program.val();
-			kd_kegiatan = nama_kegiatan.val();
+        	val_awal	= $('#tahun_awal').val();
+            val_akhir	=  $('#tahun_akhir').val();
+			kd_program  = $('#nama_program').val();
+			kd_kegiatan = $('#nama_kegiatan').val();
 			window.open("<?=base_url()?>evaluasi/kegiatan/print_tabel_kegiatan/"+val_awal+"/"+val_akhir+"/"+kd_kegiatan+"/"+kd_program,'_blank');			
 		});
 		
@@ -172,11 +171,11 @@
 			}
 			else
 			{
-				if (nama_kegiatan.val()!=0) {
-					kode_program = nama_program.val();
-					kode_kegiatan = nama_kegiatan.val();
-					val_awal = tahun_awal.val();
-					val_akhir = tahun_akhir.val();
+				if ($('#nama_kegiatan').val()!=0) {
+					kode_program = $('#nama_program').val();
+					kode_kegiatan = $('#nama_kegiatan').val();
+					val_awal = $('#tahun_awal').val();
+					val_akhir =  $('#tahun_akhir').val();
 					//req kegiatan & pelaksana
 					$.ajax({
 						url:"<?php echo site_url(); ?>evaluasi/kegiatan/get_output_kegiatan/"+kode_kegiatan,

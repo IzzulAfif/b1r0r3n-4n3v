@@ -92,8 +92,11 @@
 	</div>
 	
 </section>	
+<style media="all" type="text/css">
+    .alignRight { text-align: right; }
+</style>
  <script>
- 
+	 
  
 	$(document).ready(function(){
 		var columsDef =  [
@@ -111,17 +114,19 @@
 					  { "mData": "kdkabkota" , "sWidth": "70px"},
 					  { "mData": "noitem" , "sWidth": "70px"},
 					  { "mData": "nmitem"  },
-					  { "mData": "volkeg", "sWidth": "70px" },
+					  { "mData": "volkeg", "sWidth": "70px",'sType': 'numeric',  "sClass": "alignRight" },
 					  { "mData": "satkeg", "sWidth": "60px" },
-					  { "mData": "hargasat", "sWidth": "60px" },
-					  { "mData": "jumlah", "sWidth": "60px" }
+					  { "mData": "hargasat", "sWidth": "60px",'sType': 'numeric',  "sClass": "alignRight" },
+					  { "mData": "jumlah", "sWidth": "60px", 'sType': 'num-fmt', "sClass": "alignRight" 
+						}
 					  
 					];
-			alert('here');		
+			//alert('here');		
 			load_ajax_datatable2("itemsatker-tbl", '<?=base_url()?>admin/ekstrak_itemsatker/getdata_itemsatker/<?=$tahun_renstra?>/<?=$tahun?>',columsDef,1,"desc");
 			
+			jQuery('#itemsatker-tbl').wrap('<div class="dataTables_scroll" style="position:relative;overflow:auto;height:400px;" />');
 			
-		$('#emon_itemsatker-tbl').dataTable({
+		  $('#emon_itemsatker-tbl').dataTable({
 			"bServerSide": true,
 			"sAjaxSource": '<?=$webservice_url?>',
 			"sAjaxDataProp": "rows",
@@ -175,15 +180,16 @@
 				{ "mData": "KDKABKOTA" },
 				{ "mData": "NOITEM" },
 				{ "mData": "NMITEM" },
-				{ "mData": "VOLKEG" },
+				{ "mData": "VOLKEG", "sClass": "alignRight" },
 				{ "mData": "SATKEG" },
-				{ "mData": "HARGASAT" },
-				{ "mData": "JUMLAH" }
+				{ "mData": "HARGASAT",'sType': 'numeric', "sClass": "alignRight" },
+				{ "mData": "JUMLAH" , "sClass": "alignRight"}
 			],
 			"sDom": 'rt<"top"lpi>'
 		});	
 		
-		
+		jQuery('#emon_itemsatker-tbl').wrap('<div class="dataTables_scroll" style="position:relative;overflow:auto;height:400px;" />');
+	//	new $.fn.dataTable.FixedHeader( tbl ); 
 		$("#emon-itemsatker-btn").click(function(){
 			var oTable = $('#emon_itemsatker-tbl').dataTable();
 			$.ajax({

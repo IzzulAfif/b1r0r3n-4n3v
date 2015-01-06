@@ -111,7 +111,6 @@
 			tahun.append(new Option("Pilih Tahun","0"));
 			 if (periode_renstra.val()!='0') {
 				year = periode_renstra.val().split('-');
-				//alert(year[0]);
 				
 				tahun.select2("val", "0");
 				for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {

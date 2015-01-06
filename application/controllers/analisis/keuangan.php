@@ -310,14 +310,15 @@ class Keuangan extends CI_Controller {
 		$table  = '<table class="display table table-bordered table-striped" border="1" cellpadding="4" cellspacing="0">';
 		$table .= '<thead>
             		<tr>';
-			if($tipe=="get"): $table .='<th width="10%">Unit Kerja</th>'; endif;
+			// by chan : bukan jadi kolom baru tapi nambah info sebelum table
+			//if($tipe=="get"): $table .='<th width="10%">Unit Kerja</th>'; endif;
 			
-              $table .= '<th width="15%">Program</th>
-                		<th width="10%">Uraian</th>';
+              $table .= '<th width="15%" style="text-align:center;">Program</th>
+                		<th width="10%" style="text-align:center;">Uraian</th>';
 				for($b=$tahun1; $b<=$tahun2; $b++):
-					$table .= '<th>'.$b.'</th>';
+					$table .= '<th style="text-align:center;">'.$b.'</th>';
 				endfor;
-		$table .= '<th>Total</th></tr></thead>';
+		$table .= '<th style="text-align:center;">Total</th></tr></thead>';
 		$table .= '<tbody>';
 			
 			$no=1;
@@ -346,33 +347,33 @@ class Keuangan extends CI_Controller {
 					
 					$table .= '<tr>';
 						
-						if($tipe=="get"): $table .='<td width="10%" rowspan="3">'.$unit_kerja.'</td>'; endif;
+						// by chan : bukan jadi kolom baru tapi nambah info sebelum tableif($tipe=="get"): $table .='<td width="10%" rowspan="3">'.$unit_kerja.'</td>'; endif;
 					
 					$table .= '<td rowspan="3" width="15%">'.$d->nama_program.'</td>';
 					$table .= '<td width="10%">Target Renstra</td>';
 						$tTarget = 0;
 						for($b=$tahun1; $b<=$tahun2; $b++):
-							$table .= '<td>'.number_format($tblData[$b]['target'],0,',','.').'</td>';
+							$table .= '<td style="text-align:right;">'.number_format($tblData[$b]['target'],0,',','.').'</td>';
 							$tTarget = $tTarget+$tblData[$b]['target'];
 						endfor;
-						$table .= '<td>'.number_format($tTarget,0,',','.').'</td>';
+						$table .= '<td style="text-align:right;">'.number_format($tTarget,0,',','.').'</td>';
 					$table .= '</tr>';
 					
 					$table .= '<tr><td width="10%">Pagu</td>';
 					$totalpagu=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
-						$table .='<td>'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
+						$table .='<td style="text-align:right;">'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
 						$totalpagu = $totalpagu+$tblData[$b]['pagu'];
 					endfor;
-					$table .='<td>'.number_format($totalpagu,0,',','.').'</td></tr>';
+					$table .='<td style="text-align:right;">'.number_format($totalpagu,0,',','.').'</td></tr>';
 					
 					$table .= '<tr><td width="10%">Realisasi</td>';
 					$totalrealisasi=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
-						$table .='<td>'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
+						$table .='<td style="text-align:right;">'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
 						$totalrealisasi = $totalrealisasi+$tblData[$b]['realisasi'];
 					endfor;
-					$table .='<td>'.number_format($totalrealisasi,0,',','.').'</td></tr>';
+					$table .='<td style="text-align:right;">'.number_format($totalrealisasi,0,',','.').'</td></tr>';
 					
 				$no++;					
 			endforeach;
@@ -464,7 +465,7 @@ class Keuangan extends CI_Controller {
 		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 		$pdf->SetAuthor('Author');
 		$pdf->SetDisplayMode('real', 'default');
-		
+		$unit_kerja = $this->mgeneral->getValue("nama_e1",array('kode_e1'=>$kode_e1),"anev_eselon1");
 		define('FPDF_FONTPATH',APPPATH."libraries/fpdf/font/");
 		
 		// set font
@@ -477,7 +478,7 @@ class Keuangan extends CI_Controller {
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
-		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, $unit_kerja, '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
 	
 		$html = $this->get_body_es1_keu($renstra,$tahun1,$tahun2,$kode_e1,"get");
@@ -644,14 +645,15 @@ class Keuangan extends CI_Controller {
 		$table  = '<table class="display table table-bordered table-striped" border="1" cellpadding="4" cellspacing="0">';
 		$table .= '<thead>
             		<tr>';
-		if($tipe=="get"):	$table .='<th width="10%">Unit Kerja</th>'; endif;
+		// by chan : bukan jadi kolom baru tapi nambah info sebelum table
+		//if($tipe=="get"):	$table .='<th width="10%">Unit Kerja</th>'; endif;
 		
-        $table .='<th width="15%">Kegiatan</th>
-                		<th width="10%">Uraian</th>';
+        $table .='<th width="15%" style="text-align:center">Kegiatan</th>
+                		<th width="10%" style="text-align:center">Uraian</th>';
 				for($b=$tahun1; $b<=$tahun2; $b++):
-					$table .= '<th>'.$b.'</th>';
+					$table .= '<th style="text-align:center">'.$b.'</th>';
 				endfor;
-		$table .= '<th>Total</th></tr></thead>';
+		$table .= '<th style="text-align:center">Total</th></tr></thead>';
 		$table .= '<tbody>';
 			
 			$no=1;
@@ -679,34 +681,35 @@ class Keuangan extends CI_Controller {
 					$grafikData[] = $tblData;
 					
 					$table .= '<tr>';
-					if($tipe=="get"): $table .='<td rowspan="3" width="10%">'.$unit_kerja.'</td>'; endif;
+					// by chan : bukan jadi kolom baru tapi nambah info sebelum table
+					//if($tipe=="get"): $table .='<td rowspan="3" width="10%">'.$unit_kerja.'</td>'; endif;
 					
 					$table.='<td rowspan="3" width="15%">'.$d->nama_kegiatan.'</td>';
 					
 					$table .= '<td width="10%">Target Renstra</td>';
 						$tTarget = 0;
 						for($b=$tahun1; $b<=$tahun2; $b++):
-							$table .= '<td>'.number_format($tblData[$b]['target'],0,',','.').'</td>';
+							$table .= '<td style="text-align:right">'.number_format($tblData[$b]['target'],0,',','.').'</td>';
 							$tTarget = $tTarget+$tblData[$b]['target'];
 						endfor;
-						$table .= '<td>'.number_format($tTarget,0,',','.').'</td>';
+						$table .= '<td style="text-align:right">'.number_format($tTarget,0,',','.').'</td>';
 					$table .= '</tr>';
 					
 					$table .= '<tr><td width="10%">Pagu</td>';
 					$totalpagu=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
-						$table .='<td>'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
+						$table .='<td style="text-align:right">'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
 						$totalpagu = $totalpagu+$tblData[$b]['pagu'];
 					endfor;
-					$table .='<td>'.number_format($totalpagu,0,',','.').'</td></tr>';
+					$table .='<td style="text-align:right">'.number_format($totalpagu,0,',','.').'</td></tr>';
 					
 					$table .= '<tr><td width="10%">Realisasi</td>';
 					$totalrealisasi=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
-						$table .='<td>'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
+						$table .='<td style="text-align:right">'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
 						$totalrealisasi = $totalrealisasi+$tblData[$b]['realisasi'];
 					endfor;
-					$table .='<td>'.number_format($totalrealisasi,0,',','.').'</td></tr>';
+					$table .='<td style="text-align:right">'.number_format($totalrealisasi,0,',','.').'</td></tr>';
 					
 				$no++;					
 			endforeach;
@@ -802,12 +805,13 @@ class Keuangan extends CI_Controller {
 		// add a page
 		$pdf->AddPage("L");
 		//var_dump($e1);
-		
+		$unit_kerja1 = $this->mgeneral->getValue("nama_e1",array('kode_e1'=>$kode_e1),"anev_eselon1");
+		$unit_kerja = $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$kode_e2),"anev_eselon2");
 		 $pdf->WriteHTML('<p style="text-align:center">Analisis dan Evaluasi Keuangan Eselon II <br> Tahun '.$tahun1.' - '.$tahun2.'</p>', true, false, false, false, '');
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
-		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, $unit_kerja, '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
 	
 		$html = $this->get_body_es2_keu($renstra,$tahun1,$tahun2,$kode_e1,$kode_e2,"get");
@@ -941,7 +945,7 @@ class Keuangan extends CI_Controller {
 			$no++;					
 		endforeach;
 			
-		$filename='analisis_keuangan_eselon_I.xls'; 
+		$filename='analisis_keuangan_eselon_II.xls'; 
 		header('Content-Type: application/vnd.ms-excel'); //mime type
 		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
 		header('Cache-Control: max-age=0'); //no cache
