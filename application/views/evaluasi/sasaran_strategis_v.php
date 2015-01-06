@@ -76,36 +76,40 @@
     <script type="text/javascript">
     $(document).ready(function () {
 		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-        renstra = $('#renstra');
-        tahun_awal = $('#tahun_awal');
-        tahun_akhir = $('#tahun_akhir');
-        sasaran = $('#sasaran');
-        renstra.change(function(){
-            tahun_awal.empty(); tahun_akhir.empty(); sasaran.empty();
-            if (renstra.val()!=0) {
-                year = renstra.val().split('-');
+        
+        
+        $('#renstra').change(function(){
+            $('#tahun_awal').empty(); $('#tahun_akhir').empty(); $('#sasaran').empty();
+			$('#tahun_awal').append(new Option("Pilih Tahun","0"));
+			$('#tahun_akhir').append(new Option("Pilih Tahun","0"));
+			$('#sasaran').append(new Option("Semua Sasaran Strategis","0"));
+			$("#tahun_awal").select2("val", "0");
+			$("#tahun_akhir").select2("val", "0");
+			$("#sasaran").select2("val", "0");
+            if ($('#renstra').val()!=0) {
+                year = $('#renstra').val().split('-');
                 for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
-                    tahun_awal.append(new Option(i,i));
-                    tahun_akhir.append(new Option(i,i));
+                    $('#tahun_awal').append(new Option(i,i));
+                    $('#tahun_akhir').append(new Option(i,i));
                 }
-                tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); tahun_akhir.select2({minimumResultsForSearch: -1, width:'resolve'});
+                $('#tahun_awal').select2({minimumResultsForSearch: -1, width:'resolve'}); $('#tahun_akhir').select2({minimumResultsForSearch: -1, width:'resolve'});
                 $.ajax({
-                    url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_sasaran/"+renstra.val(),
+                    url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_sasaran/"+$('#renstra').val(),
                     success:function(result) {
-                        sasaran.empty();
+                        $('#sasaran').empty();
                         result = JSON.parse(result);
                         for (k in result) {
-                            sasaran.append(new Option(result[k],k));
+                            $('#sasaran').append(new Option(result[k],k));
                         }
-                        sasaran.select2({minimumResultsForSearch: -1, width:'resolve'});
+                        $('#sasaran').select2({minimumResultsForSearch: -1, width:'resolve'});
                     }
                 });
             }
         });
-        /*tahun_awal.change(function(){
+        /*$('#tahun_awal').change(function(){
             update_table();
         });
-        tahun_akhir.change(function(){
+        $('#tahun_akhir').change(function(){
             update_table();
         });*/
 		
@@ -128,8 +132,8 @@
         });
 
         function update_table() {
-            val_awal = tahun_awal.val();
-            val_akhir = tahun_akhir.val();
+            val_awal = $('#tahun_awal').val();
+            val_akhir = $('#tahun_akhir').val();
 			if($('#renstra').val()==0)
 			{
 				alert("Periode Renstra belum ditentukan");
@@ -142,7 +146,7 @@
 			else
 			{
 				if (val_akhir>=val_awal) {
-					kode_sasaran = sasaran.val();
+					kode_sasaran = $('#sasaran').val();
 					$.ajax({
 						url:"<?php echo site_url(); ?>evaluasi/sasaran_strategis/get_tabel_capaian_kinerja/"+val_awal+"/"+val_akhir+"/"+kode_sasaran,
 							success:function(result) {

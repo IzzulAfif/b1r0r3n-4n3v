@@ -222,7 +222,12 @@
 				$detailyText .= $this->utility->cek_tipe_numerik($dy->realisasi)."</td><td>";
 					if($dy->target!="0" && $dy->target!=""):
 						#$persen = ((2*$dy->target-$dy->realisasi)/$dy->target)*100;
-						$persen = ($dy->realisasi/$dy->target)*100;
+						//handle divby zero by chan
+						if($dy->target!="0" && $dy->target!="" && is_numeric($dy->target)):
+							$persen = ($dy->realisasi/$dy->target)*100;
+						else:
+							$persen = 0;
+						endif;	
 						$total_persen = $total_persen+$persen;
 					else:
 						$persen = 100;

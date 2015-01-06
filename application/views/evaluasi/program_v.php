@@ -92,37 +92,38 @@
     $(document).ready(function () {
 		
         $('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-        renstra = $('#renstra');
-        tahun_awal = $('#tahun_awal');
-        tahun_akhir = $('#tahun_akhir');
-        nama_program = $('#nama_program');
+         
         pelaksana = '';
-        renstra.change(function(){
-            tahun_awal.empty(); tahun_akhir.empty(); nama_program.empty();
-            if (renstra.val()!=0) {
-                year = renstra.val().split('-');
+        $('#renstra').change(function(){
+            $('#tahun_awal').empty(); $('#tahun_akhir').empty(); $('#nama_program').empty();
+			$('#tahun_awal').append(new Option("Pilih Tahun","0"));
+			$('#tahun_akhir').append(new Option("Pilih Tahun","0"));
+			$("#tahun_awal").select2("val", "0");
+			$("#tahun_akhir").select2("val", "0");
+            if ($('#renstra').val()!=0) {
+                year = $('#renstra').val().split('-');
                 for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
-                    tahun_awal.append(new Option(i,i));
-                    tahun_akhir.append(new Option(i,i));
+                    $('#tahun_awal').append(new Option(i,i));
+                    $('#tahun_akhir').append(new Option(i,i));
                 }
             }
-            tahun_awal.select2({minimumResultsForSearch: -1, width:'resolve'}); tahun_akhir.select2({minimumResultsForSearch: -1, width:'resolve'});
+            $('#tahun_awal').select2({minimumResultsForSearch: -1, width:'resolve'}); $('#tahun_akhir').select2({minimumResultsForSearch: -1, width:'resolve'});
         });
-        tahun_awal.change(function(){
+        $('#tahun_awal').change(function(){
             
         });
-        tahun_akhir.change(function(){
-            val_awal = tahun_awal.val();
-            val_akhir = tahun_akhir.val();
+        $('#tahun_akhir').change(function(){
+            val_awal = $('#tahun_awal').val();
+            val_akhir = $('#tahun_akhir').val();
             $.ajax({
                 url:"<?php echo site_url(); ?>evaluasi/program/get_program/"+val_awal+"/"+val_akhir,
                 success:function(result) {
-                    nama_program.empty();
+                    $('#nama_program').empty();
                     result = JSON.parse(result);
                     for (k in result) {
-                        nama_program.append(new Option(result[k],k));
+                        $('#nama_program').append(new Option(result[k],k));
                     }
-                    nama_program.select2({minimumResultsForSearch: -1, width:'resolve'});
+                    $('#nama_program').select2({minimumResultsForSearch: -1, width:'resolve'});
                 }
             });
         });
@@ -138,10 +139,10 @@
 			}
 			else
 			{
-				if (nama_program.val()!=0) {
-					kode_program = nama_program.val();
-					val_awal = tahun_awal.val();
-					val_akhir = tahun_akhir.val();
+				if ($('#nama_program').val()!=0) {
+					kode_program = $('#nama_program').val();
+					val_awal = $('#tahun_awal').val();
+					val_akhir = $('#tahun_akhir').val();
 					//req kegiatan & pelaksana
 					$.ajax({
 						url:"<?php echo site_url(); ?>evaluasi/program/get_kegiatan_pelaksana_program/"+kode_program,
@@ -164,15 +165,15 @@
 		});
 		
 		$('#cetakpdf_program').click(function(){
-        	kode_program = nama_program.val();
-			val_awal = tahun_awal.val();
-			val_akhir = tahun_akhir.val();
+        	kode_program = $('#nama_program').val();
+			val_awal = $('#tahun_awal').val();
+			val_akhir = $('#tahun_akhir').val();
 			window.open("<?=base_url()?>evaluasi/program/print_tabel_program/"+val_awal+"/"+val_akhir+"/"+kode_program,'_blank');			
 		});
 		$('#cetakexcel_program').click(function(){
-        	kode_program = nama_program.val();
-			val_awal = tahun_awal.val();
-			val_akhir = tahun_akhir.val();
+        	kode_program = $('#nama_program').val();
+			val_awal = $('#tahun_awal').val();
+			val_akhir = $('#tahun_akhir').val();
 			window.open("<?=base_url()?>evaluasi/program/print_tabel_program_excel/"+val_awal+"/"+val_akhir+"/"+kode_program,'_blank');			
 		});
 		

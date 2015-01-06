@@ -102,6 +102,8 @@
             $('#tahun_awal').empty(); $('#tahun_akhir').empty(); $('#nama_program').empty();
 			$('#tahun_awal').append(new Option("Pilih Tahun","0"));
 			$('#tahun_akhir').append(new Option("Pilih Tahun","0"));
+			$("#tahun_awal").select2("val", "0");
+			$("#tahun_akhir").select2("val", "0");
             if ($('#renstra').val()!=0) {
                 year = $('#renstra').val().split('-');
                 for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
