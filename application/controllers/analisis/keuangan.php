@@ -48,13 +48,13 @@ class Keuangan extends CI_Controller {
 		$table  = '<table class="display table table-bordered table-striped" border="1" cellpadding="4" cellspacing="0">';
 		$table .= '<thead>
             		<tr>
-                		<th width="3%">No</th>
-                		<th width="18%">Program</th>
-                		<th width="15%">Uraian</th>';
+                		<th width="3%" style="text-align:center;">No</th>
+                		<th width="18%" style="text-align:center;">Program</th>
+                		<th width="15%" style="text-align:center;">Uraian</th>';
 				for($b=$tahun1; $b<=$tahun2; $b++):
-					$table .= '<th>'.$b.'</th>';
+					$table .= '<th style="text-align:center;">'.$b.'</th>';
 				endfor;
-		$table .= '<th>Total</th></tr></thead>';
+		$table .= '<th style="text-align:center;">Total</th></tr></thead>';
 		$table .= '<tbody>';
 			
 			$no=1;
@@ -85,27 +85,27 @@ class Keuangan extends CI_Controller {
 					$table .= '<td width="15%">Target Renstra</td>';
 						$tTarget = 0;
 						for($b=$tahun1; $b<=$tahun2; $b++):
-							$table .= '<td>'.number_format($tblData[$b]['target'],0,',','.').'</td>';
+							$table .= '<td style="text-align:right;">'.number_format($tblData[$b]['target'],0,',','.').'</td>';
 							$tTarget = $tTarget+$tblData[$b]['target'];
 						endfor;
-						$table .= '<td>'.number_format($tTarget,0,',','.').'</td>';
+						$table .= '<td style="text-align:right;">'.number_format($tTarget,0,',','.').'</td>';
 					$table .= '</tr>';
 					
 					$table .= '<tr><td width="15%">Pagu</td>';
 					$totalpagu=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
-						$table .='<td>'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
+						$table .='<td style="text-align:right;">'.number_format($tblData[$b]['pagu'],0,',','.')."</td>";
 						$totalpagu = $totalpagu+$tblData[$b]['pagu'];
 					endfor;
-					$table .='<td>'.number_format($totalpagu,0,',','.').'</td></tr>';
+					$table .='<td style="text-align:right;">'.number_format($totalpagu,0,',','.').'</td></tr>';
 					
 					$table .= '<tr><td width="15%">Realisasi</td>';
 					$totalrealisasi=0;
 					for($b=$tahun1; $b<=$tahun2; $b++):
-						$table .='<td>'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
+						$table .='<td style="text-align:right;">'.number_format($tblData[$b]['realisasi'],0,',','.')."</td>";
 						$totalrealisasi = $totalrealisasi+$tblData[$b]['realisasi'];
 					endfor;
-					$table .='<td>'.number_format($totalrealisasi,0,',','.').'</td></tr>';
+					$table .='<td style="text-align:right;">'.number_format($totalrealisasi,0,',','.').'</td></tr>';
 					
 				$no++;					
 			endforeach;
@@ -474,11 +474,11 @@ class Keuangan extends CI_Controller {
 		// add a page
 		$pdf->AddPage("L");
 		//var_dump($e1);
-		 $pdf->WriteHTML('<p style="text-align:center">Analisis dan Evaluasi Keuangan Eselon I <BR> Tahun '.$tahun1.' - '.$tahun2.'</p><br>', true, false, false, false, '');
+		 $pdf->WriteHTML('<p style="text-align:center">Analisis dan Evaluasi Keuangan Eselon I<BR>'.$unit_kerja.'<BR>Tahun '.$tahun1.' - '.$tahun2.'<br></p>', true, false, false, false, '');
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
-		$pdf->Write(0, $unit_kerja, '', 0, 'L', true, 0, false, false, 0);
+		//$pdf->Write(0, $unit_kerja, '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
 	
 		$html = $this->get_body_es1_keu($renstra,$tahun1,$tahun2,$kode_e1,"get");
@@ -807,11 +807,11 @@ class Keuangan extends CI_Controller {
 		//var_dump($e1);
 		$unit_kerja1 = $this->mgeneral->getValue("nama_e1",array('kode_e1'=>$kode_e1),"anev_eselon1");
 		$unit_kerja = $this->mgeneral->getValue("nama_e2",array('kode_e2'=>$kode_e2),"anev_eselon2");
-		 $pdf->WriteHTML('<p style="text-align:center">Analisis dan Evaluasi Keuangan Eselon II <br> Tahun '.$tahun1.' - '.$tahun2.'</p>', true, false, false, false, '');
+		 $pdf->WriteHTML('<p style="text-align:center">Analisis dan Evaluasi Keuangan Eselon II<br>'.$unit_kerja.' - '.$unit_kerja1.'<br>Tahun '.$tahun1.' - '.$tahun2.'<br></p>', true, false, false, false, '');
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
 		
-		$pdf->Write(0, $unit_kerja, '', 0, 'L', true, 0, false, false, 0);
+	//	$pdf->Write(0, $unit_kerja, '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 8);
 	
 		$html = $this->get_body_es2_keu($renstra,$tahun1,$tahun2,$kode_e1,$kode_e2,"get");

@@ -62,20 +62,23 @@
     
 	<script type="text/javascript">
 	$(document).ready(function() {
-		$('select').select2({minimumResultsForSearch: -1, width:'resolve'});
-		renstra = $('#es1-renstra');
-        tahun_awale1 = $('#es1-tahun_awal');
-        tahun_akhire1 = $('#es1-tahun_akhir');
-        renstra.change(function(){
-            tahun_awale1.empty(); tahun_akhire1.empty();
-            if (renstra.val()!=0) {
-                year = renstra.val().split('-');
+		$('select').select2({minimumResultsForSearch: -1, width:'resolve'}); 
+        
+      
+        $('#es1-renstra').change(function(){
+            $('#es1-tahun_awal').empty(); $('#es1-tahun_akhir').empty();
+			$('#es1-tahun_awal').append(new Option("Pilih Tahun","0"));
+			$('#es1-tahun_akhir').append(new Option("Pilih Tahun","0"));
+			$("#es1-tahun_awal").select2("val", "0");
+			$("#es1-tahun_akhir").select2("val", "0");
+            if ($('#es1-renstra').val()!=0) {
+                year = $('#es1-renstra').val().split('-');
                 for (i=parseInt(year[0]);i<=parseInt(year[1]);i++)  {
-                    tahun_awale1.append(new Option(i,i));
-                    tahun_akhire1.append(new Option(i,i));
+                    $('#es1-tahun_awal').append(new Option(i,i));
+                    $('#es1-tahun_akhir').append(new Option(i,i));
                 }
-                tahun_awale1.select2({minimumResultsForSearch: -1, width:'resolve'}); 
-				tahun_akhire1.select2({minimumResultsForSearch: -1, width:'resolve'});
+                $('#es1-tahun_awal').select2({minimumResultsForSearch: -1, width:'resolve'}); 
+				$('#es1-tahun_akhir').select2({minimumResultsForSearch: -1, width:'resolve'});
             }
         });
 		
