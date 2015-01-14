@@ -58,7 +58,7 @@ class Kelompok_indikator extends CI_Controller {
 		echo json_encode($this->eselon2->get_list($params));
 	}
 	
-	function getindikator_kl($kel_indikator,$tahun_awal,$tahun_akhir,$kode_kl,$ajaxCall=true){
+	function getindikator_kl($kel_indikator,$tahun_awal,$tahun_akhir,$kode_kl,$ajaxCall=true,$forExcel=false){
 		$params['tahun'] = $tahun_awal;
 		//$params['tahun_akhir'] = $tahun_akhir;
 		$params['kode_ss_kl'] = $kel_indikator;
@@ -108,12 +108,16 @@ class Kelompok_indikator extends CI_Controller {
 			$rs = '';
 		}
 		
-		
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
-	function getindikator_e1($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2=null,$ajaxCall=true){
+	function getindikator_e1($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2=null,$ajaxCall=true,$forExcel=false){
 		//kode_E2 null = tampilkan Checkbox Eselon 2 nya tidak dicek
 		$params['tahun'] = $tahun_awal;
 		//$params['tahun_awal'] = $tahun_awal;
@@ -197,12 +201,16 @@ class Kelompok_indikator extends CI_Controller {
 			$rs = '';
 		}
 		
-		
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
-	function getindikator_e2($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2,$ajaxCall=true,$callFromE1=false){
+	function getindikator_e2($kel_indikator,$tahun_awal,$tahun_akhir,$kode_e1,$kode_e2,$ajaxCall=true,$callFromE1=false,$forExcel=false){
 		$params['tahun'] = $tahun_awal;
 		$params['kode_ss_kl'] = $kel_indikator;
 		if (($kode_e1!="-1")&&($kode_e1!="0"))
@@ -272,11 +280,15 @@ class Kelompok_indikator extends CI_Controller {
 		
 		
 		//var_dump("<pre>".$rs."</pre>");die;
-		
-		if ($ajaxCall){
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall){
 			if ($callFromE1) return $rs;
 			else echo $rs;
-		}else return $rs;
+			}else return $rs;
+		}
 	}
 	
 	function getindikator($kel_indikator,$tahun_awal,$tahun_akhir){
@@ -390,5 +402,212 @@ class Kelompok_indikator extends CI_Controller {
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('KelompokIndikator.pdf', 'I');
    }
+   
+    function excel($renstra,$tahun,$indikator,$e1,$e2,$showKl,$showE1,$showE2){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Kelompok Indikator');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:D1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'KELOMPOK INDIKATOR '.strtoupper($this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator),"anev_kel_indikator")));
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $renstra);
+		$this->excel->getActiveSheet()->mergeCells('B2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_renstra"=>$renstra);
+		$posisiRow = 4;
+		$params['tahun'] = $tahun;
+		//$params['tahun_akhir'] = $tahun_akhir;
+		$params['kode_ss_kl'] = $indikator;
+	
+		
+		
+		/////kelompok indikator KL here..
+		//jeda 1 row
+		if ($showKl=="true"){
+			$posisiRow++;
+			$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'IKU KEMENTERIAN');
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':D'.$posisiRow);
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+			$posisiRow++;
+			$columHeader = array("No.","Kode","Indikator Kinerja Utama (IKU)","Satuan");		
+			$datakl = $this->getindikator_kl($indikator,$tahun,$tahun,"",false,true);
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.$posisiRow)->applyFromArray(
+					array(
+						'font'    => array('bold'=> true),
+						'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT),
+						'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+						'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+					));
+			
+			$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+			$posisiRow++;
+			$no=1;
+			if (isset($datakl)){
+				foreach($datakl as $s){ 
+					 
+						$data[] = array($no++,$s->kode_iku_kl,$s->indikator_kl,$s->satuan);
+					 
+				}
+				if (count($datakl)>0){
+					$this->excel->getActiveSheet()->fromArray($data,NULL,'A'.$posisiRow);	
+					$posisiRow += count($data);
+				}else $posisiRow++;
+			}
+		}
+		/////END    Kelmopok indikator KL HERE...
+		
+		
+		//IKU Eselon 1
+		
+		//jeda 1 row
+		$posisiRow++;
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'IKU ESELON I '.($showE2=="true"?"dan IKK ESELON II":""));
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':D'.$posisiRow);
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$columHeader = array("No.","Kode","Indikator Kinerja Utama (IKU)","Satuan");		
+		$columHeader_e2 = array("No.","Kode","Indikator Kinerja Kegiatan (IKK)","Satuan");		
+///		$posisiRow++;
+		$datae1=$this->getindikator_e1($indikator,$tahun,$tahun,$e1,(($showE1=="true")&&($showE2=="true")?$e2:null),false,true);
+		
+		
+		$posisiRow++;
+		$no=1;$i=1;$j=1;
+		$unitkerja = "";
+		$kode="";
+		if ($showE1=="true"){
+			if (isset($datae1)){
+				foreach($datae1 as $s){ 
+					if ($unitkerja!=$s->nama_e1){
+						$unitkerja=$s->nama_e1;
+						
+						if ($i>1) {
+							if ($showE2=="true"){
+								 
+								$datae2= $this->getindikator_e2($indikator,$tahun,$tahun,$kode,$e2,false,false,true);
+								$posisiRow++; 
+								$unitkerja_e2 = "";
+								$kode_e2="";$no_e2=1;
+								if (isset($datae2)){
+									foreach($datae2 as $s2){ 
+										if ($unitkerja_e2!=$s2->nama_e2){
+											$unitkerja_e2=$s2->nama_e2;
+											$kode_e2 = $s2->kode_e2;
+											if ($i>1) {
+												$posisiRow++;
+											}
+											
+											$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':D'.$posisiRow);
+											$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja Eselon II : '.$unitkerja_e2);
+											$posisiRow++; 
+											$this->excel->getActiveSheet()->fromArray($columHeader_e2,NULL,'A'.$posisiRow);
+											$this->excel->getActiveSheet()->getStyle('A'.($posisiRow).':D'.$posisiRow)->applyFromArray(
+											array(
+												'font'    => array('bold'=> true),
+												'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+												'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+												'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+											));	
+											$posisiRow++;
+											$no_e2=1;
+										}
+											
+										$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no_e2++);
+										$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $s2->kode_ikk);
+										$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $s2->indikator_e2);
+										$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $s2->satuan);
+										$posisiRow++;
+									}
+								}//end isset data e2
+							}
+						}
+						$kode = $s->kode_e1;
+						$posisiRow++;
+						$i=1;
+						$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':D'.$posisiRow);
+						$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja Eselon I : '.$unitkerja);
+						$posisiRow++;
+						$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+						$this->excel->getActiveSheet()->getStyle('A'.($posisiRow).':D'.$posisiRow)->applyFromArray(
+						array(
+							'font'    => array('bold'=> true),
+							'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+							'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+							'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+						));	
+						$posisiRow++;
+						$no=1;
+					}	
+					
+					$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no++);
+					$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $s->kode_iku_e1);
+					$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $s->indikator_e1);
+					$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $s->satuan);
+					$posisiRow++;
+					$i++;	
+						//$data[] = array($no++,$s->kode_iku_e1,$s->indikator_e1,$s->satuan);
+					 
+				}
+			}//end iset datae1
+		}
+		// if (count($datae1)>0){
+			//$this->excel->getActiveSheet()->fromArray($data,NULL,'A'.$posisiRow);	
+			// $posisiRow += count($datae1);
+		// }else
+		$posisiRow++;
+		if ($showE2=="true"){ ///tampilkan E2 terakhir
+			$datae2= $this->getindikator_e2($indikator,$tahun,$tahun,$kode,$e2,false,false,true);
+						 
+			$unitkerja_e2 = "";
+			$kode_e2="";$no_e2=1;
+			if (isset($datae2)){
+				foreach($datae2 as $s2){ 
+					if ($unitkerja_e2!=$s2->nama_e2){
+						$unitkerja_e2=$s2->nama_e2;
+						$kode_e2 = $s2->kode_e2;
+						if ($i>1) {
+							$posisiRow++;
+						}
+						
+						$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':D'.$posisiRow);
+						$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Unit Kerja Eselon II : '.$unitkerja_e2);
+						$posisiRow++; 
+						$this->excel->getActiveSheet()->fromArray($columHeader_e2,NULL,'A'.$posisiRow);
+						$this->excel->getActiveSheet()->getStyle('A'.($posisiRow).':D'.$posisiRow)->applyFromArray(
+						array(
+							'font'    => array('bold'=> true),
+							'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+							'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+							'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+						));	
+						$posisiRow++;
+						$no_e2=1;
+					}
+						
+					$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no_e2++);
+					$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $s2->kode_ikk);
+					$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $s2->indikator_e2);
+					$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $s2->satuan);
+					$posisiRow++;
+				}
+			}//end isset datae2
+		}
+		//ENDIKU Eselon 1
+			
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='KelompokIndikator'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');	
+	}
 	
 }

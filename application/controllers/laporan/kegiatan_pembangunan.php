@@ -70,7 +70,7 @@ class Kegiatan_pembangunan extends CI_Controller {
 		echo json_encode($result);
 	}
 	
-	function get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi,$ajaxCall=true)
+	function get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi,$ajaxCall=true,$forExcel=false)
 	{
 		$params['tahun'] = $tahun;
 		$params['indikator'] = $indikator;
@@ -210,15 +210,20 @@ class Kegiatan_pembangunan extends CI_Controller {
 			if (!$ajaxCall) 
 				$rs .= $head;
 			$rs .= '<tr class="gradeX">
-					<td colspan="10" width="490">Data tidak ditemukan</td>
+					<td colspan="10" width="780">Data tidak ditemukan</td>
 					</tr>';
 		}
 		
 		
 		$rs .= $foot;
 	//	var_dump($rs);die;
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
 	function print_pdf($renstra,$tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi)
@@ -275,9 +280,73 @@ class Kegiatan_pembangunan extends CI_Controller {
 		$pdf->Output('RincianKegiatanPembangunan.pdf', 'I');
    }
 	
-	function map()
-	{
-		$data = null;
-		$this->load->view('analisis/map_kegiatan',$data);
-	}
+	function excel($renstra,$tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Rincian Kegiatan Pembangunan');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:I1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'OUTPUT KEGIATAN PEMBANGUNAN MENURUT KELOMPOK INDIKATOR');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $renstra);
+		$this->excel->getActiveSheet()->setCellValue('A3', 'Tahun ');
+		$this->excel->getActiveSheet()->setCellValue('B3', $tahun);
+		$this->excel->getActiveSheet()->setCellValue('A4', 'Indikator ');
+		$this->excel->getActiveSheet()->setCellValue('B4', $this->mgeneral->getValue("deskripsi",array('kode_ss_kl'=>$indikator),"anev_kel_indikator"));
+		$this->excel->getActiveSheet()->setCellValue('A5', 'Item Pekerjaan Pembangunan ');
+		$this->excel->getActiveSheet()->mergeCells('A5:G5');
+		//$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_renstra"=>$renstra);
+		$posisiRow = 7;
+		 $columHeader = array("No.","Kegiatan","IKK","Satuan","Realisasi","Output","Satuan","Volume","Jumlah");
+		$data =  $this->get_list_rincian($tahun,$indikator,$kode_program,$kode_kegiatan,$kdlokasi,false,true);
+		if (isset($data)){
+			$nama_program = '';
+			$i=1;$no=1;
+			foreach ($data as $d){
+				if ($nama_program != $d->nama_program){
+					$nama_program = $d->nama_program;
+					// if ($no>1)
+						// $rs .= $foot;
+					$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':I'.$posisiRow);
+					$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow,$d->nama_program );
+					$posisiRow++; 
+					$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+						$this->excel->getActiveSheet()->getStyle('A'.($posisiRow).':D'.$posisiRow)->applyFromArray(
+						array(
+							'font'    => array('bold'=> true),
+							'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+							'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+							'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+						));	
+					//$rs .= $head;
+					$posisiRow++; 
+				}	
+				$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $no++);
+				$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $d->nama_kegiatan);
+				$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, $d->deskripsi);
+				$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $d->satuan);
+				$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, $this->utility->cekNumericFmt($d->realisasi));
+				$this->excel->getActiveSheet()->setCellValue('F'.$posisiRow, $d->nmoutput);
+				$this->excel->getActiveSheet()->setCellValue('G'.$posisiRow, $d->satuan_output);
+				$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, $this->utility->cekNumericFmt($d->total_volkeg));
+				$this->excel->getActiveSheet()->setCellValue('I'.$posisiRow, $this->utility->cekNumericFmt($d->sum_jumlah));
+				$posisiRow++;	
+			}
+		}
+		
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='KegiatanPembangunan'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');		
+		
+   }
 }

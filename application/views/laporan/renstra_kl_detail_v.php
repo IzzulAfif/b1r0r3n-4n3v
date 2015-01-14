@@ -21,7 +21,7 @@
 						</div>
 						 <div class="pull-right">
 							<button type="button" class="btn btn-primary btn-sm" id=	"cetakpdf_detailkl"><i class="fa fa-print"></i> Cetak PDF</button>          
-							<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_detailkl"><i class="fa fa-download"></i> Ekspor Excel</button>
+							<button type="button" class="btn btn-primary btn-sm hide" id="cetakexcel_detailkl"><i class="fa fa-download"></i> Ekspor Excel</button>
 						</div>
                     </div>
                 </section>
@@ -34,5 +34,6 @@
 			$('#cetakpdf_detailkl').click(function(){				
 				window.open('<?=base_url()?>laporan/renstra_kl/target_print_pdf/<?=$periode?>/<?=$kl?>','_blank');			
 			});
+		 
 		});
 	</script>

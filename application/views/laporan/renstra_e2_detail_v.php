@@ -22,7 +22,7 @@
 						</div>
 						<div class="pull-right">
 							<button type="button" class="btn btn-primary btn-sm" id=	"cetakpdf_detaile2"><i class="fa fa-print"></i> Cetak PDF</button>          
-							<button type="button" class="btn btn-primary btn-sm" id="cetakexcel_detaile2"><i class="fa fa-download"></i> Ekspor Excel</button>
+							<button type="button" class="btn btn-primary btn-sm hide" id="cetakexcel_detaile2"><i class="fa fa-download"></i> Ekspor Excel</button>
 						</div>
                     </div>
                 </section>

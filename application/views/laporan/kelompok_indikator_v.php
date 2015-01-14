@@ -274,6 +274,12 @@
 				var kodee1 = $('#e1-kodee1').val();
 				window.open('<?=base_url()?>laporan/kelompok_indikator/print_pdf/'+renstra.val()+"/"+tahun_awal.val()+"/"+indikator.val()+"/"+ $("#kode_e1").val()+"/"+ $("#kode_e2").val()+"/"+$("#chkKl").is(':checked')+"/"+$("#chkE1").is(':checked')+"/"+$("#chkE2").is(':checked'),'_blank');			
 			});
+
+			$('#cetakexcel_indikator').click(function(){
+				var tahun = $('#e1-tahun').val();
+				var kodee1 = $('#e1-kodee1').val();
+				window.open('<?=base_url()?>laporan/kelompok_indikator/excel/'+renstra.val()+"/"+tahun_awal.val()+"/"+indikator.val()+"/"+ $("#kode_e1").val()+"/"+ $("#kode_e2").val()+"/"+$("#chkKl").is(':checked')+"/"+$("#chkE1").is(':checked')+"/"+$("#chkE2").is(':checked'),'_blank');			
+			});
 			//$("#kl-content").load("<?=base_url()?>laporan/kelompok_indikator_kl/loadindikator");
 			//$("#e1-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/loadindikator");
 			//$("#e2-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon2/loadindikator");

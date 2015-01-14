@@ -19,7 +19,8 @@ class Renstra_kl extends CI_Controller {
 		$this->load->model('/pemrograman/sasaran_strategis_model','sasaran_strategis');
 		$this->load->model('/pemrograman/iku_kl_model','iku_kl');
 		$this->load->model('/laporan/renstra_kl_model','renstra_kl');
-		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');
+		$this->load->model('/admin/tahun_renstra_model','tahun_renstra');		
+		$this->load->model('/pemrograman/pendanaan_program_model','pendanaan');
 	}	
 	function index()
 	{
@@ -453,6 +454,133 @@ class Renstra_kl extends CI_Controller {
 		}
 	}
 	
+	function get_pendanaan_detail($tahun,$e1,$ajaxCall=true,$forExcel=false){
+		$dataAll = array();
+		$params['tahun_renstra']=$tahun;
+		if ($e1!="0")
+			$params['kode_e1'] = $e1;
+		$isGrouping = false;//($e1=="0");
+		$rs = '';
+		
+			if ($ajaxCall)
+				$rs = '<table class="display table table-bordered table-striped" width="100%">';
+			else
+				$rs = '<table  border="1" cellpadding="2" cellspacing="0">';
+			$arrTahun = explode("-",$tahun);
+			
+			$rangetahun = $arrTahun[1]-$arrTahun[0];
+			$setValignMiddle = '';$rowspan =2;
+			if (!$ajaxCall)
+				$setValignMiddle =  '<span style="font-size:5px;">'.str_repeat('&nbsp;<br/>', $rowspan-1).'</span>';
+		//	$rs = '<table class="table" border="1">';
+			$rs .= '<thead><tr  align="center">						
+						<th style="vertical-align:middle;text-align:center;width:1%" width="30" rowspan="2">'.$setValignMiddle.'NO.</th>
+						<th style="vertical-align:middle;text-align:center;width:30%" width="200" rowspan="2">'.$setValignMiddle.'NAMA PROGRAM</th>
+						<th style="vertical-align:middle;text-align:center" width="'.(90*($rangetahun+1)).'"  colspan="'.($rangetahun+1).'">ALOKASI PENDANAAN</th>
+						<th style="vertical-align:middle;text-align:center;width:15%" width="100" rowspan="2">'.$setValignMiddle.'TOTAL</th>
+					</tr>';
+			$rs .= 	'<tr>';
+				for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)	
+						$rs .= 	'<th style="vertical-align:middle;text-align:center"  width="90">'.$colTahun.'</th>';
+						
+			$rs .= 	'</tr></thead>';	
+			$rs .= '<tbody>';		
+			$i=0;
+			 
+			
+				
+				$data_program = $this->pendanaan->get_renstra($params);
+				$jml_data_program = count($data_program);
+				$unitKerja ="";
+				
+				
+			 $i=0;
+			 $no=1;
+			
+				$jml_data_program = sizeof($data_program);
+				
+				
+				if (isset($data_program)){		
+					$total1=0;$total2=0;$total3=0;$total4=0;$total5=0;
+					foreach($data_program as $ss){
+						if (($unitKerja!=$ss->nama_e1)&&($isGrouping)){
+						//GA KEPAKE
+							$unitKerja = $ss->nama_e1;
+							$rs .= '<tr>';
+							$rs .= '<td  colspan="'.($rangetahun+3).'"><b>'.$ss->nama_e1.'</b></td>';
+							$rs .= '</tr>';
+							
+							$no=1;
+							//continue;
+						}
+						
+						$rs .= '<tr>';
+						
+						$rs .= '<td width="30"   align="center">'.$no.'</td>';
+						$rs .= '<td  width="200"   valign="top">'.$ss->nama_program.'</td>';
+						
+							$total = 0;
+							$realisasi = isset($ss->target_thn1)?$ss->target_thn1:'-';
+							$total += isset($ss->target_thn1)?$ss->target_thn1:0;
+							$total1 += isset($ss->target_thn1)?$ss->target_thn1:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$realisasi = isset($ss->target_thn2)?$ss->target_thn2:'-';
+							$total += isset($ss->target_thn2)?$ss->target_thn2:0;
+							$total2 += isset($ss->target_thn2)?$ss->target_thn2:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$realisasi = isset($ss->target_thn3)?$ss->target_thn3:'-';
+							$total += isset($ss->target_thn3)?$ss->target_thn3:0;
+							$total3 += isset($ss->target_thn3)?$ss->target_thn3:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$realisasi = isset($ss->target_thn4)?$ss->target_thn4:'-';
+							$total += isset($ss->target_thn4)?$ss->target_thn4:0;
+							$total4 += isset($ss->target_thn4)?$ss->target_thn4:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$realisasi = isset($ss->target_thn5)?$ss->target_thn5:'-';
+							$total += isset($ss->target_thn5)?$ss->target_thn5:0;
+							$total5 += isset($ss->target_thn5)?$ss->target_thn5:0;
+							$rs .= 	'<td width="90" align="right">'.$this->utility->cekNumericFmt($realisasi).'</td>';
+							
+							$rs .= 	'<td width="100" align="right">'.$this->utility->cekNumericFmt($total).'</td>';
+							
+						
+						$rs .= '</tr>';
+
+						$no++;
+					
+					}
+					$rs .= '<tr>';
+					$rs .= '<td  colspan="2" align="center" width="230"><b>TOTAL</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total1).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total2).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total3).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total4).'</b></td>';
+					$rs .= 	'<td width="90" align="right"><b>'.$this->utility->cekNumericFmt($total5).'</b></td>';
+					$rs .= 	'<td width="100" align="right"><b>'.$this->utility->cekNumericFmt($total1+$total2+$total3+$total4+$total5).'</b></td>';
+					$rs .= '</tr>';
+				}
+				else { 
+					//$rs .= '<td></td>';
+					//$rs .= '<td></td>';
+				}
+				//$rs .= '</tr>';
+				
+			 $rs .= '</tbody>';		
+			 $rs .= '</table>';
+		
+		// var_dump($data[0]);die;
+		if ($forExcel) {
+			return	 $data_program;
+		}
+		else {
+			return $rs;
+		}
+	}
+	
 	public function print_pdf($tahun){
 		$this->load->library('tcpdf_','pdf');
 		$pdf = new Tcpdf_('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -636,15 +764,17 @@ class Renstra_kl extends CI_Controller {
 		$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
 		$posisiRow++;
 		$no=1;
-		foreach($sasaran as $s){ 
-			foreach($s->iku as $iku){
-				$data[] = array($s->deskripsi,$no++,$iku->deskripsi,$iku->satuan);
+		if (isset($sasaran)){
+			foreach($sasaran as $s){ 
+				foreach($s->iku as $iku){
+					$data[] = array($s->deskripsi,$no++,$iku->deskripsi,$iku->satuan);
+				}
 			}
-		}
-		if (count($data)>0){
-			$this->excel->getActiveSheet()->fromArray($data,NULL,'A'.$posisiRow);	
-			$posisiRow += count($data);
-		}else $posisiRow++;
+			if (count($data)>0){
+				$this->excel->getActiveSheet()->fromArray($data,NULL,'A'.$posisiRow);	
+				$posisiRow += count($data);
+			}else $posisiRow++;
+		}//end isset sasaran
 		/////END    SASARAN STRATEGIS DAN IKU HERE...
 		
 		//jeda 1 row
@@ -739,15 +869,18 @@ class Renstra_kl extends CI_Controller {
 		$posisiRow++;
 		$target = $this->get_rencana_detail($tahun,-1,false,true);
 		$no=1;
-		foreach($target as $s){ 
-			foreach($s->iku as $iku){
-				$dataTarget[] = array($s->deskripsi,$no++,$iku->deskripsi,$iku->satuan,$iku->target1,$iku->target2,$iku->target3,$iku->target4,$iku->target5);
+		if (isset($target)){
+		
+			foreach($target as $s){ 
+				foreach($s->iku as $iku){
+					$dataTarget[] = array($s->deskripsi,$no++,$iku->deskripsi,$iku->satuan,$iku->target1,$iku->target2,$iku->target3,$iku->target4,$iku->target5);
+				}
 			}
+			if (count($dataTarget)>0){
+				$this->excel->getActiveSheet()->fromArray($dataTarget,NULL,'A'.$posisiRow);	
+				$posisiRow += count($dataTarget);
+			}else $posisiRow++;
 		}
-		if (count($dataTarget)>0){
-			$this->excel->getActiveSheet()->fromArray($dataTarget,NULL,'A'.$posisiRow);	
-			$posisiRow += count($dataTarget);
-		}else $posisiRow++;
 		
 		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
 		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
@@ -762,11 +895,71 @@ class Renstra_kl extends CI_Controller {
 		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
 		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-		$this->excel->getActiveSheet()->mergeCells('A1:B1');
+		$this->excel->getActiveSheet()->mergeCells('A1:E1');
 		$this->excel->getActiveSheet()->setCellValue('A1', 'KEBUTUHAN PENDANAAN KEMENTERIAN PERHUBUNGAN');
 		$this->excel->getActiveSheet()->setCellValue('A2', 'TAHUN');
 		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
 		$this->excel->getActiveSheet()->mergeCells('A3:F3');
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(4);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(80);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+		$posisiRow = 5;
+		$columHeader = array("No.","Nama Program","Alokasi Pendanaan","Total");		
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.($posisiRow+1))->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+		
+		$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+		$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('C'.$posisiRow.':G'.($posisiRow));
+		$this->excel->getActiveSheet()->mergeCells('H'.$posisiRow.':H'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, 'Total');
+		//$this->excel->getActiveSheet()->mergeCells('E'.$posisiRow.':D'.($posisiRow+1));
+		$posisiRow++;		
+		$this->excel->getActiveSheet()->fromArray($columRentang,NULL,'C'.$posisiRow);
+		$posisiRow++;
+		$pendanaan = $this->get_pendanaan_detail($tahun,0,false,true);
+		$no=1;		
+		if (isset($pendanaan)){
+			$total1=0;$total2=0;$total3=0;$total4=0;$total5=0;
+			foreach($pendanaan as $ss){ 
+					$total = 0;
+					$realisasi1 = isset($ss->target_thn1)?$ss->target_thn1:'-';
+					$total += isset($ss->target_thn1)?$ss->target_thn1:0;
+					$total1 += isset($ss->target_thn1)?$ss->target_thn1:0;
+					$realisasi2 = isset($ss->target_thn2)?$ss->target_thn2:'-';
+					$total += isset($ss->target_thn2)?$ss->target_thn2:0;
+					$total2 += isset($ss->target_thn2)?$ss->target_thn2:0;
+					$realisasi3 = isset($ss->target_thn3)?$ss->target_thn3:'-';
+					$total += isset($ss->target_thn3)?$ss->target_thn3:0;
+					$total3 += isset($ss->target_thn3)?$ss->target_thn3:0;
+					$realisasi4 = isset($ss->target_thn4)?$ss->target_thn4:'-';
+					$total += isset($ss->target_thn4)?$ss->target_thn4:0;
+					$total4 += isset($ss->target_thn4)?$ss->target_thn4:0;
+					$realisasi5 = isset($ss->target_thn5)?$ss->target_thn5:'-';
+					$total += isset($ss->target_thn5)?$ss->target_thn5:0;
+					$total5 += isset($ss->target_thn5)?$ss->target_thn5:0;
+					$dataPendanaan[] = array($no++,$ss->nama_program,$realisasi1,$realisasi2,$realisasi3,$realisasi4,$realisasi5, $this->utility->cekNumericFmt($total));
+				
+			}
+			if (count($dataPendanaan)>0){
+				$this->excel->getActiveSheet()->fromArray($dataPendanaan,NULL,'A'.$posisiRow);	
+				$posisiRow += count($dataPendanaan);
+			}else $posisiRow++;
+		}	
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
 		//---------------------end  kEBUTUHANN PENDANAAN
 		
 		

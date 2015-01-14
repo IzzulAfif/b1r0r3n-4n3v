@@ -370,7 +370,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		else return $rs;
 	}
 	
-	function get_sasaran($tahun,$e1,$e2,$ajaxCall=true){
+	function get_sasaran($tahun,$e1,$e2,$ajaxCall=true,$forExcel=false){
 		$dataAll = array();		
 		$rs = '';
 		$params['tahun_renstra'] = $tahun;
@@ -458,12 +458,17 @@ function get_pendanaan($tahun,$e1,$e2)
 			$rs .= '</tbody>';		
 			$rs .= '</table>';			
 		} 
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		if ($forExcel) {
+			return	 $data_kegiatan;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
 	
-	function get_rencana_detail($tahun,$e1,$e2,$ajaxCall=true){
+	function get_rencana_detail($tahun,$e1,$e2,$ajaxCall=true,$forExcel=false){
 		$dataAll = array();
 		
 		$rs = '';
@@ -552,9 +557,10 @@ function get_pendanaan($tahun,$e1,$e2)
 				
 			 $i=0;$no=1;			
 				$jml_data_kegiatan = sizeof($data_kegiatan);
-				$colspan_sasaran = 
-				$rs .= '<tr>';					
-				if (isset($data_kegiatan)){						
+				
+				
+				if (isset($data_kegiatan)){	
+					$rs .= '<tr>';					
 					$j=0;					
 					foreach($data_kegiatan as $ss){
 						if ($j==0){
@@ -623,10 +629,15 @@ function get_pendanaan($tahun,$e1,$e2)
 			 $rs .= '</table>';
 		
 		// var_dump($data[0]);die;
-		return $rs;
+		if ($forExcel) {
+			return	 $data_kegiatan;
+		}
+		else {
+			return $rs;
+		}
 	}
 	
-	function get_pendanaan_detail($tahun,$e1,$e2,$ajaxCall=true){
+	function get_pendanaan_detail($tahun,$e1,$e2,$ajaxCall=true,$forExcel=false){
 		$dataAll = array();
 		$params['tahun_renstra']=$tahun;
 		$params['kode_e1'] = $e1;
@@ -747,7 +758,12 @@ function get_pendanaan($tahun,$e1,$e2)
 			 $rs .= '</table>';
 		
 		// var_dump($data[0]);die;
-		return $rs;
+		if ($forExcel) {
+			return	 $data_program;
+		}
+		else {
+			return $rs;
+		}
 	}
 
 	public function print_pdf($tahun,$e1,$e2){
@@ -847,7 +863,7 @@ function get_pendanaan($tahun,$e1,$e2)
 		
 		
 		
-		//var_dump($html);
+	//	var_dump($html);
 		$pdf->writeHTML($html, true, false, false, false, '');		
 		
 		
@@ -897,5 +913,322 @@ function get_pendanaan($tahun,$e1,$e2)
 		$pdf->writeHTML($html, true, false, false, false, '');		
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('AlokasiDanaEselonII.pdf', 'I');
+	}
+	
+	public function excel($tahun,$e1,$e2){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Renstra Eselon I');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:D1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'RENCANA STRATEGIS '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))));
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode Renstra ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('B2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_renstra"=>$tahun);
+		$posisiRow = 4;
+		$params['tahun_renstra']=$tahun;
+		$params['kode_e1'] = $e1;
+		if ($e2!="0")
+			$params['kode_e2'] = $e2;
+		$visi=$this->visi_e2->get_all($params);
+		$visi_arr = null;		
+		if (isset($visi)){
+			foreach ($visi as $u){
+				$visi_arr[] = array($u->visi_e2);
+			}
+		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Visi');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		if (count($visi_arr)>0){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($visi_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$this->excel->getActiveSheet()->fromArray($visi_arr,NULL,'B'.$posisiRow);		
+			for ($i=0;$i<count($visi_arr);$i++)
+				$this->excel->getActiveSheet()->mergeCells('B'.($posisiRow+$i).':D'.($posisiRow+$i));
+			$posisiRow += count($visi_arr);
+		}else $posisiRow++;
+		
+		
+		$misi = $this->misi_e2->get_all($params);
+		$misi_arr = null;		
+		if (isset($misi)){
+			foreach ($misi as $u){
+				$misi_arr[] = array($u->misi_e2);
+			}
+		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Misi');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		if (count($misi_arr)>0){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($misi_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$this->excel->getActiveSheet()->fromArray($misi_arr,NULL,'B'.$posisiRow);
+			for ($i=0;$i<count($misi_arr);$i++)
+				$this->excel->getActiveSheet()->mergeCells('B'.($posisiRow+$i).':D'.($posisiRow+$i));
+			
+			$posisiRow += count($misi_arr);				
+		}else $posisiRow++;
+		
+		$tujuan = $this->tujuan_e2->get_all($params);
+		$tujuan_arr = null;		
+		if (isset($tujuan)){
+			foreach ($tujuan as $u){
+				$tujuan_arr[] = array($u->tujuan_e2);
+			}
+		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Tujuan');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		if (count($tujuan_arr)>0){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($tujuan_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$this->excel->getActiveSheet()->fromArray($tujuan_arr,NULL,'B'.$posisiRow);			
+			for ($i=0;$i<count($tujuan_arr);$i++)
+				$this->excel->getActiveSheet()->mergeCells('B'.($posisiRow+$i).':D'.($posisiRow+$i));
+			$posisiRow += count($tujuan_arr);		
+		}else $posisiRow++;
+		
+		/////SASARAN STRATEGIS DAN IKU HERE...
+		//jeda 1 row
+		$posisiRow++;
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Sasaran Strategis dan IKK');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':D'.$posisiRow);
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+		$posisiRow++;
+		$columHeader = array("Sasaran Strategis","No.","Indikator Kinerja Kegiatan (IKK)","Satuan");		
+		$sasaran = $this->get_sasaran($tahun,$e1,$e2,false,true);
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.$posisiRow)->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+		
+		$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+		$posisiRow++;
+		$no=1;
+		$isGrouping = ($e2=="0");
+		$namaUnit= "-1";
+		if (isset($sasaran)){
+			foreach($sasaran as $s){ 
+				if (($namaUnit!=$s->nama_e2)&&($isGrouping)){
+					$namaUnit = $s->nama_e2;
+					$data[] = array($s->nama_e2,'','','');	
+					$no=1;
+						//	continue;
+				}
+				foreach($s->ikk as $iku){
+					
+					$data[] = array($s->deskripsi,$no++,$iku->deskripsi,$iku->satuan);
+				}
+			}
+			if (count($data)>0){
+				$this->excel->getActiveSheet()->fromArray($data,NULL,'A'.$posisiRow);	
+				$posisiRow += count($data);
+			}else $posisiRow++;
+		}//end isset
+		/////END    SASARAN STRATEGIS DAN IKU HERE...
+		
+		//jeda 1 row
+		$posisiRow++;
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Target Capaian Kinerja');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, 'Klik Disini');
+		$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':D'.$posisiRow);
+		$this->excel->getActiveSheet()->getCell('B'.$posisiRow)->getHyperlink()->setUrl("sheet://'Target Capaian Kinerja'!A1");
+		$posisiRow++;		
+		
+		/*$program = $this->kegiatan_e2->get_renstra($params);
+		$program_arr = null;		
+		if (isset($program)){
+			foreach ($program as $u){
+				$program_arr[] = array($u->nama_kegiatan);
+			}
+		}
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Program');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		if (count($program_arr)>0){
+			$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+count($program_arr)-1));
+			$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$this->excel->getActiveSheet()->fromArray($program_arr,NULL,'B'.$posisiRow);
+			for ($i=0;$i<count($program_arr);$i++)
+				$this->excel->getActiveSheet()->mergeCells('B'.($posisiRow+$i).':D'.($posisiRow+$i));
+			$posisiRow += count($program_arr);
+		}else $posisiRow++;
+		*/
+		//jeda 1 row
+		$posisiRow++;
+		$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, 'Kebutuhan Pendanaan');
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow)->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, 'Klik Disini');
+		$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':D'.$posisiRow);
+		$this->excel->getActiveSheet()->getCell('B'.$posisiRow)->getHyperlink()->setUrl("sheet://'Kebutuhan Pendanaan'!A1");
+		$posisiRow++;
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+		//$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(100);
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
+		
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(4);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(80);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		
+		
+		$arrTahun = explode("-",$tahun);		
+		$rangetahun = $arrTahun[1]-$arrTahun[0];
+		for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++){
+			$columRentang[] = $colTahun;
+		}
+		//buat sheet TARGET CAPAIAN KINERJA-------
+		$this->excel->createSheet();
+		$this->excel->setActiveSheetIndex(1);
+		$this->excel->getActiveSheet()->setTitle('Target Capaian Kinerja');
+		
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:E1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'TARGET CAPAIAN KINERJA '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))));
+		$this->excel->getActiveSheet()->setCellValue('A2', 'TAHUN');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('B2:E2');
+		$this->excel->getActiveSheet()->mergeCells('A3:F3');
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(40);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(4);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(80);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		$posisiRow = 5;
+		$columHeader = array("Sasaran Strategis","No.","Indikator Kinerja Kegiatan (IKK)","Satuan","Target Pencapaian");				
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.($posisiRow+1))->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+		
+		$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+		$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('C'.$posisiRow.':C'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('D'.$posisiRow.':D'.($posisiRow+1));
+		//$this->excel->getActiveSheet()->mergeCells('E'.$posisiRow.':D'.($posisiRow+1));
+		$posisiRow++;		
+		$this->excel->getActiveSheet()->fromArray($columRentang,NULL,'E'.$posisiRow);
+		$posisiRow++;
+		$target = $this->get_rencana_detail($tahun,$e1,$e2,false,true);
+		$no=1;
+		if (isset($target)){
+		
+			foreach($target as $s){ 
+				foreach($s->iku as $iku){
+					$dataTarget[] = array($s->deskripsi,$no++,$iku->deskripsi,$iku->satuan,$iku->target1,$iku->target2,$iku->target3,$iku->target4,$iku->target5);
+				}
+			}
+			if (count($dataTarget)>0){
+				$this->excel->getActiveSheet()->fromArray($dataTarget,NULL,'A'.$posisiRow);	
+				$posisiRow += count($dataTarget);
+			}else $posisiRow++;
+		}
+		
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
+		//---------------------end  target capaian kinerja
+		
+		//buat sheet kEBUTUHANN PENDANAAN
+		$this->excel->createSheet();
+		$this->excel->setActiveSheetIndex(2);
+		$this->excel->getActiveSheet()->setTitle('Kebutuhan Pendanaan');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:E1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'KEBUTUHAN PENDANAAN '.($e2=="0"?"UNIT KERJA ESELON II":strtoupper($this->mgeneral->getValue("nama_e2",array('tahun_renstra'=>$tahun,'kode_e2'=>$e2),"anev_eselon2"))));
+		$this->excel->getActiveSheet()->setCellValue('A2', 'TAHUN');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('A3:F3');
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(4);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(80);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+		$this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+		$posisiRow = 5;
+		$columHeader = array("No.","Nama Kegiatan","Alokasi Pendanaan","Total");		
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.($posisiRow+1))->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+		
+		$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+		$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+1));
+		$this->excel->getActiveSheet()->mergeCells('C'.$posisiRow.':G'.($posisiRow));
+		$this->excel->getActiveSheet()->mergeCells('H'.$posisiRow.':H'.($posisiRow+1));
+		$this->excel->getActiveSheet()->setCellValue('H'.$posisiRow, 'Total');
+		//$this->excel->getActiveSheet()->mergeCells('E'.$posisiRow.':D'.($posisiRow+1));
+		$posisiRow++;		
+		$this->excel->getActiveSheet()->fromArray($columRentang,NULL,'C'.$posisiRow);
+		$posisiRow++;
+		$pendanaan = $this->get_pendanaan_detail($tahun,$e1,$e2,false,true);
+		$no=1;		
+		if (isset($pendanaan)){
+			$total1=0;$total2=0;$total3=0;$total4=0;$total5=0;
+			foreach($pendanaan as $ss){ 
+				$total = 0;
+				$realisasi1 = isset($ss->target_thn1)?$ss->target_thn1:'-';
+				$total += isset($ss->target_thn1)?$ss->target_thn1:0;
+				$total1 += isset($ss->target_thn1)?$ss->target_thn1:0;
+				$realisasi2 = isset($ss->target_thn2)?$ss->target_thn2:'-';
+				$total += isset($ss->target_thn2)?$ss->target_thn2:0;
+				$total2 += isset($ss->target_thn2)?$ss->target_thn2:0;
+				$realisasi3 = isset($ss->target_thn3)?$ss->target_thn3:'-';
+				$total += isset($ss->target_thn3)?$ss->target_thn3:0;
+				$total3 += isset($ss->target_thn3)?$ss->target_thn3:0;
+				$realisasi4 = isset($ss->target_thn4)?$ss->target_thn4:'-';
+				$total += isset($ss->target_thn4)?$ss->target_thn4:0;
+				$total4 += isset($ss->target_thn4)?$ss->target_thn4:0;
+				$realisasi5 = isset($ss->target_thn5)?$ss->target_thn5:'-';
+				$total += isset($ss->target_thn5)?$ss->target_thn5:0;
+				$total5 += isset($ss->target_thn5)?$ss->target_thn5:0;
+				$dataPendanaan[] = array($no++,$ss->nama_kegiatan,$realisasi1,$realisasi2,$realisasi3,$realisasi4,$realisasi5, $this->utility->cekNumericFmt($total));
+			
+			}
+			if (count($dataPendanaan)>0){
+				$this->excel->getActiveSheet()->fromArray($dataPendanaan,NULL,'A'.$posisiRow);	
+				$posisiRow += count($dataPendanaan);
+			}else $posisiRow++;
+		}	
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
+		//---------------------end  kEBUTUHANN PENDANAAN
+		
+		
+		
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='RenstraEselonII'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');	
 	}
 }

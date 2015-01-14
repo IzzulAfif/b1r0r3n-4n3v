@@ -136,7 +136,7 @@
 		$('#tahun_renstra').change(function(){
 			//tahun	= $('#tahun_renstra').val();
 			set_tahun();
-			
+			$('#tahun').change();
 		});
 		
 		$('#tahun').change(function(){
@@ -162,9 +162,11 @@
 						$('#program').append(new Option(result[a],a));
 					}
 					$('#program').select2({minimumResultsForSearch: -1, width:'resolve'});
+					
+					$('#program').select2("val", "0");
 				}
 			});
-			
+			$("#program").change();
 		});
 		
 		
@@ -245,6 +247,9 @@
 		
 		$('#cetakpdf_realisasiprogram').click(function(){				
 				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/print_pdf/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
+			});
+		$('#cetakexcel_realisasiprogram').click(function(){				
+				window.open('<?=base_url()?>laporan/kegiatan_pembangunan/excel/'+$("#tahun_renstra").val()+"/"+$("#tahun").val()+"/"+$("#kelompok_indikator").val()+"/"+$("#program").val()+"/"+$("#kegiatan").val()+"/"+$("#list-kdlokasi").val(),'_blank');			
 			});
 			
     });
