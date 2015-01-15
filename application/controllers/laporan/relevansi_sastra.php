@@ -41,7 +41,7 @@ class Relevansi_sastra extends CI_Controller {
 		//$this->load->view('template/container_popup',$template);
 	}
 	
-	function get_sasaran($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,$ajaxCall=true){
+	function get_sasaran($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,$ajaxCall=true,$forExcel=false){
 		$rs = '';
 		
 		
@@ -114,8 +114,8 @@ class Relevansi_sastra extends CI_Controller {
 		$kode_ss_kl = '-1';
 		$kode_sp_e1 = '-1';
 		$kode_sk_e2 = '-1';
+		$rs .= $head;
 		if (isset($data)){
-			$rs .= $head;
 			$i=0;$cur_idx_kl=0;$cur_idx_sastra=0;$cur_idx_e1=0;
 			
 			foreach ($data as $d){
@@ -200,13 +200,21 @@ class Relevansi_sastra extends CI_Controller {
 			}//end foreach
 			
 		}//end isset data
+		else {
+			$rs .= '<tr><td colspan="2">Data tidak ditemukan</td><tr>';
+		}
 		
 					 
 		$foot = '</tbody></table>';			 
 		
 		$rs .= $foot;
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
 	function print_pdf($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2)
@@ -261,18 +269,170 @@ class Relevansi_sastra extends CI_Controller {
 	//	$html = $data['ikuE2'];
 	
 	//	$html = '<table  border="1" cellpadding="4" cellspacing="0"><thead><tr><td width="30">tes</td></tr></table>';
-	$html1= ' <table border="0" cellpadding="4" cellspacing="0">    
-        <tr style="border:1px #666666 solid;">
-            <td style="padding:10px 0 20px 20px;">
-            	<table cellspacing="0" cellpadding="4" border="1"><thead><tr><th width="30" style="vertical-align:middle;text-align:center;width:0.001%" class="col-sm-1">No.</th><th width="100" style="vertical-align:middle;text-align:center;width:20%" class="col-sm-1">Sasaran Kemenhub</th><th width="30" style="vertical-align:middle;text-align:center;width:0.001%" class="col-sm-1">No.</th><th width="100" style="vertical-align:middle;text-align:center;width:20%" class="col-sm-1">Sasaran Strategis</th></tr></thead><tbody><tr class="gradeX"><td width="30" rowspan="4">1</td><td width="100" rowspan="4">Meningkatnya keselamatan, keamanan dan pelayanan sarana dan prasarana transportasi sesuai Standar Pelayanan Minimal (SPM)</td><td width="30" rowspan="1">1</td><td width="100" rowspan="1">Meningkatnya keselamatan transportasi</td></tr><tr><td width="30" rowspan="1">2</td><td width="100" rowspan="1">Meningkatnya keamanan transportasi</td></tr><tr><td width="30" rowspan="1">3</td><td width="100" rowspan="1">Meningkatnya pelayanan transportasi</td></tr><tr><td width="30" rowspan="1">4</td><td width="100" rowspan="1">Meningkatnya pemenuhan standar teknis dan standar operasional sarana dan prasarana trasnportasi</td></tr><tr><td width="30" rowspan="1">2</td><td width="100" rowspan="1">Meningkatnya aksesibilitas masyarakat terhadap pelayanan sarana dan prasarana transportasi guna mendorong pengembangan konektivitas antar wilayah</td><td width="30" rowspan="1">1</td><td width="100" rowspan="1">Meningkatnya aksesibiltas masyarakat terhadap pelayanan sarana dan prasarana transportasi guna mendorong konektivitas antar wilayah</td></tr><tr><td width="30" rowspan="2">3</td><td width="100" rowspan="2">Meningkatnya kapasitas sarana dan prasarana transportasi untuk mengurangi backlog dan bottleneck kapasitas infrastruktur transportasi</td><td width="30" rowspan="1">1</td><td width="100" rowspan="1">Meningkatnya manfaat sektor transportasi terhadap pertumbuhan ekonomi</td></tr><tr><td width="30" rowspan="1">2</td><td width="100" rowspan="1">Meningkatnya kapasitas sarana dan prasarana transportasi untuk mengurangi backlog dan bottleneck kapasitas infrastruktur transportasi</td></tr><tr><td width="30" rowspan="1">4</td><td width="100" rowspan="1">Meningkatkan peran Pemda, BUMN, swasta, dan masyarakat dalam penyediaan infrastruktur sektor transportasi sebagai upaya meningkatkan efisiensi dalam penyelenggaraan transportasi</td><td width="30" rowspan="1">1</td><td width="100" rowspan="1">Meningkatkan peran serta Pemda, BUMN dan swasta dalam penyediaan infrastruktur transportasi </td></tr><tr><td width="30" rowspan="3">5</td><td width="100" rowspan="3">Peningkatan kualitas SDM dan Melanjutkan Restrukturisasi Kelembagaan dan Reformasi Regulasi</td><td width="30" rowspan="1">1</td><td width="100" rowspan="1">Meningkatnya optimalisasi pengelolaan akuntabilitas kinerja, anggaran dan BMN</td></tr><tr><td width="30" rowspan="1">2</td><td width="100" rowspan="1">Peningkatan kualitas SDM</td></tr><tr><td width="30" rowspan="1">3</td><td width="100" rowspan="1">Melanjutkan reformasi regulasi</td></tr><tr><td width="30" rowspan="2">6</td><td width="100" rowspan="2">Peningkatan kualitas penelitian dan pengembangan di bidang transportasi serta teknologi transportasi yang efisiensi, ramah lingkungan sebagai mengantisipasi perubahan iklim</td><td width="30" rowspan="1">1</td><td width="100" rowspan="1">Menurunnya dampak sektor transportasi terhadap lingkungan</td></tr><tr><td width="30" rowspan="1">2</td><td width="100" rowspan="1">Meningkatkan pengembangan teknologi transportasi yang efisien dan ramah lingkungan sebagai antisipasi terhadap perubahan iklim</td></tr></tbody></table> </td>
-        </tr>
-    </table>
-</page>';
+	 
 		//var_dump($html);
 		$pdf->writeHTML($html, true, false, false, false, '');
 		//var_dump('tes');	
 	
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('CascadingSasasranStrategis.pdf', 'I');
+   }
+   
+   function excel($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Cascading Sasaran Strategis');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:E1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'CASCADING SASARAN STRATEGIS');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Tahun ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('B2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_renstra"=>$tahun);
+		$posisiRow = 4;
+		$headKL = '';	
+		$headSastra = '';	
+		$headE1 = '';	
+		$headE2 = '';	
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':E'.($posisiRow))->applyFromArray(
+			array(
+				'font'    => array('bold'=> true),
+				'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+				'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+				'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+			));
+		$column_abjad = 65;	//A
+		
+		if (($chkKL=="true")&&($chkE1=="false")&&($chkE2=="false")){			
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;			
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'Sasaran Kemenhub');
+			$column_abjad++;			
+		}
+		
+		if ($chkKL=="true"){				
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;			
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'Sasaran Strategis');
+			$column_abjad++;
+		}
+		
+		if ($chkE1=="true"){				 	
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'Sasaran Program');
+			$column_abjad++;
+		}
+		if ($chkE2=="true"){				 	
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'Sasaran Kegiatan');
+			$column_abjad++;
+		}
+		$posisiRow++;
+		 
+ 
+	 
+		$data  = $this->get_sasaran($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,false,true);
+		$rs ='';
+		if (isset($data)){
+			$noKL=0;$noSastra=0;$noE1=0;$noE2=0;
+			$posisiRowKl = $posisiRow;
+			$posisiRowSS = $posisiRow;
+			$posisiRowE1 = $posisiRow;
+			$posisiRowE2 = $posisiRow;
+			$sasaran_kl = '';
+			$sasaran_ss = '';
+			$sasaran_e1 = '';
+			$sasaran_e2 = '';			
+			foreach ($data as $d){
+				$column_abjad = 65;	//A
+				if (($chkKL=="true")&&($chkE1=="false")&&($chkE2=="false")){			
+					// if (isset($d->rowspan_skl)){
+						// $this->excel->getActiveSheet()->mergeCells(chr($column_abjad).$posisiRowKl.':'.chr($column_abjad).$d->rowspan_skl);
+						// $posisiRowKl += $d->rowspan_skl;
+					// }	
+					// else {
+						// $posisiRowKl++;
+					// }
+					if ($sasaran_kl!=$d->sasaran_kl){
+						$sasaran_kl=$d->sasaran_kl;
+						$noKL++;
+						$noSastra=0;
+					}
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, ($noKL));
+					$column_abjad++;
+					// if (isset($d->rowspan_skl)){
+						// $this->excel->getActiveSheet()->mergeCells(chr($column_abjad).$posisiRowKl.':'.chr($column_abjad).$d->rowspan_skl);
+					// }	
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->sasaran_kl);
+					$column_abjad++;
+					
+				}
+				
+				if ($chkKL=="true"){				 	
+					// if (isset($d->rowspan_sastra)){
+						// $this->excel->getActiveSheet()->mergeCells(chr($column_abjad).$posisiRowSS.':'.chr($column_abjad).($posisiRowSS+$d->rowspan_sastra));										
+					// }	
+					if ($sasaran_ss!=$d->sasaran_strategis){
+						$sasaran_ss=$d->sasaran_strategis;
+						$noSastra++;
+						$noE1=0;
+					}	
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, ($noSastra));
+					$column_abjad++;
+					// if (isset($d->rowspan_sastra)){
+						// $this->excel->getActiveSheet()->mergeCells(chr($column_abjad).$posisiRowSS.':'.chr($column_abjad).($posisiRowSS+$d->rowspan_sastra));
+					// }
+					
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->sasaran_strategis);
+					// if (isset($d->rowspan_sastra)){
+						// $posisiRowSS += $d->rowspan_sastra+1;
+					// }
+					// else {
+						// $posisiRowSS++;
+					// } 		
+					$column_abjad++;
+					
+				}
+				if ($chkE1=="true"){	
+					if ($sasaran_e1!=$d->sasaran_program){
+						$sasaran_e1=$d->sasaran_program;
+						$noE1++;
+						$noE2=0;
+					}	 
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $noE1);
+					$column_abjad++;
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->sasaran_program);
+					$column_abjad++;
+				}
+				if ($chkE2=="true"){					
+					$noE2++;
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, ($noE2));
+					$column_abjad++;
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->sasaran_kegiatan);
+					$column_abjad++;
+				}
+				
+				$posisiRow++;
+				 
+				
+			}//end foreach
+		}
+		
+		
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='CascadingSasaranStrategis'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');
    }
 }

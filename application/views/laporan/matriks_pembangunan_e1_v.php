@@ -202,5 +202,13 @@ $(document).ready(function() {
 	$('#cetakpdf_e1').click(function(){
 		print_matriks();
 	});
+	
+	$('#cetakexcel_e1').click(function(){
+		var tahun = $('#e1-periode_renstra').val();
+		var rentang_awal = $('#e1-rentang_awal').val();
+		var rentang_akhir = $('#e1-rentang_akhir').val();
+		var kodee1 = $('#e1-kodee1').val();
+		window.open("<?=base_url()?>laporan/matriks_pembangunan_e1/excel/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/"+kodee1);
+	});
 });
 </script>

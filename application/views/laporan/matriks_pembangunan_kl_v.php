@@ -178,5 +178,13 @@ $(document).ready(function() {
 	$('#cetakpdf_kl').click(function(){
 		print_matriks_kl();
 	});
+	
+	$('#cetakexcel_kl').click(function(){
+		var tahun = $('#kl-periode_renstra').val();
+		var rentang_awal = $('#kl-rentang_awal').val();
+		var rentang_akhir = $('#kl-rentang_akhir').val();
+		
+		window.open("<?=base_url()?>laporan/matriks_pembangunan_kl/excel/"+tahun+"/"+rentang_awal+"/"+rentang_akhir+"/-1");
+	});
 });
 </script>

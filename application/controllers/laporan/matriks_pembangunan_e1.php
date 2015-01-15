@@ -69,7 +69,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$this->load->view('template/container_popup',$template);
 	}
 	
-	function get_output($rensta,$rentang_awal,$rentang_akhir,$e1,$ajaxCall=true){
+	function get_output($rensta,$rentang_awal,$rentang_akhir,$e1,$ajaxCall=true,$forExcel=false){
 		$dataAll = array();
 		$data = $this->matriks->get_output(array("rentang_awal"=>$rentang_awal,"rentang_akhir"=>$rentang_akhir,"kode_e1"=>$e1));
 		$rangetahun = $rentang_akhir-$rentang_awal;
@@ -102,98 +102,107 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$dataTable = array();
 		//var_dump($data);
 		$idx_kegiatan = 0;
-		foreach($data as $d){
-			if ($nama_program!=$d->nama_program){
-				
-				$nama_program = $d->nama_program;				
-				
-			}
-			
-			if ($nama_kegiatan!=$d->nama_kegiatan){
-				$nama_kegiatan = $d->nama_kegiatan;
-				$dataTable[$i]->rowspan = 0;
-				$idx_kegiatan = $i;//($i==0?$i:($i-1));
-			}
-			else {
-				//$dataTable[$i-1]->rowspan++;
-			}
-			
-			if ($nama_output!=$d->nmoutput){
-				$nama_output = $d->nmoutput;
-				$dataTable[$i]->nama_program = $d->nama_program;
-				$dataTable[$i]->nama_kegiatan = $d->nama_kegiatan;			
-				$dataTable[$i]->nmoutput = $d->nmoutput;
-				$dataTable[$i]->rowspan = 1;
-				$dataTable[$i]->vol[$d->tahun] = $d->total_volkeg;
-			//	if ($i>0){
-					if ($nama_kegiatan==$d->nama_kegiatan){						
-						$dataTable[$idx_kegiatan]->rowspan++;
-					}
-				//}
-				
-				
-				$i++;
-				//continue;
-			}else {
-			
-			//if (($nama_kegiatan==$d->nama_kegiatan)&&($nama_program==$d->nama_program)&&($nama_output==$d->nmoutput)){
-				$dataTable[$i-1]->vol[$d->tahun] = $d->total_volkeg;
-				//$i++;
-			}
-			
-		}
-		//var_dump($dataTable);die;
-		$nama_program = '-1';
-		$nama_kegiatan = '-1';
-		$i=0;$no=1;
-		$idx_kegiatan = 1;
-		foreach($dataTable as $d){
-			
-			if ($nama_program!=$d->nama_program){
-				
-				$nama_program=$d->nama_program;
-				if ($i>1) {
-					$rs .=$foot;
-				}
-				$i=1;
-				if ($ajaxCall)
-					$rs .= "<p class='text-info'><b>Nama Program : ".$d->nama_program.'</b></p>';
-				else
-					$rs .= "<b>Nama Program : ".$d->nama_program.'</b><br><br>';
-				$rs .= $head;
-				//var_dump($d);die;
-			}
-			
-			
-				
-				$rs .= '<tr class="gradeX">';
-						
-				if ($nama_kegiatan!= $d->nama_kegiatan){
-					$nama_kegiatan = $d->nama_kegiatan;
-					$rs .= '<td width="30" rowspan="'.($d->rowspan-1).'">'.($idx_kegiatan++).'</td>				';
-					$rs .= '<td width="'.$widthKegiatan.'" rowspan="'.($d->rowspan-1).'">'.$d->nama_kegiatan.'</td>';
-					$no=1;
-				}
-				// $rs .= '<td width="30" >'.($i++).'</td>';
-				// $rs .= '<td width="80" >'.$d->nama_kegiatan.'-'.$d->rowspan.'</td>';
-				$rs .= '<td width="30">'.($no++).'</td>';				
-				$rs .= '<td width="'.$widthOutput.'">'.$d->nmoutput.'</td>';				
-					for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
-						$vol =0;
-						
-						if (isset($d->vol[$colTahun]))
-							$vol = $d->vol[$colTahun];
-						$rs .= '<td width="70" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
-					}					
+		if (isset($data)){
+			foreach($data as $d){
+				if ($nama_program!=$d->nama_program){
 					
-				$rs .= '</tr>';
-			
-			
+					$nama_program = $d->nama_program;				
+					
+				}
+				
+				if ($nama_kegiatan!=$d->nama_kegiatan){
+					$nama_kegiatan = $d->nama_kegiatan;
+					$dataTable[$i]->rowspan = 0;
+					$idx_kegiatan = $i;//($i==0?$i:($i-1));
+				}
+				else {
+					//$dataTable[$i-1]->rowspan++;
+				}
+				
+				if ($nama_output!=$d->nmoutput){
+					$nama_output = $d->nmoutput;
+					$dataTable[$i]->nama_program = $d->nama_program;
+					$dataTable[$i]->nama_kegiatan = $d->nama_kegiatan;			
+					$dataTable[$i]->nmoutput = $d->nmoutput;
+					$dataTable[$i]->rowspan = 1;
+					$dataTable[$i]->vol[$d->tahun] = $d->total_volkeg;
+				//	if ($i>0){
+						if ($nama_kegiatan==$d->nama_kegiatan){						
+							$dataTable[$idx_kegiatan]->rowspan++;
+						}
+					//}
+					
+					
+					$i++;
+					//continue;
+				}else {
+				
+				//if (($nama_kegiatan==$d->nama_kegiatan)&&($nama_program==$d->nama_program)&&($nama_output==$d->nmoutput)){
+					$dataTable[$i-1]->vol[$d->tahun] = $d->total_volkeg;
+					//$i++;
+				}
+				
+			}
+			//var_dump($dataTable);die;
+			$nama_program = '-1';
+			$nama_kegiatan = '-1';
+			$i=0;$no=1;
+			$idx_kegiatan = 1;
+			foreach($dataTable as $d){
+				
+				if ($nama_program!=$d->nama_program){
+					
+					$nama_program=$d->nama_program;
+					if ($i>1) {
+						$rs .=$foot;
+					}
+					$i=1;
+					if ($ajaxCall)
+						$rs .= "<p class='text-info'><b>Nama Program : ".$d->nama_program.'</b></p>';
+					else
+						$rs .= "<b>Nama Program : ".$d->nama_program.'</b><br><br>';
+					$rs .= $head;
+					//var_dump($d);die;
+				}
+				
+				
+					
+					$rs .= '<tr class="gradeX">';
+							
+					if ($nama_kegiatan!= $d->nama_kegiatan){
+						$nama_kegiatan = $d->nama_kegiatan;
+						$rs .= '<td width="30" rowspan="'.($d->rowspan-1).'">'.($idx_kegiatan++).'</td>				';
+						$rs .= '<td width="'.$widthKegiatan.'" rowspan="'.($d->rowspan-1).'">'.$d->nama_kegiatan.'</td>';
+						$no=1;
+					}
+					// $rs .= '<td width="30" >'.($i++).'</td>';
+					// $rs .= '<td width="80" >'.$d->nama_kegiatan.'-'.$d->rowspan.'</td>';
+					$rs .= '<td width="30">'.($no++).'</td>';				
+					$rs .= '<td width="'.$widthOutput.'">'.$d->nmoutput.'</td>';				
+						for ($colTahun=$rentang_awal;$colTahun<=$rentang_akhir;$colTahun++){	
+							$vol =0;
+							
+							if (isset($d->vol[$colTahun]))
+								$vol = $d->vol[$colTahun];
+							$rs .= '<td width="70" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+						}					
+						
+					$rs .= '</tr>';
+				
+				
+			}
+			$rs .= $foot;	
 		}
-		$rs .= $foot;		
-		
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		else {
+			$rs = 'Data Tidak Ditemukan';
+		}	
+		if ($forExcel){
+			return $dataTable;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
 	
@@ -523,6 +532,7 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 		$data['renstra']		= $renstra;
 	   $data['tahun']		= $range_awal.'-'.$range_akhir;
 		 $pdf->Write(0, 'MATRIKS CAPAIAN PEMBANGUNAN SEKTOR TRANSPORTASI ', '', 0, 'L', true, 0, false, false, 0);
+		 $pdf->Write(0, strtoupper($this->mgeneral->getValue("nama_e1",array('kode_e1'=>$e1,'tahun_renstra'=>$renstra),"anev_eselon1")), '', 0, 'L', true, 0, false, false, 0);
 		 $pdf->Write(0, 'Periode '.$data['tahun'], '', 0, 'L', true, 0, false, false, 0);
 		 
 		 $pdf->SetFont('helvetica', 'B', 10);
@@ -543,5 +553,104 @@ class Matriks_pembangunan_e1 extends CI_Controller {
 	
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('MatriksPembangunan.pdf', 'I');
+   }
+   
+   function excel($renstra,$range_awal,$range_akhir,$e1){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Matriks Pembangunan');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:D1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'MATRIKS CAPAIAN PEMBANGUNAN SEKTOR TRANSPORTASI '.strtoupper($this->mgeneral->getValue("nama_e1",array('kode_e1'=>$e1,'tahun_renstra'=>$renstra),"anev_eselon1")));
+		$this->excel->getActiveSheet()->setCellValue('A2', strtoupper($this->mgeneral->getValue("nama_e1",array('kode_e1'=>$e1,'tahun_renstra'=>$renstra),"anev_eselon1")));
+		$this->excel->getActiveSheet()->setCellValue('A3', 'Periode  ');
+		$this->excel->getActiveSheet()->setCellValue('B3', $range_awal.'-'.$range_akhir);
+		$this->excel->getActiveSheet()->mergeCells('A2:D2');
+		$params = array("tahun_renstra"=>$renstra);
+		$posisiRow = 4;
+		$columHeader = array("No.","Kegiatan","No.","Output / Sub-Kegiatan" );		
+		 
+		
+		$rangetahun_arr = array();
+		//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)
+		$startCol = 69;
+		
+		for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+			//$rs .= 	'<th style="vertical-align:middle;text-align:center" width="80">'.$colTahun.'</th>';
+			$rangetahun_arr[] = $colTahun;
+		}			
+		
+		$posisiRow++;		
+		
+		$data  =  $this->get_output($renstra,$range_awal,$range_akhir,$e1,false,true);
+		if (isset($data)){
+			$no = 1;;
+			$deskripsi = '';
+			$nama_program = "-1";
+			$nama_kegiatan = '-1';
+			foreach($data as $d){
+				if ($nama_program!=$d->nama_program){
+					$nama_program=$d->nama_program;
+					$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, $d->nama_program);
+					$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':G'.($posisiRow));
+					$posisiRow++;
+					$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.$posisiRow)->applyFromArray(
+					array(
+						'font'    => array('bold'=> true),
+						'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+						'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+						'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+					));
+					$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+					$this->excel->getActiveSheet()->fromArray($rangetahun_arr,NULL,'E'.$posisiRow);
+					$posisiRow++;
+				}
+				if ($nama_kegiatan!=$d->nama_kegiatan){
+					$nama_kegiatan=$d->nama_kegiatan;
+					$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, ($no++));
+					$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $d->nama_kegiatan.'-'.$d->rowspan);
+					$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+$d->rowspan-2));
+					$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+$d->rowspan-2));
+					$noIku = 1;
+				}
+			 
+					
+					 
+						$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, ($noIku++));
+						$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $d->nmoutput);
+						$startCol= 69;
+						for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+							$vol =0;								
+							if (isset($iku->total[$colTahun]))
+								$vol = $iku->total[$colTahun];							
+							$this->excel->getActiveSheet()->setCellValue(chr($startCol).$posisiRow, $vol);
+							$startCol++;
+						}
+						$posisiRow++;
+				 
+				 
+			}
+		}
+		
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(5);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(50);
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='MatriksPembangunanEselonI'.($range_awal.'-'.$range_akhir).'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');
    }
 }

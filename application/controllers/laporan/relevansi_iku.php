@@ -41,7 +41,7 @@ class Relevansi_iku extends CI_Controller {
 		//$this->load->view('template/container_popup',$template);
 	}
 	
-	function get_iku($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,$ajaxCall=true){
+	function get_iku($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,$ajaxCall=true,$forExcel=false){
 		$rs = '';
 		
 		
@@ -107,8 +107,8 @@ class Relevansi_iku extends CI_Controller {
 		$kode_ss_kl = '-1';
 		$kode_iku_e1 = '-1';
 		$kode_iku_e2 = '-1';
+		$rs .= $head;
 		if (isset($data)){
-			$rs .= $head;
 			$i=0;$cur_idx_kl=0;$cur_idx_e1=0;
 			
 			foreach ($data as $d){
@@ -174,15 +174,22 @@ class Relevansi_iku extends CI_Controller {
 			}//end foreach
 			
 		}//end isset data
-		
+		else {
+			$rs .= '<tr><td colspan="2">Data tidak ditemukan</td><tr>';
+		}
 					 
 		$foot = '</tbody></table>';			 
 		
 		$rs .= $foot;
 		
 	//	$rs = $head.$foot;
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
 	
@@ -232,6 +239,123 @@ class Relevansi_iku extends CI_Controller {
 	
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('CascadingIKU_IKK.pdf', 'I');
+   }
+   
+   function excel($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2) {
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Cascading IKU-IKK');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:E1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'CASCADING IKU / IKK');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Tahun ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $tahun);
+		$this->excel->getActiveSheet()->mergeCells('B2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_renstra"=>$tahun);
+		$posisiRow = 4;
+		$headKL = '';	
+		$headSastra = '';	
+		$headE1 = '';	
+		$headE2 = '';	
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':E'.($posisiRow))->applyFromArray(
+			array(
+				'font'    => array('bold'=> true),
+				'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+				'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+				'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+			));
+		$column_abjad = 65;	//A
+		
+		 
+		
+		if ($chkKL=="true"){				
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;			
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'IKU Kementerian');
+			$column_abjad++;
+		}
+		
+		if ($chkE1=="true"){				 	
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'IKU Eselon I');
+			$column_abjad++;
+		}
+		if ($chkE2=="true"){				 	
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'No.');
+			$column_abjad++;
+			$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, 'IKK Eselon II');
+			$column_abjad++;
+		}
+		$posisiRow++;
+		 
+ 
+	 
+		$data  = $this->get_iku($periode,$tahun,$chkKL,$chkE1,$chkE2,$e1,$e2,false,true);
+		$rs ='';
+		if (isset($data)){
+			$noKL=0;$noE1=0;$noE2=0; 
+			$iku_kl = '';			
+			$iku_e1 = '';
+			$iku_e2 = '';			
+			foreach ($data as $d){
+				$column_abjad = 65;	//A
+				 
+				
+				if ($chkKL=="true"){				 	
+				 
+					if ($iku_kl!=$d->deskripsi_kl){
+						$iku_kl=$d->deskripsi_kl;
+						$noKL++;
+						$noE1=0;
+					}	
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, ($noKL));
+					$column_abjad++;
+				 
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->deskripsi_kl);
+					 	
+					$column_abjad++;
+					
+				}
+				if ($chkE1=="true"){	
+					if ($iku_e1!=$d->deskripsi_e1){
+						$iku_e1=$d->deskripsi_e1;
+						$noE1++;
+						$noE2=0;
+					}	 
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $noE1);
+					$column_abjad++;
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->deskripsi_e1);
+					$column_abjad++;
+				}
+				if ($chkE2=="true"){					
+					$noE2++;
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, ($noE2));
+					$column_abjad++;
+					$this->excel->getActiveSheet()->setCellValue(chr($column_abjad).$posisiRow, $d->deskripsi_e2);
+					$column_abjad++;
+				}
+				
+				$posisiRow++;
+				 
+				
+			}//end foreach
+		}
+		
+		
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='CascadingIKU'.$tahun.'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');
    }
 	
 }

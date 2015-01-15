@@ -120,6 +120,12 @@
 			window.open('<?=base_url()?>laporan/capaian_kinerja_eselon1/print_pdf/'+tahun+"/"+kodee1,'_blank');			
 		});
 		
+		$('#cetakexcel_capaiane1').click(function(){
+			var tahun = $('#e1-tahun').val();
+			var kodee1 = $('#e1-kode_e1').val();
+			window.open('<?=base_url()?>laporan/capaian_kinerja_eselon1/excel/'+tahun+"/"+kodee1,'_blank');			
+		});
+		
       
     });
     </script>

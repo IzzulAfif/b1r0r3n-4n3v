@@ -196,6 +196,12 @@ $(document).ready(function() {
 				var chkE2 = $("#ss-chkE2").is(':checked');			
 				window.open('<?=base_url()?>laporan/relevansi_sastra/print_pdf/'+ss_renstra.val()+"/"+ss_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#ss-kode_e1").val()+"/"+$("#ss-kode_e2").val(),'_blank');			
 			});
+			$('#cetakexcel_ss').click(function(){
+				var chkKL = $("#ss-chkKL").is(':checked');
+				var chkE1 = $("#ss-chkE1").is(':checked');
+				var chkE2 = $("#ss-chkE2").is(':checked');			
+				window.open('<?=base_url()?>laporan/relevansi_sastra/excel/'+ss_renstra.val()+"/"+ss_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#ss-kode_e1").val()+"/"+$("#ss-kode_e2").val(),'_blank');			
+			});
 			//$("#kl-content").load("<?=base_url()?>laporan/kelompok_indikator_kl/loadindikator");
 			//$("#e1-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon1/loadindikator");
 			//$("#e2-content").load("<?=base_url()?>laporan/kelompok_indikator_eselon2/loadindikator");

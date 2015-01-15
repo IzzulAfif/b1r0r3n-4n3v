@@ -198,5 +198,12 @@ $(document).ready(function() {
 		window.open('<?=base_url()?>laporan/relevansi_iku/print_pdf/'+iku_renstra.val()+"/"+iku_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#iku-kode_e1").val()+"/"+$("#iku-kode_e2").val(),'_blank');			
 	});
 	
+	$('#cetakexcel_iku').click(function(){
+		var chkKL = $("#iku-chkKL").is(':checked');
+		var chkE1 = $("#iku-chkE1").is(':checked');
+		var chkE2 = $("#iku-chkE2").is(':checked');	
+		window.open('<?=base_url()?>laporan/relevansi_iku/excel/'+iku_renstra.val()+"/"+iku_tahun_awal.val()+"/"+chkKL+"/"+chkE1+"/"+chkE2+"/"+$("#iku-kode_e1").val()+"/"+$("#iku-kode_e2").val(),'_blank');			
+	});
+	
 });
 </script>

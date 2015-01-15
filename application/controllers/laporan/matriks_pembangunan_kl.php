@@ -68,7 +68,7 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		$this->load->view('template/container_popup',$template);
 	}
 	
-	function get_output($tahun,$kl,$range_awal,$range_akhir,$ajaxCall=true){
+	function get_output($tahun,$kl,$range_awal,$range_akhir,$ajaxCall=true,$forExcel=false){
 		$data = $this->matriks->get_sasaran_kl(array("tahun_renstra"=>$tahun));
 		$arrTahun = explode("-",$tahun);				
 		$rangetahun = $range_akhir-$range_awal;
@@ -100,69 +100,79 @@ class Matriks_pembangunan_kl extends CI_Controller {
 		$rs .= '<tbody>';		
 		$i=0;
 		 $j=0;
-		foreach($data as $d){
-			$indikator = $this->matriks->get_indikator(array("kode_sasaran_kl"=>$d->kode_sasaran_kl,"rentang_awal"=>$range_awal,"rentang_akhir"=>$range_akhir));
-			if (isset($indikator)){
-				$data[$i]->rowspan = 0;
-				$j=0;
-				$kode_iku_e1 = '-1';
-				foreach ($indikator as $iku){
-					//if ($kode_iku_e1!=$iku->kode_iku_e1){
-					$data[$i]->iku[$j]->deskripsi = $iku->deskripsi;
-					$data[$i]->iku[$j]->satuan = $iku->satuan;
-					for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
-						$data[$i]->iku[$j]->total[$colTahun]=$this->matriks->hitung_total(array("tahun"=>$colTahun,"kode_iku_e1"=>$iku->kode_iku_e1));
+		if (isset($data)){
+			foreach($data as $d){
+				$indikator = $this->matriks->get_indikator(array("kode_sasaran_kl"=>$d->kode_sasaran_kl,"rentang_awal"=>$range_awal,"rentang_akhir"=>$range_akhir));
+				if (isset($indikator)){
+					$data[$i]->rowspan = 0;
+					$j=0;
+					$kode_iku_e1 = '-1';
+					foreach ($indikator as $iku){
+						//if ($kode_iku_e1!=$iku->kode_iku_e1){
+						$data[$i]->iku[$j]->deskripsi = $iku->deskripsi;
+						$data[$i]->iku[$j]->satuan = $iku->satuan;
+						for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+							$data[$i]->iku[$j]->total[$colTahun]=$this->matriks->hitung_total(array("tahun"=>$colTahun,"kode_iku_e1"=>$iku->kode_iku_e1));
+						}
+						
+						$data[$i]->iku[$j]->satuan = $iku->satuan;
+						$data[$i]->rowspan++;
+						$j++;
 					}
 					
-					$data[$i]->iku[$j]->satuan = $iku->satuan;
-					$data[$i]->rowspan++;
+				}
+				else {
+					$x=0;
+					$data[$i]->rowspan = 1;
+					$data[$i]->iku[$x]->deskripsi = '';
+					$data[$i]->iku[$x]->satuan = '';
+					
+				}
+				$i++;
+			} 
+			 
+			 $i=1;
+			foreach($data as $d){
+				
+				//continue;
+				$rs .= '<tr>';
+				$rs .= '<td   width="30"  valign="top" rowspan="'.$d->rowspan.'">'.($i++).'</td>';
+				$rs .= '<td   width="'.$widthSasaran.'" valign="top" rowspan="'.$d->rowspan.'">'.$d->deskripsi.'</td>';
+				$j=0;				
+				foreach ($d->iku as $iku){
+					if ($j==0){					
+				
+					}else {										
+						$rs .= '<tr>';					
+					}
+					
+					$rs .= '<td  width="30"  valign="top">'.($j+1).'</td>';
+					$rs .= '<td  width="'.$widthIndikator.'"  valign="top">'.$iku->deskripsi.'</td>';
+					$rs .= '<td   width="80" valign="top">'.$iku->satuan.'</td>';
+					for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+						$vol =0;
+							
+							if (isset($iku->total[$colTahun]))
+								$vol = $iku->total[$colTahun];
+							$rs .= '<td width="80" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
+					}
+					$rs .= '</tr>';
 					$j++;
 				}
 				
 			}
-			else {
-				$x=0;
-				$data[$i]->rowspan = 1;
-				$data[$i]->iku[$x]->deskripsi = '';
-				$data[$i]->iku[$x]->satuan = '';
-				
-			}
-			$i++;
-		} 
-		 
-		 $i=1;
-		foreach($data as $d){
-			
-			//continue;
-			$rs .= '<tr>';
-			$rs .= '<td   width="30"  valign="top" rowspan="'.$d->rowspan.'">'.($i++).'</td>';
-			$rs .= '<td   width="'.$widthSasaran.'" valign="top" rowspan="'.$d->rowspan.'">'.$d->deskripsi.'</td>';
-			$j=0;				
-			foreach ($d->iku as $iku){
-				if ($j==0){					
-			
-				}else {										
-					$rs .= '<tr>';					
-				}
-				
-				$rs .= '<td  width="30"  valign="top">'.($j+1).'</td>';
-				$rs .= '<td  width="'.$widthIndikator.'"  valign="top">'.$iku->deskripsi.'</td>';
-				$rs .= '<td   width="80" valign="top">'.$iku->satuan.'</td>';
-				for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
-					$vol =0;
-						
-						if (isset($iku->total[$colTahun]))
-							$vol = $iku->total[$colTahun];
-						$rs .= '<td width="80" align="right">'.$this->utility->cekNumericFmt($vol).'</td>';				
-				}
-				$rs .= '</tr>';
-				$j++;
-			}
-			
+			$rs .= '</tbody></table>'; 
 		}
-		$rs .= '</tbody></table>'; 
-		if ($ajaxCall)	echo $rs;
-		else return $rs;
+		else {
+			$rs = 'Data Tidak Ditemukan';
+		}
+		if ($forExcel){
+			return $data;
+		}
+		else {
+			if ($ajaxCall)	echo $rs;
+			else return $rs;
+		}
 	}
 	
 	function get_sasaran($tahun,$kl,$range_awal,$range_akhir){
@@ -513,5 +523,97 @@ class Matriks_pembangunan_kl extends CI_Controller {
 	
 		$pdf->SetFont('helvetica', 'B', 10);	
 		$pdf->Output('MatriksPembangunan.pdf', 'I');
+   }
+   
+   function excel($renstra,$range_awal,$range_akhir){
+		$this->load->library('excel');
+		$this->excel->setActiveSheetIndex(0);
+		$this->excel->getActiveSheet()->setTitle('Matriks Pembangunan');
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+		$this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+		$this->excel->getActiveSheet()->mergeCells('A1:D1');
+		$this->excel->getActiveSheet()->setCellValue('A1', 'MATRIKS CAPAIAN PEMBANGUNAN SEKTOR TRANSPORTASI');
+		$this->excel->getActiveSheet()->setCellValue('A2', 'Periode  ');
+		$this->excel->getActiveSheet()->setCellValue('B2', $range_awal.'-'.$range_akhir);
+		$this->excel->getActiveSheet()->mergeCells('B2:D2');
+		$this->excel->getActiveSheet()->mergeCells('A3:D3');
+		$params = array("tahun_renstra"=>$renstra);
+		$posisiRow = 4;
+		$columHeader = array("No.","Sasaran Kemenhub","No.","Indikator Kinerja Utama (IKU)","Satuan");		
+		 
+		$this->excel->getActiveSheet()->getStyle('A'.$posisiRow.':D'.$posisiRow)->applyFromArray(
+				array(
+					'font'    => array('bold'=> true),
+					'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER),
+					'borders' => array('top'=> array('style' => PHPExcel_Style_Border::BORDER_THIN)),
+					'fill' => array('type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,'rotation'   => 90,'startcolor' => array('argb' => 'FFA0A0A0'),'endcolor'   => array('argb' => 'FFFFFFFF'))
+				));
+		$rangetahun_arr = array();
+		//for ($colTahun=$arrTahun[0];$colTahun<=$arrTahun[1];$colTahun++)
+		$startCol = 70;
+		$this->excel->getActiveSheet()->fromArray($columHeader,NULL,'A'.$posisiRow);
+		for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+			//$rs .= 	'<th style="vertical-align:middle;text-align:center" width="80">'.$colTahun.'</th>';
+			$rangetahun_arr[] = $colTahun;
+		}			
+		$this->excel->getActiveSheet()->fromArray($rangetahun_arr,NULL,'F'.$posisiRow);
+		$posisiRow++;		
+		
+		$data  =  $this->get_output($renstra,-1,$range_awal,$range_akhir,false,true);
+		if (isset($data)){
+			$no = 1;;
+			$deskripsi = '';
+			foreach($data as $d){
+				if ($deskripsi!=$d->deskripsi){
+					$deskripsi=$d->deskripsi;
+					$this->excel->getActiveSheet()->setCellValue('A'.$posisiRow, ($no++));
+					$this->excel->getActiveSheet()->setCellValue('B'.$posisiRow, $d->deskripsi);
+					$this->excel->getActiveSheet()->mergeCells('A'.$posisiRow.':A'.($posisiRow+$d->rowspan-1));
+					$this->excel->getActiveSheet()->mergeCells('B'.$posisiRow.':B'.($posisiRow+$d->rowspan-1));
+				}
+				if (isset($d->iku)){
+					$noIku = 1;
+					foreach ($d->iku as $iku){
+						$this->excel->getActiveSheet()->setCellValue('C'.$posisiRow, ($noIku++));
+						$this->excel->getActiveSheet()->setCellValue('D'.$posisiRow, $iku->deskripsi);
+						$this->excel->getActiveSheet()->setCellValue('E'.$posisiRow, $iku->satuan);
+						$startCol= 70;
+						for ($colTahun=$range_awal;$colTahun<=$range_akhir;$colTahun++){	
+							$vol =0;								
+							if (isset($iku->total[$colTahun]))
+								$vol = $iku->total[$colTahun];							
+							$this->excel->getActiveSheet()->setCellValue(chr($startCol).$posisiRow, $vol);
+							$startCol++;
+						}
+						$posisiRow++;
+					}
+				}else {
+					$posisiRow++;
+				}
+				
+			}
+		}
+		
+		$this->excel->getActiveSheet()->getStyle('A4:A'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('B4:B'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('C4:C'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('D4:D'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getStyle('E4:E'.$posisiRow)->getAlignment()->setWrapText(true); 
+		$this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(5);
+		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(50);
+		$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+		$this->excel->setActiveSheetIndex(0);	
+		$filename='MatriksPembangunanKL'.($range_awal.'-'.$range_akhir).'.xls'; 
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');
    }
 }

@@ -94,5 +94,11 @@
 				var kodekl = $('#kl-kodekl').val();
 				window.open('<?=base_url()?>laporan/capaian_kinerja_kl/print_pdf/'+tahun,'_blank');			
 			});
+			
+			$('#cetakexcel_capaiankl').click(function(){
+				var tahun = $('#kl-tahun').val();
+				var kodekl = $('#kl-kodekl').val();
+				window.open('<?=base_url()?>laporan/capaian_kinerja_kl/excel/'+tahun,'_blank');			
+			});
 		});
 	</script>
