@@ -127,6 +127,8 @@ class Korelasi extends CI_Controller {
 	
 	function get_data_e1($e1,$tahun1,$tahun2,$indikator,$sasaran,$tipe)
 	{
+		$kodee1	 = $e1;
+		$namae1	 = $this->mgeneral->getValue("singkatan",array("kode_e1"=>$e1),"anev_eselon1");
 		$eselon1 = $this->mgeneral->getWhere(array("kode_e1"=>$e1),"anev_eselon2");
 		$graf_data		  = array();
 		$total_persen_es1 = 0;
@@ -160,6 +162,31 @@ class Korelasi extends CI_Controller {
 			endif;
 		endforeach;
 		
+		$data = $this->analisis_model->get_detail_capaian_kinerja3($kodee1,$indikator,$tahun1,$tahun2,$sasaran);
+		$total_persen = 0;
+		if(count($data)!=0):
+			foreach($data as $d):
+				if($d->target!="0" && $d->target!=""):
+					if($tipe==2):
+						$persen = ((2*$d->target-$d->realisasi)/$d->target)*100;
+					else:
+						$persen = ($d->realisasi/$d->target)*100;
+					endif;
+					$total_persen = $total_persen+$persen;
+				else:
+					$persen = 100;
+					$total_persen = $total_persen+$persen;
+				endif;
+			endforeach;
+			$rata2 = $total_persen/count($data);
+			$total_persen_es1 = $total_persen_es1+$rata2;
+			$total_es1++;
+			$graf_data[] = array('kode'		=> $kodee1,
+								 'nama'		=> $namae1,
+								 'detail'	=> $data,
+								 'rata2'	=> number_format($rata2,2,'.','.'));
+		endif;
+									 
 		if($total_es1!=0): $rata2total = number_format($total_persen_es1/$total_es1,2,'.','.'); else: $rata2total = 0; endif;	
 		
 		$dataReturn = array('gdata'	=> $graf_data,

@@ -160,7 +160,21 @@
 					$.ajax({
 						url:"<?=site_url()?>analisis/trendline/get_renstra/"+kd_unit,
 						success:function(result) {
+							
 							$('#renstra_g1').empty();
+							$('#tahun1_g1').empty();
+								$('#tahun1_g1').append(new Option("Pilih Tahun","0"));
+								$('#tahun1_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#tahun2_g1').empty();
+								$('#tahun2_g1').append(new Option("Pilih Tahun","0"));
+								$('#tahun2_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#sasaran_g1').empty();
+								$('#sasaran_g1').append(new Option("Pilih Sasaran","0"));
+								$('#sasaran_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#indikator_g1').empty();
+								$('#indikator_g1').append(new Option("Pilih Indikator","0"));
+								$('#indikator_g1').select2({minimumResultsForSearch: -1, width:'resolve'});
+								
 							result = JSON.parse(result);
 							for (a in result) {
 								$('#renstra_g1').append(new Option(result[a],result[a]));

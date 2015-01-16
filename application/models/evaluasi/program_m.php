@@ -94,10 +94,12 @@ class program_m extends CI_Model
 	}
 	
 	function get_capaian_kinerja2($kode_e2, $tahun_awal, $tahun_akhir) {
-		$sql = "select s.kode_e2, s.tahun, s.kode_sk_e2, i.kode_ikk, s.deskripsi, i.deskripsi indikator, i.satuan, k.target, k.realisasi, k.persen
-			from anev_sasaran_kegiatan s inner join anev_ikk i on s.tahun=i.tahun  inner join anev_kinerja_eselon2 k on (s.tahun=k.tahun and i.tahun=k.tahun and k.kode_sk_e2=s.kode_sk_e2 and k.kode_ikk=i.kode_ikk)
- 			where k.tahun<=".$this->db->escape($tahun_akhir)." and k.tahun>=".$this->db->escape($tahun_awal)
- 			." and k.kode_e2=".$this->db->escape($kode_e2)." order by s.kode_e2 asc, i.kode_ikk asc, k.tahun asc";
+		$sql = "select distinct i.deskripsi indikator, s.kode_e2, s.tahun, s.kode_sk_e2, i.kode_ikk, s.deskripsi, i.satuan, k.target, k.realisasi, k.persen
+				from anev_sasaran_kegiatan s
+				LEFT JOIN anev_ikk i on s.tahun=i.tahun and i.kode_sk_e2=s.kode_sk_e2
+				LEFT JOIN anev_kinerja_eselon2 k on k.kode_sk_e2=s.kode_sk_e2 and k.kode_ikk = i.kode_ikk
+				where s.tahun<=".$this->db->escape($tahun_akhir)." and s.tahun>=".$this->db->escape($tahun_awal)." and s.kode_e2= ".$this->db->escape($kode_e2)." 
+				order by i.kode_ikk,s.tahun asc";
  		return $this->mgeneral->run_sql($sql);	
 	}
 	

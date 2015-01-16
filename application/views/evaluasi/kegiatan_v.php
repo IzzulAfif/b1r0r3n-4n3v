@@ -80,7 +80,7 @@
                     
                 </form>
                 
-                <div class="pull-right hide">
+                <div class="pull-right">
                     <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatan"><i class="fa fa-print"></i> Cetak PDF</button>          
                     <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatan"><i class="fa fa-download"></i> Ekspor Excel</button>
                 </div>
@@ -156,6 +156,14 @@
 			kd_program  = $('#nama_program').val();
 			kd_kegiatan = $('#nama_kegiatan').val();
 			window.open("<?=base_url()?>evaluasi/kegiatan/print_tabel_kegiatan/"+val_awal+"/"+val_akhir+"/"+kd_kegiatan+"/"+kd_program,'_blank');			
+		});
+		
+		$('#cetakexcel_kegiatan').click(function(){
+        	val_awal	= $('#tahun_awal').val();
+            val_akhir	=  $('#tahun_akhir').val();
+			kd_program  = $('#nama_program').val();
+			kd_kegiatan = $('#nama_kegiatan').val();
+			window.open("<?=base_url()?>evaluasi/kegiatan/ekspor_tabel_kegiatan/"+val_awal+"/"+val_akhir+"/"+kd_kegiatan+"/"+kd_program,'_blank');			
 		});
 		
         $('#program-btn').click(function(){

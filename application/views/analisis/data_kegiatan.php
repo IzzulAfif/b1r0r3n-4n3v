@@ -91,6 +91,12 @@
                 
             </div>
         </section>
+        
+        <div class="pull-right">
+            <button type="button" class="btn btn-primary btn-sm" id="cetakpdf_kegiatan_detail"><i class="fa fa-print"></i> Cetak PDF</button>          
+            <button type="button" class="btn btn-primary btn-sm" id="cetakexcel_kegiatan_detail"><i class="fa fa-download"></i> Ekspor Excel</button>
+        </div>
+                
     </div>
                     
     <!--main content end-->
@@ -225,6 +231,27 @@
                 });  
 			}
 		});
+		
+		$('#cetakpdf_kegiatan_detail').click(function(){
+        	renstra = $('#detail-tahun_renstra').val();
+			tahun = $('#detail-tahun').val();
+			program = $('#detail-program').val();
+			kegiatan = $('#detail-kegiatan').val();
+			lokasi = $('#detail-kdlokasi').val();
+			output = $('#detail-kdoutput').val();
+			window.open("<?=base_url()?>analisis/kegiatan/print_list_rincian/"+tahun+"/"+program+"/"+kegiatan+"/"+output,'_blank');			
+		});
+		
+		$('#cetakexcel_kegiatan_detail').click(function(){
+        	renstra = $('#detail-tahun_renstra').val();
+			tahun = $('#detail-tahun').val();
+			program = $('#detail-program').val();
+			kegiatan = $('#detail-kegiatan').val();
+			lokasi = $('#detail-kdlokasi').val();
+			output = $('#detail-kdoutput').val();
+			window.open("<?=base_url()?>analisis/kegiatan/ekspor_list_rincian/"+tahun+"/"+program+"/"+kegiatan+"/"+output,'_blank');			
+		});
+		
     });
     </script>
     <!--js-->

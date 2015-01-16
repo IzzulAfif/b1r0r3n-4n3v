@@ -413,7 +413,7 @@
 			endOnTick: true,
 			showLastLabel: true,
 			plotLines: [{
-				value: '<?=$rata2?>',
+				value: "<?=$rata2?>",
 				color: '#090',
 				width: 2
 			}]
@@ -427,7 +427,7 @@
 			gridLineWidth: 0,
 			minorGridLineWidth: 0,
 			plotLines: [{
-				value: '<?=$rata1?>',
+				value: "<?=$rata1?>",
 				color: '#090',
 				width: 2
 			}]

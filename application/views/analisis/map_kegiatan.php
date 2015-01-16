@@ -21,7 +21,6 @@
 									'<p>Detail kegiatan B</p>'
 								].join(''),
 								draggable: false,
-								icon: 'http://djalan-jalan.com/icon/highway.png',
 							},
 							{
 								lat: -1.68149,
@@ -31,7 +30,7 @@
 									'<h5>Nama Kegiatan A</h5>',
 									'<p>Detail kegiatan A</p>'
 								].join(''),
-								icon: 'http://djalan-jalan.com/icon/airport.png'
+								draggable: false,
 							},
 							{
 								lat: -1.33612,
@@ -41,7 +40,7 @@
 									'<h5>Nama Kegiatan C</h5>',
 									'<p>Detail kegiatan C</p>'
 								].join(''),
-								icon: 'http://djalan-jalan.com/icon/bus.png'
+								draggable: false,
 							},
 							{
 								lat: 3.59154,
@@ -51,7 +50,7 @@
 									'<h5>Nama Kegiatan D</h5>',
 									'<p>Detail kegiatan D</p>'
 								].join(''),
-								icon: 'http://djalan-jalan.com/icon/train.png'
+								draggable: false,
 							}
 						];
 
@@ -59,8 +58,11 @@
 					locations: LocsA,
 					map_div: '#gmap-tabs',
 					controls_on_map: false,
-					show_infowindow: false,
-					zoom : 10,
+					show_infowindow: true,
+					map_options: {
+						//set_center: [-65.1750, 106.8283],
+						zoom: 5,
+					},
 					start: 0,
 					afterShow: function(index, location, marker) {
 						$('#info').html(location.html);

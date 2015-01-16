@@ -28,6 +28,7 @@
                             <label class="col-sm-4 control-label">Periode Renstra <span class="text-danger">*</span></label>
                             <div class="col-sm-8">
                                 <select name="renstra" id="renstra_g3" class="populate" style="width:100%">
+                                	<option value="0">Pilih Periode Renstra</option>
                                 </select>
                             </div>
                         </div>
@@ -129,11 +130,32 @@
 				$('#spinnerg31').spinner({value:100, min: 100, max: 1000});
 				$('#spinnerg32').spinner({value:100, min: 100, max: 1000});
 				
+				$('#unit_kerja_g3').change(function(){
 					kd_unit	= $('#unit_kerja_g3').val();
 					$.ajax({
 						url:"<?=site_url()?>analisis/trendline/get_renstra/"+kd_unit,
 						success:function(result) {
 							$('#renstra_g3').empty();
+							
+							$('#tahun1_g3').empty();
+								$('#tahun1_g3').append(new Option("Pilih Tahun","0"));
+								$('#tahun1_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#tahun2_g3').empty();
+								$('#tahun2_g3').append(new Option("Pilih Tahun","0"));
+								$('#tahun2_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#sasaran_g3').empty();
+								$('#sasaran_g3').append(new Option("Pilih Sasaran","0"));
+								$('#sasaran_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#sasaran2_g3').empty();
+								$('#sasaran2_g3').append(new Option("Pilih Sasaran","0"));
+								$('#sasaran2_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#indikator_g3').empty();
+								$('#indikator_g3').append(new Option("Pilih Indikator","0"));
+								$('#indikator_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
+							$('#indikator2_g3').empty();
+								$('#indikator2_g3').append(new Option("Pilih Indikator","0"));
+								$('#indikator2_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
+							
 							result = JSON.parse(result);
 							for (a in result) {
 								$('#renstra_g3').append(new Option(result[a],result[a]));
@@ -141,6 +163,7 @@
 							$('#renstra_g3').select2({minimumResultsForSearch: -1, width:'resolve'});
 						}
 					});
+				});
 				
 				$('#renstra_g3').change(function(){
 					kd_unit	= $('#unit_kerja_g3').val();
